@@ -72,8 +72,12 @@ SCUD framework provides a Java command line client available in the release (SCU
     - `-homediR PATH DIRECTORY` the home directory of the user on the master node. The default value  is `~/temp`;
     - `-javabindir PATH JAVA BIN DIRECTORY` the bin installation path of the Java Virtual Machine. The default value is `/usr/bin`;
     - `-scudhomedir USER SCUD HOME DIRECTORY` the Hadoop distributed File system directory which will be the root directory for the SCUD application. The default value is `/`.
-__
+
+---
+
 #### Getting Started SCUD Client
+
+
 ## License
 Copyright ISISLab, 2015 Università degli Studi di Salerno
 
