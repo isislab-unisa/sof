@@ -1,7 +1,7 @@
 <repositories>
   <repository>
       <id>it.isislab.scud</id>
-      <url>https://github.com/spagnuolocarmine/scud/tree/master/libraries/repository/it/isislab/scud/</url>
+      <url>https://github.com/spagnuolocarmine/scud/tree/master/libraries/repository</url>
   </repository>
 </repositories>
 <dependencies>
