@@ -97,17 +97,27 @@ SCUD framework provides a Java command line client available in the release (SCU
     - ``brief simualtion description``
     - ``absolute path of bin file for simulation executable model``
         * usage ``createsimulationloop mason mysim /home/pippo/domain.xml /bin/java  /home/pippo/output.xml /home/pippo/selection_function.jar /home/pippo/evaluate_function.jar my description /home/pippo/mysim.jar``
-* ``getsimulations``: returns a list of current simulations. For each simulation you have the following information:   
-    - ``numeric integer identifier of simulation`` 
+* ``getsimulations``: returns a list of current simulations. For each simulation returns the following information:   
+    - `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation.  
     - ``simulation name``
     - ``simulation author`` 
     - ``creation time of simulation``
     - ``the simulation description``
-    - ``status of simulation [created, running, finished, aborted]``
+    - ``status of simulation``:
         * ``created``, the simulation has been created but not running yet.
         * ``running``, the simulation are running.
         * ``finished``, the simulation has been finished correctly.
         * ``aborted``, the simulation has been finished not correctly: the process was aborted from the system or the user.
+* `list` returns the list of all simulations. For each simulation returns the following information:
+    - `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation. 
+    - `simulation name`
+    - ``status of simulation``:
+        * ``created``, the simulation has been created but not running yet.
+        * ``running``, the simulation are running.
+        * ``finished``, the simulation has been finished correctly.
+        * ``aborted``, the simulation has been finished not correctly: the process was aborted from the system or the user.
+    - `creation time of simulation`
+    - `simulation identifier on hadoop file system`
 
 ## License
 Copyright ISISLab, 2015 Università degli Studi di Salerno
