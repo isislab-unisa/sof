@@ -49,9 +49,6 @@ public class Main extends Application {
 
 ```
 
-## Getting Started
-A [Getting Started](link) tutorial is available on the Wiki page main page.
-
 ## Compiling the SCUD core library from src/ to build/
 If you would like to add features to the library, you will have to change the code in `src/` and then compile the library into the `build/` directory. The compilation script simply concatenates files in `src/` and then minifies the result.
 
@@ -62,6 +59,17 @@ The compilation is done using an ant task: it compiles `build/convnet.js` by con
 The output files will be in `build/`
 
 ## Compiling the SCUD client from src/ to build/
+
+## Getting Started SCUD Client
+SCUD framework provides a Java command line client available in the release (SCUD-Client.jar):
+
+* Execute the command: java -jar SCUD-Client.jar. This client application use SSH to connect to the Hadoop cluster. The application parameters are the following:
+** h (HOST) cluster master node IP address. The default value is “localhost” (127.0.0.1);
+** port (PORT) listening port for SHH process on cluster. The default value is “22”;
+** bindir (DIRECTORY) the bin installation path (absolute) of Hadoop. The default value is “/bin”;
+** homedir (DIRECTORY) the home directory of the user on the master node. The default value  is “~/temp”;
+** javabindir (DIRECTORY) the bin installation path of the Java Virtual Machine. The default value is “/usr/bin”;
+** scudhomedir (DIRECTORY) the Hadoop distributed File system directory which will be the root directory for the SCUD application. The default value is “/”.
 
 ## License
 Copyright ISISLab, 2015 Università degli Studi di Salerno
