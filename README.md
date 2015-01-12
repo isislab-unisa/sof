@@ -337,6 +337,87 @@ Command returns the following information:
 ```
 - - -
 
+* **XML Input**
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="input" type="input"/>
+
+  <xs:element name="parameter" type="parameter"/>
+
+  <xs:complexType name="input">
+    <xs:sequence>
+      <xs:element name="element" type="parameter" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:int" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="parameter">
+    <xs:choice>
+      <xs:element name="string" type="parameterString"/>
+      <xs:element name="double" type="parameterDouble"/>
+      <xs:element name="long" type="parameterLong"/>
+    </xs:choice>
+    <xs:attribute name="variableName" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:simpleType name="parameterString">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="parameterDouble">
+    <xs:restriction base="xs:double"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="parameterLong">
+    <xs:restriction base="xs:long"/>
+  </xs:simpleType>
+</xs:schema>
+```
+- - -
+
+* **XML Output**
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="output" type="output"/>
+
+  <xs:element name="parameter" type="parameter"/>
+
+  <xs:complexType name="output">
+    <xs:sequence>
+      <xs:element name="param" type="parameter" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="inputID" type="xs:int" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="parameter">
+    <xs:choice>
+      <xs:element name="string" type="parameterString"/>
+      <xs:element name="double" type="parameterDouble"/>
+      <xs:element name="long" type="parameterLong"/>
+    </xs:choice>
+    <xs:attribute name="variableName" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:simpleType name="parameterString">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="parameterDouble">
+    <xs:restriction base="xs:double"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="parameterLong">
+    <xs:restriction base="xs:long"/>
+  </xs:simpleType>
+</xs:schema>
+```
+- - -
+
+
 ## License
 Copyright ISISLab, 2015 Università degli Studi di Salerno
 
