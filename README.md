@@ -20,7 +20,8 @@ SCUD was designed to execute simulation optimization and parameter space explora
 
 ![alt tag](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/architecture/ascudworkflow.png)
 
-A SCUD process, shown in the figure, consist in many optimization loops in which on a set of inputs (generated executing the selection function program) are executed the simulation in order to generate the outputs set. The outputs set are evaluated using the evaluate function program. At end the selection is used again to generate a new input set for the next optimization loop (obviously the process ends when the selection function program does not generate a new inputs set). By this computational schema is possible to realize many of the simulation optimization algorithms available literature.
+A SCUD process, shown in the figure, consists in many optimization loops in which  are executed simulations on a set of inputs (generated executing the selection function program) in order to generate the outputs set. The outputs set are evaluated using the evaluate function program. At end the selection program is used again to generate a new inputs set for the next optimization loop (obviously the process ends when the selection function program does not generate a new inputs set). By this computational schema is possible to realize many of the simulation optimization algorithms available literature.
+
 
 ##System Requirements
 * [Apache Hadoop](http://hadoop.apache.org/) on Linux based Cluster version 2.4.0 or greater.
