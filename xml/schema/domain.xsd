@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xs:schema version="1.0" targetNamespace="it.isislab.sof" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-
   <xs:import schemaLocation="schema3.xsd"/>
-
   <xs:element name="domain" type="domain"/>
-
 </xs:schema>
-
-xType name="simulation">
+<xs:complexType> name="simulation">
     <xs:sequence>
       <xs:element name="name" type="xs:string"/>
       <xs:element name="toolkit" type="xs:string"/>
@@ -25,8 +21,6 @@ xType name="simulation">
 </xs:schema>
 
 </xs:complexType>
-
-
   <xs:complexType name="runs">
     <xs:sequence>
       <xs:element ref="loop" minOccurs="0" maxOccurs="unbounded"/>
