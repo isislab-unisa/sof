@@ -8,10 +8,11 @@ SCUD is a framework to exploit simulation optimization on Hadoop cluster. SCUD i
 The SCUD system presents two main entities: the SCUD client and the remote host machine on which is installed Hadoop, also named the Hadoop master node. Respectively on the left and on the right of the above figure.
 
 ![alt tag](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/architecture/ascud.png)
-
+![alt tag](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/architecture/ascudworkflow.png
 
 SCUD architecture is divided in three main software block: a user frontend that is the SCUD application for running and managing the simulation on the Hadoop infrastructure, used only on the client side; the Hadoop layer that encloses softwares and libraries provided from Hadoop infrastructure, used on the remote side; and the SCUD core that is the main software block composed of six functional blocks, that are used on the client and on the remote side.
-
+####SCUD System workflow
+![alt tag](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/architecture/ascudworkflow.png)
 ##System Requirements
 * [Apache Hadoop](http://hadoop.apache.org/) on Linux based Cluster version 2.4.0 or greater.
 * Java Runtime Environment version 7 or greater.
