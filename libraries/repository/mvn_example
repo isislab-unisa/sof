@@ -5,7 +5,7 @@
   </repository>
 </repositories>
 <dependencies>
-		<dependency>
+	<dependency>
             <groupId>it.isislab.scud</groupId>
             <artifactId>netlogo</artifactId>
             <version>5</version>
