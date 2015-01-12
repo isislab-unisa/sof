@@ -17,7 +17,7 @@ SCUD architecture is divided in three main software block: a user frontend that 
 * Java Runtime Environment version 7 or greater.
 * An account on the cluster over SSH.
 
-_
+-
 
 ## Example client code 
 
