@@ -1,6 +1,0 @@
-<distributionManagement>
-    <repository>
-        <id>repo</id>
-        <url>https://github.com/spagnuolocarmine/scud/new/master/libraries/repository/it/isislab/scud</url>
-    </repository>
-</distributionManagement>
