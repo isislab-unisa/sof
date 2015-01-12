@@ -146,17 +146,17 @@ SCUD framework provides a Java command line client available in the release (SCU
     - `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation (given in the list command). 
     
 Command return the following information:  
-    - `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation. 
-    - `simulation name`
-    - `simulation author` 
-    - `creation time of simulation`
-    - `the simulation description`
-    - ``status of simulation``:
-        * ``created``, the simulation has been created but not running yet.
-        * ``running``, the simulation are running.
-        * ``finished``, the simulation has been finished correctly.
-        * ``aborted``, the simulation has been finished not correctly: the process was aborted from the system or the user.
-    - `number of loops executed by the process`
+    * `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation. 
+    * `simulation name`
+    * `simulation author` 
+    * `creation time of simulation`
+    * `the simulation description`
+    * ``status of simulation``:
+        - ``created``, the simulation has been created but not running yet.
+        - ``running``, the simulation are running.
+        - ``finished``, the simulation has been finished correctly.
+        - ``aborted``, the simulation has been finished not correctly: the process was aborted from the system or the user.
+    * `number of loops executed by the process`
   
 ## License
 Copyright ISISLab, 2015 Università degli Studi di Salerno
