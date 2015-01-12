@@ -75,9 +75,17 @@ SCUD framework provides a Java command line client available in the release (SCU
 
 ---
 
-#### Getting Started SCUD Client
-
-
+#### SCUD Client commands overview
+* `help` shows the name and a brief use description of SCUD commands. 
+* `exit` exits from SCUD application and disconnects the user.  
+* `createsimulation` creates a simple simulation in no-loop mode.  This command has following parameters input:  
+    - ``model`` mason-netlogo-generic
+    - ``simulation name``
+    - ``input XML absolute path``
+    - ``output XML absolute path``
+    - ``brief simualtion description``
+    - ``absolute path of bin file for simulation executable model``
+---
 ## License
 Copyright ISISLab, 2015 Università degli Studi di Salerno
 
