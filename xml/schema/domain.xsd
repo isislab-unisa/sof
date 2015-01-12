@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="it.isislab.sof" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:import schemaLocation="schema3.xsd"/>
+
+  <xs:element name="domain" type="domain"/>
+
+</xs:schema>
+
+xType name="simulation">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="toolkit" type="xs:string"/>
+      <xs:element name="date" type="xs:string" minOccurs="0"/>
+      <xs:element name="state" type="xs:string"/>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+      <xs:element ref="runs" minOccurs="0"/>
+      <xs:element ref="runnable" minOccurs="0"/>
+      <xs:element name="loop" type="xs:boolean"/>
+      <xs:element name="processName" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="author" type="xs:string"/>
+  </xs:complexType>
+</xs:schema>
+
+</xs:complexType>
+
+
+  <xs:complexType name="runs">
+    <xs:sequence>
+      <xs:element ref="loop" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="loop">
+    <xs:sequence>
+      <xs:element name="status" type="xs:string" minOccurs="0"/>
+      <xs:element ref="time" minOccurs="0"/>
+      <xs:element ref="inputs" minOccurs="0"/>
+      <xs:element ref="outputs" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:int" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="time">
+    <xs:sequence>
+      <xs:element name="start" type="xs:string" minOccurs="0"/>
+      <xs:element name="stop" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="inputs">
+    <xs:sequence>
+      <xs:element ref="simulation"/>
+      <xs:element ref="input" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="input">
+    <xs:sequence>
+      <xs:element name="element" type="parameter" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:int" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="parameter">
+    <xs:choice>
+      <xs:element name="string" type="parameterString"/>
+      <xs:element name="double" type="parameterDouble"/>
+      <xs:element name="long" type="parameterLong"/>
+    </xs:choice>
+    <xs:attribute name="variableName" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:simpleType name="parameterString">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="parameterDouble">
+    <xs:restriction base="xs:double"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="parameterLong">
+    <xs:restriction base="xs:long"/>
+  </xs:simpleType>
+
+  <xs:complexType name="outputs">
+    <xs:sequence>
+      <xs:element name="output_list" type="output" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="output">
+    <xs:sequence>
+      <xs:element name="param" type="parameter" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="inputID" type="xs:int" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="runnableFile">
+    <xs:sequence>
+      <xs:element name="simulation" type="xs:string" minOccurs="0"/>
+      <xs:element name="selection" type="xs:string" minOccurs="0"/>
+      <xs:element name="rating" type="xs:string" minOccurs="0"/>
+      <xs:element name="bashCommandForRunnableFunction" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="parameterDomain">
+    <xs:choice>
+      <xs:element name="discrete" type="parameterDomainDiscrete"/>
+      <xs:element name="continuous" type="parameterDomainContinuous"/>
+      <xs:element name="list_string" type="parameterDomainListString"/>
+      <xs:element name="list_values" type="parameterDomainListValues"/>
+    </xs:choice>
+    <xs:attribute name="variableName" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="parameterDomainDiscrete">
+    <xs:sequence/>
+    <xs:attribute name="increment" type="xs:long" use="required"/>
+    <xs:attribute name="max" type="xs:long" use="required"/>
+    <xs:attribute name="min" type="xs:long" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="parameterDomainContinuous">
+    <xs:sequence/>
+    <xs:attribute name="increment" type="xs:double" use="required"/>
+    <xs:attribute name="max" type="xs:double" use="required"/>
+    <xs:attribute name="min" type="xs:double" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="parameterDomainListString">
+    <xs:sequence>
+      <xs:element name="list" type="xs:string" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="parameterDomainListValues">
+    <xs:sequence>
+      <xs:element name="list" type="xs:double" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+
+
