@@ -11,10 +11,11 @@ The SCUD system presents two main entities: the SCUD client and the remote host 
 
 
 SCUD architecture is divided in three main software block: a user frontend that is the SCUD application for running and managing the simulation on the Hadoop infrastructure, used only on the client side; the Hadoop layer that encloses softwares and libraries provided from Hadoop infrastructure, used on the remote side; and the SCUD core that is the main software block composed of six functional blocks, that are used on the client and on the remote side.
+
 ##System Requirements
--Java Runtime Environment version 7 or greater
--Hadoop on Linux based Cluster version 2.4.0 or greater
--A account on the cluster over SSH
+..Java Runtime Environment version 7 or greater.
+..Hadoop on Linux based Cluster version 2.4.0 or greater.
+..A account on the cluster over SSH.
 
 ## Example client code 
 
