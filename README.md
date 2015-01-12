@@ -144,6 +144,7 @@ SCUD framework provides a Java command line client available in the release (SCU
 
 * **`getsimulation`** shows all data information of a simulation and loops. This command takes the following input parameters: 
     - `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation (given in the list command). 
+    
 Command return the following information:  
     - `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation. 
     - `simulation name`
