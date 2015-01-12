@@ -161,7 +161,13 @@ Command returns the following information:
     - ``finished``, the simulation has been finished correctly.
     - ``aborted``, the simulation has been finished not correctly: the process was aborted from the system or the user.
 * `number of loops executed by the process`
-  
+
+- - -
+
+* **`getresult`** download all data of a simulation in GNU tar archive, the command works also when the simulation is running. This command takes the following input parameters: 
+* `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation (given in the list command).
+* `localpath`, absolute local path where you will save the tar file.
+
 ## License
 Copyright ISISLab, 2015 Università degli Studi di Salerno
 
