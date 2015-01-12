@@ -85,7 +85,8 @@ SCUD framework provides a Java command line client available in the release (SCU
     - ``output XML absolute path``
     - ``brief simualtion description``
     - ``absolute path of bin file for simulation executable model``
----
+    
+
 ## License
 Copyright ISISLab, 2015 Università degli Studi di Salerno
 
