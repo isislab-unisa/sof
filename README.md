@@ -77,8 +77,8 @@ SCUD framework provides a Java command line client available in the release (SCU
 
 #### SCUD Client commands overview
 * **`help`** shows the name and a brief use description of SCUD commands. 
-* `exit` exits from SCUD application and disconnects the user.  
-* `createsimulation` creates a simple simulation in parameter space exploration mode.  This command has following parameters input:  
+* **``exit`** exits from SCUD application and disconnects the user.  
+* **`createsimulation`** creates a simple simulation in parameter space exploration mode.  This command has following parameters input:  
     - ``model`` mason-netlogo-generic
     - ``simulation name``
     - ``input XML absolute path``
@@ -86,7 +86,7 @@ SCUD framework provides a Java command line client available in the release (SCU
     - ``brief simualtion description``
     - ``absolute path of bin file for simulation executable model``
         * usage ``createsimulation netlogo mysim /home/pippo/input.xml /home/pippo/output.xml "the description" /home/pippo/mysim.nlogo``
- *  `createsimulationloop`  creates a simulation in simulation optimization mode.  This command has following parameters input:
+ *  **`createsimulationloop`**  creates a simulation in simulation optimization mode.  This command has following parameters input:
     - ``model`` mason-netlogo-generic
     - ``simulation name``
     - ``domain XML absolute path``
@@ -97,7 +97,7 @@ SCUD framework provides a Java command line client available in the release (SCU
     - ``brief simualtion description``
     - ``absolute path of bin file for simulation executable model``
         * usage ``createsimulationloop mason mysim /home/pippo/domain.xml /bin/java  /home/pippo/output.xml /home/pippo/selection_function.jar /home/pippo/evaluate_function.jar my description /home/pippo/mysim.jar``
-* ``getsimulations``: returns a list of current simulations. For each simulation returns the following information:   
+* **``getsimulations``** prints a list of current simulations. For each simulation returns the following information:   
     - `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation.  
     - ``simulation name``
     - ``simulation author`` 
@@ -108,7 +108,7 @@ SCUD framework provides a Java command line client available in the release (SCU
         * ``running``, the simulation are running.
         * ``finished``, the simulation has been finished correctly.
         * ``aborted``, the simulation has been finished not correctly: the process was aborted from the system or the user.
-* `list` returns the list of all simulations. For each simulation returns the following information:
+* **`list`** prints the list of all simulations. For each simulation returns the following information:
     - `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation. 
     - `simulation name`
     - ``status of simulation``:
