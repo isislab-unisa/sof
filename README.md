@@ -78,7 +78,7 @@ SCUD framework provides a Java command line client available in the release (SCU
 #### SCUD Client commands overview
 * `help` shows the name and a brief use description of SCUD commands. 
 * `exit` exits from SCUD application and disconnects the user.  
-* `createsimulation` creates a simple simulation in no-loop mode.  This command has following parameters input:  
+* `createsimulation` creates a simple simulation in parameter space exploration mode.  This command has following parameters input:  
     - ``model`` mason-netlogo-generic
     - ``simulation name``
     - ``input XML absolute path``
@@ -86,7 +86,25 @@ SCUD framework provides a Java command line client available in the release (SCU
     - ``brief simualtion description``
     - ``absolute path of bin file for simulation executable model``
         * usage ``createsimulation netlogo mysim /home/pippo/input.xml /home/pippo/output.xml "the description" /home/pippo/mysim.nlogo``
- 
+ * * `createsimulationloop`  creates a simulation in simulation optimization mode.  This command has following parameters input:  
+    - ``model`` mason-netlogo-generic
+    - ``simulation name``
+    - ``domain XML absolute path``
+    - ``absolute path for bin command to exec the selection and evaluation``
+    - ``output XML absolute path``
+    -  ``absolute path for the selection function file``
+    -  ``absolute path for the evaluate function file``
+    - ``brief simualtion description``
+    - ``absolute path of bin file for simulation executable model``
+        * usage ``createsimulationloop mason mysim /home/pippo/domain.xml /bin/java  /home/pippo/output.xml /home/pippo/selection_function.jar /home/pippo/evaluate_function.jar my description /home/pippo/mysim.jar``
+** ``getsimulations``: returns a list of current simulations. For each simulation you have the following information:   
+    -``id of simulation`` 
+    -``simulation name``
+    -``simulation author`` 
+    -``creation time of simulation``
+    -``description``
+    -``status of simulation(created, running, finished, aborted)``
+
 ## License
 Copyright ISISLab, 2015 Università degli Studi di Salerno
 
