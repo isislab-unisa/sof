@@ -198,7 +198,7 @@ Command returns the following information:
 
 </xs:schema>
 
-xType name="simulation">
+<xs:complexType name="simulation">
     <xs:sequence>
       <xs:element name="name" type="xs:string"/>
       <xs:element name="toolkit" type="xs:string"/>
