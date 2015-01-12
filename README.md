@@ -187,6 +187,12 @@ Command returns the following information:
 - - -
 
 #### SCUD XML schemas
+SCUD support two executions modes, as mentioned above, PSE and SO.
+In PSE mode the input to the simulation and the output must be in XML, compliant with input/output schemas. In the SO mode the user must not provide the input files but must declare the parameters domain in XML using the domain schema.
+
+In the following there are shown the SCUD parameters XML schemas.
+
+
 * **XML Domain**
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
