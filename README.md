@@ -66,13 +66,14 @@ The output files will be in `build/`
 SCUD framework provides a Java command line client available in the release (SCUD-Client.jar):
 
 * Execute the command: java -jar SCUD-Client.jar. This client application use SSH to connect to the Hadoop cluster. The application parameters are the following:
-    - `-h` (HOST) cluster master node IP address. The default value is `localhost (127.0.0.1)`;
-    - `-port` (PORT) listening port for SHH process on cluster. The default value is `22`;
-    - `-bindir` (DIRECTORY) the bin installation path (absolute) of Hadoop. The default value is `/bin`;
-    - `-homedir` (DIRECTORY) the home directory of the user on the master node. The default value  is `~/temp`;
-    - `-javabindir` (DIRECTORY) the bin installation path of the Java Virtual Machine. The default value is `/usr/bin`;
-    - `-scudhomedir` (DIRECTORY) the Hadoop distributed File system directory which will be the root directory for the SCUD application. The default value is `/`.
-
+    - `-h HOST NAME` cluster master node IP address. The default value is `localhost (127.0.0.1)`;
+    - `-port PORT NUMBER` listening port for SHH process on cluster. The default value is `22`;
+    - `-bindir PATH BIN DIRECTORY` the bin installation path (absolute) of Hadoop. The default value is `/bin`;
+    - `-homediR PATH DIRECTORY` the home directory of the user on the master node. The default value  is `~/temp`;
+    - `-javabindir PATH JAVA BIN DIRECTORY` the bin installation path of the Java Virtual Machine. The default value is `/usr/bin`;
+    - `-scudhomedir USER SCUD HOME DIRECTORY` the Hadoop distributed File system directory which will be the root directory for the SCUD application. The default value is `/`.
+__
+#### Getting Started SCUD Client
 ## License
 Copyright ISISLab, 2015 Università degli Studi di Salerno
 
