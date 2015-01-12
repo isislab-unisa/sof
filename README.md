@@ -84,7 +84,7 @@ SCUD framework provides a Java command line client available in the release (SCU
 
 - - -
 
-* **`createsimulation`** creates a simple simulation in parameter space exploration mode.  This command has following parameters input:  
+* **`createsimulation`** creates a simple simulation in parameter space exploration mode.  This command takes following parameters input:  
     - ``model`` mason-netlogo-generic
     - ``simulation name``
     - ``input XML absolute path``
@@ -95,7 +95,7 @@ SCUD framework provides a Java command line client available in the release (SCU
 
 - - -
 
-*  **`createsimulationloop`**  creates a simulation in simulation optimization mode.  This command has following parameters input:
+*  **`createsimulationloop`**  creates a simulation in simulation optimization mode. This command takes following parameters input:
     - ``model`` mason-netlogo-generic
     - ``simulation name``
     - ``domain XML absolute path``
@@ -109,30 +109,34 @@ SCUD framework provides a Java command line client available in the release (SCU
 
 - - -
 
-* **``getsimulations``** prints states and data for all simulations. For each simulation returns the following information:   
-    - `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation.  
-    - ``simulation name``
-    - ``simulation author`` 
-    - ``creation time of simulation``
-    - ``the simulation description``
-    - ``loop status list``:
-        * ``created``, the simulation has been created but not running yet.
-        * ``running``, the simulation are running.
-        * ``finished``, the simulation has been finished correctly.
-        * ``aborted``, the simulation has been finished not correctly: the process was aborted from the system or the user.
+* **``getsimulations``** prints states and data for all simulations.
+
+Returns for each simulation the following information:   
+- `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation.  
+- ``simulation name``
+- ``simulation author`` 
+- ``creation time of simulation``
+- ``the simulation description``
+- ``loop status list``:
+    * ``created``, the simulation has been created but not running yet.
+    * ``running``, the simulation are running.
+    * ``finished``, the simulation has been finished correctly.
+    * ``aborted``, the simulation has been finished not correctly: the process was aborted from the system or the user.
 
 - - -
 
-* **`list`** prints a list of all simulations. For each simulation returns the following information:
-    - `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation. 
-    - `simulation name`
-    - ``status of simulation``:
-        * ``created``, the simulation has been created but not running yet.
-        * ``running``, the simulation are running.
-        * ``finished``, the simulation has been finished correctly.
-        * ``aborted``, the simulation has been finished not correctly: the process was aborted from the system or the user.
-    - `creation time of simulation`
-    - `simulation identifier on hadoop file system`
+* **`list`** prints a list of all simulations.  
+
+Returns for each simulation the following information:
+- `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation. 
+- `simulation name`
+- ``status of simulation``:
+    * ``created``, the simulation has been created but not running yet.
+    * ``running``, the simulation are running.
+    * ``finished``, the simulation has been finished correctly.
+    * ``aborted``, the simulation has been finished not correctly: the process was aborted from the system or the user.
+- `creation time of simulation`
+- `simulation identifier on hadoop file system`
 
 - - -
 
@@ -145,7 +149,7 @@ SCUD framework provides a Java command line client available in the release (SCU
 * **`getsimulation`** shows all data information of a simulation and loops. This command takes the following input parameters: 
     - `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation (given in the list command). 
     
-Command return the following information:  
+Command returns the following information:  
 * `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation. 
 * `simulation name`
 * `simulation author` 
