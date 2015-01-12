@@ -5,6 +5,9 @@ SCUD was designed to manage three kinds of simulation engine: [MASON](http://cs.
 
 SCUD is a framework to exploit simulation optimization on Hadoop cluster. SCUD is divided in two main functional blocks the core and the client. The core component provides all functionality to write out Java based client application. The client is a command line Java application that shown the features of the core component and allows to execute PSE and SO process on a Hadoop cluster.
 ![alt tag](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/architecture/ascud.png)
+
+##System Requirements
+
 ## Example client code 
 
 Here's a minimum example of defining a client application using the SCUD core:
