@@ -11,9 +11,16 @@ The SCUD system presents two main entities: the SCUD client and the remote host 
 
 
 SCUD architecture is divided in three main software block: a user frontend that is the SCUD application for running and managing the simulation on the Hadoop infrastructure, used only on the client side; the Hadoop layer that encloses softwares and libraries provided from Hadoop infrastructure, used on the remote side; and the SCUD core that is the main software block composed of six functional blocks, that are used on the client and on the remote side.
+
 ####SCUD System workflow
+SCUD was designed to execute simulation optimization and parameter space exploration process on Apache Hadoop. In order to execute a simulation optimization process the user must provide a well formatted input:
+* the simulation executable, MASON/NetLogo model or an executable file;
+* the selection and evaluation functions written in any languages supported by the cluster machine (in this case the user must also define the interpreter program path for languages like Python, Groovy etc.);
+* the domain/input/output/evaluate format for the parameters of the simulation.
+
 ![alt tag](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/architecture/ascudworkflow.png)
 
+A SCUD process, shown in the figure, consist in many optimization loops in which on a set of inputs (generated executing the selection function program) are executed the simulation in order to generate the outputs set. The outputs set are evaluated using the evaluate function program. At end the selection is used again to generate a new input set for the next optimization loop (obviously the process ends when the selection function program does not generate a new inputs set). By this computational schema is possible to realize many of the simulation optimization algorithms available literature.
 
 ##System Requirements
 * [Apache Hadoop](http://hadoop.apache.org/) on Linux based Cluster version 2.4.0 or greater.
