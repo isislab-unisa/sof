@@ -85,7 +85,7 @@ SCUD framework provides a Java command line client available in the release (SCU
     - ``output XML absolute path``
     - ``brief simualtion description``
     - ``absolute path of bin file for simulation executable model``
-        * usage ``createsimulation netlogo mysim /home/pippo/input.xml /home/pippo/output.xml a description /home/pippo/mysim.nlogo``
+        * usage ``createsimulation netlogo mysim /home/pippo/input.xml /home/pippo/output.xml "the description" /home/pippo/mysim.nlogo``
  
 ## License
 Copyright ISISLab, 2015 Università degli Studi di Salerno
