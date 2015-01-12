@@ -1,0 +1,13 @@
+<repositories>
+  <repository>
+      <id>it.isislab.scud</id>
+      <url>https://github.com/spagnuolocarmine/scud/tree/master/libraries/repository/it/isislab/scud/</url>
+  </repository>
+</repositories>
+<dependencies>
+		<dependency>
+            <groupId>it.isislab.scud</groupId>
+            <artifactId>netlogo</artifactId>
+            <version>5</version>
+        </dependency>
+</dependencies>
