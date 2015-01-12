@@ -77,7 +77,7 @@ SCUD framework provides a Java command line client available in the release (SCU
 
 #### SCUD Client commands overview
 * **`help`** shows the name and a brief use description of SCUD commands. 
-* **``exit`** exits from SCUD application and disconnects the user.  
+* **`exit`** exits from SCUD application and disconnects the user.  
 * **`createsimulation`** creates a simple simulation in parameter space exploration mode.  This command has following parameters input:  
     - ``model`` mason-netlogo-generic
     - ``simulation name``
@@ -86,7 +86,7 @@ SCUD framework provides a Java command line client available in the release (SCU
     - ``brief simualtion description``
     - ``absolute path of bin file for simulation executable model``
         * usage ``createsimulation netlogo mysim /home/pippo/input.xml /home/pippo/output.xml "the description" /home/pippo/mysim.nlogo``
- *  **`createsimulationloop`**  creates a simulation in simulation optimization mode.  This command has following parameters input:
+*  **`createsimulationloop`**  creates a simulation in simulation optimization mode.  This command has following parameters input:
     - ``model`` mason-netlogo-generic
     - ``simulation name``
     - ``domain XML absolute path``
@@ -97,18 +97,18 @@ SCUD framework provides a Java command line client available in the release (SCU
     - ``brief simualtion description``
     - ``absolute path of bin file for simulation executable model``
         * usage ``createsimulationloop mason mysim /home/pippo/domain.xml /bin/java  /home/pippo/output.xml /home/pippo/selection_function.jar /home/pippo/evaluate_function.jar my description /home/pippo/mysim.jar``
-* **``getsimulations``** prints a list of current simulations. For each simulation returns the following information:   
+* **``getsimulations``** prints states and data for all simulations. For each simulation returns the following information:   
     - `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation.  
     - ``simulation name``
     - ``simulation author`` 
     - ``creation time of simulation``
     - ``the simulation description``
-    - ``status of simulation``:
+    - ``loop status list``:
         * ``created``, the simulation has been created but not running yet.
         * ``running``, the simulation are running.
         * ``finished``, the simulation has been finished correctly.
         * ``aborted``, the simulation has been finished not correctly: the process was aborted from the system or the user.
-* **`list`** prints the list of all simulations. For each simulation returns the following information:
+* **`list`** prints a list of all simulations. For each simulation returns the following information:
     - `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation. 
     - `simulation name`
     - ``status of simulation``:
@@ -118,7 +118,20 @@ SCUD framework provides a Java command line client available in the release (SCU
         * ``aborted``, the simulation has been finished not correctly: the process was aborted from the system or the user.
     - `creation time of simulation`
     - `simulation identifier on hadoop file system`
-
+* **`submit`** submit a new simulation execution. This command takes the following input parameters: 
+    - `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation (given in the list command). 
+        * usage `submit x` where x is your simulation identifier.
+* **`getsimulation`** shows all data information of a simulation and loops. This command takes the following input parameters: 
+- `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation (given in the list command). 
+Command return the following information:  
+- `id of simulation` 
+- `simulation name`
+- `simulation author` 
+- `creation time of simulation`
+- `description`
+- `status of simulation(created, running, finished, aborted)`
+- `number of loops of simulation`
+  
 ## License
 Copyright ISISLab, 2015 Università degli Studi di Salerno
 
