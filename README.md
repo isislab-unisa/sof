@@ -436,7 +436,7 @@ In the following there are shown the SCUD parameters XML schemas.
 
 
 ## License
-Copyright ISISLab, 2015 Università degli Studi di Salerno
+Copyright ISISLab, 2015 Università degli Studi di Salerno.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
