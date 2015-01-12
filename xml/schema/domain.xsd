@@ -3,7 +3,7 @@
   <xs:import schemaLocation="schema3.xsd"/>
   <xs:element name="domain" type="domain"/>
 </xs:schema>
-<xs:complexType> name="simulation">
+<xs:complexType name="simulation">
     <xs:sequence>
       <xs:element name="name" type="xs:string"/>
       <xs:element name="toolkit" type="xs:string"/>
