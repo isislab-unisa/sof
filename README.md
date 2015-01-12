@@ -76,7 +76,10 @@ The output files will be in `build/`
 ## Getting Started SCUD Client
 SCUD framework provides a Java command line client available in the release (SCUD-Client.jar):
 
-* Execute the command: java -jar SCUD-Client.jar. This client application use SSH to connect to the Hadoop cluster. The application parameters are the following:
+* 
+    $   java -jar SCUD-Client.jar
+
+This client application use SSH to connect to the Hadoop cluster. The application parameters are the following:
     - `-h HOST NAME` cluster master node IP address. The default value is `localhost (127.0.0.1)`;
     - `-port PORT NUMBER` listening port for SHH process on cluster. The default value is `22`;
     - `-bindir PATH BIN DIRECTORY` the bin installation path (absolute) of Hadoop. The default value is `/bin`;
