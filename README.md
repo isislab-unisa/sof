@@ -1,5 +1,5 @@
 # SCUD
-SCUD is a Simulation exploration and optimization framework on the CloUD, designed in [ISISLab](http://www.isislab.it), that allows to run and collect results for two kinds of scenario parameter space exploration (PSE) and simulation optimization (SO) considering the computational resources as available for a not fixed time and subjects to failure. 
+SCUD is a Simulation exploration and optimization framework on the CloUD written in Java, designed in [ISISLab](http://www.isislab.it), that allows to run and collect results for two kinds of scenario parameter space exploration (PSE) and simulation optimization (SO) considering the computational resources as available for a not fixed time and subjects to failure. 
 
 SCUD was designed to manage three kinds of simulation engine: [MASON](http://cs.gmu.edu/~eclab/projects/mason/), [NetLogo](https://ccl.northwestern.edu/netlogo/) and a generic simulator. SCUD provides some software facilities for the first simulators like the automatic simulation input setting and automatic output generating (that does not provide for the generic simulator, for obvious reasons). The generic simulator must be an executable compliant with the cluster machine used.
 
@@ -30,9 +30,9 @@ A SCUD process, shown in the figure, consists in many optimization loops in whic
 
 -
 
-## Example client code 
+## Example Java client code 
 
-Here's a minimum example of defining a client application using the SCUD core:
+Here is a minimum example of defining a client application using the SCUD core. The program create new simulation job in SO mode, submit the job to the system and wait until the process are finished.
 
 ```java
 import javafx.application.Application;
