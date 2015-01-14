@@ -61,7 +61,7 @@ public enum PromptDomainListStringParamCommand implements Prompt{
 	});
 
 	private Action action;
-	public static List<String> list = new ArrayList<>();
+	public static List<String> list = new ArrayList<String>();
 
 	private PromptDomainListStringParamCommand(Action a)
 	{

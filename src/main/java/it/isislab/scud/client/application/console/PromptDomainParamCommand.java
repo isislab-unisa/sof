@@ -157,7 +157,7 @@ public enum PromptDomainParamCommand implements Prompt{
 
 
 	public static void clearParamList(){
-		list = new ArrayList<>();
+		list = new ArrayList<ParameterDomain>();
 	}
 	
 	public Object exec(final Console c, final String[] params, String stringPrompt,final PromptListener l)

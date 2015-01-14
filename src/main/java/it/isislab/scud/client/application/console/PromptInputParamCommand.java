@@ -104,7 +104,7 @@ public enum PromptInputParamCommand implements Prompt{
 	});
 
 	private Action action;
-	public static List<Parameter> list = new ArrayList<>();
+	public static List<Parameter> list = new ArrayList<Parameter>();
 
 	private PromptInputParamCommand(Action a)
 	{
