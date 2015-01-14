@@ -4,9 +4,89 @@
 	<groupId>it.isislab</groupId>
 	<artifactId>SCUD</artifactId>
 	<version>1.0</version>
-	<packaging>jar</packaging>
 	<name>SCUD</name>
 	<description>Simulation framework for optimization and exploration on the CloUD</description>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<distribution>repo</distribution>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+		</license>
+	</licenses>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.1</version>
+				<executions>
+					<execution>
+						<id>default-jar</id>
+						<phase>none</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>library</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<classifier>library</classifier>
+							<excludes>
+								<exclude>**/client*</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>client</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<classifier>client</classifier>
+							<archive>
+								<manifest>
+									<addClasspath>true</addClasspath>
+									<classpathPrefix>lib/</classpathPrefix>
+									<mainClass>it.isislab.scud.client.application.SCUDShellClient</mainClass>
+								</manifest>
+							</archive>
+							<includes>
+								<include>**/*</include>
+							</includes>
+
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>install</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>
+								${project.build.directory}/lib
+							</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 	<properties>
 		<jdk.version>1.7</jdk.version>
 	</properties>
@@ -522,7 +602,4 @@
 			<url>https://github.com/spagnuolocarmine/scud/raw/master/libraries/repository</url>
 		</repository>
 	</repositories>
-	
-     
- 
 </project>
