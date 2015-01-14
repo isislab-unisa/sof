@@ -17,7 +17,7 @@ import core.engine.hadoop.sshclient.utils.environment.EnvironmentSession;
 public class Test {
 	private static String HADOOP_HOME = "hadoop-2.4.0";
 	private static String IP="172.16.15.103";
-	private static String PASSWORD="cloudsim1205";
+	private static String PASSWORD="";
 	/**
 	 * @param args
 	 * @throws SftpException 
