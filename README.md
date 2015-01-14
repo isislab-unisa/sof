@@ -217,16 +217,17 @@ In the following there are shown the SCUD parameters XML schemas.
 
 
 * **XML Domain**
-At ![this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/domain.xsd) link there is the domain XML schema.
+To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/domain.xsd) link there is the domain XML schema.
+
 - - -
 
 * **XML Input**
-At ![this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/input.xsd) link there is the input XML schema.
+To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/input.xsd) link there is the input XML schema.
 
 - - -
 
 * **XML Output**
-At ![this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/output.xsd) link there is the output XML schema.
+To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/output.xsd) link there is the output XML schema.
 
 - - -
 
