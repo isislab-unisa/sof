@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum PromptDomainListStringParamCommand implements Prompt{
+
 	ADD(new Action(){
 
 		@Override
@@ -71,7 +72,7 @@ public enum PromptDomainListStringParamCommand implements Prompt{
 
 
 	public static void clearParamList(){
-		list = new ArrayList<>();
+		list = new ArrayList<String>();
 	}
 	
 	public Object exec(final Console c, final String[] params, String stringPrompt,final PromptListener l)

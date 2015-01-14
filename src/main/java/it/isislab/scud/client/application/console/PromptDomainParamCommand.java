@@ -147,7 +147,7 @@ public enum PromptDomainParamCommand implements Prompt{
 	});
 
 	private Action action;
-	public static List<ParameterDomain> list = new ArrayList<>();
+	public static List<ParameterDomain> list = new ArrayList<ParameterDomain>();
 
 	private PromptDomainParamCommand(Action a)
 	{

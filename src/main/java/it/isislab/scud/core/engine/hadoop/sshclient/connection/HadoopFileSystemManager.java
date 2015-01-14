@@ -27,7 +27,11 @@ import java.io.InputStreamReader;
 import java.util.Vector;
 import java.util.logging.Logger;
 
-import com.jcraft.jsch.*;
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 
 
 

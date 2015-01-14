@@ -1,18 +1,18 @@
 package it.isislab.scud.client.application.console;
 
 
+import it.isislab.scud.client.application.SCUDShellClient;
+import it.isislab.scud.core.engine.hadoop.sshclient.connection.HadoopFileSystemManager;
+import it.isislab.scud.core.engine.hadoop.sshclient.connection.ScudManager;
+import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
+import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulations;
+import it.isislab.scud.core.exception.ParameterException;
+
 import java.io.IOException;
 import java.util.Date;
 import java.util.Scanner;
 
 import com.jcraft.jsch.JSchException;
-
-import it.isislab.scud.client.application.SCUDShellClient;
-import it.isislab.scud.core.engine.hadoop.sshclient.connection.ScudManager;
-import it.isislab.scud.core.engine.hadoop.sshclient.connection.HadoopFileSystemManager;
-import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
-import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulations;
-import it.isislab.scud.core.exception.ParameterException;
 
 
 
@@ -317,7 +317,7 @@ public enum Command implements Prompt
 				System.err.println(bash);
 				try {
 					HadoopFileSystemManager.exec(SCUDShellClient.session,bash);
-				} catch (JSchException | IOException e) {
+				} catch (Exception e ) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

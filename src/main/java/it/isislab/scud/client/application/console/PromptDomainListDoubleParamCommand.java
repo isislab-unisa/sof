@@ -65,7 +65,7 @@ public enum PromptDomainListDoubleParamCommand implements Prompt{
 	});
 
 	private Action action;
-	public static List<Double> list = new ArrayList<>();
+	public static List<Double> list = new ArrayList<Double>();
 
 	private PromptDomainListDoubleParamCommand(Action a)
 	{
@@ -75,7 +75,7 @@ public enum PromptDomainListDoubleParamCommand implements Prompt{
 
 
 	public static void clearParamList(){
-		list = new ArrayList<>();
+		list = new ArrayList<Double>();
 	}
 	
 	public Object exec(final Console c, final String[] params, String stringPrompt,final PromptListener l)

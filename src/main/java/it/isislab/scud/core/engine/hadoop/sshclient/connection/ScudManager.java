@@ -18,24 +18,17 @@
 package it.isislab.scud.core.engine.hadoop.sshclient.connection;
 
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.environment.EnvironmentSession;
-import it.isislab.scud.core.engine.hadoop.sshclient.utils.selection.SelectionFunction;
-import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.InputXmlConverter;
-import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Loop;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.RunnableFile;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Runs;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.RunsParser;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.SimulationParser;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulations;
-import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.executor.SCUDRUNNER;
 import it.isislab.scud.core.exception.ParameterException;
 import it.isislab.scud.core.model.parameters.xsd.domain.Domain;
 import it.isislab.scud.core.model.parameters.xsd.input.Inputs;
 import it.isislab.scud.core.model.parameters.xsd.output.Output;
-import it.isislab.scud.core.model.parameters.xsd.output.Outputs;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -59,14 +52,12 @@ import javax.xml.transform.TransformerException;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
-import org.codehaus.jackson.util.BufferRecycler;
 import org.xml.sax.SAXException;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
-import com.jcraft.jsch.jce.MD5;
 
 /**
  * 
@@ -1109,7 +1100,7 @@ public class ScudManager {
 		//params[3],/*OUTPUT.XML PATH */
 		//params[4],/*DESCRIPTION SIM*/
 		//params[5],/*SIMULATION EXEC PATH */
-		ArrayList<String> newParams =new ArrayList<>();
+		ArrayList<String> newParams =new ArrayList<String>();
 		String description = new String();
 
 		for (int i = 0; i < indexBeginDescription; i++) 

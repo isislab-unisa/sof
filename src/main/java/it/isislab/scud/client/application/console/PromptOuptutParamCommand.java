@@ -1,12 +1,14 @@
 package it.isislab.scud.client.application.console;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import it.isislab.scud.core.model.parameters.xsd.elements.Parameter;
 import it.isislab.scud.core.model.parameters.xsd.elements.ParameterDouble;
 import it.isislab.scud.core.model.parameters.xsd.elements.ParameterLong;
 import it.isislab.scud.core.model.parameters.xsd.elements.ParameterString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public enum PromptOuptutParamCommand implements Prompt{
 	ADD(new Action(){
@@ -110,7 +112,7 @@ public enum PromptOuptutParamCommand implements Prompt{
 	}
 
 	public static void clearParamList(){
-		list = new ArrayList<>();
+		list = new ArrayList<Parameter>();
 	}
 	
 	public Object exec(final Console c, final String[] params, String stringPrompt,final PromptListener l)
