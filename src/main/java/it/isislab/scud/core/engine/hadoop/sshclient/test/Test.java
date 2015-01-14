@@ -16,7 +16,14 @@ import com.jcraft.jsch.SftpException;
 
 
 public class Test {
-
+	public static int PORT=22;
+	public static String host= "172.16.142.103";
+	public static String pstring="clgvittorio";
+	public static String bindir="/isis/hadoop-2.4.0";  
+	public static String homedir="/isis/"; 
+	public static String javabindir ="/usr/local/java/bin/";
+	public static String name="isis";
+	public static String scudhomedir="/";
 	/**
 	 * @param args
 	 * @throws SftpException 
@@ -31,14 +38,8 @@ public class Test {
 		//String HADOOP_HOME = "/usr/local/hadoop-2.4.0";
 		//EnviromentSession s =SshWrapperHadoop.connect("isis", "172.16.15.1", "clgvittorio", 3322, HADOOP_HOME);
 
-		String host= "172.16.142.103"; 
-		int PORT=22;
-		String pstring="clgvittorio";
-		String bindir="/isis/hadoop-2.4.0";  
-		String homedir="/isis/"; 
-		String javabindir ="/usr/local/java/bin/";
-		String name="isis";
-		String scudhomedir="/";
+		 
+		
 
 
 
