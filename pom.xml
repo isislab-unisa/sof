@@ -9,7 +9,6 @@
 	<description>Simulation framework for optimization and exploration on the CloUD</description>
 	<properties>
 		<jdk.version>1.7</jdk.version>
-		<jodatime.version>2.5</jodatime.version>
 	</properties>
 	<dependencies>
 		<dependency>
