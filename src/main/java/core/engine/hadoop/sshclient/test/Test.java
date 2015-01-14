@@ -15,19 +15,19 @@ import core.engine.hadoop.sshclient.utils.environment.EnvironmentSession;
 
 
 public class Test {
-
+	private static String HADOOP_HOME = "hadoop-2.4.0";
+	private static String IP="172.16.15.103";
+	private static String PASSWORD="cloudsim1205";
 	/**
 	 * @param args
 	 * @throws SftpException 
 	 */
 	public static void main(String[] args) throws SftpException{
-		//Session s =SshWrapperHadoop.connect("hadoop", "172.16.15.103", "cloudsim1205");
-		String HADOOP_HOME = "hadoop-2.4.0";
-		//String HADOOP_HOME = "/usr/local/hadoop-2.4.0";
-		//EnviromentSession s =SshWrapperHadoop.connect("isis", "172.16.15.1", "clgvittorio", 3322, HADOOP_HOME);
+		
+		
 		EnvironmentSession s;
 		try {
-			s = ScudManager.connect("hadoop", "172.16.15.103", "cloudsim1205", HADOOP_HOME,22,
+			s = ScudManager.connect("hadoop", IP, PASSWORD, HADOOP_HOME,22,
 					ScudManager.class.getResourceAsStream("//SCUD.jar"),
 					ScudManager.class.getResourceAsStream("//SCUD-RUNNER.jar"));
 		

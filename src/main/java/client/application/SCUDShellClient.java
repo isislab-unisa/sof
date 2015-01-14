@@ -1,8 +1,11 @@
 package client.application;
 
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
@@ -10,11 +13,11 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.ExampleMode;
 import org.kohsuke.args4j.Option;
 
-import core.engine.hadoop.sshclient.connection.ScudManager;
-import core.engine.hadoop.sshclient.utils.environment.EnvironmentSession;
 import client.application.console.Command;
 import client.application.console.Console;
 import client.application.console.PromptListener;
+import core.engine.hadoop.sshclient.connection.ScudManager;
+import core.engine.hadoop.sshclient.utils.environment.EnvironmentSession;
 
 public class SCUDShellClient
 {
