@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:domain xmlns:ns2="it.isislab.sof">
+    <simulation author="MICCAR">
+        <name>AIDS</name>
+        <loop>true</loop>
+        <note>ads</note>
+    </simulation>
+    <param variableName="initial-people">
+        <continuous min="0.0" max="500.0" increment="1.0"/>
+    </param>
+    <param variableName="average-coupling-tendency">
+        <continuous min="0.0" max="10.0" increment="1.0"/>
+    </param>
+    <param variableName="average-commitment">
+        <continuous min="0.0" max="10.0" increment="1.0"/>
+    </param>
+    <param variableName="average-condom-use">
+        <continuous min="0.0" max="10.0" increment="1.0"/>
+    </param>
+    <param variableName="average-test-frequency">
+        <continuous min="0.0" max="2.0" increment="0.01"/>
+    </param>
+</ns2:domain>
