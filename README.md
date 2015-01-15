@@ -62,16 +62,37 @@ public class Main extends Application {
 
 ```
 
-## Compiling the SCUD core library from src/ to build/
-If you would like to add features to the library, you will have to change the code in `src/` and then compile the library into the `build/` directory. The compilation script simply concatenates files in `src/` and then minifies the result.
+## Compiling the SCUD core library and SCUD application from src/ to target/ by Apache Maven
 
-The compilation is done using an ant task: it compiles `build/convnet.js` by concatenating the source files in `src/` and then minifies the result into `build/convnet-min.js`. Make sure you have **ant** installed (on Ubuntu you can simply *sudo apt-get install* it), then cd into `compile/` directory and run:
+If you would like to add features to the library, you will have to change the code in `src/` and then compile the library using Maven, in the project folder:
+    
+        $ mvn compile
 
-    $ ant -lib yuicompressor-2.4.8.jar -f build.xml
+After that yoy have to update `SCUD.jar` and `SCUD-RUNNER.jar` in the folder `scud-resources`. Those files are runnable jar file: the former with `SCUD.java` for the main class in the `MANIFEST` and the last with `SCUD-RUNNER.java`. Both the classes are located in the package `it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.executor`.
 
-The output files will be in `build/`
+To release the final build you must run the command:
+    
+       $ mvn package
+    
+The output files will be in `target/`:
 
-## Compiling the SCUD client from src/ to build/
+        ├── SCUD-1.0-client.jar
+        ├── SCUD-1.0-library.jar
+        ├── SCUD-1.0-simple-application.jar
+        ├── classes
+        │   └── it
+        ├── generated-sources
+        │   └── annotations
+        ├── lib
+        │   ├── * (libraries)
+        ├── maven-archiver
+        │   └── pom.properties
+        ├── maven-status
+        │   └── maven-compiler-plugin
+        └── scud-resources
+        ├── SCUD-RUNNER.jar
+        └── SCUD.jar
+
 
 ## Getting Started SCUD Client
 SCUD framework provides a Java command line client available in the release (SCUD-Client.jar):
