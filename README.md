@@ -247,7 +247,7 @@ After login this is the command shell:
 * **``getsimulations``** prints states and data for all simulations.
 
 Returns for each simulation the following information:   
-- `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation.  
+- `simulation hdfs identifier` an alphanumeric number associated to the simulation. Note: this is the simulation identifier to identify a simulation on distributed file system.  
 - ``simulation name``
 - ``simulation author`` 
 - ``creation time of simulation``
@@ -285,7 +285,7 @@ Returns for each simulation the following information:
     - `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation (given in the list command). 
     
 Command returns the following information:  
-* `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation. 
+* `simulation hdfs identifier` an alphanumeric number associated to the simulation. Note: this is the simulation identifier to identify a simulation on distributed file system. 
 * `simulation name`
 * `simulation author` 
 * `creation time of simulation`
