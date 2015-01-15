@@ -34,7 +34,20 @@ A SCUD process, shown in the figure, consists in many optimization loops in whic
 
 Here is a minimum example of defining a client application using the SCUD core. The program create new simulation job in SO mode, submit the job to the system and wait until the process are finished.
 
-```java
+After build the project by Maven `mvn package`, you are able to run the example in the class `SCUDCoreSimpleApplication`. The final release is `target/SCUD-1.0-simple-application.jar`, exec the command in the target dir:
+
+		'$ java -jar SCUD-1.0-simple-application.jar'
+	
+This simple application shows some SCUD core features: 
+*	create new simulation optimization process;
+*	submit the process; 
+*	wait until the simulation optimization process ends.
+	
+In the `examples-sim-aids` folder project is available all files of a simulation optimization example. This example use a NetLogo simulation named aids.logo, that is based on a simple propagation model of AIDS disease. The optimization process used is defined by the file selection and evaluation functions (respectively `examples-sim-aids/selection.jar` and `examples-sim-aids/evaluation.jar`), this toy optimization process experiment runs until all agents are sick.
+
+In the following there is code of the simple application ([link](https://github.com/spagnuolocarmine/scud/blob/master/src/main/java/it/isislab/scud/client/application/SCUDCoreSimpleApplication.java)).
+
+``java
 package it.isislab.scud.client.application;
 import it.isislab.scud.core.engine.hadoop.sshclient.connection.HadoopFileSystemManager;
 import it.isislab.scud.core.engine.hadoop.sshclient.connection.ScudManager;
