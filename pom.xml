@@ -18,6 +18,29 @@
 	<build>
 		<plugins>
 			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.7</version>
+				<executions>
+					<execution>
+						<id>copy-resources-examples</id>
+						<!-- here the phase you need -->
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/examples-sim-aids</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/examples-sim-aids</directory>
+									<filtering>false</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.3.1</version>
 				<executions>
@@ -93,7 +116,8 @@
 				<executions>
 					<execution>
 						<id>copy</id>
-						<phase>install</phase>
+						<phase>package</phase>
+
 						<goals>
 							<goal>copy-dependencies</goal>
 						</goals>
@@ -110,7 +134,7 @@
 				<version>2.7</version>
 				<executions>
 					<execution>
-						<id>copy-resources</id>
+						<id>copy-resources-scud-resources</id>
 						<!-- here the phase you need -->
 						<phase>validate</phase>
 						<goals>
@@ -121,13 +145,15 @@
 							<resources>
 								<resource>
 									<directory>${basedir}/scud-resources</directory>
-									<filtering>true</filtering>
+									<filtering>false</filtering>
 								</resource>
 							</resources>
 						</configuration>
+
 					</execution>
 				</executions>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
