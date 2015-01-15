@@ -61,8 +61,29 @@
 							<includes>
 								<include>**/*</include>
 							</includes>
-
 						</configuration>
+
+					</execution>
+					<execution>
+						<id>simple-application</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<classifier>simple-application</classifier>
+							<archive>
+								<manifest>
+									<addClasspath>true</addClasspath>
+									<classpathPrefix>lib/</classpathPrefix>
+									<mainClass>it.isislab.scud.client.application.SCUDCoreSimpleApplication</mainClass>
+								</manifest>
+							</archive>
+							<includes>
+								<include>**/*</include>
+							</includes>
+						</configuration>
+
 					</execution>
 				</executions>
 			</plugin>
@@ -80,6 +101,29 @@
 							<outputDirectory>
 								${project.build.directory}/lib
 							</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.7</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<!-- here the phase you need -->
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/scud-resources</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/scud-resources</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
 						</configuration>
 					</execution>
 				</executions>

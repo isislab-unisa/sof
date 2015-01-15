@@ -130,8 +130,11 @@ public class SCUDShellClient
 				
 				ScudManager.setFileSystem(bindir,System.getProperty("user.dir"), scudhomedir, homedir, javabindir ,name);
 				if ((session=ScudManager.connect(name, host, pstring, bindir,PORT,
-						SCUDShellClient.class.getResourceAsStream("SCUD.jar"),
-						SCUDShellClient.class.getResourceAsStream("SCUD-RUNNER.jar")))!=null)
+//						SCUDShellClient.class.getResourceAsStream("SCUD.jar"),
+//						SCUDShellClient.class.getResourceAsStream("SCUD-RUNNER.jar")
+				new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD.jar"),
+				new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD-RUNNER.jar")
+						))!=null)
 				{
 					System.out.println("Connected. Type \"help\", \"usage <command>\" or \"license\" for more information.");
 					attempts = 0;

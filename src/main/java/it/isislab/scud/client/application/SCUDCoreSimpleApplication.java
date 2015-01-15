@@ -1,21 +1,22 @@
-package it.isislab.scud.core.engine.hadoop.sshclient.test;
+package it.isislab.scud.client.application;
 
 
 
-import it.isislab.scud.client.application.SCUDShellClient;
 import it.isislab.scud.core.engine.hadoop.sshclient.connection.HadoopFileSystemManager;
 import it.isislab.scud.core.engine.hadoop.sshclient.connection.ScudManager;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.environment.EnvironmentSession;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulations;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 
 
-public class Test {
+public class SCUDCoreSimpleApplication {
 	public static int PORT=22;
 	public static String host= "172.16.142.103";
 	public static String pstring="clgvittorio";
@@ -24,6 +25,17 @@ public class Test {
 	public static String javabindir ="/usr/local/java/bin/";
 	public static String name="isis";
 	public static String scudhomedir="/";
+	
+	public static  String toolkit="netlogo";
+	public static String simulation_name="aids";
+	public static String domain_pathname="/home/michele/Scrivania/aids/domain.xml";
+	public static String bashCommandForRunnableFunction="/usr/local/java/bin/java";
+	public static String output_description_filename="/home/michele/Scrivania/aids/output.xml";
+	public static String executable_selection_function_filename="/home/michele/Scrivania/aids/Netlogo_Selection.jar";
+	public static String executable_rating_function_filename="/home/michele/Scrivania/aids/Netlogo_Evaluate.jar";
+	public static String description_simulation="a description";
+	public static String executable_simulation_filename="/home/michele/Scrivania/aids/aids.nlogo";
+
 	/**
 	 * @param args
 	 * @throws SftpException 
@@ -33,39 +45,20 @@ public class Test {
 	int attempts = 0;
 	boolean accessGranted = false;
 	public static void main(String[] args) throws SftpException{
-		//Session s =SshWrapperHadoop.connect("hadoop", "172.16.15.103", "cloudsim1205");
-		//String HADOOP_HOME = "hadoop-2.4.0";
-		//String HADOOP_HOME = "/usr/local/hadoop-2.4.0";
-		//EnviromentSession s =SshWrapperHadoop.connect("isis", "172.16.15.1", "clgvittorio", 3322, HADOOP_HOME);
 
-		 
 		
-
-
-
-
-		String toolkit="netlogo";
-		String simulation_name="aids";
-		String domain_pathname="/home/michele/Scrivania/aids/domain.xml";
-		String bashCommandForRunnableFunction="/usr/local/java/bin/java";
-		String output_description_filename="/home/michele/Scrivania/aids/output.xml";
-		String executable_selection_function_filename="/home/michele/Scrivania/aids/Netlogo_Selection.jar";
-		String executable_rating_function_filename="/home/michele/Scrivania/aids/Netlogo_Evaluate.jar";
-		String description_simulation="a description";
-		String executable_simulation_filename="/home/michele/Scrivania/aids/aids.nlogo";
-
 		Simulations sims=null;
 
 		try {
 
-			//-h 172.16.142.103 -bindir /isis/hadoop-2.4.0 -homedir /isis/ -javabindir /usr/local/java/bin/
-
-
 			ScudManager.setFileSystem(bindir,System.getProperty("user.dir"), scudhomedir, homedir, javabindir ,name);
 
 			if ((session=ScudManager.connect(name, host, pstring, bindir,PORT,
-					SCUDShellClient.class.getResourceAsStream("SCUD.jar"),
-					SCUDShellClient.class.getResourceAsStream("SCUD-RUNNER.jar")))!=null)
+//					SCUDCoreSimpleApplication.class.getResourceAsStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD.jar"),
+//					SCUDCoreSimpleApplication.class.getResourceAsStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD-RUNNER.jar")
+				new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD.jar"),
+				new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD-RUNNER.jar")
+					))!=null)
 			{
 				System.out.println("Connected. Type \"help\", \"usage <command>\" or \"license\" for more information.");
 
