@@ -47,7 +47,7 @@ In the `examples-sim-aids` folder project is available all files of a simulation
 
 In the following there is code of the simple application ([link](https://github.com/spagnuolocarmine/scud/blob/master/src/main/java/it/isislab/scud/client/application/SCUDCoreSimpleApplication.java)).
 
-``java
+```java
 package it.isislab.scud.client.application;
 import it.isislab.scud.core.engine.hadoop.sshclient.connection.HadoopFileSystemManager;
 import it.isislab.scud.core.engine.hadoop.sshclient.connection.ScudManager;
