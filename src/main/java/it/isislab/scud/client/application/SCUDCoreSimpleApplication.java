@@ -2,7 +2,7 @@ package it.isislab.scud.client.application;
 
 
 
-import it.isislab.scud.core.engine.hadoop.sshclient.connection.HadoopFileSystemManager;
+
 import it.isislab.scud.core.engine.hadoop.sshclient.connection.ScudManager;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.environment.EnvironmentSession;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
