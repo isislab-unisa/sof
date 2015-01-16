@@ -303,6 +303,15 @@ public class SCUDRUNNER{
 					log.info("Simulation "+simID+" terminated");
 					return;
 				}
+			}else{
+				/*String initial_xml_input_FileName = fs.getHdfsUserPathInputXML(simID);
+				String tmpInputXmlFile = fs.getRemotePathForTmpFileForUser(tmpFolderName);
+				ScudRunnerUtils.copyFileFromHdfs(fs,initial_xml_input_FileName, tmpInputXmlFile);
+				String hdfs_input_xml = fs.getHdfsUserPathSimulationLoopByIDsInputXML(simID, idLoop);
+				ScudRunnerUtils.copyFileInHdfs(fs,tmpInputXmlFile, hdfs_input_xml);*/
+				String initial_xml_input_FileName = fs.getHdfsUserPathInputXML(simID);
+				String hdfs_input_xml = fs.getHdfsUserPathSimulationLoopByIDsInputXML(simID, idLoop);
+				ScudRunnerUtils.moveFromHdfsToHdfs(fs,initial_xml_input_FileName,hdfs_input_xml);
 			}
 
 			log.info("Starting loop "+idLoop+" for Simulation "+simID);
@@ -313,13 +322,9 @@ public class SCUDRUNNER{
 				ScudRunnerUtils.convertXmlToData(fs,hdfs_input_xml,hdfs_input_data);
 
 			}
-			else{
-				String initial_xml_input_FileName = fs.getHdfsUserPathInputXML(simID);
-				String hdfs_input_data = fs.getHdfsUserPathSimulationLoopByIDsInputDATA(simID, idLoop);
+			else{	
 				String hdfs_input_xml = fs.getHdfsUserPathSimulationLoopByIDsInputXML(simID, idLoop);
-				String tmpInputXmlFile = fs.getRemotePathForTmpFileForUser(tmpFolderName);
-				ScudRunnerUtils.copyFileFromHdfs(fs,initial_xml_input_FileName, tmpInputXmlFile);
-				ScudRunnerUtils.copyFileInHdfs(fs,tmpInputXmlFile, hdfs_input_xml);
+				String hdfs_input_data = fs.getHdfsUserPathSimulationLoopByIDsInputDATA(simID, idLoop);
 				ScudRunnerUtils.convertXmlToData(fs,hdfs_input_xml,hdfs_input_data);
 			}
 

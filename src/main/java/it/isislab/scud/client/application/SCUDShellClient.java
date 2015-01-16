@@ -150,7 +150,6 @@ public class SCUDShellClient
 				console.printf(DENIED_ATTEMPT, ++attempts);
 			}
 			
-			
 		}
 
 		

@@ -3,7 +3,6 @@ package it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.executor;
 import it.isislab.scud.core.engine.hadoop.sshclient.connection.FileSystemSupport;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.SimulationParser;
-import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulations;
 import it.isislab.scud.core.model.parameters.xsd.elements.Parameter;
 import it.isislab.scud.core.model.parameters.xsd.elements.ParameterDouble;
 import it.isislab.scud.core.model.parameters.xsd.elements.ParameterLong;
@@ -19,8 +18,6 @@ import java.io.IOException;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-
-import org.apache.commons.io.FileUtils;
 
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
@@ -167,6 +164,20 @@ public class ScudRunnerUtils {
 		String command =fs.getRemoteHadoopInstallBinPath()+"/hdfs dfs -get "+hdfs_from+" "+localDir_to;
 		return exec(command);
 	}
+	
+	public static boolean moveFromHdfsToHdfs(FileSystemSupport fs,String hdfs_from, String hdfs_to){
+		boolean result = true;
+		String folder = fs.getRemotePathForTmpFolderForUser();
+		String folderName = folder.substring(folder.lastIndexOf("/")+1, folder.length());
+		result &=mkdir(folder);
+		String tmpFile = fs.getRemotePathForTmpFileForUser(folderName);
+		result &=copyFileFromHdfs(fs, hdfs_from, tmpFile);
+		result &=copyFileInHdfs(fs, tmpFile, hdfs_to);
+		result &=rmr(folder);
+		return result;
+	}
+	
+	
 	
 	public static String convertXmlToData(FileSystemSupport fs, String hdfs_from, String hdfs_to) throws NumberFormatException, JSchException, IOException, SftpException {
 
