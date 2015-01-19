@@ -356,45 +356,7 @@ public enum Command implements Prompt
 		@Override
 		public Object exec(Console c, String[] params,String stringPrompt)
 		{
-			/*if(params == null || params.length < 1 )
-			{
-				c.printf("Error few parameters!\n Usage: makexml [-input | -domain | -output]");
-				return null;
-			}else{
-				if("-input".equalsIgnoreCase(params[0])){
-					try {
-						String inputPrompt = stringPrompt+"/inputs";
-						execCommand(c,PromptInputsCommand.class,inputPrompt);
-						PromptInputsCommand.list = new ArrayList();
-						return null;
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						return null;
-					}
-				}else{
-					if("-domain".equalsIgnoreCase(params[0])){
-						String domainPrompt = stringPrompt+"/domain";
-						System.err.println("function not implemented yet!");
-						return null;
-					}else{
-						if("-output".equalsIgnoreCase(params[0])){
-							try {
-								String outputPrompt = stringPrompt+"/outputs";
-								execCommand(c,PromptOutputsCommand.class,outputPrompt);
-								PromptOutputsCommand.list = new ArrayList();
-								return null;
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-								return null;
-							}
-						}else{
-							c.printf("Error unexpected parameter!\n Usage: makexml [-input | -domain | -output]");
-							return null;
-						}
-					}
-				}*/
+			
 			try {
 				if(!PromptCommands.inputList.isEmpty())
 					PromptCommands.clearInputList();

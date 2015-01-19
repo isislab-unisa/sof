@@ -44,7 +44,7 @@ public enum PromptCommands implements Prompt{
 		public Object exec(Console c, String[] params, String stringPrompt) throws Exception {
 			if(params == null || params.length < 1){
 				c.printf("Error, few parameters!\n");
-				c.printf("Usage: new [-input | -output associatedInputID | -domain | -simulation ]\n");
+				c.printf("Usage: new [-input | -output | -domain | -simulation ]\n");
 				return null;
 			}else{
 				String s = stringPrompt;
@@ -61,19 +61,15 @@ public enum PromptCommands implements Prompt{
 					return inputList;
 				}else{
 					if(params[0].equalsIgnoreCase("-output")){
-						if(params.length < 2){
-							c.printf("Few parameters!\n");
-							c.printf("Usage: new -output associatedInputID");
-							return output;
-						}
+						
 						s+="/output";
-						int inputID = Integer.parseInt(params[1]);
+						//int inputID = Integer.parseInt(params[1]);
 						Output o = new Output();
 						List<Parameter> l = (List<Parameter>)execCommand(c,PromptOuptutParamCommand.class,s);
 						if(l == null || l.isEmpty())
 							return output;
 						o.output_params=l;
-						o.setIdInput(inputID);
+						//o.setIdInput(inputID);
 						output =o;
 						PromptOuptutParamCommand.clearParamList();
 						return null;
@@ -135,11 +131,11 @@ public enum PromptCommands implements Prompt{
 					return inputList;
 				}else{
 					if(params[0].equalsIgnoreCase("-output")){
-						if(params.length > 0){
+						/*if(params.length > 0){
 							c.printf("Few parameters!\nUsage remove -output\n");
 							return output;
 						}
-						/*int id = Integer.parseInt(params[1]);
+						int id = Integer.parseInt(params[1]);
 						Output toRemove=null;
 						for(Output i : output){
 							if(i.getIdInput() == id){
