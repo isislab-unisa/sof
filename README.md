@@ -314,9 +314,18 @@ Command returns the following information:
 - - -
 
 * **`makexml`** this command start a tool to generate the XML files for the SCUD process:
-  - ``input.xml``  contains input parameter (name of variable and initial value) of simulation
-  - ``ouput.xml``  contains output parameter (name of variable and value) of simulation
-  - ``domain.xml`` domain file for input parameters (only in SO mode)
+    - ``input.xml``  contains input parameters (name of variable and initial value) of simulation
+    - ``ouput.xml``  contains output parameters (name of variable and value) of simulation
+    - ``domain.xml`` domain file for input parameters (only in SO mode)
+
+This command takes the following input parameters:
+   * - ``help`` shows command list 
+   * - ``list`` shows the corresponding list to the given xml kind [input, output, domain]
+   * - ``new``  generate a new [input,output,domain] xml file
+   * - ``remove`` remove the corresponding given element
+   * - ``generatexml`` generate the xml file of the corresponding xml kind in the given directory
+   * - ``exit`` go back at previously SCUD shell scope
+
 - - -
 
 #### SCUD XML schemas
