@@ -318,9 +318,9 @@ Command returns the following information:
 - - -
 
 * **`makexml`** this command start a tool to generate the XML files for the SCUD process:
-* -`input.xml`  contains input parameter (name of variable and initial value) of simulation
-* -`ouput.xml`  contains output parameter (name of variable and value) of simulation
-* -`domain.xml` domain file for input parameters (only in SO mode)
+ - `input.xml`  contains input parameter (name of variable and initial value) of simulation
+ - `ouput.xml`  contains output parameter (name of variable and value) of simulation
+ - `domain.xml` domain file for input parameters (only in SO mode)
 - - -
 
 #### SCUD XML schemas
