@@ -273,9 +273,16 @@ public enum Command implements Prompt
 					return null;
 				}
 				int simID = Integer.parseInt(params[0])-1;
-				Simulation sim = sims.getSimulations().get(simID);
+				Simulation sim = null;
+				try{
+					sim = sims.getSimulations().get(simID);
+				}catch(IndexOutOfBoundsException e){
+					c.printf("No such simulation");
+					return null;
+				}
 				//if no path is specified, saves in current directory
-				String path = params.length < 1? System.getProperty("user.dir"):params[1];		
+				String path = (params.length < 2)? System.getProperty("user.dir"):params[1];
+				c.printf("Simulation will download in: "+path);
 				ScudManager.downloadSimulation(SCUDShellClient.session,sim.getId(),path);
 				return null;
 			}
