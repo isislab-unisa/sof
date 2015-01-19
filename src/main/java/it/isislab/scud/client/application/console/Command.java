@@ -262,9 +262,9 @@ public enum Command implements Prompt
 		@Override
 		public Object exec(Console c, String[] params,String stringPrompt)
 		{
-			if(params == null || params.length < 2 )
+			if(params == null)
 			{
-				c.printf("Error few parameters!\n Usage: getresult simID destinationDirPath");
+				c.printf("Error few parameters!\n Usage: getresult simID [destinationDirPath]");
 				return null;
 			}else{
 				Simulations sims = ScudManager.getSimulationsData(SCUDShellClient.session);
@@ -274,7 +274,9 @@ public enum Command implements Prompt
 				}
 				int simID = Integer.parseInt(params[0])-1;
 				Simulation sim = sims.getSimulations().get(simID);
-				ScudManager.downloadSimulation(SCUDShellClient.session,sim.getId(),params[1]);
+				//if no path is specified, saves in current directory
+				String path = params.length < 1? System.getProperty("user.dir"):params[1];		
+				ScudManager.downloadSimulation(SCUDShellClient.session,sim.getId(),path);
 				return null;
 			}
 		}
