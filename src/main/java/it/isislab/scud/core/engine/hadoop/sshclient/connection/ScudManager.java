@@ -1,41 +1,31 @@
 /**
- * Copyright 2014 Universit?? degli Studi di Salerno
-
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-   @author Michele Carillo, Serrapica Flavio, Raia Francesco
+ * 
+ * Copyright ISISLab, 2015 Università degli Studi di Salerno.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ *  You may not use this file except in compliance with the License. You may obtain a copy of the License at
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and limitations under the License.
+ * @author Michele Carillo michelecarillo@gmail.com
+ * @author Flavio Serrapica flavioserrapica@gmail.com
+ * @author Carmine Spagnuolo spagnuolocarmine@gmail.com
+ *
  */
 package it.isislab.scud.core.engine.hadoop.sshclient.connection;
 
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.environment.EnvironmentSession;
-import it.isislab.scud.core.engine.hadoop.sshclient.utils.selection.SelectionFunction;
-import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.InputXmlConverter;
-import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Loop;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.RunnableFile;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Runs;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.RunsParser;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.SimulationParser;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulations;
-import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.executor.SCUDRUNNER;
 import it.isislab.scud.core.exception.ParameterException;
 import it.isislab.scud.core.model.parameters.xsd.domain.Domain;
 import it.isislab.scud.core.model.parameters.xsd.input.Inputs;
 import it.isislab.scud.core.model.parameters.xsd.output.Output;
-import it.isislab.scud.core.model.parameters.xsd.output.Outputs;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -59,20 +49,15 @@ import javax.xml.transform.TransformerException;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
-import org.codehaus.jackson.util.BufferRecycler;
+
 import org.xml.sax.SAXException;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
-import com.jcraft.jsch.jce.MD5;
 
-/**
- * 
- * @author Michele Carillo, Serrapica Flavio, Raia Francesco
- *
- */
+
 public class ScudManager {
 	//private static final String HDFS_HOME=File.separator+"SCUD"+File.separator;
 	//private static final String SIMULATION_LIST_FILENAME="simulations.xml";
