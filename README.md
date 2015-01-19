@@ -318,12 +318,24 @@ Command returns the following information:
     - ``ouput.xml``  contains output parameters (name of variable and value) of simulation
     - ``domain.xml`` domain file for input parameters (only in SO mode)
 
+**Xml Scope**
 This command takes the following input parameters:
    * - ``help`` shows command list 
    * - ``list`` shows the corresponding list to the given xml kind [input, output, domain]
    * - ``new``  generate a new [input,output,domain] xml file
    * - ``remove`` remove the corresponding given element
    * - ``generatexml`` generate the xml file of the corresponding xml kind in the given directory
+   * - ``exit`` go back at previously SCUD shell scope
+
+**Parameters Scope**
+   * - ``help`` shows command list 
+   * - ``add``: adds a new parameter for following entities : 
+       - `Simulation` add [-author | -name | -description | -toolkit] value
+       - `input` add [-string | -double | -long] varName value
+       - `ouput` add [-string | -double | -long] varName
+       - `domain` add [ -discrete varName min max increment| -continuous varName min max increment | -list string varName | -list double varName]
+   * - ``remove`` remove the corresponding given element
+   * - ``list`` shows the corresponding list to the given xml kind [input, output, domain]
    * - ``exit`` go back at previously SCUD shell scope
 
 - - -
