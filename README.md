@@ -299,9 +299,9 @@ Command returns the following information:
 
 - - -
 
-* **`getresult`** download all data of a simulation in GNU tar archive, the command works also when the simulation is running. This command takes the following input parameters: 
+* **`getresult`** download all data of a simulation in zip archive. This command takes the following input parameters: 
     - `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation (given in the list command).
-    - `localpath`, absolute local path where you will save the tar file.
+    - `localpath` absolute local path where you will save the tar file. If it isn't specified, will download on current directory.
      * usage ``getresult x /home`` download the data of simulation with identifier 2 in the `/home` directory.
     
 - - -
