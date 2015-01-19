@@ -313,10 +313,6 @@ Command returns the following information:
     
 - - -
 
-* **`usage`** prints informations about the commands.
-    
-- - -
-
 * **`makexml`** this command start a tool to generate the XML files for the SCUD process:
   - ``input.xml``  contains input parameter (name of variable and initial value) of simulation
   - ``ouput.xml``  contains output parameter (name of variable and value) of simulation
