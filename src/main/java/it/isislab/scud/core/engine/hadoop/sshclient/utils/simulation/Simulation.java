@@ -80,7 +80,7 @@ public class Simulation {
 	
 	private boolean loop;
 	
-	private String processName;
+	private String processName="";
 	
 
 	public Simulation(String id, String date, String state, String description,boolean isLoop){

@@ -203,6 +203,7 @@ public class SCUDShellClient
 						public void exception(Exception e)
 						{
 							console.printf(COMMAND_ERROR, cmd, e.getMessage());
+							e.printStackTrace(System.out);
 						}
 					});
 				}

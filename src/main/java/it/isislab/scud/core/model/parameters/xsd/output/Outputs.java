@@ -38,6 +38,8 @@ public class Outputs{
 	@Override
 	public String toString(){
 		String line ="";
+		if(output_list==null)
+			return line;
 		for(Output i: output_list)
 			line+=i;
 		return line;

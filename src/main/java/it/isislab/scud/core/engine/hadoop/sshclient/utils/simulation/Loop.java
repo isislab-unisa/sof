@@ -33,41 +33,41 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement
 @XmlType(propOrder = {"status", "loopTime", "inputs", "outputs"})
 public class Loop {
-	
+
 	public static String SUBMITTED="submitted";
 	public static String RUNNING="running";
 	public static String FINISHED="finished";
-	
-	
+
+
 	private int id;
-	
+
 	private String status;
-	
+
 	private Time loopTime;
-	
+
 	private Inputs inputs;
-	
+
 	private Outputs outputs;
-	
+
 	public Loop(){this.loopTime = new Time();}
-	
+
 	public Loop(int id, String status, String initTime){
 		this.id = id;
 		this.status = status;
 		this.loopTime = new Time(initTime);
 	}
-	
+
 	public Loop(int id){
 		this.id = id;
 		this.loopTime = new Time();
 	}
-	
+
 	@XmlAttribute
 	public int getId() {
 		return id;
 	}
-	
-	
+
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -83,12 +83,12 @@ public class Loop {
 	public String getStartTime(){
 		return loopTime.getStartTime();
 	}
-	
+
 	public String getStopTime(){
 		return loopTime.getStopTime();
 	}
-	
-	
+
+
 	public String getStatus() {
 		return status;
 	}
@@ -100,11 +100,11 @@ public class Loop {
 	public void setStopTime(){
 		this.loopTime.setStopTime();
 	}
-	
+
 	public void setStartTime(){
 		this.loopTime.setStartTime();
 	}
-	
+
 	@XmlElement
 	public Inputs getInputs() {
 		return inputs;
@@ -125,16 +125,21 @@ public class Loop {
 
 	@Override
 	public String toString(){
-		return "id: "+id+"\n"
-				+"\t\t\tstatus: "+status +"\n"
-				+"\t\t\tstart: "+loopTime.getStartTime()+"\n"
-				+"\t\t\tstop: "+loopTime.getStopTime()+"\n"
-				+"\t\t\tInputs:\n"+inputs
-				+"\t\t\tOutputs:\n"+outputs+"\n";
+		String toReturn = 
+				"id: "+id+"\n"
+						+"\t\t\tstatus: "+status +"\n"
+						+"\t\t\tstart: "+loopTime.getStartTime()+"\n"
+						+"\t\t\tstop: "+loopTime.getStopTime()+"\n"
+						+"\t\t\tInputs:\n"+inputs
+						+"\t\t\tOutputs:\n";
+		if(outputs==null)
+			return toReturn;
+		else
+			return toReturn+=outputs+"\n";
 	}
-	
 
-	
+
+
 	public Inputs convertXMLInputToInput(String fileName){
 		Inputs i = new Inputs();
 		try {
@@ -148,8 +153,8 @@ public class Loop {
 		} 
 		return i;
 	}
-	
-	
+
+
 	public Output convertXMLOutputToOutput(File outputFile){
 		Output out = new Output();
 		try {
@@ -173,22 +178,22 @@ public class Loop {
 @XmlRootElement(name="time")
 @XmlType(propOrder = {"startTime", "stopTime"})
 class Time{
-	
+
 	@XmlElement(name="start")
 	private String startTime;
-	
+
 	@XmlElement(name="stop")
 	private String stopTime;
-	
+
 	private long startlong,stoplong;
-	
+
 	public Time(){}
-	
+
 	public Time(String initTime){
 		this.startTime = initTime;
 	}
 
-	
+
 	public String getStartTime() {
 		return startTime;
 	}
@@ -199,7 +204,7 @@ class Time{
 		this.startlong=System.currentTimeMillis();
 	}
 
-	
+
 	public String getStopTime() {
 		return stopTime;
 	}
@@ -209,10 +214,10 @@ class Time{
 		this.stopTime = date.format(new Date());
 		this.stoplong=System.currentTimeMillis();
 	}
-	
+
 	public String toString()
 	{
 		return (stoplong-startlong)+"";
 	}
-	
+
 }
