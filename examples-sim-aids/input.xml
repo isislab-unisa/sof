@@ -5,7 +5,8 @@
     <loop>true</loop>
     <description>test nota</description>
     <toolkit>netlogo</toolkit>
-    </simulation><input id="1">
+    </simulation>
+ <input id="1">
     <element variableName="step">
       <long>315</long>
       </element>

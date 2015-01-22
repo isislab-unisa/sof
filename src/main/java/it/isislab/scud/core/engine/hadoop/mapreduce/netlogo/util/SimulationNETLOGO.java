@@ -24,6 +24,11 @@ import it.isislab.scud.core.model.parameters.xsd.output.Output;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -82,30 +87,16 @@ public class SimulationNETLOGO {
 		String[] aparam = line.split(";");
 		String[] couple=aparam[0].split(":");
 		int idInputSimulation=Integer.parseInt(couple[1]);
-		for(int i=1; i<aparam.length;i++){
+		couple=aparam[1].split(":");
+		int rounds = Integer.parseInt(couple[1]);
+		for(int i=2; i<aparam.length;i++){
 		    couple = aparam[i].split(":");
 			inputSimulation.put(couple[0], couple[1]);
 		}
-		workspace.command("random-seed 0");
-		long numer_step=1;
-
-		for(String field : inputSimulation.keySet()){
-			String value=inputSimulation.get(field);
-			if(field.equalsIgnoreCase("step"))
-			{numer_step=Long.parseLong(value);}
-			else{workspace.command("set "+field+" "+value);}
-
-
-		}
-		workspace.command("setup");
-		workspace.command("repeat "+numer_step+" [ go ]") ;
-
-
-
+		
 		String output_template=conf.get("simulation.description.output.domain");
 		//converte il file output.xml con i soli campi in un'unica stringa da processare 
 		String output_string_vars=XmlToText.convertOutputXmlIntoText(conf, output_template, idInputSimulation);
-
 		
 		ArrayList<String> outputSimulation =new ArrayList<String>();
 		String aparam1 []= output_string_vars.split(";");
@@ -115,15 +106,62 @@ public class SimulationNETLOGO {
 			String[] couple2 = aparam1[i].split(":");
 			outputSimulation.add(couple2[0]);
 		}
+		
+		HashMap<String, ArrayList<String>> output_collection = new HashMap<String, ArrayList<String>>();
+		//-2147483648 to 2147483647
+		Random r;
+		long low = -2147483648;
+		long high = 2147483647;
+		long seed=0;
+		for(int i =0; i<rounds; i++){
+			r = new Random(System.currentTimeMillis());
+			//workspace.command("random-seed 0");
+			seed = r.nextLong()>>32;
+			
+			seed=seed<low?low:seed>high?high:seed;
+			
+			workspace.command("random-seed "+seed);
+			long numer_step=1;
+
+			for(String field : inputSimulation.keySet()){
+				String value=inputSimulation.get(field);
+				if(field.equalsIgnoreCase("step"))
+				{numer_step=Long.parseLong(value);}
+				else{workspace.command("set "+field+" "+value);}
+
+
+			}
+			workspace.command("setup");
+			workspace.command("repeat "+numer_step+" [ go ]") ;
+
+			//Collect OUTPUTs
+			for(String field : outputSimulation){
+				if( ! field.equalsIgnoreCase("step"))
+					if(output_collection.containsKey(field))
+						output_collection.get(field).add(""+workspace.report(field));
+					else{
+						ArrayList<String> l = new ArrayList<String>();
+						l.add(""+workspace.report(field));
+						output_collection.put(field, l);
+					}
+				//inOutput+=field+":"+workspace.report(field)+";";
+				
+			}
+			
+		}
+
+		workspace.dispose();
+
+	
 
 		String inOutput="";
 
-		for(String field : outputSimulation){
+		for(String field : output_collection.keySet()){
 			if( ! field.equalsIgnoreCase("step"))
-			inOutput+=field+":"+workspace.report(field)+";";
+				inOutput+=field+":"+getAVG(output_collection.get(field),rounds)+";";
 
 		}
-		workspace.dispose();
+		
 
 		Path file_output=null;
 		int id = (new String(inOutput+""+System.currentTimeMillis())).hashCode();
@@ -134,14 +172,60 @@ public class SimulationNETLOGO {
 
 		output.collect(new Text(file_output.toString()), new Text(""));
 		//output.collect(new Text(input), new Text(inOutput));
+		
+	}
+	
+	
+    private String getAVG(ArrayList<String> arrayList, int rounds) {
+		
+		try{
+			long a = Long.parseLong(arrayList.get(0));
+			for (int i = 1; i < arrayList.size(); i++) {
+				a+=Long.parseLong(arrayList.get(i));
+			}
+			return ""+(long)Math.ceil(a/rounds);
 
-		
-		
-		
+		}catch(Exception e1){
+			try{
+				double a = Double.parseDouble(arrayList.get(0));
+				for (int i = 1; i < arrayList.size(); i++) {
+					a+=Double.parseDouble(arrayList.get(i));
+				}
+				return ""+a/rounds;
+			}catch(Exception e2){
+				return getMaxOccurenceString(arrayList);
+
+			}
+
+		}
+
 	}
 
 
-    /**
+    public static String getMaxOccurenceString(List<String> myList){
+
+    	Map<String, AtomicInteger> dictionary = new HashMap<String, AtomicInteger>();
+    	int max=0;	   
+    	String maxKey="";
+
+    	for(String x: myList){
+    		if(dictionary.containsKey(x))
+    			dictionary.get(x).incrementAndGet();
+    		else
+    			dictionary.put(x, new AtomicInteger(1));
+    	}
+
+    	for(Entry<String, AtomicInteger> x :dictionary.entrySet()) {
+    		if(x.getValue().get()>=max){
+    			max=x.getValue().get();
+    			maxKey=x.getKey();
+    		}
+    	}
+
+    	return maxKey;
+    }
+    
+	/**
      * * Generate output resume of simulation 
      * in a file Xml  
      * 

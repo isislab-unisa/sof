@@ -27,6 +27,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -75,103 +79,102 @@ public class SimulationGeneric {
 
 
 		//HashMap<String,String> inputSimulation = new HashMap<String,String>();
-		
+
 		String line = input;
-		
+
 
 		String[] aparam = line.split(";");
-		String[] inputSimulation = new String[aparam.length-1];
+		String[] inputSimulation = new String[aparam.length-2];
 		String[] couple=aparam[0].split(":");
 		int idInputSimulation=Integer.parseInt(couple[1]);
+		couple=aparam[1].split(":");
+		int rounds = Integer.parseInt(couple[1]);
 		for(int i=0; i<inputSimulation.length;i++){
-		    couple = aparam[i+1].split(":");
+			couple = aparam[i+2].split(":");
 			inputSimulation[i]=couple[1];
 		}
-		
-		
-		//workspace.command("random-seed 0");
-		long numer_step=1;
 
-		/*for(String field : inputSimulation){
-			String value=inputSimulation.get(field);
-			if(field.equalsIgnoreCase("step"))
-			{numer_step=Long.parseLong(value);}
-			else{workspace.command("set "+field+" "+value);}
-		}*/
-		
-		/*workspace.command("setup");
-		workspace.command("repeat "+numer_step+" [ go ]") ;*/
-		File f = new File(program_path);
-		f.setExecutable(true);
-		
-		Process process;
-		/*String []command=new String[inputSimulation.length+1];
-		command[0]=program_path.endsWith(".jar")?System.getProperty("java.home")+"/bin/java":program_path;
-		for(int i=0;i<inputSimulation.length;i++ )
-			command[i+1]=inputSimulation[i];*/
-
-		String command="";
-		command +=program_path.endsWith(".jar")?System.getProperty("java.home")+"/bin/java -jar "+program_path:program_path;
-		for(int i=0;i<inputSimulation.length;i++ )
-			command+=" "+inputSimulation[i];
-		
-
-		process = Runtime.getRuntime().exec(command);
-		process.waitFor();
-
-		BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-		// read the output from the command
-		String s = "";
-		String tmp = null;
-		while ((tmp = stdInput.readLine()) != null) {
-			
-			s+=tmp;
-		}
-		stdInput.close();
-
-		/*BufferedReader stdError = new BufferedReader(new 
-		     InputStreamReader(process.getErrorStream()));
-
-		while ((s = stdError.readLine()) != null) {
-		    System.out.println("fff"+s);
-		}*/
-		
-		
-		HashMap<String,String> outputSimulation = new HashMap<String,String>();
-		String[] outValues = s.split(";");
-	
-		for(int i=0; i<outValues.length;i++){
-		    couple = outValues[i].split(":");
-		    outputSimulation.put(couple[0], couple[1]);
-		}
 		
 		String output_template=conf.get("simulation.description.output.domain");
 		//converte il file output.xml con i soli campi in un'unica stringa da processare 
 		String output_string_vars=XmlToText.convertOutputXmlIntoText(conf, output_template, idInputSimulation);
 
-		
-		//ArrayList<String> outputSimulation =new ArrayList<String>();
+
+		ArrayList<String> outputSimulation =new ArrayList<String>();
 		String aparam1 []= output_string_vars.split(";");
-		
-		String inOutput="";
 		for( int i=0; i<aparam1.length;i++){
 			String[] couple2 = aparam1[i].split(":");
-			inOutput+=couple2[0]+":"+outputSimulation.get(couple2[0])+";";
+			outputSimulation.add(couple2[0]);
 		}
-
 		
+		
+		File f = new File(program_path);
+		f.setExecutable(true);
 
-		/*for(String field : outputSimulation){
-			if( ! field.equalsIgnoreCase("step"))
-			inOutput+=field+":"+workspace.report(field)+";";
+		Process process;
 
+		String command="";
+		command +=program_path.endsWith(".jar")?System.getProperty("java.home")+"/bin/java -jar "+program_path:program_path;
+		for(int i=0;i<inputSimulation.length;i++ )
+			command+=" "+inputSimulation[i];
+
+		HashMap<String, ArrayList<String>> output_collection = new HashMap<String, ArrayList<String>>();
+
+		HashMap<String,String> ovs = new HashMap<String,String>();
+		String[] outValues = null;
+		String s;
+		String tmp;
+		BufferedReader stdInput;
+		for(int r =0; r<rounds; r++){
+			process = Runtime.getRuntime().exec(command);
+			process.waitFor();
+
+			stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+			// read the output from the command
+			s = "";
+			tmp = null;
+			while ((tmp = stdInput.readLine()) != null) {
+
+				s+=tmp;
+			}
+			stdInput.close();
+
+			ovs = new HashMap<String,String>();
+			outValues = s.split(";");
+
+			for(int i=0; i<outValues.length;i++){
+				couple = outValues[i].split(":");
+				ovs.put(couple[0], couple[1]);
+			}
+			
+			//Collect OUTPUTs
+			for(String field : outputSimulation){
+				if(output_collection.containsKey(field))
+					output_collection.get(field).add(ovs.get(field));
+				else{
+					ArrayList<String> l = new ArrayList<String>();
+					l.add(ovs.get(field));
+					output_collection.put(field, l);
+				}
+			}
+
+		}		
+		
+		String inOutput="";
+		/*for( int i=0; i<aparam1.length;i++){
+			String[] couple2 = aparam1[i].split(":");
+			inOutput+=couple2[0]+":"+outputSimulation.get(couple2[0])+";";
 		}*/
-	//	workspace.dispose();
+		
+		for(String field : output_collection.keySet()){
+				inOutput+=field+":"+getAVG(output_collection.get(field),rounds)+";";
+		}
+		
 
 		Path file_output=null;
 		int id = (new String(inOutput+""+System.currentTimeMillis())).hashCode();
-		
+
 		//generate an output file from input field of simulation, that contains input parameters  : format --> input(param:param.val;...;) and 
 		// output parameters of simulations:  format--> inOutput  (param:var.val;...;)
 		file_output=generateOutput(input, inOutput, SIM_OUTPUT_MAPPER, id, idInputSimulation, SIMULATION_NAME, AUTHOR, DESCRIPTION, SIMULATION_HOME);
@@ -179,28 +182,78 @@ public class SimulationGeneric {
 		output.collect(new Text(file_output.toString()), new Text(""));
 		//output.collect(new Text(input), new Text(inOutput));
 
-		
-		
-		
+
+
+
 	}
 
 
-    /**
-     * * Generate output resume of simulation 
-     * in a file Xml  
-     * 
-     * @param inputSimulation
-     * @param outputSimulation
-     * @param SIM_OUTPUT_MAPPER
-     * @param id
-     * @param SIMULATION_NAME
-     * @param AUTHOR
-     * @param NOTE
-     * @param SIMULATION_HOME
-     * @return
-     * @throws JAXBException
-     * @throws IOException
-     */
+	private String getAVG(ArrayList<String> arrayList, int rounds) {
+
+		try{
+			long a = Long.parseLong(arrayList.get(0));
+			for (int i = 1; i < arrayList.size(); i++) {
+				a+=Long.parseLong(arrayList.get(i));
+			}
+			return ""+(long)Math.ceil(a/rounds);
+
+		}catch(Exception e1){
+			try{
+				double a = Double.parseDouble(arrayList.get(0));
+				for (int i = 1; i < arrayList.size(); i++) {
+					a+=Double.parseDouble(arrayList.get(i));
+				}
+				return ""+a/rounds;
+			}catch(Exception e2){
+				return getMaxOccurenceString(arrayList);
+
+			}
+
+		}
+
+	}
+
+
+	public static String getMaxOccurenceString(List<String> myList){
+
+		Map<String, AtomicInteger> dictionary = new HashMap<String, AtomicInteger>();
+		int max=0;	   
+		String maxKey="";
+
+		for(String x: myList){
+			if(dictionary.containsKey(x))
+				dictionary.get(x).incrementAndGet();
+			else
+				dictionary.put(x, new AtomicInteger(1));
+		}
+
+		for(Entry<String, AtomicInteger> x :dictionary.entrySet()) {
+			if(x.getValue().get()>=max){
+				max=x.getValue().get();
+				maxKey=x.getKey();
+			}
+		}
+
+		return maxKey;
+	}
+
+
+	/**
+	 * * Generate output resume of simulation 
+	 * in a file Xml  
+	 * 
+	 * @param inputSimulation
+	 * @param outputSimulation
+	 * @param SIM_OUTPUT_MAPPER
+	 * @param id
+	 * @param SIMULATION_NAME
+	 * @param AUTHOR
+	 * @param NOTE
+	 * @param SIMULATION_HOME
+	 * @return
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
 	private Path generateOutput(String inputSimulation, 
 			String outputSimulation,
 			String SIM_OUTPUT_MAPPER,
@@ -212,18 +265,18 @@ public class SimulationGeneric {
 			String SIMULATION_HOME) throws JAXBException, IOException {
 
 
-	/*	Simulation sim =new Simulation();
+		/*	Simulation sim =new Simulation();
 		sim.setauthor(AUTHOR);
 		sim.setname(SIMULATION_NAME);
 		sim.setnote(NOTE);
 		sim.settoolkit("NETLOGO");
-*/
+		 */
 
 		Output output=new Output();
 		output.setIdInput(idInputSimulation);
 
 		ArrayList<Parameter> paramsOutput=new ArrayList<Parameter>();
-		
+
 		String valOutp=outputSimulation;
 
 		Object valobjOutp=null;
@@ -239,7 +292,7 @@ public class SimulationGeneric {
 					ParameterDouble dvalOutDouble=new ParameterDouble();
 					dvalOutDouble.setvalue(Double.parseDouble(couple[1]));
 					valobjOutp=dvalOutDouble;
-					
+
 				}catch(Exception e2){
 					ParameterString dvalOutString=new ParameterString();
 					dvalOutString.setvalue(couple[1]);
@@ -269,11 +322,11 @@ public class SimulationGeneric {
 		out.close();
 
 		return new Path(SIM_OUTPUT_MAPPER+"/OUTPUT"+id+".xml");	}
-    
+
 	/**
 	 * Metodo supporto
 	 * Create an id 
-	 
+
 	private String MD5(String md5) {
 		try {
 			java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");

@@ -61,14 +61,14 @@ public class SelectionFunction {
 	public SelectionFunction(String hdfs_domain_xml_file,
 			String hdfs_simulation_loop_input_xml, String hdfs_selection_function_fileName,
 			String hdfs_simulation_rating_folder, String currentExecutionInputLoopPath,
-			String bashCommandForRunnableFunction) {
+			String bashCommandForRunnableFunctionSelect) {
 				
 		this.hdfs_domain_xml_file = hdfs_domain_xml_file;
 		this.hdfs_input_fileName = hdfs_simulation_loop_input_xml;
 		this.hdfs_selection_function_fileName = hdfs_selection_function_fileName;
 		this.hdfs_simulation_rating_folder = hdfs_simulation_rating_folder;
 		this.currentExecutionInputLoopPath = currentExecutionInputLoopPath;
-		this.execBinPath = bashCommandForRunnableFunction.endsWith("java")?bashCommandForRunnableFunction+" -jar":bashCommandForRunnableFunction;
+		this.execBinPath = bashCommandForRunnableFunctionSelect.endsWith("java")?bashCommandForRunnableFunctionSelect+" -jar":bashCommandForRunnableFunctionSelect;
 		
 	}
 

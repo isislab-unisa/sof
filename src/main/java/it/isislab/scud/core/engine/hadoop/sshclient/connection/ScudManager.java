@@ -49,7 +49,6 @@ import javax.xml.transform.TransformerException;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
-
 import org.xml.sax.SAXException;
 
 import com.jcraft.jsch.Channel;
@@ -201,14 +200,14 @@ public class ScudManager {
 				log.info("Created root temp directory "+fs.getRemoteSCUDtmpForUser());
 
 			}
-			
+
 			if(!(new File(fs.getClientSCUDtmp()).exists()))
 				makeLocalTemporaryFolder(fs.getClientSCUDtmp());
 			return s;
 		}
 		return null;
 	}
-	
+
 	public static void disconnect(EnvironmentSession session){
 		removeLocalTemporaryFolder(fs.getClientSCUDHome());
 		session.getSession().disconnect();
@@ -250,8 +249,8 @@ public class ScudManager {
 		//makeLocalTemporaryFolder(fs.getClientPathForTmpFolder());
 
 
-		
-		
+
+
 		/**path file simulations.xml utente hdfs*/
 		//String hdfs_path_list_sim = fs.getHdfsUserPathSimulationsXml();
 
@@ -260,8 +259,8 @@ public class ScudManager {
 
 		//LOCK simulations.xml
 		//Simulations simListFile = new Simulations();
-		
-		
+
+
 		/*if(HadoopFileSystemManager.ifExists(session, hdfs_path_list_sim)){
 			if(HadoopFileSystemManager.copyFromHdfsToClient(session, hdfs_path_list_sim, tmp_path_list_sim))
 				log.info("Copied successfully from "+hdfs_path_list_sim+" to "+tmp_path_list_sim);
@@ -270,12 +269,12 @@ public class ScudManager {
 		}else{
 			SimulationParser.convertSimulationsToXML(simListFile, tmp_path_list_sim);
 		}*/
-		
+
 		//id simulation xml file
 		String idSimXmlFile = getSimID();
-				//path for simulation xml file
+		//path for simulation xml file
 		String hdfsSimXmlFile = fs.getHdfsUserPathSimulationXMLFile(idSimXmlFile);
-		
+
 		//int simulationID=simListFile.getSimulations().size()+1;
 
 		/**path simulazione utente su hdfs (comprende l'sim_ID)*/
@@ -386,7 +385,7 @@ public class ScudManager {
 		//SimulationParser.convertSimulationsToXML(simListFile, tmp_path_list_sim);
 		SimulationParser.convertSimulationToXML(sim, tmp_sim_xml_file);
 
-		
+
 		//UNLOCK simulation.xml
 		//if(HadoopFileSystemManager.deleteFile(session, hdfs_path_list_sim));
 
@@ -397,8 +396,8 @@ public class ScudManager {
 				log.severe("Unable to create "+fs.getHdfsUserPathSimulationsListDir());
 			}
 		}
-		
-		
+
+
 		if(HadoopFileSystemManager.copyFromClientToHdfs(session, tmp_sim_xml_file, hdfsSimXmlFile))
 			log.info("Copied "+hdfsSimXmlFile);
 		else 
@@ -439,7 +438,8 @@ public class ScudManager {
 			String toolkit,
 			String simulation_name,
 			String domain_pathname,
-			String bashCommandForRunnableFunction,
+			String bashCommandForRunnableFunctionSelect,
+			String bashCommandForRunnableFunctionEvaluate,
 			String output_description_filename,
 			String executable_selection_function_filename,
 			String executable_rating_function_filename,
@@ -460,7 +460,7 @@ public class ScudManager {
 		//String hdfs_path_list_sim = hdfs_user_dir+File.separator+SIMULATION_LIST_FILENAME;
 		//String hdfs_path_list_sim = fs.getHdfsUserPathSimulationsXml();
 		//String tmp_path_list_sim = tmpFolderName+File.separator+SIMULATION_LIST_FILENAME;
-		
+
 		String tmp_sim_xml_file= fs.getClientPathForTmpFile();
 
 		//LOCK simulations.xml
@@ -512,7 +512,8 @@ public class ScudManager {
 		String ratingFileName = executable_rating_function_filename.substring(executable_rating_function_filename.lastIndexOf(File.separator)+1, executable_rating_function_filename.length());
 		f.setRating(fs.getHdfsUserPathRatingExeForId(simulationID, ratingFileName));
 
-		f.setBashCommandForRunnableFunction(bashCommandForRunnableFunction);
+		f.setBashCommandForRunnableFunctionEvaluate(bashCommandForRunnableFunctionEvaluate);
+		f.setBashCommandForRunnableFunctionSelect(bashCommandForRunnableFunctionSelect);
 
 		s.setRunnableFile(f);
 		//simListFile.addSimulation(s);
@@ -602,19 +603,19 @@ public class ScudManager {
 
 		//UNLOCK simulation.xml
 		//if(HadoopFileSystemManager.deleteFile(session, hdfs_path_list_sim));
-		
+
 		if(!HadoopFileSystemManager.ifExists(session, fs.getHdfsUserPathSimulationsListDir())){
-			
+
 			if(HadoopFileSystemManager.mkdir(session, fs.getHdfsUserPathSimulationsListDir()))
 				log.info("Created "+fs.getHdfsUserPathSimulationsListDir());
 			else{
 				log.severe("Unable to create "+fs.getHdfsUserPathSimulationsListDir());
 			}
 		}
-		
+
 		if(HadoopFileSystemManager.copyFromClientToHdfs(session, tmp_sim_xml_file, hdfsSimXmlFile))
 			log.info("Copied "+hdfsSimXmlFile);
-		
+
 		/*(new File(tmp_sim_xml_file)).delete();
 		(new File(tmpRunXmlFilePath)).delete();*/
 		//removeLocalTemporaryFolder(tmpFolderName);
@@ -686,7 +687,7 @@ public class ScudManager {
 
 		return sim;
 	}
-*/
+	 */
 
 
 	/*public static Simulations getSimulationsData(EnvironmentSession session, String username) throws NumberFormatException, JSchException, IOException{
@@ -760,7 +761,7 @@ public class ScudManager {
 			return true;
 		}
 
-		
+
 		//only one
 		String simID=simulation.getId();
 		String author=simulation.getAuthor();
@@ -785,10 +786,10 @@ public class ScudManager {
 
 		String cmd=null;
 
-		
+
 		String remoteJavaBin=fs.getRemoteJavaBinPath();
 		remoteJavaBin=remoteJavaBin.trim();
-		
+
 		try{
 			cmd=remoteJavaBin+"java -jar "+fs.getRemoteSCUDHome()+"/SCUD-RUNNER.jar -u "+author+" "
 					+"-simid "+simID+" "
@@ -796,13 +797,13 @@ public class ScudManager {
 					+"-hadoopbin "+hadoop_home_path+" "
 					+"-hdfsrootdir "+hdfsRootPath+" "
 					+"-remoterootdir "+rootRemotePath+" &"; 
-			
-			
+
+
 			setSimulationProcess(session,simulation,cmd);
 			ChannelExec channel;
-     
+
 			channel = (ChannelExec)session.getSession().openChannel("exec");
-			
+
 			System.out.println(cmd);
 			((ChannelExec) channel).setCommand(cmd);
 			channel.setInputStream(null);
@@ -811,16 +812,16 @@ public class ScudManager {
 			channel.setErrStream(null);
 			channel.setPty(false);
 			channel.connect();
-			
-//			System.out.println(channel.getExitStatus());
-			
+
+			//			System.out.println(channel.getExitStatus());
+
 			String output ="";
 			InputStream in = channel.getInputStream();
 			//((ChannelExec) channel).setErrStream(System.err);
 			channel.connect();
-			
+
 			channel.disconnect();
-			
+
 			return true;
 		}catch(Exception e)
 		{
@@ -840,10 +841,10 @@ public class ScudManager {
 			cmd = cmd.substring(0, cmd.lastIndexOf("&")-1); //remove &
 			s.setProcessName(cmd);
 			SimulationParser.convertSimulationToXML(s, tmpsimXmlFile);
-			
+
 			if(HadoopFileSystemManager.removeFile(session, hdfsSimXmlFile))
 				log.info("Deleted "+hdfsSimXmlFile+" successfully");
-			
+
 			if(HadoopFileSystemManager.copyFromClientToHdfs(session, tmpsimXmlFile, hdfsSimXmlFile))
 				log.info("Copied "+hdfsSimXmlFile+" successfully");
 		} catch (NumberFormatException e) {
@@ -859,21 +860,21 @@ public class ScudManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public static void setSimulationStatus(EnvironmentSession session, Simulation simulation, String status) {
 		String hdfsSimXmlFile = fs.getHdfsUserPathSimulationXMLFile(simulation.getId());
 		String tmpsimXmlFile = fs.getClientPathForTmpFile();
 		try {
 			simulation.setState(status);
 			SimulationParser.convertSimulationToXML(simulation, tmpsimXmlFile);
-			
+
 			if(HadoopFileSystemManager.ifExists(session, hdfsSimXmlFile)){
 				if(HadoopFileSystemManager.removeFile(session, hdfsSimXmlFile))
 					log.info("Deleted "+hdfsSimXmlFile+" successfully");
 			}
-			
+
 			if(HadoopFileSystemManager.copyFromClientToHdfs(session, tmpsimXmlFile, hdfsSimXmlFile))
 				log.info("Copied "+hdfsSimXmlFile+" successfully");
 		} catch (NumberFormatException e) {
@@ -889,7 +890,7 @@ public class ScudManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public static boolean existOnHost(EnvironmentSession session,String path)
@@ -944,12 +945,13 @@ public class ScudManager {
 		/*params[0]MODEL TYPE MASON - NETLOGO -GENERIC,
 		params[1],SIM NAME
 		params[2],domain_pathname 
-		params[3],bashCommandForRunnableFunction 
-		params[4],output_description_filename
-		params[5],executable_selection_function_filename 
-		params[6],executable_rating_function_filename
-		params[7],description_simulation
-		params[8],executable_simulation_filename*/
+		params[3],bashCommandForRunnableFunctionSelect
+		params[4],bashCommandForRunnableFunctionEvaluate 
+		params[5],output_description_filename
+		params[6],executable_selection_function_filename 
+		params[7],executable_rating_function_filename
+		params[8],description_simulation
+		params[9],executable_simulation_filename*/
 
 
 		if(   ! (   params[0].equalsIgnoreCase("netlogo") || 
@@ -969,7 +971,8 @@ public class ScudManager {
 				Unmarshaller unmarshal = context.createUnmarshaller();
 				dom = (Domain) unmarshal.unmarshal(new File(params[2]));
 			} catch (JAXBException e) {
-				throw new ParameterException("Invalid file DOMAIN.xml");
+				throw new ParameterException("Invalid file DOMAIN.xml\n"+e.getMessage());
+
 			}
 		}else{
 			Inputs i = new Inputs();
@@ -990,7 +993,7 @@ public class ScudManager {
 
 			Unmarshaller unmarshal = context.createUnmarshaller();
 			if(params.length > 6)
-				out = (Output) unmarshal.unmarshal(new File(params[4]));
+				out = (Output) unmarshal.unmarshal(new File(params[5]));
 			else
 				out = (Output) unmarshal.unmarshal(new File(params[3]));
 		} catch (JAXBException e) {
@@ -999,16 +1002,17 @@ public class ScudManager {
 
 		if(params[0].equalsIgnoreCase("netlogo"))
 			if(params.length > 6){
-				if(!params[8].endsWith(".nlogo"))
+				if(!params[9].endsWith(".nlogo"))
 					throw new ParameterException("Invalid file extension netlogo");
 			}
 			else{
 				if(!params[5].endsWith(".nlogo"))
 					throw new ParameterException("Invalid file extension netlogo");
 			}
+
 		if(params[0].equalsIgnoreCase("mason"))
 			if(params.length > 6){
-				if(!params[8].endsWith(".jar"))
+				if(!params[9].endsWith(".jar"))
 					throw new ParameterException("Invalid file extension mason");
 			}
 			else{
@@ -1025,36 +1029,36 @@ public class ScudManager {
 		fs = new FileSystemSupport(hadoopInstallPath,client_home_path, hdfs_root_path, remote_home_path, remote_java_bin_path, sshUsername);
 		return fs;
 	}
-	
+
 	private static String getSimID(){
 		InetAddress addr;
 		try {
 			addr = InetAddress.getLocalHost();
 			Enumeration<NetworkInterface> networks = NetworkInterface.getNetworkInterfaces();
-		    while(networks.hasMoreElements()) {
-		      NetworkInterface network = networks.nextElement();
-		      byte[] mac = network.getHardwareAddress();
+			while(networks.hasMoreElements()) {
+				NetworkInterface network = networks.nextElement();
+				byte[] mac = network.getHardwareAddress();
 
-		      if(mac != null) {
-		        StringBuilder sb = new StringBuilder();
-		        for (int i = 0; i < mac.length; i++) {
-		          sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
-		        }
-		        return DigestUtils.md5Hex(sb.toString()+(System.currentTimeMillis()+""));
-		      }
-		    }
-		    return null;
-		  } catch (UnknownHostException e) {
-		    e.printStackTrace();
-		    return null;
-		  } catch (SocketException e){
-		    e.printStackTrace();
-		    return null;
-		  }
-			
+				if(mac != null) {
+					StringBuilder sb = new StringBuilder();
+					for (int i = 0; i < mac.length; i++) {
+						sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
+					}
+					return DigestUtils.md5Hex(sb.toString()+(System.currentTimeMillis()+""));
+				}
+			}
+			return null;
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+			return null;
+		} catch (SocketException e){
+			e.printStackTrace();
+			return null;
+		}
+
 		//return System.currentTimeMillis()+"";
 	}
-	
+
 	public static Simulations getSimulationsData(EnvironmentSession session){
 		String pathListSims=fs.getHdfsUserPathSimulationsListDir();
 		String tmpFolder = fs.getClientPathForTmpFolder();
@@ -1066,7 +1070,7 @@ public class ScudManager {
 								+ "isEmpty: "+HadoopFileSystemManager.isEmpty(session, pathListSims));*/
 				return null;
 			}
-			
+
 			HadoopFileSystemManager.copyFolderFromHdfsToClient(session, pathListSims, tmpFolder);
 		} catch (JSchException e) {
 			// TODO Auto-generated catch block
@@ -1098,11 +1102,11 @@ public class ScudManager {
 		String description = new String();
 
 		for (int i = 0; i < indexBeginDescription; i++) 
-				newParams.add(params[i]);
+			newParams.add(params[i]);
 
 		int indexEndDescription = 0;
 
-		if(!params[indexBeginDescription].startsWith("\"") && (params.length==6 || params.length==9))
+		if(!params[indexBeginDescription].startsWith("\"") && (params.length==6 || params.length==10))
 			return params;
 
 		if(params[indexBeginDescription].startsWith("\"")){
@@ -1127,7 +1131,7 @@ public class ScudManager {
 			}
 		}
 		newParams.add(params[indexEndDescription]);
-		
+
 
 		return newParams.toArray(new String[newParams.size()]);
 	}
@@ -1149,7 +1153,7 @@ public class ScudManager {
 				addDir(files[i], out);
 				continue;
 			}
-			
+
 			FileInputStream in = new FileInputStream(files[i].getAbsolutePath());
 			System.out.println("Zipping: " + files[i].getName());
 			out.putNextEntry(new ZipEntry(files[i].getAbsolutePath()));

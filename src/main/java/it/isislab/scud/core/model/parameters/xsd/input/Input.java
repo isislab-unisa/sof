@@ -36,10 +36,14 @@ public class Input {
 	public List<Parameter> param_element;
 	@XmlAttribute(required=true)
 	public int id;
+	
+	@XmlAttribute(required=true)
+	public int rounds;
 
 	@Override
 	public String toString(){
 		String line = "\t\t\t\tid: "+id+"\n";
+		line +="\t\t\t\tround: "+rounds+"\n";
 		for(Parameter p : param_element)
 			line+="\t\t\t\t"+p+"\n";
 		return line;

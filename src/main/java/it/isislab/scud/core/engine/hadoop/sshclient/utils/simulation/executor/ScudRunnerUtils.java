@@ -215,6 +215,7 @@ public class ScudRunnerUtils {
 			inputs = (Inputs) unmarshall.unmarshal(tmp_file);
 			for(Input input : inputs.getinput_list()){
 				line+="id:"+input.id+";";
+				line+="rounds:"+input.rounds+";";
 				for(Parameter p : input.param_element){
 					if(p.getparam() instanceof ParameterDouble){
 						ParameterDouble pd = (ParameterDouble) p.getparam();

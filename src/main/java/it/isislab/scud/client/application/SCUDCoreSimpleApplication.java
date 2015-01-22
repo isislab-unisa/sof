@@ -40,7 +40,8 @@ public class SCUDCoreSimpleApplication {
 	public static  String toolkit="netlogo";
 	public static String simulation_name="aids";
 	public static String domain_pathname="examples-sim-aids/domain.xml";
-	public static String bashCommandForRunnableFunction="/usr/local/java/bin/java";
+	public static String bashCommandForRunnableFunctionSelection="/usr/local/java/bin/java";
+	public static String bashCommandForRunnableFunctionEvaluate="/usr/local/java/bin/java";
 	public static String output_description_filename="examples-sim-aids//output.xml";
 	public static String executable_selection_function_filename="examples-sim-aids/selection.jar";
 	public static String executable_rating_function_filename="examples-sim-aids/evaluate.jar";
@@ -77,7 +78,7 @@ public class SCUDCoreSimpleApplication {
 		}
 		//CREATE SIMULATION FROM EXAMPLE IN SO MODE
 		try {
-			ScudManager.makeSimulationFolderForLoop(session, toolkit, simulation_name, domain_pathname, bashCommandForRunnableFunction, output_description_filename, 
+			ScudManager.makeSimulationFolderForLoop(session, toolkit, simulation_name, domain_pathname, bashCommandForRunnableFunctionSelection,bashCommandForRunnableFunctionEvaluate, output_description_filename, 
 					executable_selection_function_filename, executable_rating_function_filename, description_simulation, executable_simulation_filename);
 
 		} catch (Exception e) {
