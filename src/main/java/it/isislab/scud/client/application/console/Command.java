@@ -18,6 +18,7 @@ package it.isislab.scud.client.application.console;
 import it.isislab.scud.client.application.SCUDShellClient;
 import it.isislab.scud.core.engine.hadoop.sshclient.connection.HadoopFileSystemManager;
 import it.isislab.scud.core.engine.hadoop.sshclient.connection.ScudManager;
+import it.isislab.scud.core.engine.hadoop.sshclient.utils.environment.EnvironmentSession;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulations;
 import it.isislab.scud.core.exception.ParameterException;
@@ -150,9 +151,9 @@ public enum Command implements Prompt
 		public Object exec(Console c, String[] params,String stringPrompt)
 		{
 
-			String parsedParams[] = ScudManager.parseParamenters(params,7);
-
-			if(parsedParams.length == 9)
+			String parsedParams[] = ScudManager.parseParamenters(params,8);
+				
+			if(parsedParams.length == 10)
 			{
 				try {
 					ScudManager.checkParamMakeSimulationFolder(parsedParams);
@@ -164,17 +165,22 @@ public enum Command implements Prompt
 				try {
 
 
+
+					
+					
 					ScudManager.makeSimulationFolderForLoop(
 							SCUDShellClient.session,
 							parsedParams[0]/*MODEL TYPE MASON - NETLOGO -GENERIC*/,
 							parsedParams[1],/*SIM NAME*/
 							parsedParams[2],/*domain_pathname*/ 
-							parsedParams[3],/*bashCommandForRunnableFunction */
-							parsedParams[4],/*output_description_filename*/
-							parsedParams[5],/*executable_selection_function_filename */
-							parsedParams[6],/*executable_rating_function_filename*/
-							parsedParams[7],/*description_simulation*/
-							parsedParams[8]);/*executable_simulation_filename*/
+							parsedParams[3],/*bashCommandForRunnableFunctionSelection */
+							parsedParams[4],/*bashCommandForRunnableFunctionEvaluate*/
+							parsedParams[5],/*output_description_filename*/
+							parsedParams[6],/*executable_selection_function_filename*/ 
+							parsedParams[7],/*executable_rating_function_filename*/
+							parsedParams[8],/*description_simulation*/
+							parsedParams[9]);/*executable_simulation_filename*/
+					
 					return null;
 				} catch (Exception e) {
 
@@ -183,11 +189,15 @@ public enum Command implements Prompt
 					return null;
 				}
 			}else{
-				c.printf("Error "+(parsedParams.length<9?"few":"much more")+" parameters.:\n");
+				c.printf("Error "+(parsedParams.length<10?"few":"much more")+" parameters.:\n");
 				c.printf("usage: MODEL[MASON-NETLOGO-GENERIC] SIM-NAME[String] "+
-						"DOMAIN.xml[String absolutely]"+"bash command[for function selection example /usr/bin/sh]"
-						+ " Output.xml[String absolutely path] "+"function selection absolutly path"+
-						"rating selection absolutly path"+"DESCRIPTION-SIM[String] SIMULATION-EXECUTABLE-MODEL[String absolutely path]\n");
+						"DOMAIN.xml[String absolutely] "+
+						"bash command[for selection function example /usr/bin/sh] "+
+						"bash command[for evaluate function example /usr/bin/sh] "+
+						"Output.xml[String absolutely path] "+"function selection absolutly path "+
+						"rating selection absolutly path "+
+						"DESCRIPTION-SIM[String] "+
+						"SIMULATION-EXECUTABLE-MODEL[String absolutely path]\n");
 				return null;
 			}
 		}
@@ -269,7 +279,7 @@ public enum Command implements Prompt
 			}else{
 				Simulations sims = ScudManager.getSimulationsData(SCUDShellClient.session);
 				if(sims == null){
-					c.printf("No such simulation\n");
+					c.printf("No such simulation");
 					return null;
 				}
 				int simID = Integer.parseInt(params[0])-1;
@@ -277,7 +287,7 @@ public enum Command implements Prompt
 				try{
 					sim = sims.getSimulations().get(simID);
 				}catch(IndexOutOfBoundsException e){
-					c.printf("No such simulation\n");
+					c.printf("No such simulation");
 					return null;
 				}
 				//if no path is specified, saves in current directory
@@ -295,7 +305,7 @@ public enum Command implements Prompt
 		{
 			Simulations sims = ScudManager.getSimulationsData(SCUDShellClient.session);
 			if(sims == null){
-				c.printf("No such simulation\n");
+				c.printf("No such simulation");
 				return null;
 			}
 			for(int i=1; i<=sims.getSimulations().size(); i++){
