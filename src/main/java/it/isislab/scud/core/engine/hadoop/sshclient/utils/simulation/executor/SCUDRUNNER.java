@@ -212,9 +212,14 @@ public class SCUDRUNNER{
 				s.getAuthor()+" "+ 
 				s.getDescription();
 
+		
+		
 		if(s.getLoop())
-			bash += " "+s.getRunnableFile().getBashCommandForRunnableFunction()+" "
+			bash += " "+s.getRunnableFile().getBashCommandForRunnableFunctionEvaluate()+" "
 					+s.getRunnableFile().getRating();
+		
+		
+		
 		
 		//System.out.println(bash);
 		try {
@@ -280,7 +285,7 @@ public class SCUDRUNNER{
 						sim.getRunnableFile().getSelection(), 
 						hdfs_simulation_rating_folder, 
 						currentExecutionInputLoopPath,
-						sim.getRunnableFile().getBashCommandForRunnableFunction());
+						sim.getRunnableFile().getBashCommandForRunnableFunctionSelect());
 				
 				doLoop=f.generateNewInput(fs);
 				

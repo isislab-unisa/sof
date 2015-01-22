@@ -212,7 +212,8 @@ public class GenerateXMLInput {
         s.setState(s.CREATED);
         s.setCreationTime();
         RunnableFile rf = new RunnableFile();
-        rf.setBashCommandForRunnableFunction("aaaaaa");
+        rf.setBashCommandForRunnableFunctionSelect("sel");
+        rf.setBashCommandForRunnableFunctionEvaluate("eval");
         rf.setRating("bbbbb");
         rf.setSelection("ccccccc");
         rf.setSimulation(s.getName());

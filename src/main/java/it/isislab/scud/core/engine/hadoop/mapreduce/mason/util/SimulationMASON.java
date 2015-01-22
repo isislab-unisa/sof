@@ -15,6 +15,7 @@
 package it.isislab.scud.core.engine.hadoop.mapreduce.mason.util;
 
 import it.isislab.scud.core.engine.hadoop.utils.XmlToText;
+import it.isislab.scud.core.model.parameters.xsd.elements.Parameter;
 import it.isislab.scud.core.model.parameters.xsd.elements.ParameterDouble;
 import it.isislab.scud.core.model.parameters.xsd.elements.ParameterLong;
 import it.isislab.scud.core.model.parameters.xsd.elements.ParameterString;
@@ -33,6 +34,10 @@ import java.util.regex.Pattern;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.JarEntry;
@@ -50,8 +55,6 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.OutputCollector;
-
-import com.sun.jersey.api.model.Parameter;
 
 import sim.engine.SimState;
 
@@ -119,7 +122,7 @@ public class SimulationMASON {
 			String sim_input_path, String sim_output_path, String sim_home,
 			OutputCollector<Text, Text> output,
 			Configuration conf1) throws Exception
-			{
+	{
 
 		conf=conf1;
 		String SIMULATION_NAME=conf.get("simulation.name");
@@ -206,15 +209,29 @@ public class SimulationMASON {
 		String[] aparam = line.split(";");
 		String[] couple=aparam[0].split(":");
 		int idInputSimulation=Integer.parseInt(couple[1]);
-		for(int i=1; i<aparam.length;i++){
+		couple=aparam[1].split(":");
+		int rounds = Integer.parseInt(couple[1]);
+		for(int i=2; i<aparam.length;i++){
 			couple = aparam[i].split(":");
 			inputSimulation.put(couple[0], couple[1]);
 		}
 
 
+		String output_template=conf.get("simulation.description.output.domain");
 
 
+		//converte il file output.xml con i soli campi in un'unica stringa da processare 
+		String output_string_vars=XmlToText.convertOutputXmlIntoText(conf, output_template, idInputSimulation);
 
+
+		ArrayList<String> outputSimulation =new ArrayList<String>();
+		line=output_string_vars;
+		aparam = line.split(";");
+		for(int i=0; i<aparam.length;i++){
+			String[] couple2 = aparam[i].split(":");
+			outputSimulation.add(couple2[0]);
+
+		}
 
 		Method[] methods = mainClass.getMethods();
 		String param ="";
@@ -244,46 +261,55 @@ public class SimulationMASON {
 				}
 			}
 		}
+		SimState ss = null;
+		HashMap<String, ArrayList<String>> output_collection = new HashMap<String, ArrayList<String>>();
 
-		SimState ss = (SimState) obj;
-		int i=0;
-		ss.start();
-		int step = Integer.valueOf(inputSimulation.get("step"));
-		while(i<step){
-			ss.schedule.step(ss);
-			i++;
+		for(int i =0; i<rounds; i++){
+			ss = (SimState) obj;
+			ss.setSeed(System.currentTimeMillis());
+			int j=0;
+			ss.start();
+			int step = Integer.valueOf(inputSimulation.get("step"));
+			while(j<step){
+				ss.schedule.step(ss);
+				j++;
 
-		}
+			}
 
-
-		String output_template=conf.get("simulation.description.output.domain");
-
-
-		//converte il file output.xml con i soli campi in un'unica stringa da processare 
-		String output_string_vars=XmlToText.convertOutputXmlIntoText(conf, output_template, idInputSimulation);
-
-
-		ArrayList<String> outputSimulation =new ArrayList<String>();
-		line=output_string_vars;
-		aparam = line.split(";");
-		for( i=0; i<aparam.length;i++){
-			String[] couple2 = aparam[i].split(":");
-			outputSimulation.add(couple2[0]);
-
+			//Collect OUTPUTs
+			for(String field : outputSimulation){
+				for (Method toInvoke : methods){
+					if(toInvoke.getName().equalsIgnoreCase("get"+field)){
+						toInvoke.setAccessible(true);
+						if(output_collection.containsKey(field))
+							output_collection.get(field).add(""+toInvoke.invoke(obj, new Object[]{}).toString());
+						else{
+							ArrayList<String> l = new ArrayList<String>();
+							l.add(""+toInvoke.invoke(obj, new Object[]{}).toString());
+							output_collection.put(field, l);
+						}
+					}
+				}
+			}
 		}
 
 		String inOutput="";		
 
-		for(String field : outputSimulation){
+		/*for(String field : outputSimulation){
 			for (Method toInvoke : methods){
 				if(toInvoke.getName().equalsIgnoreCase("get"+field)){
 					toInvoke.setAccessible(true);
 					inOutput+=field+":"+toInvoke.invoke(obj, new Object[]{}).toString()+";";
 				}
 			}
+		}*/
+
+		for(String field : output_collection.keySet()){
+			inOutput+=field+":"+getAVG(output_collection.get(field),rounds)+";";
+
 		}
-
-
+ 
+		System.err.println(inOutput);
 
 		//Random r=new Random(System.currentTimeMillis());
 		//String id=MD5(line+r.nextDouble());
@@ -294,8 +320,57 @@ public class SimulationMASON {
 
 		output.collect(new Text(file_output.toString()), new Text(""));
 
+	}
+
+
+	private String getAVG(ArrayList<String> arrayList, int rounds) {
+
+		try{
+			long a = Long.parseLong(arrayList.get(0));
+			for (int i = 1; i < arrayList.size(); i++) {
+				a+=Long.parseLong(arrayList.get(i));
+			}
+			return ""+(long)Math.ceil(a/rounds);
+
+		}catch(Exception e1){
+			try{
+				double a = Double.parseDouble(arrayList.get(0));
+				for (int i = 1; i < arrayList.size(); i++) {
+					a+=Double.parseDouble(arrayList.get(i));
+				}
+				return ""+a/rounds;
+			}catch(Exception e2){
+				return getMaxOccurenceString(arrayList);
+
 			}
 
+		}
+
+	}
+
+
+	public static String getMaxOccurenceString(List<String> myList){
+
+		Map<String, AtomicInteger> dictionary = new HashMap<String, AtomicInteger>();
+		int max=0;	   
+		String maxKey="";
+
+		for(String x: myList){
+			if(dictionary.containsKey(x))
+				dictionary.get(x).incrementAndGet();
+			else
+				dictionary.put(x, new AtomicInteger(1));
+		}
+
+		for(Entry<String, AtomicInteger> x :dictionary.entrySet()) {
+			if(x.getValue().get()>=max){
+				max=x.getValue().get();
+				maxKey=x.getKey();
+			}
+		}
+
+		return maxKey;
+	}
 
 	/**
 	 * Generate output resume of simulation 
@@ -359,17 +434,17 @@ public class SimulationMASON {
 
 				}
 
-				//Parameter paramOut=new Parameter();
-//				paramOut.setparam(valobjOutp);
-//				paramOut.setvariable_name(couple[0]);
-//				paramsOutput.add(paramOut);
+				Parameter paramOut=new Parameter();
+				paramOut.setparam(valobjOutp);
+				paramOut.setvariable_name(couple[0]);
+				paramsOutput.add(paramOut);
 			}
 		}
 
 
 
 
-//		output.output_params=paramsOutput;
+		output.output_params=paramsOutput;
 
 
 		FileSystem fs=FileSystem.get(conf);

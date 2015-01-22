@@ -269,7 +269,7 @@ public enum Command implements Prompt
 			}else{
 				Simulations sims = ScudManager.getSimulationsData(SCUDShellClient.session);
 				if(sims == null){
-					c.printf("No such simulation");
+					c.printf("No such simulation\n");
 					return null;
 				}
 				int simID = Integer.parseInt(params[0])-1;
@@ -277,7 +277,7 @@ public enum Command implements Prompt
 				try{
 					sim = sims.getSimulations().get(simID);
 				}catch(IndexOutOfBoundsException e){
-					c.printf("No such simulation");
+					c.printf("No such simulation\n");
 					return null;
 				}
 				//if no path is specified, saves in current directory
@@ -295,7 +295,7 @@ public enum Command implements Prompt
 		{
 			Simulations sims = ScudManager.getSimulationsData(SCUDShellClient.session);
 			if(sims == null){
-				c.printf("No such simulation");
+				c.printf("No such simulation\n");
 				return null;
 			}
 			for(int i=1; i<=sims.getSimulations().size(); i++){

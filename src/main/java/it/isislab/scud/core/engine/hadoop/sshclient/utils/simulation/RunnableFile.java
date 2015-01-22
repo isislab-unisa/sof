@@ -19,13 +19,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name="runnable")
-@XmlType(propOrder={"simulation","selection","rating","bashCommandForRunnableFunction"})
+@XmlType(propOrder={"simulation","selection","rating","bashCommandForRunnableFunctionSelect","bashCommandForRunnableFunctionEvaluate"})
 public class RunnableFile {
 	
 	private String simulation;
 	private String selection;
 	private String rating;
-	private String bashCommandForRunnableFunction;
+	private String bashCommandForRunnableFunctionSelect;
+	private String bashCommandForRunnableFunctionEvaluate;
+	
 	
 	public RunnableFile() {}
 
@@ -62,22 +64,31 @@ public class RunnableFile {
 	
 	
 
-	public String getBashCommandForRunnableFunction() {
-		return bashCommandForRunnableFunction;
+	public String getBashCommandForRunnableFunctionEvaluate() {
+		return bashCommandForRunnableFunctionEvaluate;
 	}
 
-	public void setBashCommandForRunnableFunction(
-			String bashCommandForRunnableFunction) {
-		this.bashCommandForRunnableFunction = bashCommandForRunnableFunction;
+	public void setBashCommandForRunnableFunctionEvaluate(
+			String bashCommandForRunnableFunctionEvaluate) {
+		this.bashCommandForRunnableFunctionEvaluate = bashCommandForRunnableFunctionEvaluate;
 	}
 
+	public String getBashCommandForRunnableFunctionSelect() {
+		return bashCommandForRunnableFunctionSelect;
+	}
 
+	public void setBashCommandForRunnableFunctionSelect(
+			String bashCommandForRunnableFunctionSelect) {
+		this.bashCommandForRunnableFunctionSelect = bashCommandForRunnableFunctionSelect;
+	}
+	
 	@Override
 	public String toString() {
 		return "\t\tsimulation: "+simulation+"\n"
 				+ "\t\tselection: "+selection+"\n"
 				+ "\t\trating: "+rating+"\n"
-				+ "\t\texecution command: "+bashCommandForRunnableFunction;
+				+"\t\texecution select command: "+getBashCommandForRunnableFunctionSelect()+"\n"
+				+ "\t\texecution evaluate command: "+bashCommandForRunnableFunctionEvaluate;
 	}
 	
 	

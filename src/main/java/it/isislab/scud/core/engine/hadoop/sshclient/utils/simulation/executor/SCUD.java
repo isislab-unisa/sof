@@ -61,15 +61,22 @@ public class SCUD {
 		{
 
 			System.out.println("Usage:");
-			System.out.println("java -jar SCUD.jar <simulation_name> "
+			System.out.println("java -jar SCUD.jar "
+					+ "<simulation_name> "
 					+ "<simulation_path_home> "
 					+ "<simulation_type[mason |netlogo |generic]>"
-					+ "<simultion_program_path> <simulation_mapper_input_path> "
+					+ "<simultion_program_path> "
+					+ "<simulation_mapper_input_path> "
 					+ "<simulation_mapper_output_path> "
 					+ "<simulation_output_domain_xmlfile> "
-					+ "<simulation_input_path> <oneshot[one|loop]> "
-					+ "<author_name> <simulation_note> "
-					+ "<path_interpreter_evaluate_file> <evaluate_file_path>" );
+					+ "<simulation_input_path> "
+					+"<<simulation_rating_path>>"
+					+ "<oneshot[one|loop]> "
+					+ "<author_name> "
+					+ "<simulation_description> "
+					+ "<path_interpreter_select_file> "
+					+ "<path_interpreter_evaluate_file> "
+					+ "<evaluate_file_path>" );
 			System.exit(-1);
 		}
 
@@ -88,13 +95,14 @@ public class SCUD {
 		String SIM_EXECUTION_INPUT_XML=null;/*execution input path*/
 		boolean ISLOOP=false;/*false[one] | true[loop]*/
 		String DESCRIPTION=null;/*simulations' description*/
+		String INTERPRETER_REMOTE_PATH_SELECTION=null;/*remote program bin path for executing SelectFoo*/
 		String INTERPRETER_REMOTE_PATH_EVALUATION=null;/*remote program bin path for executing EvalFoo*/
 		String EXECUTABLE_RATING_FILE=null;/*path of rating file*/
 		String SIM_RATING_PATH=null;
 
 		// aids /home/michele/Scrivania/aids netlogo /home/michele/Scrivania/aids/aids.nlogo /home/michele/Scrivania/aids/input.tmp /home/michele/Scrivania/aids/output /home/michele/Scrivania/aids/domain.xml /home/michele/Scrivania/aids/input loop pepp ciao /usr/bin/python /home/michele/Scrivania/aids/evaluate.py 
 		
-		if(args.length==14){
+		if(args.length==15){
 			SIMULATION_NAME=args[0]; 
 			SIMULATION_HOME= args[1];
 			SIM_TYPE=args[2];
@@ -107,8 +115,9 @@ public class SCUD {
 			ISLOOP=Boolean.parseBoolean(args[9]);
 			AUTHOR=args[10];
 			DESCRIPTION=args[11];
-			INTERPRETER_REMOTE_PATH_EVALUATION=args[12];
-			EXECUTABLE_RATING_FILE=args[13]; 
+			INTERPRETER_REMOTE_PATH_SELECTION=args[12];
+			INTERPRETER_REMOTE_PATH_EVALUATION=args[13];
+			EXECUTABLE_RATING_FILE=args[14]; 
 			
 		}
 
@@ -168,6 +177,7 @@ public class SCUD {
 		if(ISLOOP){
 			job.set("simulation.description.input", SIM_EXECUTION_INPUT_XML);
 			job.set("simulation.program.rating", EXECUTABLE_RATING_FILE);
+			job.set("simulation.interpreter.selection", INTERPRETER_REMOTE_PATH_SELECTION);
 			job.set("simulation.interpreter.rating", INTERPRETER_REMOTE_PATH_EVALUATION);
 			job.set("simulation.executable.loop.rating", SIM_RATING_PATH);
 		}
