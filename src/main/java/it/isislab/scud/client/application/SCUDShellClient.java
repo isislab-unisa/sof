@@ -135,12 +135,15 @@ public class SCUDShellClient
 			try {
 				//-h 172.16.142.103 -bindir /isis/hadoop-2.4.0 -homedir /isis/ -javabindir /usr/local/java/bin/
 				if(bindir.endsWith("/"))
-					bindir = bindir.substring(0, bindir.indexOf("/")-1);
+					bindir = bindir.substring(0, bindir.lastIndexOf("/"));
+			System.out.println(bindir);
 				if(!homedir.endsWith("/")){
 					homedir+="/";
 				}
 				if(!javabindir.endsWith("/"))
 					javabindir+="/";
+				if(!scudhomedir.endsWith("/"))
+					scudhomedir+="/";
 				
 				ScudManager.setFileSystem(bindir,System.getProperty("user.dir"), scudhomedir, homedir, javabindir ,name);
 				if ((session=ScudManager.connect(name, host, pstring, bindir,PORT,
@@ -160,6 +163,7 @@ public class SCUDShellClient
 				}
 			} catch (Exception e) {
 				System.err.println("Login Error. Check your credentials and ip:port of your server and try again .. ");
+			
 				console.printf(e.getMessage());
 				console.printf(DENIED_ATTEMPT, ++attempts);
 			}
