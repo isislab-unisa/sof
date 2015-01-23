@@ -308,8 +308,6 @@ public class SimulationMASON {
 			inOutput+=field+":"+getAVG(output_collection.get(field),rounds)+";";
 
 		}
- 
-		System.err.println(inOutput);
 
 		//Random r=new Random(System.currentTimeMillis());
 		//String id=MD5(line+r.nextDouble());

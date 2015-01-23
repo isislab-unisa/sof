@@ -215,8 +215,8 @@ public class SCUDRUNNER{
 		
 		
 		if(s.getLoop())
-			bash += " "+s.getRunnableFile().getBashCommandForRunnableFunctionEvaluate()+" "
-					+s.getRunnableFile().getRating();
+			bash += " "+s.getRunnableFile().getBashCommandForRunnableFunctionEvaluate()+
+					" "+s.getRunnableFile().getRating();
 		
 		
 		
@@ -477,6 +477,7 @@ public class SCUDRUNNER{
 
 						String tmpDir = fs.getRemotePathForTmpFolderForUser();
 						String hdfs_loop_output = fs.getHdfsUserPathOutputLoopDIR(simID, idLoop);
+						String hdfs_outputFolderName = hdfs_loop_output.substring(hdfs_loop_output.lastIndexOf("/")+1);
 						ScudRunnerUtils.mkdir(tmpDir);
 						if(ScudRunnerUtils.copyFilesFromHdfs(fs,hdfs_loop_output, tmpDir))	
 							log.info("Copied "+hdfs_loop_output+" to "+tmpDir);
@@ -485,8 +486,8 @@ public class SCUDRUNNER{
 						out.setOutput_list(new ArrayList<Output>());
 						ArrayList<Output> out_list = new ArrayList<Output>();
 
-						File outputFolder = new File(tmpDir);
-
+						File outputFolder = new File(tmpDir+"/"+hdfs_outputFolderName);
+						log.severe("aaaaaaaaaaaaaaaaaaaaa "+outputFolder.getName());
 						for(File f: outputFolder.listFiles()){
 							if(f.isFile()){
 								int i = f.getName().lastIndexOf('.');
@@ -494,6 +495,7 @@ public class SCUDRUNNER{
 									String extension = f.getName().substring(i+1);
 
 									if(extension.equalsIgnoreCase("xml")){
+										log.severe(f.getName());
 										Output o = l.convertXMLOutputToOutput(f);
 										out_list.add(o);
 									}
