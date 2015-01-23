@@ -136,7 +136,7 @@ public class SCUDShellClient
 				//-h 172.16.142.103 -bindir /isis/hadoop-2.4.0 -homedir /isis/ -javabindir /usr/local/java/bin/
 				if(bindir.endsWith("/"))
 					bindir = bindir.substring(0, bindir.lastIndexOf("/"));
-			System.out.println(bindir);
+			//System.out.println(bindir);
 				if(!homedir.endsWith("/")){
 					homedir+="/";
 				}
