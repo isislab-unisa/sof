@@ -487,7 +487,6 @@ public class SCUDRUNNER{
 						ArrayList<Output> out_list = new ArrayList<Output>();
 
 						File outputFolder = new File(tmpDir+"/"+hdfs_outputFolderName);
-						log.severe("aaaaaaaaaaaaaaaaaaaaa "+outputFolder.getName());
 						for(File f: outputFolder.listFiles()){
 							if(f.isFile()){
 								int i = f.getName().lastIndexOf('.');
@@ -495,7 +494,6 @@ public class SCUDRUNNER{
 									String extension = f.getName().substring(i+1);
 
 									if(extension.equalsIgnoreCase("xml")){
-										log.severe(f.getName());
 										Output o = l.convertXMLOutputToOutput(f);
 										out_list.add(o);
 									}
