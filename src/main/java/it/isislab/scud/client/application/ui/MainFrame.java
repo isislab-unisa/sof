@@ -40,10 +40,13 @@ import scala.xml.dtd.DFAContentModel;
  */
 public class MainFrame extends JFrame {
 	protected final Controller controller; 
+	protected JFrame main_frame;
 	private static final long serialVersionUID = 1L;
 	public MainFrame(Controller controller) {
 		this.controller=controller;
 		initComponents();
+		
+		main_frame=this;
 	}
 
 	private void initComponents() {
@@ -59,6 +62,7 @@ public class MainFrame extends JFrame {
 		buttonAdd = new JButton();
 		buttonExport = new JButton();
 		buttonStop = new JButton();
+		buttonShow = new JButton();
 		buttonSubmit = new JButton();
 		MainPanel = new JPanel();
 		LeftPanel = new JPanel();
@@ -116,7 +120,17 @@ public class MainFrame extends JFrame {
 
 				buttonExport.setIcon(new ImageIcon("scud-resources/images/ic_action_download.png"));
 				buttonExport.setToolTipText("Download. Downloads the simulation package from HDFS.");
-
+				
+				buttonShow.setIcon(new ImageIcon("scud-resources/images/ic_action_about.png"));
+				buttonShow.setToolTipText("Show. Shows details about the selected simulations.");
+				
+				buttonShow.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						buttonShowActionPerformed(e);
+					}
+				});
+				
 				buttonReload.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -166,6 +180,8 @@ public class MainFrame extends JFrame {
 								.addComponent(buttonStop)
 								.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
 								.addComponent(buttonExport)
+								.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+								.addComponent(buttonShow)
 								.addGap(0, 0, Short.MAX_VALUE))
 						);
 				ButtonPanelLayout.setVerticalGroup(
@@ -176,7 +192,8 @@ public class MainFrame extends JFrame {
 										.addComponent(buttonAdd)
 										.addComponent(buttonSubmit)
 										.addComponent(buttonStop)
-										.addComponent(buttonExport))
+										.addComponent(buttonExport)
+										.addComponent(buttonShow))
 										.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 						);
 			}
@@ -375,13 +392,36 @@ public class MainFrame extends JFrame {
 		setLocationRelativeTo(null);
 	}
 
+	protected void buttonShowActionPerformed(ActionEvent e) {
+		DefaultMutableTreeNode selected =(DefaultMutableTreeNode)tree1.getLastSelectedPathComponent();
+		if(selected !=null && selected.toString().contains("Simulation name")){
+			
+			Enumeration<DefaultMutableTreeNode> children = selected.children();
+			String status;
+			String idSim=null;
+			while(children.hasMoreElements()){
+				DefaultMutableTreeNode node = children.nextElement();
+				if(node.toString().contains("Id")){
+					String[] split = node.toString().split(":");
+					 idSim = split[1].trim();
+				}
+			}
+			
+			XMLPanel panel=new XMLPanel(sims_hdfs.get(idSim));
+			
+			CentraltabbedPane.add(panel,"Sim: "+idSim);
+		}
+		
+		
+	}
+
 	protected void buttonSubmitActionPerformed(ActionEvent e) {
 		DefaultMutableTreeNode selected =(DefaultMutableTreeNode)tree1.getLastSelectedPathComponent();
 		if(selected !=null && selected.toString().contains("Simulation name")){
 			
 			Enumeration<DefaultMutableTreeNode> children = selected.children();
 			String status;
-			String idSim = null;
+			String idSim=null;
 			while(children.hasMoreElements()){
 				DefaultMutableTreeNode node = children.nextElement();
 				if(node.toString().contains("Status")){
@@ -397,8 +437,31 @@ public class MainFrame extends JFrame {
 					 idSim = split[1].trim();
 				}
 			}
-			
-			controller.submit(idSim);
+			final String final_sim_id=idSim;
+			final ProgressbarDialog pd=new ProgressbarDialog(this);
+			pd.setNoteMessage("Please wait.");
+			pd.setVisible(true);
+			final JProgressBar bar=pd.getProgressBar1();
+			pd.setTitleMessage("Submit simulation with id: "+final_sim_id);
+			bar.setIndeterminate(true);
+			class MyTaskConnect extends Thread {
+
+				public void run(){
+					if(final_sim_id!=null)
+						controller.submit(final_sim_id);
+					else{
+						JOptionPane.showMessageDialog(main_frame,"Submit Error! Please try again.");
+						return;
+					}
+					
+					updateFileSystem();
+					
+					bar.setIndeterminate(false);
+					pd.setVisible(false);
+				}
+			}
+
+			(new MyTaskConnect()).start();
 			
 		}
 		else {
@@ -550,6 +613,7 @@ public class MainFrame extends JFrame {
 			new_sim.add(new DefaultMutableTreeNode("Creation time: "+s.getCreationTime()));
 			DefaultMutableTreeNode descr=new DefaultMutableTreeNode("Description: "+s.getDescription().substring(0, (s.getDescription().length()>15)?15:s.getDescription().length()-1));
 			descr.add(new DefaultMutableTreeNode(s.getDescription()));
+			new_sim.add(descr);
 			new_sim.add(new DefaultMutableTreeNode("Id: "+s.getId()));
 			new_sim.add(new DefaultMutableTreeNode("Toolkit: "+s.getToolkit()));
 			new_sim.add(new DefaultMutableTreeNode("Status: "+s.getState()));
@@ -652,6 +716,7 @@ public class MainFrame extends JFrame {
 	private JButton buttonSubmit;
 	private JButton buttonExport;
 	private JButton buttonStop;
+	private JButton buttonShow;
 	private JPanel MainPanel;
 	private JPanel LeftPanel;
 	private JScrollPane scrollPane1;
