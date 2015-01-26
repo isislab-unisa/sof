@@ -1,5 +1,6 @@
 package it.isislab.scud.client.application.ui.newsimulation;
 
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,6 +12,7 @@ public class NewSimulationPanel extends JPanel {
 	public NewSimulationPanel(String sim_name) {
 		this.sim_name=sim_name;
 		initComponents();
+		initMyComponents();
 	}
 
 	private void initComponents() {
@@ -19,8 +21,8 @@ public class NewSimulationPanel extends JPanel {
 		label2 = new JLabel();
 		label3 = new JLabel();
 		textFieldAuthor = new JTextField();
-		comboBoxToolkit = new JComboBox();
-		comboBoxMode = new JComboBox();
+		comboBoxToolkit = new JComboBox<>();
+		comboBoxMode = new JComboBox<>();
 		label4 = new JLabel();
 		scrollPane1 = new JScrollPane();
 		textArea1 = new JTextArea();
@@ -42,8 +44,6 @@ public class NewSimulationPanel extends JPanel {
 
 		//======== this ========
 
-
-
 		//======== panel1 ========
 		{
 			panel1.setBorder(new TitledBorder("Simulation details"));
@@ -56,6 +56,19 @@ public class NewSimulationPanel extends JPanel {
 
 			//---- label3 ----
 			label3.setText("Mode:");
+
+			//---- comboBoxToolkit ----
+			comboBoxToolkit.setModel(new DefaultComboBoxModel<>(new String[] {
+				"MASON",
+				"NetLogo",
+				"Generic"
+			}));
+
+			//---- comboBoxMode ----
+			comboBoxMode.setModel(new DefaultComboBoxModel<>(new String[] {
+				"Parameters Space Exploration (PSE)",
+				"SImulation Optimization (SO)"
+			}));
 
 			//---- label4 ----
 			label4.setText("Description:");
@@ -73,25 +86,23 @@ public class NewSimulationPanel extends JPanel {
 						.addContainerGap()
 						.addGroup(panel1Layout.createParallelGroup()
 							.addGroup(panel1Layout.createSequentialGroup()
-								.addComponent(label3)
-								.addGap(97, 97, 97)
-								.addComponent(comboBoxMode))
-							.addGroup(panel1Layout.createSequentialGroup()
-								.addComponent(label4)
-								.addGap(58, 58, 58)
-								.addComponent(scrollPane1))
-							.addGroup(panel1Layout.createSequentialGroup()
 								.addGroup(panel1Layout.createParallelGroup()
+									.addComponent(label2)
+									.addComponent(label3))
+								.addGroup(panel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
 									.addGroup(panel1Layout.createSequentialGroup()
-										.addComponent(label2)
-										.addGap(18, 18, 18)
-										.addComponent(comboBoxToolkit, GroupLayout.PREFERRED_SIZE, 207, GroupLayout.PREFERRED_SIZE))
+										.addGap(7, 7, 7)
+										.addGroup(panel1Layout.createParallelGroup()
+											.addComponent(comboBoxMode, GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+											.addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE)))
 									.addGroup(panel1Layout.createSequentialGroup()
-										.addComponent(label1)
-										.addGap(89, 89, 89)
-										.addComponent(textFieldAuthor, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE)))
-								.addGap(0, 0, Short.MAX_VALUE)))
-						.addGap(9, 9, 9))
+										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+										.addGroup(panel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+											.addComponent(comboBoxToolkit, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
+											.addComponent(textFieldAuthor, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)))))
+							.addComponent(label4)
+							.addComponent(label1))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 			);
 			panel1Layout.setVerticalGroup(
 				panel1Layout.createParallelGroup()
@@ -103,16 +114,16 @@ public class NewSimulationPanel extends JPanel {
 						.addGap(18, 18, 18)
 						.addGroup(panel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 							.addComponent(label2)
-							.addComponent(comboBoxToolkit, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(comboBoxToolkit, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
 						.addGroup(panel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 							.addComponent(label3)
-							.addComponent(comboBoxMode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(comboBoxMode, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
 						.addGroup(panel1Layout.createParallelGroup()
 							.addComponent(label4)
 							.addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE))
-						.addGap(20, 20, 20))
+						.addContainerGap())
 			);
 		}
 
@@ -153,12 +164,12 @@ public class NewSimulationPanel extends JPanel {
 							.addComponent(label9))
 						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 						.addGroup(panel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-							.addComponent(textFieldSimCommand, GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-							.addComponent(textFieldSelectionCommand, GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-							.addComponent(textFieldEvaluateCommand, GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-							.addComponent(textFieldSelectionFunctionFIle, GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-							.addComponent(textField1ModelFile, GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-							.addComponent(textFieldEvaluateFunctionFile, GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
+							.addComponent(textFieldSelectionCommand, GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+							.addComponent(textFieldEvaluateCommand)
+							.addComponent(textFieldSelectionFunctionFIle)
+							.addComponent(textField1ModelFile)
+							.addComponent(textFieldEvaluateFunctionFile)
+							.addComponent(textFieldSimCommand, GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE))
 						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 			);
 			panel3Layout.setVerticalGroup(
@@ -197,19 +208,13 @@ public class NewSimulationPanel extends JPanel {
 
 			//---- button1 ----
 			button1.setText("Next");
-			button1.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					buttonNextActionPerformed(e);
-				}
-			});
 
 			GroupLayout panel4Layout = new GroupLayout(panel4);
 			panel4.setLayout(panel4Layout);
 			panel4Layout.setHorizontalGroup(
 				panel4Layout.createParallelGroup()
 					.addGroup(GroupLayout.Alignment.TRAILING, panel4Layout.createSequentialGroup()
-						.addContainerGap(291, Short.MAX_VALUE)
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(button1)
 						.addContainerGap())
 			);
@@ -228,10 +233,10 @@ public class NewSimulationPanel extends JPanel {
 				.addGroup(layout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-						.addComponent(panel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panel3, GroupLayout.PREFERRED_SIZE, 385, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addComponent(panel1, GroupLayout.PREFERRED_SIZE, 450, GroupLayout.PREFERRED_SIZE)
+						.addComponent(panel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(panel4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addContainerGap(25, Short.MAX_VALUE))
 		);
 		layout.setVerticalGroup(
 			layout.createParallelGroup()
@@ -244,25 +249,103 @@ public class NewSimulationPanel extends JPanel {
 					.addComponent(panel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
-		
-		DefaultComboBoxModel<String> model_mode=new DefaultComboBoxModel<String>();
-		model_mode.addElement("Parameters Space Exploration (PSE)");
-		model_mode.addElement("Simulaiton Optimization (SO)");
-		comboBoxMode.setModel(model_mode);
-		comboBoxMode.setSelectedIndex(0);
-		
-
-		DefaultComboBoxModel<String> model_Toolkit=new DefaultComboBoxModel<String>();
-		model_Toolkit.addElement("MASON");
-		model_Toolkit.addElement("NetLogo");
-		model_Toolkit.addElement("Generic");
-		
-		comboBoxToolkit.setModel(model_Toolkit);
-		comboBoxToolkit.setSelectedIndex(0);
 	}
-
+	
+	private void initMyComponents()
+	{
+//		DefaultComboBoxModel<String> model_mode=new DefaultComboBoxModel<String>();
+//		model_mode.addElement("Parameters Space Exploration (PSE)");
+//		model_mode.addElement("Simulaiton Optimization (SO)");
+//		comboBoxMode.setModel(model_mode);
+//		
+//		
+//
+//		DefaultComboBoxModel<String> model_Toolkit=new DefaultComboBoxModel<String>();
+//		model_Toolkit.addElement("MASON");
+//		model_Toolkit.addElement("NetLogo");
+//		model_Toolkit.addElement("Generic");
+//		
+//		comboBoxToolkit.setModel(model_Toolkit);
+		
+		
+		comboBoxToolkit.setSelectedIndex(0);
+		comboBoxMode.setSelectedIndex(0);
+		comboBoxMode.addActionListener (new ActionListener () {
+		    public void actionPerformed(ActionEvent e) {
+		        if(((String)comboBoxMode.getSelectedItem()).contains("SO"))
+		        	{
+		        		System.out.println(comboBoxMode.getSelectedItem());
+		        		switchSOPanel(true);
+		        	}
+		        else{
+	        		switchSOPanel(false);
+		        }
+		        System.out.println("switch");
+		    }
+		});
+		switchSOPanel(false);
+		
+		button1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				 buttonNextActionPerformed(e);
+				
+			}
+		});
+	}
+	private void switchSOPanel(boolean status)
+	{
+//		boolean status=!panel3.isEnabled();
+		panel3.setEnabled(status);
+		textFieldSimCommand.setEnabled(status);
+		textFieldSelectionCommand.setEnabled(status);
+		textFieldEvaluateCommand.setEnabled(status);
+		textFieldSelectionFunctionFIle.setEnabled(status);
+		textField1ModelFile.setEnabled(status);
+		textFieldEvaluateFunctionFile.setEnabled(status);
+		label5.setEnabled(status);
+		label6.setEnabled(status);
+		label7.setEnabled(status);
+		label8.setEnabled(status);
+		label9.setEnabled(status);
+		label10.setEnabled(status);
+	}
 	protected void buttonNextActionPerformed(ActionEvent e) {
+		
+		Container parent=this.getParent();
+		parent.remove(this);
+		parent.add(new NewDomain());
+		
+		
 		String author=textFieldAuthor.getText();
+		String mode=(String) comboBoxMode.getSelectedItem();
+		String toolkit=(String) comboBoxToolkit.getSelectedItem();
+		String descr=textArea1.getText();
+		
+		if( author.isEmpty() )
+		{
+			JOptionPane.showMessageDialog(this, "Uou must fulfill all fields.");
+			return;
+		}
+		
+		if(panel3.isEnabled())
+		{
+			String simcommand=textFieldSimCommand.getText();
+			String simdirpath=textField1ModelFile.getText();
+			String selcommand=textFieldSelectionCommand.getText();
+			String selpath=textFieldSelectionFunctionFIle.getText();
+			String evalcomma=textFieldEvaluateCommand.getText();
+			String evalpath=textFieldEvaluateFunctionFile.getText();
+			if( simcommand.isEmpty() || simdirpath.isEmpty() || selcommand.isEmpty() || selpath.isEmpty() 
+					|| evalcomma.isEmpty() || evalpath.isEmpty())
+			{
+				JOptionPane.showMessageDialog(this, "Uou must fulfill all fields.");
+				return;
+			}
+		}
+		
+		
 		
 	}
 
