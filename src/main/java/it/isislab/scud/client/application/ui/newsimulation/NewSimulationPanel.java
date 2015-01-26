@@ -9,11 +9,13 @@ import javax.swing.border.*;
 
 public class NewSimulationPanel extends JPanel {
 	private String sim_name="";
-	public NewSimulationPanel(String sim_name) {
+	public NewSimulationPanel(String sim_name, NewSimulationProcess newSimulationProcess) {
 		this.sim_name=sim_name;
+		this.sproc=newSimulationProcess;
 		initComponents();
 		initMyComponents();
 	}
+	private NewSimulationProcess sproc=null;
 
 	private void initComponents() {
 		panel1 = new JPanel();
@@ -312,10 +314,11 @@ public class NewSimulationPanel extends JPanel {
 		label10.setEnabled(status);
 	}
 	protected void buttonNextActionPerformed(ActionEvent e) {
-		
-		Container parent=this.getParent();
-		parent.remove(this);
-		parent.add(new NewDomain());
+//		
+//		Container parent=this.getParent();
+//		parent.remove(this);
+//		parent.add(new NewDomain());
+		sproc.setDomainView();
 		
 		
 		String author=textFieldAuthor.getText();

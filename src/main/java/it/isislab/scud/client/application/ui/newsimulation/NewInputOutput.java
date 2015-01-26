@@ -1,8 +1,6 @@
 package it.isislab.scud.client.application.ui.newsimulation;
 
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 /*
  */
@@ -13,10 +11,11 @@ import javax.swing.border.*;
  * @author Red red
  */
 public class NewInputOutput extends JPanel {
-	public NewInputOutput() {
+	public NewInputOutput(NewSimulationProcess newSimulationProcess) {
+		sproc=newSimulationProcess;
 		initComponents();
 	}
-
+	private NewSimulationProcess sproc=null;
 	private void initComponents() {
 		panel1 = new JPanel();
 		scrollPane1 = new JScrollPane();

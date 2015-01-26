@@ -10,9 +10,26 @@ public class NewSimulationProcess extends JPanel{
 	
 	public NewSimulationProcess(String sim_name)
 	{
-		newsimpan=new NewSimulationPanel(sim_name);
-		newdomain=new NewDomain();
-		newio=new NewInputOutput();
+		newsimpan=new NewSimulationPanel(sim_name,this);
+		newdomain=new NewDomain(this);
+		newio=new NewInputOutput(this);
+	
+		
+	}
+	public void setDomainNewSim() {
+		this.removeAll();
+		this.add(newsimpan);
+		
+	}
+	
+	public void setDomainView() {
+		this.removeAll();
+		this.add(newdomain);
+		
+	}
+	public void setDomainIO() {
+		this.removeAll();
+		this.add(newio);
 		
 	}
 }

@@ -1,7 +1,6 @@
 package it.isislab.scud.client.application.ui.newsimulation;
 
 import javax.swing.*;
-import javax.swing.GroupLayout;
 import javax.swing.border.*;
 /*
  */
@@ -12,9 +11,11 @@ import javax.swing.border.*;
  * @author Red red
  */
 public class NewDomain extends JPanel {
-	public NewDomain() {
+	public NewDomain(NewSimulationProcess newSimulationProcess) {
+		sproc=newSimulationProcess;
 		initComponents();
 	}
+	private NewSimulationProcess sproc=null;
 
 	private void initComponents() {
 		panel1 = new JPanel();
