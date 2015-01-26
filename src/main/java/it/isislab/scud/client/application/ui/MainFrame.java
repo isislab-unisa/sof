@@ -376,7 +376,34 @@ public class MainFrame extends JFrame {
 	}
 
 	protected void buttonSubmitActionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		DefaultMutableTreeNode selected =(DefaultMutableTreeNode)tree1.getLastSelectedPathComponent();
+		if(selected !=null && selected.toString().contains("Simulation name")){
+			
+			Enumeration<DefaultMutableTreeNode> children = selected.children();
+			String status;
+			String idSim = null;
+			while(children.hasMoreElements()){
+				DefaultMutableTreeNode node = children.nextElement();
+				if(node.toString().contains("Status")){
+					String[] split = node.toString().split(":");
+					status = split[1].trim();
+					if(!status.equalsIgnoreCase("created")){
+						JOptionPane.showMessageDialog(this,"Selection error!\n You must select a created simulation");
+						return;
+					}
+				}
+				if(node.toString().contains("Id")){
+					String[] split = node.toString().split(":");
+					 idSim = split[1].trim();
+				}
+			}
+			
+			controller.submit(idSim);
+			
+		}
+		else {
+			JOptionPane.showMessageDialog(this,"Selection error!\n You must select selection node from SCUD filesystem");
+		}
 
 	}
 
@@ -500,6 +527,8 @@ public class MainFrame extends JFrame {
 		Simulations sims=controller.getsimulations();
 		
 		fs_root.removeAllChildren();
+		
+		sims_hdfs = new HashMap<String, Simulation>();
 		DefaultMutableTreeNode new_sim=null;
 		if(sims == null)
 		{
