@@ -1,7 +1,9 @@
 package it.isislab.scud.client.application.ui.newsimulation;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
-import javax.swing.GroupLayout;
 import javax.swing.border.*;
 
 public class NewSimulationPanel extends JPanel {
@@ -195,6 +197,12 @@ public class NewSimulationPanel extends JPanel {
 
 			//---- button1 ----
 			button1.setText("Next");
+			button1.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					buttonNextActionPerformed(e);
+				}
+			});
 
 			GroupLayout panel4Layout = new GroupLayout(panel4);
 			panel4.setLayout(panel4Layout);
@@ -236,6 +244,26 @@ public class NewSimulationPanel extends JPanel {
 					.addComponent(panel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
+		
+		DefaultComboBoxModel<String> model_mode=new DefaultComboBoxModel<String>();
+		model_mode.addElement("Parameters Space Exploration (PSE)");
+		model_mode.addElement("Simulaiton Optimization (SO)");
+		comboBoxMode.setModel(model_mode);
+		comboBoxMode.setSelectedIndex(0);
+		
+
+		DefaultComboBoxModel<String> model_Toolkit=new DefaultComboBoxModel<String>();
+		model_Toolkit.addElement("MASON");
+		model_Toolkit.addElement("NetLogo");
+		model_Toolkit.addElement("Generic");
+		
+		comboBoxToolkit.setModel(model_Toolkit);
+		comboBoxToolkit.setSelectedIndex(0);
+	}
+
+	protected void buttonNextActionPerformed(ActionEvent e) {
+		String author=textFieldAuthor.getText();
+		
 	}
 
 	private JPanel panel1;
