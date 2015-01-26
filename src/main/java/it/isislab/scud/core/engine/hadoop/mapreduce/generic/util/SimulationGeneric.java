@@ -112,14 +112,20 @@ public class SimulationGeneric {
 		f.setExecutable(true);
 
 		Process process;
-
-		String command="";
-		command +=program_path.endsWith(".jar")?System.getProperty("java.home")+"/bin/java -jar "+program_path:program_path;
+         
+		String sim_interpreter_path=conf.get("simulation.interpreter.genericsim");
+		
+		String command=""+sim_interpreter_path+" ";
+		//command +=program_path.endsWith(".jar")?System.getProperty("java.home")+"/bin/java -jar "+program_path:program_path;
+		if(program_path.endsWith(".jar"))
+		command+="-jar ";
+		
+		command+=program_path;
+		
 		for(int i=0;i<inputSimulation.length;i++ )
 			command+=" "+inputSimulation[i];
 
 		HashMap<String, ArrayList<String>> output_collection = new HashMap<String, ArrayList<String>>();
-
 		HashMap<String,String> ovs = new HashMap<String,String>();
 		String[] outValues = null;
 		String s;
