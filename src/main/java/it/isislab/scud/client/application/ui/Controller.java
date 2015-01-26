@@ -384,13 +384,13 @@ public class Controller {
 
 	}
 	
-	public static String host= "172.16.142.103";
-	public static String pstring="clgvittorio";
+	public static String host= "172.16.15.103";
+	public static String pstring="cloudsim1205";
 	public static String PORT="22";
-	public static String bindir="/isis/hadoop-2.4.0";  
-	public static String homedir="/isis/"; 
-	public static String javabindir ="/usr/local/java/bin/";
-	public static String name="isis";
+	public static String bindir="/home/hadoop/hadoop-2.4.0";  
+	public static String homedir="/home/hadoop/"; 
+	public static String javabindir ="/usr/bin/";
+	public static String name="hadoop";
 	public static String scudhomedir="/";
 
 	public static final String PARAM_USER_NAME="username";
