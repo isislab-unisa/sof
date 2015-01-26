@@ -55,7 +55,6 @@ public class MainFrame extends JFrame {
 		buttonAdd = new JButton();
 		buttonExport = new JButton();
 		buttonStop = new JButton();
-		buttonSave = new JButton();
 		buttonSubmit = new JButton();
 		MainPanel = new JPanel();
 		LeftPanel = new JPanel();
@@ -105,9 +104,6 @@ public class MainFrame extends JFrame {
 				buttonAdd.setIcon(new ImageIcon("scud-resources/images/ic_action_new.png"));
 				buttonAdd.setToolTipText("Add. Creates a new child node.");
 
-				buttonSave.setIcon(new ImageIcon("scud-resources/images/ic_action_save.png"));
-				buttonSave.setToolTipText("Save. Applies the changes on HDFS.");
-
 				buttonSubmit.setIcon(new ImageIcon("scud-resources/images/ic_action_play.png"));
 				buttonSubmit.setToolTipText("Submit. Submits the selected simulation to the system.");
 
@@ -128,13 +124,6 @@ public class MainFrame extends JFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						buttonAddActionPerformed(e);
-					}
-				});
-
-				buttonSave.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						buttonSaveActionPerformed(e);
 					}
 				});
 
@@ -168,8 +157,6 @@ public class MainFrame extends JFrame {
 								.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
 								.addComponent(buttonAdd)
 								.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-								.addComponent(buttonSave)
-								.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
 								.addComponent(buttonSubmit)
 								.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
 								.addComponent(buttonStop)
@@ -183,7 +170,6 @@ public class MainFrame extends JFrame {
 								.addGroup(ButtonPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 										.addComponent(buttonReload)
 										.addComponent(buttonAdd)
-										.addComponent(buttonSave)
 										.addComponent(buttonSubmit)
 										.addComponent(buttonStop)
 										.addComponent(buttonExport))
@@ -440,10 +426,6 @@ public class MainFrame extends JFrame {
 
 	}
 
-	protected void buttonSaveActionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
-	}
 
 	protected void buttonAddActionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -627,7 +609,6 @@ public class MainFrame extends JFrame {
 	private JPanel ButtonPanel;
 	private JButton buttonReload;
 	private JButton buttonAdd;
-	private JButton buttonSave;
 	private JButton buttonSubmit;
 	private JButton buttonExport;
 	private JButton buttonStop;
