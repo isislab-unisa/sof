@@ -525,9 +525,10 @@ public class MainFrame extends JFrame {
 	{
 		System.out.println("Loading simulations");
 		Simulations sims=controller.getsimulations();
-		
-		fs_root.removeAllChildren();
-		
+		fs_root = new DefaultMutableTreeNode("SCUD FileSystem");
+		scrollPane1.remove(tree1);
+		tree1 = new JTree(fs_root);
+		scrollPane1.setViewportView(tree1);
 		sims_hdfs = new HashMap<String, Simulation>();
 		DefaultMutableTreeNode new_sim=null;
 		if(sims == null)
