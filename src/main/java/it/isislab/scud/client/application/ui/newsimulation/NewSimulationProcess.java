@@ -1,7 +1,6 @@
 package it.isislab.scud.client.application.ui.newsimulation;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 
 import javax.swing.JPanel;
 
