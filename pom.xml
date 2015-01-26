@@ -657,10 +657,15 @@
 			<version>7.3.4</version>
 		</dependency>
 		<dependency>
-	<groupId>de.sciss</groupId>
-	<artifactId>weblaf</artifactId>
-	<version>1.27</version>
-</dependency>
+			<groupId>jfreechart</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>de.sciss</groupId>
+			<artifactId>weblaf</artifactId>
+			<version>1.27</version>
+		</dependency>
 
 
 	</dependencies>
