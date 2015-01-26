@@ -32,8 +32,8 @@ public class NewDomain extends JPanel {
 		panel4 = new JPanel();
 		panel5 = new JPanel();
 		button3 = new JButton();
+		buttonPrev = new JButton();
 
-		//======== this ========
 
 
 		//======== panel1 ========
@@ -168,19 +168,26 @@ public class NewDomain extends JPanel {
 			//---- button3 ----
 			button3.setText("Next");
 
+			//---- buttonPrev ----
+			buttonPrev.setText("Prev");
+
 			GroupLayout panel5Layout = new GroupLayout(panel5);
 			panel5.setLayout(panel5Layout);
 			panel5Layout.setHorizontalGroup(
 				panel5Layout.createParallelGroup()
 					.addGroup(GroupLayout.Alignment.TRAILING, panel5Layout.createSequentialGroup()
-						.addGap(0, 760, Short.MAX_VALUE)
+						.addGap(0, 679, Short.MAX_VALUE)
+						.addComponent(buttonPrev)
+						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(button3))
 			);
 			panel5Layout.setVerticalGroup(
 				panel5Layout.createParallelGroup()
 					.addGroup(GroupLayout.Alignment.TRAILING, panel5Layout.createSequentialGroup()
 						.addGap(0, 0, Short.MAX_VALUE)
-						.addComponent(button3))
+						.addGroup(panel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+							.addComponent(button3)
+							.addComponent(buttonPrev)))
 			);
 		}
 
@@ -211,6 +218,7 @@ public class NewDomain extends JPanel {
 		);
 	}
 
+
 	private JPanel panel1;
 	private JScrollPane scrollPane1;
 	private JTree tree1;
@@ -226,4 +234,5 @@ public class NewDomain extends JPanel {
 	private JPanel panel4;
 	private JPanel panel5;
 	private JButton button3;
+	private JButton buttonPrev;
 }
