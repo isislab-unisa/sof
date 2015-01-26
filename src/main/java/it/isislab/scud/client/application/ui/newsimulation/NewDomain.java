@@ -2,14 +2,7 @@ package it.isislab.scud.client.application.ui.newsimulation;
 
 import javax.swing.*;
 import javax.swing.border.*;
-/*
- */
 
-
-
-/**
- * @author Red red
- */
 public class NewDomain extends JPanel {
 	public NewDomain(NewSimulationProcess newSimulationProcess) {
 		sproc=newSimulationProcess;
@@ -34,8 +27,6 @@ public class NewDomain extends JPanel {
 		panel5 = new JPanel();
 		button3 = new JButton();
 		buttonPrev = new JButton();
-
-
 
 		//======== panel1 ========
 		{
