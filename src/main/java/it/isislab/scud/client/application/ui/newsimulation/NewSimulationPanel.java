@@ -40,7 +40,10 @@ public class NewSimulationPanel extends JPanel {
 		textFieldSelectionFunctionFIle = new JTextField();
 		textField1ModelFile = new JTextField();
 		textFieldEvaluateFunctionFile = new JTextField();
+		panel4 = new JPanel();
 		button1 = new JButton();
+
+		//======== this ========
 
 
 
@@ -192,8 +195,28 @@ public class NewSimulationPanel extends JPanel {
 			);
 		}
 
-		//---- button1 ----
-		button1.setText("next");
+		//======== panel4 ========
+		{
+
+			//---- button1 ----
+			button1.setText("Next");
+
+			GroupLayout panel4Layout = new GroupLayout(panel4);
+			panel4.setLayout(panel4Layout);
+			panel4Layout.setHorizontalGroup(
+				panel4Layout.createParallelGroup()
+					.addGroup(GroupLayout.Alignment.TRAILING, panel4Layout.createSequentialGroup()
+						.addContainerGap(291, Short.MAX_VALUE)
+						.addComponent(button1)
+						.addContainerGap())
+			);
+			panel4Layout.setVerticalGroup(
+				panel4Layout.createParallelGroup()
+					.addGroup(GroupLayout.Alignment.TRAILING, panel4Layout.createSequentialGroup()
+						.addGap(0, 0, Short.MAX_VALUE)
+						.addComponent(button1))
+			);
+		}
 
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
@@ -201,23 +224,21 @@ public class NewSimulationPanel extends JPanel {
 			layout.createParallelGroup()
 				.addGroup(layout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-						.addGroup(layout.createSequentialGroup()
-							.addGap(0, 0, Short.MAX_VALUE)
-							.addComponent(button1))
-						.addComponent(panel1, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panel3, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
-					.addContainerGap(22, Short.MAX_VALUE))
+					.addGroup(layout.createParallelGroup()
+						.addComponent(panel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(panel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(panel3, GroupLayout.PREFERRED_SIZE, 385, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		layout.setVerticalGroup(
 			layout.createParallelGroup()
 				.addGroup(layout.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(panel1, GroupLayout.PREFERRED_SIZE, 292, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+					.addGap(14, 14, 14)
 					.addComponent(panel3, GroupLayout.PREFERRED_SIZE, 301, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addComponent(button1)
+					.addComponent(panel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 	}
@@ -245,5 +266,6 @@ public class NewSimulationPanel extends JPanel {
 	private JTextField textFieldSelectionFunctionFIle;
 	private JTextField textField1ModelFile;
 	private JTextField textFieldEvaluateFunctionFile;
+	private JPanel panel4;
 	private JButton button1;
 }

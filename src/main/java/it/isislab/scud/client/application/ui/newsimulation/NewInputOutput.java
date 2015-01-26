@@ -34,7 +34,8 @@ public class NewInputOutput extends JPanel {
 		buttonAddOutput = new JButton();
 		buttonEditOutput = new JButton();
 		buttonRemoveOutput = new JButton();
-		buttonSave = new JButton();
+		panel7 = new JPanel();
+		button9 = new JButton();
 
 		//======== this ========
 
@@ -60,7 +61,7 @@ public class NewInputOutput extends JPanel {
 				);
 				panel3Layout.setVerticalGroup(
 					panel3Layout.createParallelGroup()
-						.addGap(0, 242, Short.MAX_VALUE)
+						.addGap(0, 276, Short.MAX_VALUE)
 				);
 			}
 
@@ -84,9 +85,8 @@ public class NewInputOutput extends JPanel {
 							.addComponent(buttonAddInput)
 							.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
 							.addComponent(buttonEditInput)
-							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
-							.addComponent(buttonRemoveInput)
-							.addContainerGap())
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
+							.addComponent(buttonRemoveInput))
 				);
 				panel5Layout.setVerticalGroup(
 					panel5Layout.createParallelGroup()
@@ -105,20 +105,20 @@ public class NewInputOutput extends JPanel {
 						.addContainerGap()
 						.addGroup(panel1Layout.createParallelGroup()
 							.addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
-							.addComponent(panel5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(panel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addComponent(panel5, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(panel3, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 						.addContainerGap())
 			);
 			panel1Layout.setVerticalGroup(
 				panel1Layout.createParallelGroup()
 					.addGroup(panel1Layout.createSequentialGroup()
 						.addContainerGap()
-						.addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 338, GroupLayout.PREFERRED_SIZE)
+						.addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 330, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(panel5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGap(18, 18, 18)
+						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(panel3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(35, Short.MAX_VALUE))
+						.addContainerGap(27, Short.MAX_VALUE))
 			);
 		}
 
@@ -143,7 +143,7 @@ public class NewInputOutput extends JPanel {
 				);
 				panel4Layout.setVerticalGroup(
 					panel4Layout.createParallelGroup()
-						.addGap(0, 240, Short.MAX_VALUE)
+						.addGap(0, 276, Short.MAX_VALUE)
 				);
 			}
 
@@ -186,26 +186,45 @@ public class NewInputOutput extends JPanel {
 					.addGroup(panel2Layout.createSequentialGroup()
 						.addContainerGap()
 						.addGroup(panel2Layout.createParallelGroup()
-							.addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
 							.addComponent(panel6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(panel4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
+							.addComponent(panel4, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 						.addContainerGap())
 			);
 			panel2Layout.setVerticalGroup(
 				panel2Layout.createParallelGroup()
 					.addGroup(panel2Layout.createSequentialGroup()
 						.addGap(19, 19, 19)
-						.addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 338, GroupLayout.PREFERRED_SIZE)
+						.addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 330, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(panel6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(panel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(42, Short.MAX_VALUE))
+						.addContainerGap(28, Short.MAX_VALUE))
 			);
 		}
 
-		//---- buttonSave ----
-		buttonSave.setText("Save");
+		//======== panel7 ========
+		{
+
+			//---- button9 ----
+			button9.setText("Save");
+
+			GroupLayout panel7Layout = new GroupLayout(panel7);
+			panel7.setLayout(panel7Layout);
+			panel7Layout.setHorizontalGroup(
+				panel7Layout.createParallelGroup()
+					.addGroup(GroupLayout.Alignment.TRAILING, panel7Layout.createSequentialGroup()
+						.addGap(0, 811, Short.MAX_VALUE)
+						.addComponent(button9))
+			);
+			panel7Layout.setVerticalGroup(
+				panel7Layout.createParallelGroup()
+					.addGroup(panel7Layout.createSequentialGroup()
+						.addComponent(button9)
+						.addGap(0, 8, Short.MAX_VALUE))
+			);
+		}
 
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
@@ -213,14 +232,13 @@ public class NewInputOutput extends JPanel {
 			layout.createParallelGroup()
 				.addGroup(layout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-					.addComponent(panel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-					.addContainerGap(838, Short.MAX_VALUE)
-					.addComponent(buttonSave)
-					.addContainerGap())
+					.addGroup(layout.createParallelGroup()
+						.addComponent(panel7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addGroup(layout.createSequentialGroup()
+							.addComponent(panel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+							.addComponent(panel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(24, Short.MAX_VALUE))
 		);
 		layout.setVerticalGroup(
 			layout.createParallelGroup()
@@ -229,9 +247,9 @@ public class NewInputOutput extends JPanel {
 					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
 						.addComponent(panel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(panel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addGap(18, 18, 18)
-					.addComponent(buttonSave)
-					.addContainerGap(62, Short.MAX_VALUE))
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+					.addComponent(panel7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(32, Short.MAX_VALUE))
 		);
 	}
 
@@ -251,5 +269,6 @@ public class NewInputOutput extends JPanel {
 	private JButton buttonAddOutput;
 	private JButton buttonEditOutput;
 	private JButton buttonRemoveOutput;
-	private JButton buttonSave;
+	private JPanel panel7;
+	private JButton button9;
 }
