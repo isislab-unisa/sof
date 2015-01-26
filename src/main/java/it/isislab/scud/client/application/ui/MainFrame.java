@@ -237,7 +237,7 @@ public class MainFrame extends JFrame {
 												);
 									}
 									//									CentraltabbedPane.addTab("Test 01", TestCentralTabbedpanel);
-									CentraltabbedPane.addTab("Test 01", new NewSimulationPanel());
+									CentraltabbedPane.addTab("Test 01", new NewSimulationPanel(""));
 									CentraltabbedPane.addTab("Test 02", new NewDomain());
 									CentraltabbedPane.addTab("Test 03", new NewInputOutput());
 									CentraltabbedPane.addTab("Test 04", new XMLPanel());
