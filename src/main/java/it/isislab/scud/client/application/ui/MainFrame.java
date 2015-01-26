@@ -1,6 +1,7 @@
 package it.isislab.scud.client.application.ui;
 
 import it.isislab.scud.client.application.ui.tabwithclose.JTabbedPaneWithCloseIcons;
+import it.isislab.scud.client.application.ui.tabwithclose.ProgressbarDialog;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Loop;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulations;
@@ -93,19 +94,22 @@ public class MainFrame extends JFrame {
 
 
 				buttonReload.setIcon(new ImageIcon("scud-resources/images/ic_action_refresh.png"));
-			
+				buttonReload.setToolTipText("Reload. Reloads the simulations from HDFS.");
 			
 				buttonAdd.setIcon(new ImageIcon("scud-resources/images/ic_action_new.png"));
-
+				buttonAdd.setToolTipText("Add. Creates a new child node.");
 			
 				buttonSave.setIcon(new ImageIcon("scud-resources/images/ic_action_save.png"));
-
+				buttonSave.setToolTipText("Save. Applies the changes on HDFS.");
 			
 				buttonSubmit.setIcon(new ImageIcon("scud-resources/images/ic_action_play.png"));
-				
+				buttonSubmit.setToolTipText("Submit. Submits the selected simulation to the system.");
+					
 				buttonStop.setIcon(new ImageIcon("scud-resources/images/ic_action_stop.png"));
+				buttonStop.setToolTipText("Stop. Interrupts the selected simulation.");
 				
 				buttonExport.setIcon(new ImageIcon("scud-resources/images/ic_action_download.png"));
+				buttonExport.setToolTipText("Download. Downloads the simulation package from HDFS.");
 				
 				buttonReload.addActionListener(new ActionListener() {
 					@Override
@@ -401,8 +405,28 @@ public class MainFrame extends JFrame {
 	}
 
 	protected void buttonReloadActionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		updateFileSystem();
+		final ProgressbarDialog pd=new ProgressbarDialog(this);
+		pd.setTitleMessage("Loading simulations on SCUD file system.");
+		pd.setNoteMessage("Please wait.");
+		final JProgressBar bar=pd.getProgressBar1();
+		
+		pd.setVisible(true);
+		bar.setIndeterminate(true);
+		
+		class MyTaskConnect extends Thread {
+
+	          public void run(){
+	        	  
+	        	  updateFileSystem();
+	        	  bar.setIndeterminate(false);
+	        	  
+	        	  pd.setVisible(false);
+	          }
+		 }
+
+		(new MyTaskConnect()).start();
+		
+		
 	}
 
 	private void initFileSystem()
