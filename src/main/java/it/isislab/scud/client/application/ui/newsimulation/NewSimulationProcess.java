@@ -1,5 +1,8 @@
 package it.isislab.scud.client.application.ui.newsimulation;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
 import javax.swing.JPanel;
 
 public class NewSimulationProcess extends JPanel{
@@ -13,10 +16,11 @@ public class NewSimulationProcess extends JPanel{
 		newsimpan=new NewSimulationPanel(sim_name,this);
 		newdomain=new NewDomain(this);
 		newio=new NewInputOutput(this);
+		this.setLayout(new BorderLayout());
 	
 		
 	}
-	public void setDomainNewSim() {
+	public void setNewSim() {
 		this.removeAll();
 		this.add(newsimpan);
 		

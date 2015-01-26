@@ -351,7 +351,17 @@ public class NewSimulationPanel extends JPanel {
 		
 		
 	}
-
+	public String autho;
+	public String mode;
+	public String toolkit;
+	public String descr;
+	public String simcommand;
+	public String simdirpath;
+	public String selcommand;
+	public String selpath;
+	public String evalcomma;
+	public String evalpath;
+	
 	private JPanel panel1;
 	private JLabel label1;
 	private JLabel label2;
