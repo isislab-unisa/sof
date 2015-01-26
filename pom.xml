@@ -678,7 +678,7 @@
 	<repositories>
 		<repository>
 			<id>it.isislab.scud</id>
-			<url>https://github.com/spagnuolocarmine/scud/raw/master/libraries/repository</url>
+			<url>https://github.com/isislab-unisa/scud/raw/master/libraries/repository</url>
 		</repository>
 	</repositories>
 </project>
