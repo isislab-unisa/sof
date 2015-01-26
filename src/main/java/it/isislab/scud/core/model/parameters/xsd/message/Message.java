@@ -24,7 +24,6 @@ public class Message {
 	private Date processed_date=null;
 
 
-
 	@XmlElement(required=true, name="createDate")
 	public Date getCreated_date() {
 		return created_date;
