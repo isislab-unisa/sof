@@ -57,7 +57,7 @@ public class SCUD {
 				    Runtime.getRuntime().exec("rm -r /home/michele/Scrivania/aids/output");
 		         } catch (IOException e) {e.printStackTrace();}*/
 
-		if(args.length <9)
+		if(args.length <9 || args.length==12 || args.length==13 || args.length>15)
 		{
 
 			System.out.println("Usage:");
@@ -65,6 +65,7 @@ public class SCUD {
 					+ "<simulation_name> "
 					+ "<simulation_path_home> "
 					+ "<simulation_type[mason |netlogo |generic]>"
+					+"<simulation_generic_interpreter_path>"
 					+ "<simultion_program_path> "
 					+ "<simulation_mapper_input_path> "
 					+ "<simulation_mapper_output_path> "
@@ -87,6 +88,7 @@ public class SCUD {
 		String SIMULATION_NAME=null;/*simulation name*/ 
 		String SIMULATION_HOME=null;/*path simulation*/ 
 		String SIM_TYPE=null;/*mason, netlogo, generic*/
+		String SIM_EXECUTABLE_SIMULATION_INTERPRETER_PATH=null;
 		String SIM_EXECUTABLE_SIMULATION_PROGRAM=null; /*executable program *.jar | *.nlogo*/
 		String SIM_EXECUTION_INPUT_DATA_MAPPER=null;/*input.data path */
 		String SIM_EXECUTION_OUTPUT_MAPPER=null;/*output loop(i) path*/
@@ -99,6 +101,18 @@ public class SCUD {
 		String SIM_RATING_PATH=null;
 
 		// aids /home/michele/Scrivania/aids netlogo /home/michele/Scrivania/aids/aids.nlogo /home/michele/Scrivania/aids/input.tmp /home/michele/Scrivania/aids/output /home/michele/Scrivania/aids/domain.xml /home/michele/Scrivania/aids/input loop pepp ciao /usr/bin/python /home/michele/Scrivania/aids/evaluate.py 
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		if(args.length==14){
 			SIMULATION_NAME=args[0]; 
@@ -119,7 +133,7 @@ public class SCUD {
 		}
 
 
-		else{
+		else if(args.length==10){
 			SIMULATION_NAME=args[0];
 			SIMULATION_HOME=args[1];
 			SIM_TYPE=args[2];
@@ -133,6 +147,44 @@ public class SCUD {
 		}
 
 
+		
+		else if(args.length==15){
+			SIMULATION_NAME=args[0]; 
+			SIMULATION_HOME= args[1];
+			SIM_TYPE=args[2];
+			SIM_EXECUTABLE_SIMULATION_INTERPRETER_PATH=args[3];
+			SIM_EXECUTABLE_SIMULATION_PROGRAM=args[4];
+			SIM_EXECUTION_INPUT_DATA_MAPPER=args[5];
+			SIM_EXECUTION_OUTPUT_MAPPER=args[6];
+			SIM_DESCRIPTION_OUTPUT_XML_DOMAIN= args[7];
+			SIM_EXECUTION_INPUT_XML=args[8];
+			SIM_RATING_PATH=args[9];
+			ISLOOP=Boolean.parseBoolean(args[10]);
+			AUTHOR=args[11];
+			DESCRIPTION=args[12];
+			INTERPRETER_REMOTE_PATH_EVALUATION=args[13];
+			EXECUTABLE_RATING_FILE=args[14];
+			
+			
+			
+		}
+		
+		else if(args.length==11){
+			SIMULATION_NAME=args[0];
+			SIMULATION_HOME=args[1];
+			SIM_TYPE=args[2];
+			SIM_EXECUTABLE_SIMULATION_INTERPRETER_PATH=args[3];
+			SIM_EXECUTABLE_SIMULATION_PROGRAM=args[4];
+			SIM_EXECUTION_INPUT_DATA_MAPPER=args[5];
+			SIM_EXECUTION_OUTPUT_MAPPER=args[6];
+			SIM_DESCRIPTION_OUTPUT_XML_DOMAIN= args[7];
+			ISLOOP=Boolean.parseBoolean(args[8]);
+			AUTHOR=args[9];
+			DESCRIPTION=args[10];
+		}
+		
+		
+		
 		if(
 				!(SIM_TYPE.equalsIgnoreCase("mason")
 						||
@@ -150,6 +202,17 @@ public class SCUD {
 		job.set("simulation.home", SIMULATION_HOME);
 		job.set("simulation.name", SIMULATION_NAME);
 		job.set("simulation.type", SIM_TYPE);
+		
+		
+		
+		
+		if(SIM_TYPE.equalsIgnoreCase("generic")){
+		   job.set("simulation.interpreter.genericsim", SIM_EXECUTABLE_SIMULATION_INTERPRETER_PATH);	
+		}
+		
+		
+		
+		
 		job.set("simulation.program.simulation", SIM_EXECUTABLE_SIMULATION_PROGRAM);
 		job.set("simulation.executable.input", SIM_EXECUTION_INPUT_DATA_MAPPER);
 		job.set("simulation.executable.output", SIM_EXECUTION_OUTPUT_MAPPER);
