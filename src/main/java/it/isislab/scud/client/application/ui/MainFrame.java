@@ -161,7 +161,6 @@ public class MainFrame extends JFrame {
 						//======== Toppanel ========
 						{
 							Toppanel.setBackground(new Color(255, 153, 153));
-
 							//======== CenterTabbedscrollPane ========
 							{
 
