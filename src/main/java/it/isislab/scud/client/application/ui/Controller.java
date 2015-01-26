@@ -236,10 +236,13 @@ public class Controller {
 				//					c.printf("No such simulation");
 				//					return null;
 			}
-			int simID = Integer.parseInt(params[0])-1;
 			Simulation sim = null;
 			try{
-				sim = sims.getSimulations().get(simID);
+				for(Simulation s : sims.getSimulations())
+						if(s.getId().equals(params[0])){
+							sim =s;
+							break;
+						}
 			}catch(IndexOutOfBoundsException e){
 				//					c.printf("No such simulation");
 				//					return null;
@@ -251,6 +254,9 @@ public class Controller {
 			//				return null;
 		}
 	}
+	
+	
+	
 	public  void list(String ... params)
 	{
 
