@@ -9,6 +9,8 @@ import it.isislab.scud.core.model.parameters.xsd.input.Input;
 import it.isislab.scud.core.model.parameters.xsd.output.Output;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -42,10 +44,12 @@ public class MainFrame extends JFrame {
 		menuItem1 = new JMenuItem();
 		BackgroundPanel = new JPanel();
 		ButtonPanel = new JPanel();
-		button1 = new JButton();
-		button2 = new JButton();
-		button3 = new JButton();
-		button4 = new JButton();
+		buttonReload = new JButton();
+		buttonAdd = new JButton();
+		buttonExport = new JButton();
+		buttonStop = new JButton();
+		buttonSave = new JButton();
+		buttonSubmit = new JButton();
 		MainPanel = new JPanel();
 		LeftPanel = new JPanel();
 		scrollPane1 = new JScrollPane();
@@ -87,40 +91,92 @@ public class MainFrame extends JFrame {
 			{
 				ButtonPanel.setBorder(null);
 
-				//---- button1 ----
-				button1.setText("text");
 
-				//---- button2 ----
-				button2.setText("text");
+				buttonReload.setIcon(new ImageIcon("scud-resources/images/ic_action_refresh.png"));
+			
+			
+				buttonAdd.setIcon(new ImageIcon("scud-resources/images/ic_action_new.png"));
 
-				//---- button3 ----
-				button3.setText("text");
+			
+				buttonSave.setIcon(new ImageIcon("scud-resources/images/ic_action_save.png"));
 
-				//---- button4 ----
-				button4.setText("text");
+			
+				buttonSubmit.setIcon(new ImageIcon("scud-resources/images/ic_action_play.png"));
+				
+				buttonStop.setIcon(new ImageIcon("scud-resources/images/ic_action_stop.png"));
+				
+				buttonExport.setIcon(new ImageIcon("scud-resources/images/ic_action_download.png"));
+				
+				buttonReload.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						buttonReloadActionPerformed(e);
+					}
+				});
+				
+				buttonAdd.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						buttonAddActionPerformed(e);
+					}
+				});
+				
+				buttonSave.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						buttonSaveActionPerformed(e);
+					}
+				});
+				
+				buttonExport.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						buttonExportActionPerformed(e);
+					}
+				});
+				
+				buttonStop.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						buttonStopActionPerformed(e);
+					}
+				});
+				buttonSubmit.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						buttonSubmitActionPerformed(e);
+					}
+				});
+				
 
 				GroupLayout ButtonPanelLayout = new GroupLayout(ButtonPanel);
 				ButtonPanel.setLayout(ButtonPanelLayout);
 				ButtonPanelLayout.setHorizontalGroup(
 						ButtonPanelLayout.createParallelGroup()
 						.addGroup(ButtonPanelLayout.createSequentialGroup()
-								.addComponent(button1)
-								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-								.addComponent(button2)
+								.addComponent(buttonReload)
 								.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-								.addComponent(button3)
+								.addComponent(buttonAdd)
 								.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-								.addComponent(button4)
+								.addComponent(buttonSave)
+								.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+								.addComponent(buttonSubmit)
+								.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+								.addComponent(buttonStop)
+								.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+								.addComponent(buttonExport)
 								.addGap(0, 0, Short.MAX_VALUE))
 						);
 				ButtonPanelLayout.setVerticalGroup(
 						ButtonPanelLayout.createParallelGroup()
 						.addGroup(ButtonPanelLayout.createSequentialGroup()
 								.addGroup(ButtonPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-										.addComponent(button1)
-										.addComponent(button2)
-										.addComponent(button3)
-										.addComponent(button4))
+										.addComponent(buttonReload)
+										.addComponent(buttonAdd)
+										.addComponent(buttonSave)
+										.addComponent(buttonSubmit)
+										.addComponent(buttonStop)
+										.addComponent(buttonExport))
 										.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 						);
 			}
@@ -319,6 +375,36 @@ public class MainFrame extends JFrame {
 		setLocationRelativeTo(null);
 	}
 
+	protected void buttonSubmitActionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	protected void buttonStopActionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	protected void buttonExportActionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	protected void buttonSaveActionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	protected void buttonAddActionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	protected void buttonReloadActionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		updateFileSystem();
+	}
+
 	private void initFileSystem()
 	{
 
@@ -403,6 +489,7 @@ public class MainFrame extends JFrame {
 						private Output o;
 					}
 					HashMap<Integer, PointTree> mapio=new HashMap<Integer, PointTree>();
+					
 					if(l.getInputs()!=null)
 					{
 						for(Input i: l.getInputs().getinput_list())
@@ -419,6 +506,7 @@ public class MainFrame extends JFrame {
 								
 								mapio.get(i.getIdInput()).setO(i);
 							}
+						else System.out.println("No output found.");
 
 						for (Integer pt : mapio.keySet()) {
 
@@ -462,10 +550,12 @@ public class MainFrame extends JFrame {
 	private JMenuItem menuItem1;
 	private JPanel BackgroundPanel;
 	private JPanel ButtonPanel;
-	private JButton button1;
-	private JButton button2;
-	private JButton button3;
-	private JButton button4;
+	private JButton buttonReload;
+	private JButton buttonAdd;
+	private JButton buttonSave;
+	private JButton buttonSubmit;
+	private JButton buttonExport;
+	private JButton buttonStop;
 	private JPanel MainPanel;
 	private JPanel LeftPanel;
 	private JScrollPane scrollPane1;
