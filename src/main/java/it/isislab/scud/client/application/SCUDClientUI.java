@@ -3,6 +3,8 @@ package it.isislab.scud.client.application;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import com.alee.laf.WebLookAndFeel;
+
 import it.isislab.scud.client.application.ui.ConnectionFrame;
 
 public class SCUDClientUI {
@@ -15,7 +17,7 @@ public class SCUDClientUI {
 
 	public static void main(String[] args) {
 		try {
-			UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
+			UIManager.setLookAndFeel( WebLookAndFeel.class.getCanonicalName () );
 		} catch (ClassNotFoundException | InstantiationException
 				| IllegalAccessException | UnsupportedLookAndFeelException e) {
 			// TODO Auto-generated catch block

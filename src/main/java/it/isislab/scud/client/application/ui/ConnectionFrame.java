@@ -34,8 +34,9 @@ public class ConnectionFrame extends JFrame {
 
 						progressBar1.setIndeterminate(false);
 						progressBar1.setVisible(false);
-						main.setSize((int)(Toolkit.getDefaultToolkit().getScreenSize().width*0.7),
+						main.setSize((int)(Toolkit.getDefaultToolkit().getScreenSize().width*0.8),
 								(int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.7));
+				     
 						main.setVisible(true);
 						frame.dispose();
 

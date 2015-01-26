@@ -657,10 +657,12 @@
 			<version>7.3.4</version>
 		</dependency>
 		<dependency>
-			<groupId>com.jtattoo</groupId>
-			<artifactId>JTattoo</artifactId>
-			<version>1.6.7</version>
-		</dependency>
+	<groupId>de.sciss</groupId>
+	<artifactId>weblaf</artifactId>
+	<version>1.27</version>
+</dependency>
+
+
 	</dependencies>
 	<repositories>
 		<repository>
