@@ -14,8 +14,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -23,7 +26,10 @@ import javax.swing.plaf.metal.MetalTabbedPaneUI;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
+import org.apache.hadoop.hdfs.web.HftpFileSystem;
 import org.apache.log4j.Logger;
+
+import scala.xml.dtd.DFAContentModel;
 
 /**
  * @author Carmine Spagnuolo
@@ -95,50 +101,50 @@ public class MainFrame extends JFrame {
 
 				buttonReload.setIcon(new ImageIcon("scud-resources/images/ic_action_refresh.png"));
 				buttonReload.setToolTipText("Reload. Reloads the simulations from HDFS.");
-			
+
 				buttonAdd.setIcon(new ImageIcon("scud-resources/images/ic_action_new.png"));
 				buttonAdd.setToolTipText("Add. Creates a new child node.");
-			
+
 				buttonSave.setIcon(new ImageIcon("scud-resources/images/ic_action_save.png"));
 				buttonSave.setToolTipText("Save. Applies the changes on HDFS.");
-			
+
 				buttonSubmit.setIcon(new ImageIcon("scud-resources/images/ic_action_play.png"));
 				buttonSubmit.setToolTipText("Submit. Submits the selected simulation to the system.");
-					
+
 				buttonStop.setIcon(new ImageIcon("scud-resources/images/ic_action_stop.png"));
 				buttonStop.setToolTipText("Stop. Interrupts the selected simulation.");
-				
+
 				buttonExport.setIcon(new ImageIcon("scud-resources/images/ic_action_download.png"));
 				buttonExport.setToolTipText("Download. Downloads the simulation package from HDFS.");
-				
+
 				buttonReload.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						buttonReloadActionPerformed(e);
 					}
 				});
-				
+
 				buttonAdd.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						buttonAddActionPerformed(e);
 					}
 				});
-				
+
 				buttonSave.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						buttonSaveActionPerformed(e);
 					}
 				});
-				
+
 				buttonExport.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						buttonExportActionPerformed(e);
 					}
 				});
-				
+
 				buttonStop.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -151,7 +157,7 @@ public class MainFrame extends JFrame {
 						buttonSubmitActionPerformed(e);
 					}
 				});
-				
+
 
 				GroupLayout ButtonPanelLayout = new GroupLayout(ButtonPanel);
 				ButtonPanel.setLayout(ButtonPanelLayout);
@@ -241,7 +247,7 @@ public class MainFrame extends JFrame {
 												.addGap(0, 50, Short.MAX_VALUE)
 												);
 									}
-//									CentraltabbedPane.addTab("Test 01", TestCentralTabbedpanel);
+									//									CentraltabbedPane.addTab("Test 01", TestCentralTabbedpanel);
 									CentraltabbedPane.addTab("Test 01", new XMLPanel());
 									CentraltabbedPane.addTab("Test 02", new XMLPanel());
 									CentraltabbedPane.addTab("Test 03", new XMLPanel());
@@ -374,34 +380,74 @@ public class MainFrame extends JFrame {
 				doMouseClicked(me);
 			}
 		});
-		
+
 		pack();
 		setLocationRelativeTo(null);
 	}
 
 	protected void buttonSubmitActionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	protected void buttonStopActionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	protected void buttonExportActionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		chooser = new JFileChooser();
+		chooser.setDialogTitle("Select your donwload directory");
+		chooser.setCurrentDirectory(new File("."));
+		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		chooser.setAcceptAllFileFilterUsed(false);
 		
+		
+		if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+			DefaultMutableTreeNode selected =(DefaultMutableTreeNode)tree1.getLastSelectedPathComponent();
+			if(selected !=null && selected.toString().contains("Simulation name")){
+				final ProgressbarDialog pd=new ProgressbarDialog(this);
+				pd.setNoteMessage("Please wait.");
+				pd.setVisible(true);
+				final JProgressBar bar=pd.getProgressBar1();
+				pd.setTitleMessage("Download simulation in: "+chooser.getSelectedFile().getAbsolutePath());
+				bar.setIndeterminate(true);
+				
+				Enumeration<DefaultMutableTreeNode> children = selected.children();
+				while(children.hasMoreElements()){
+					DefaultMutableTreeNode node = children.nextElement();
+					if(node.toString().contains("Id")){
+						String[] split = node.toString().split(":");
+						final String idSim = split[1].trim();
+						class MyTaskConnect extends Thread {
+
+							public void run(){
+
+								controller.getresult(idSim,chooser.getSelectedFile().getAbsolutePath());
+								bar.setIndeterminate(false);
+
+								pd.setVisible(false);
+							}
+						}
+						(new MyTaskConnect()).start();
+					}
+				}
+			}
+			else {
+				JOptionPane.showMessageDialog(this,"Selection error!\n You must select selection node from SCUD filesystem");
+			}
+		}
+
 	}
 
 	protected void buttonSaveActionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	protected void buttonAddActionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	protected void buttonReloadActionPerformed(ActionEvent e) {
@@ -409,24 +455,24 @@ public class MainFrame extends JFrame {
 		pd.setTitleMessage("Loading simulations on SCUD file system.");
 		pd.setNoteMessage("Please wait.");
 		final JProgressBar bar=pd.getProgressBar1();
-		
+
 		pd.setVisible(true);
 		bar.setIndeterminate(true);
-		
+
 		class MyTaskConnect extends Thread {
 
-	          public void run(){
-	        	  
-	        	  updateFileSystem();
-	        	  bar.setIndeterminate(false);
-	        	  
-	        	  pd.setVisible(false);
-	          }
-		 }
+			public void run(){
+
+				updateFileSystem();
+				bar.setIndeterminate(false);
+
+				pd.setVisible(false);
+			}
+		}
 
 		(new MyTaskConnect()).start();
-		
-		
+
+
 	}
 
 	private void initFileSystem()
@@ -448,8 +494,8 @@ public class MainFrame extends JFrame {
 				{
 					DefaultMutableTreeNode sim_point= (DefaultMutableTreeNode) node.getParent();
 					DefaultMutableTreeNode sim_loop= (DefaultMutableTreeNode) node.getParent();
-					
-					
+
+
 				}
 			}
 
@@ -460,6 +506,7 @@ public class MainFrame extends JFrame {
 	{
 		System.out.println("Loading simulations");
 		Simulations sims=controller.getsimulations();
+		
 		fs_root.removeAllChildren();
 		DefaultMutableTreeNode new_sim=null;
 		if(sims == null)
@@ -467,9 +514,13 @@ public class MainFrame extends JFrame {
 			JOptionPane.showMessageDialog(this,"No simulations found on HDFS.");
 			return;
 		}
-		ArrayList<Simulation> sims_hdfs = sims.getSimulations();
+
+		for(Simulation s : sims.getSimulations())
+			sims_hdfs.put(s.getId(), s);
 		
-		for (Simulation s : sims_hdfs) {
+		Simulation s=null;
+		for (String key : sims_hdfs.keySet()) {
+			s = sims_hdfs.get(key);
 			new_sim = new DefaultMutableTreeNode("Simulation name: "+s.getName());
 			fs_root.add(new_sim);
 
@@ -513,7 +564,7 @@ public class MainFrame extends JFrame {
 						private Output o;
 					}
 					HashMap<Integer, PointTree> mapio=new HashMap<Integer, PointTree>();
-					
+
 					if(l.getInputs()!=null)
 					{
 						for(Input i: l.getInputs().getinput_list())
@@ -527,7 +578,7 @@ public class MainFrame extends JFrame {
 						if(l.getOutputs()!=null && l.getOutputs().getOutput_list()!=null)
 							for(Output i: l.getOutputs().getOutput_list())
 							{
-								
+
 								mapio.get(i.getIdInput()).setO(i);
 							}
 						else System.out.println("No output found.");
@@ -593,5 +644,6 @@ public class MainFrame extends JFrame {
 	private JPanel Bottonpanel;
 	private JScrollPane CenterBottomscrollPane;
 	private JList CenterBottomlist;
-
+	private JFileChooser chooser;
+	private HashMap<String, Simulation> sims_hdfs = new HashMap<String, Simulation>();
 }
