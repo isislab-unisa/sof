@@ -3,6 +3,7 @@ package it.isislab.scud.client.application.ui;
 import it.isislab.scud.client.application.ui.newsimulation.NewDomain;
 import it.isislab.scud.client.application.ui.newsimulation.NewInputOutput;
 import it.isislab.scud.client.application.ui.newsimulation.NewSimulationPanel;
+import it.isislab.scud.client.application.ui.newsimulation.NewSimulationProcess;
 import it.isislab.scud.client.application.ui.tabwithclose.JTabbedPaneWithCloseIcons;
 import it.isislab.scud.client.application.ui.tabwithclose.ProgressbarDialog;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Loop;
@@ -237,10 +238,10 @@ public class MainFrame extends JFrame {
 												);
 									}
 									//									CentraltabbedPane.addTab("Test 01", TestCentralTabbedpanel);
-									CentraltabbedPane.addTab("Test 01", new NewSimulationPanel(""));
-									CentraltabbedPane.addTab("Test 02", new NewDomain());
-									CentraltabbedPane.addTab("Test 03", new NewInputOutput());
-									CentraltabbedPane.addTab("Test 04", new XMLPanel());
+//									CentraltabbedPane.addTab("Test 01", new NewSimulationPanel(""));
+//									CentraltabbedPane.addTab("Test 02", new NewDomain());
+//									CentraltabbedPane.addTab("Test 03", new NewInputOutput());
+//									CentraltabbedPane.addTab("Test 04", new XMLPanel());
 								}
 								CenterTabbedscrollPane.setViewportView(CentraltabbedPane);
 							}
@@ -432,7 +433,8 @@ public class MainFrame extends JFrame {
 
 	protected void buttonAddActionPerformed(ActionEvent e) {
 		String sim_name=JOptionPane.showInputDialog("Simulation name:");
-		NewSimulationPanel tab=new NewSimulationPanel(sim_name);
+
+		NewSimulationProcess tab=new NewSimulationProcess(sim_name);
 		CentraltabbedPane.add(tab,sim_name);
 		CentraltabbedPane.setSelectedComponent(tab);
 		
