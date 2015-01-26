@@ -33,21 +33,31 @@ import org.apache.commons.codec.digest.DigestUtils;
     │   │   │   ├── rating.executable
     │   │   │   └── selection.executable
     │   │   └── execution
-    │   │       ├── loop1
-    │   │       │   ├── input
-    |	|		|	|	|__ input.xml	
-    │   │       │   │   └── input.data
-    │   │       │   ├── output
-    │   │       │   │   ├── OUTPUTXXXXXXXXXX1.xml
-    │   │       │   │   ├── OUTPUTXXXXXXXXXX2.xml
-    │   │       │   │   ├── OUTPUTXXXXXXXXXXX.xml
-    │   │       │   │   ├── _SUCCESS
-    │   │       │   │   └── part-00000
-    │   │       │   ├── ratings
-    │   │       │   │   └── some.files
-    │   │       │   └── selections
-    │   │       │       └── some.files
-    │   │       └── runs.xml
+    │   │   │    ├── loop1
+    │   │   │    │   ├── input
+    |	|	│	|	|	|__ input.xml	
+    │   │   │    │   │   └── input.data
+    │   │   │    │   ├── output
+    │   │   │    │   │   ├── OUTPUTXXXXXXXXXX1.xml
+    │   │   │    │   │   ├── OUTPUTXXXXXXXXXX2.xml
+    │   │   │    │   │   ├── OUTPUTXXXXXXXXXXX.xml
+    │   │   │    │   │   ├── _SUCCESS
+    │   │   │    │   │   └── part-00000
+    │   │   │    │   ├── ratings
+    │   │   │    │   │   └── some.files
+    │   │   │    │   └── selections
+    │   │   │    │       └── some.files
+    │   │   │    └── runs.xml
+    |   |   │
+    │   │   │__messages
+    |   |          |_____inbox
+    |   |          |       |____messagexxxxx2.xml
+    |   |          |       |____messagexxxxx3.xml 
+    |   |          |
+    |   |          |_____delivered  
+    |   |                  |____messagexxxxx1.xml 
+    |   |
+    |   |
     │   └── simulations
     |			|___simulation-TIMESTAMP
     |			|___simulation-TIMESTAMPX
@@ -107,6 +117,11 @@ public class FileSystemSupport {
 	private final String SIMULATION_LIST_FOLDER="simulations";
 	private final String DESCRIPTION_FOLDER="description";
 	private final String EXECUTION_FOLDER="execution";
+
+	private final String SIMULATION_MESSAGES_FOLDER="messages";
+	private final String MESSAGES_INBOX_FOLDER="inbox";
+	private final String MESSAGES_DELIVERED_FOLDER="delivered";
+
 	private final String RATINGS_FOLDER="ratings";
 	private final String SELECTIONS_FOLDER="selections";
 	private final String OUTPUT_FOLDER="outputs";
@@ -120,6 +135,7 @@ public class FileSystemSupport {
 	private final String TEMP_LOG_PREFIX="SCUD-TMP-LOG";
 	private final String SIMULATION_FOLDER_PREFIX="SIM-";
 	private final String LOOP_FOLDER_PREFIX="LOOP";
+
 
 	//private final String SELECTION_EXE_PREFIX="SELCTION_EXE";
 	//private final String RATING_EXE_PREFIX="RATING_EXE";
@@ -165,7 +181,7 @@ public class FileSystemSupport {
 
 		if(hdfs_home_path.endsWith("/"))
 			hdfs_home_path=hdfs_home_path.substring(0, hdfs_home_path.lastIndexOf("/"));
-		
+
 		SCUD_HDFS_HOME=hdfs_home_path+"/SCUD";
 		SCUD_REMOTE_HOME=remote_home_path+"/SCUD";
 		SCUD_LOCAL_CLIENT_INSTALL_HOME=client_home_path+SEPARATOR+"SCUD";
@@ -177,18 +193,18 @@ public class FileSystemSupport {
 	 * SCUD-REMOTE FS
 	 */
 
-    public String getRemoteJavaBinPath(){
-    	return JAVA_REMOTE_BIN_FOLDER;
-    }
-	
+	public String getRemoteJavaBinPath(){
+		return JAVA_REMOTE_BIN_FOLDER;
+	}
+
 	public String getRemoteHadoopInstallPath(){
 		return HADOOP_ROOT_INSTALL_PATH;
 	}
-	
+
 	public String getRemoteHadoopInstallBinPath(){
 		return HADOOP_ROOT_INSTALL_PATH+"/bin";
 	}
-	
+
 	public String getRemoteRootPath(){return REMOTE_ROOT_PATH;}
 
 	public String getRemoteSCUDHome()
@@ -282,6 +298,37 @@ public class FileSystemSupport {
 	}
 
 
+
+	
+	
+	
+	
+	//messages 
+	public String getHdfsUserPathSimulationMessagesByID(String simid){
+		return this.getHdfsUserPathHomeDir()+"/"+SIMULATION_FOLDER_PREFIX+simid+"/"+SIMULATION_MESSAGES_FOLDER;
+	}
+    //inbox
+	public String getHdfsUserPathSimulationInboxMessages(String simid){
+      return this.getHdfsUserPathSimulationMessagesByID(simid)+"/"+MESSAGES_INBOX_FOLDER;
+	}
+    //delivered
+	public String getHdfsUserPathSimulationDeliveredMessages(String simid){
+		return this.getHdfsUserPathSimulationMessagesByID(simid)+"/"+MESSAGES_DELIVERED_FOLDER;
+	}
+
+	
+	
+    /*forse nun serv  namemessage.xml
+	public String getHdfsUserPathSimulationXMLMessaggeByID(String simid){
+	  return DigestUtils.md5Hex(this.getHdfsUserPathSimulationByID(simid)+System.currentTimeMillis())+".xml";
+	}*/
+	
+
+	
+	
+	
+	
+	
 	public String getHdfsUserPathHomeDir()
 	{
 		return SCUD_HDFS_HOME+"/"+username;
@@ -312,20 +359,20 @@ public class FileSystemSupport {
 	{
 		return this.getHdfsUserPathSimulationByID(simid)+"/"+EXECUTION_FOLDER;
 	}	
-	
+
 	public String getHdfsUserPathSimulationsListDir(){
 		return this.getHdfsUserPathHomeDir()+"/"+SIMULATION_LIST_FOLDER;
 	}
-	
+
 	public String getHdfsUserPathSimulationXMLFile(String id){
 		return this.getHdfsUserPathSimulationsListDir()+"/SIM-"+id+".xml";
 	}
-	
+
 	/*public String getHdfsUserPathSimulationsXml()
 	{
 		return  this.getHdfsUserPathHomeDir()+"/"+SIMULATION_LIST_FILENAME;
 	}*/
-	
+
 	public String getHdfsUserPathRunsXml(String simid)
 	{
 		return this.getHdfsUserPathExecutionDirForSimId(simid)+"/"+LOOP_LIST_FILENAME;
@@ -416,6 +463,9 @@ public class FileSystemSupport {
 		System.out.println("HDFS scud simulation loop by id:"+fs.getHdfsUserPathSimulationLoopByIDs(1+"", 1));
 		System.out.println("HDFS scud simulation description:"+fs.getHdfsUserPathDescriptionDirForSimId(1+""));
 		System.out.println("HDFS scud simulation execution:"+fs.getHdfsUserPathExecutionDirForSimId(1+""));
+		System.out.println("HDFS scud simulation messages:"+fs.getHdfsUserPathSimulationMessagesByID("1"));
+		System.out.println("HDFS scud simulation inbox messages:"+fs.getHdfsUserPathSimulationInboxMessages("1"));
+		System.out.println("HDFS scud simulation delivered messages:"+fs.getHdfsUserPathSimulationDeliveredMessages("1"));
 		//System.out.println("HDFS scud simulation.xml:"+fs.getHdfsUserPathSimulationsXml());
 		System.out.println("HDFS scud domain.xml for SIM1:"+fs.getHdfsUserPathDomainXML(1+""));
 		System.out.println("HDFS scud runx.xml for SIM1:"+fs.getHdfsUserPathRunsXml(1+""));
@@ -430,6 +480,7 @@ public class FileSystemSupport {
 		System.out.println("HDFS scud rating folder for loop 1 for SIM1:"+fs.getHdfsUserPathRatingFolderForSimLoop(1+"",1));
 		System.out.println("HDFS scud selection folder for loop 1 for SIM1:"+fs.getHdfsUserPathSelectionFolder(1+"",1));
 		System.out.println("HDFS File description inputtempdata"+fs.getHdfsUserPathDescriptionInputDirInputData(1+""));
+		
 		System.out.println("**********************************************************************");
 		System.out.println("**********************************************************************");
 	}
