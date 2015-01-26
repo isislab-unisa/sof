@@ -11,6 +11,7 @@ import it.isislab.scud.core.model.parameters.xsd.output.Output;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.*;
@@ -352,7 +353,14 @@ public class MainFrame extends JFrame {
 		Simulations sims=controller.getsimulations();
 		fs_root.removeAllChildren();
 		DefaultMutableTreeNode new_sim=null;
-		for (Simulation s : sims.getSimulations()) {
+		if(sims == null)
+		{
+			JOptionPane.showMessageDialog(this,"No simulations found on HDFS.");
+			return;
+		}
+		ArrayList<Simulation> sims_hdfs = sims.getSimulations();
+		
+		for (Simulation s : sims_hdfs) {
 			new_sim = new DefaultMutableTreeNode("Simulation name: "+s.getName());
 			fs_root.add(new_sim);
 
