@@ -3,16 +3,11 @@ package it.isislab.scud.client.application.ui.newsimulation;
 import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.border.*;
-/*
- */
 
-
-
-/**
- * @author Red red
- */
 public class NewSimulationPanel extends JPanel {
-	public NewSimulationPanel() {
+	private String sim_name="";
+	public NewSimulationPanel(String sim_name) {
+		this.sim_name=sim_name;
 		initComponents();
 	}
 
@@ -224,10 +219,10 @@ public class NewSimulationPanel extends JPanel {
 			layout.createParallelGroup()
 				.addGroup(layout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(layout.createParallelGroup()
-						.addComponent(panel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
 						.addComponent(panel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panel3, GroupLayout.PREFERRED_SIZE, 385, GroupLayout.PREFERRED_SIZE))
+						.addComponent(panel3, GroupLayout.PREFERRED_SIZE, 385, GroupLayout.PREFERRED_SIZE)
+						.addComponent(panel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		layout.setVerticalGroup(
