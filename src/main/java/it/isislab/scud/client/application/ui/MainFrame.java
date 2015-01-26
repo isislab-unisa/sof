@@ -431,8 +431,9 @@ public class MainFrame extends JFrame {
 
 
 	protected void buttonAddActionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
+		String sim_name=JOptionPane.showInputDialog("Simulation name:");
+		NewSimulationPanel tab=new NewSimulationPanel(sim_name);
+		CentraltabbedPane.setSelectedComponent(tab);
 	}
 
 	protected void buttonReloadActionPerformed(ActionEvent e) {
