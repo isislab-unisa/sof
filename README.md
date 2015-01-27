@@ -7,6 +7,11 @@ SCUD is a framework to exploit simulation optimization on Hadoop cluster. SCUD i
 
 The SCUD system presents two main entities: the SCUD client and the remote host machine on which is installed Hadoop, also named the Hadoop master node. Respectively on the left and on the right of the above figure.
 
+We designed the framework based on the following objectives:
+	* zero configuration the framework neither require the installation nor the configu- ration of any additional software, only Hadoop and a SSH access to the hosting platform are required;
+	* flexibilityandexpandability,boththesimulationimplementationandthesimulation optimization functionalities can be implemented using different simulation toolk- its (MASON, NetLogo, etc.) and/or exploiting different programming languages, provided that the hosting platform support them;
+	* efficiency, the framework must ensure the highest performance according the re- sources available on the hosting platform.
+
 ![alt tag](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/architecture/ascud.png)
 
 
