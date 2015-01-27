@@ -12,6 +12,9 @@
 	<j2se version="1.7+"
 	      href="http://java.sun.com/products/autodl/j2se"/>
    </resources>
+   <security>
+  	<all-permissions/>
+	</security>
    <application-desc main-class="it.isislab.scud.client.application.SCUDClientUI"/>
 </jnlp>
 
