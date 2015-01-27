@@ -45,7 +45,7 @@ public class MainFrame extends JFrame {
 	public MainFrame(Controller controller) {
 		this.controller=controller;
 		initComponents();
-		
+
 		main_frame=this;
 	}
 
@@ -120,17 +120,17 @@ public class MainFrame extends JFrame {
 
 				buttonExport.setIcon(new ImageIcon("scud-resources/images/ic_action_download.png"));
 				buttonExport.setToolTipText("Download. Downloads the simulation package from HDFS.");
-				
+
 				buttonShow.setIcon(new ImageIcon("scud-resources/images/ic_action_about.png"));
 				buttonShow.setToolTipText("Show. Shows details about the selected simulations.");
-				
+
 				buttonShow.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						buttonShowActionPerformed(e);
 					}
 				});
-				
+
 				buttonReload.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -255,10 +255,10 @@ public class MainFrame extends JFrame {
 												);
 									}
 									//									CentraltabbedPane.addTab("Test 01", TestCentralTabbedpanel);
-//									CentraltabbedPane.addTab("Test 01", new NewSimulationPanel(""));
-//									CentraltabbedPane.addTab("Test 02", new NewDomain());
-//									CentraltabbedPane.addTab("Test 03", new NewInputOutput());
-//									CentraltabbedPane.addTab("Test 04", new XMLPanel());
+									//									CentraltabbedPane.addTab("Test 01", new NewSimulationPanel(""));
+									//									CentraltabbedPane.addTab("Test 02", new NewDomain());
+									//									CentraltabbedPane.addTab("Test 03", new NewInputOutput());
+									//									CentraltabbedPane.addTab("Test 04", new XMLPanel());
 								}
 								CenterTabbedscrollPane.setViewportView(CentraltabbedPane);
 							}
@@ -395,7 +395,7 @@ public class MainFrame extends JFrame {
 	protected void buttonShowActionPerformed(ActionEvent e) {
 		DefaultMutableTreeNode selected =(DefaultMutableTreeNode)tree1.getLastSelectedPathComponent();
 		if(selected !=null && selected.toString().contains("Simulation name")){
-			
+
 			Enumeration<DefaultMutableTreeNode> children = selected.children();
 			String status;
 			String idSim=null;
@@ -403,24 +403,24 @@ public class MainFrame extends JFrame {
 				DefaultMutableTreeNode node = children.nextElement();
 				if(node.toString().contains("Id")){
 					String[] split = node.toString().split(":");
-					 idSim = split[1].trim();
+					idSim = split[1].trim();
 				}
 			}
-			
+
 			XMLPanel panel=new XMLPanel(sims_hdfs.get(idSim));
-			
+
 			CentraltabbedPane.add(panel,"Sim: "+idSim);
-			
+
 			CentraltabbedPane.setSelectedComponent(panel);
 		}
-		
-		
+
+
 	}
 
 	protected void buttonSubmitActionPerformed(ActionEvent e) {
 		DefaultMutableTreeNode selected =(DefaultMutableTreeNode)tree1.getLastSelectedPathComponent();
 		if(selected !=null && selected.toString().contains("Simulation name")){
-			
+
 			Enumeration<DefaultMutableTreeNode> children = selected.children();
 			String status;
 			String idSim=null;
@@ -436,7 +436,7 @@ public class MainFrame extends JFrame {
 				}
 				if(node.toString().contains("Id")){
 					String[] split = node.toString().split(":");
-					 idSim = split[1].trim();
+					idSim = split[1].trim();
 				}
 			}
 			final String final_sim_id=idSim;
@@ -455,16 +455,16 @@ public class MainFrame extends JFrame {
 						JOptionPane.showMessageDialog(main_frame,"Submit Error! Please try again.");
 						return;
 					}
-					
+
 					updateFileSystem();
-					
+
 					bar.setIndeterminate(false);
 					pd.setVisible(false);
 				}
 			}
 
 			(new MyTaskConnect()).start();
-			
+
 		}
 		else {
 			JOptionPane.showMessageDialog(this,"Selection error!\n You must select selection node from SCUD filesystem");
@@ -478,47 +478,102 @@ public class MainFrame extends JFrame {
 	}
 
 	protected void buttonExportActionPerformed(ActionEvent e) {
-		chooser = new JFileChooser();
-		chooser.setDialogTitle("Select your donwload directory");
-		chooser.setCurrentDirectory(new File("."));
-		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		chooser.setAcceptAllFileFilterUsed(false);
-		
-		
-		if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+
+	
 			DefaultMutableTreeNode selected =(DefaultMutableTreeNode)tree1.getLastSelectedPathComponent();
 			if(selected !=null && selected.toString().contains("Simulation name")){
-				final ProgressbarDialog pd=new ProgressbarDialog(this);
-				pd.setNoteMessage("Please wait.");
-				pd.setVisible(true);
-				final JProgressBar bar=pd.getProgressBar1();
-				pd.setTitleMessage("Download simulation in: "+chooser.getSelectedFile().getAbsolutePath());
-				bar.setIndeterminate(true);
 				
+				String simualtionID=null;
 				Enumeration<DefaultMutableTreeNode> children = selected.children();
 				while(children.hasMoreElements()){
 					DefaultMutableTreeNode node = children.nextElement();
 					if(node.toString().contains("Id")){
 						String[] split = node.toString().split(":");
-						final String idSim = split[1].trim();
-						class MyTaskConnect extends Thread {
-
-							public void run(){
-
-								controller.getresult(idSim,chooser.getSelectedFile().getAbsolutePath());
-								bar.setIndeterminate(false);
-
-								pd.setVisible(false);
-							}
-						}
-						(new MyTaskConnect()).start();
+						simualtionID = split[1].trim();
+						
 					}
+				}
+				if(simualtionID==null) 
+					{
+						JOptionPane.showMessageDialog(this,"Error in reading simulation ID, try again!.");
+						return;
+					}
+				
+				Object[] possibilities = {"Excel", "Backup"};
+				String s = (String)
+				JOptionPane.showInputDialog(this,
+						"Select how to export the simulation with ID:"+ simualtionID, 
+						"Export",
+						JOptionPane.QUESTION_MESSAGE,
+						javax.swing.UIManager.getIcon("OptionPane.informationIcon"), 
+						possibilities, 
+						"Excel");
+			
+
+				chooser = new JFileChooser();
+				chooser.setDialogTitle("Select your donwload directory");
+				chooser.setCurrentDirectory(new File("."));
+				chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				chooser.setAcceptAllFileFilterUsed(false);
+	
+	
+	
+				if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+	
+					final ProgressbarDialog pd=new ProgressbarDialog(this);
+					pd.setNoteMessage("Please wait.");
+					pd.setVisible(true);
+					final JProgressBar bar=pd.getProgressBar1();
+					pd.setTitleMessage("Download simulation in: "+chooser.getSelectedFile().getAbsolutePath());
+					bar.setIndeterminate(true);
+				
+					
+					
+					final String idSim =simualtionID;
+					class MyTaskConnectBackup extends Thread {
+
+						public void run(){
+
+							controller.getresult(idSim,chooser.getSelectedFile().getAbsolutePath());
+							bar.setIndeterminate(false);
+
+							pd.setVisible(false);
+						}
+					}
+					class MyTaskConnectExcel extends Thread {
+
+						public void run(){
+
+							controller.getresult(idSim,chooser.getSelectedFile().getAbsolutePath());
+							bar.setIndeterminate(false);
+
+							pd.setVisible(false);
+						}
+					}
+
+					if ((s != null) && (s.length() > 0)) {
+						if(s.equals("Excel"))
+						{
+							(new MyTaskConnectExcel()).start();
+						}
+						else if(s.equals("Backup"))
+						{
+							(new MyTaskConnectBackup()).start();
+						}else
+						{
+						
+						}
+					   
+					}
+					
+					
 				}
 			}
 			else {
-				JOptionPane.showMessageDialog(this,"Selection error!\n You must select selection node from SCUD filesystem");
+				
+				JOptionPane.showMessageDialog(this,"Selection error!\n You must select selection node from SCUD filesystem.");
 			}
-		}
+		
 
 	}
 
@@ -530,8 +585,8 @@ public class MainFrame extends JFrame {
 		tab.setNewSim();
 		CentraltabbedPane.add(tab,sim_name);
 		CentraltabbedPane.setSelectedComponent(tab);
-		
-		
+
+
 	}
 
 	protected void buttonReloadActionPerformed(ActionEvent e) {
@@ -604,7 +659,7 @@ public class MainFrame extends JFrame {
 
 		for(Simulation s : sims.getSimulations())
 			sims_hdfs.put(s.getId(), s);
-		
+
 		Simulation s=null;
 		for (String key : sims_hdfs.keySet()) {
 			s = sims_hdfs.get(key);
