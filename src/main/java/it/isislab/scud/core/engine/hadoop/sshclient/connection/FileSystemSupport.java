@@ -15,6 +15,11 @@
 package it.isislab.scud.core.engine.hadoop.sshclient.connection;
 
 import java.io.File;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.Enumeration;
 
 import org.apache.commons.codec.digest.DigestUtils;
 /**
@@ -120,7 +125,8 @@ public class FileSystemSupport {
 
 	private final String SIMULATION_MESSAGES_FOLDER="messages";
 	private final String MESSAGES_INBOX_FOLDER="inbox";
-	private final String MESSAGES_DELIVERED_FOLDER="delivered";
+	private final String MESSAGES_INBOX_FOLDER_MESSAGE_PREFIX="MEX-";
+	private final String MESSAGES_INBOX_FOLDER_MESSAGE_EXTENSION=".xml";
 
 	private final String RATINGS_FOLDER="ratings";
 	private final String SELECTIONS_FOLDER="selections";
@@ -299,36 +305,28 @@ public class FileSystemSupport {
 
 
 
-	
-	
-	
-	
+
+
+
+
 	//messages 
 	public String getHdfsUserPathSimulationMessagesByID(String simid){
-		return this.getHdfsUserPathHomeDir()+"/"+SIMULATION_FOLDER_PREFIX+simid+"/"+SIMULATION_MESSAGES_FOLDER;
+
+		return this.getHdfsUserPathSimulationByID(simid)+"/"+SIMULATION_MESSAGES_FOLDER;
 	}
-    //inbox
+	//inbox
 	public String getHdfsUserPathSimulationInboxMessages(String simid){
-      return this.getHdfsUserPathSimulationMessagesByID(simid)+"/"+MESSAGES_INBOX_FOLDER;
-	}
-    //delivered
-	public String getHdfsUserPathSimulationDeliveredMessages(String simid){
-		return this.getHdfsUserPathSimulationMessagesByID(simid)+"/"+MESSAGES_DELIVERED_FOLDER;
+		return this.getHdfsUserPathSimulationMessagesByID(simid)+"/"+MESSAGES_INBOX_FOLDER;
 	}
 
+	public String getHdfsUserPathSimulationInboxMessagesFile(String simid){
+		return this.getHdfsUserPathSimulationInboxMessages(simid)+"/"+MESSAGES_INBOX_FOLDER_MESSAGE_PREFIX+getMexID()+MESSAGES_INBOX_FOLDER_MESSAGE_EXTENSION;
+	}
 	
-	
-    /*forse nun serv  namemessage.xml
-	public String getHdfsUserPathSimulationXMLMessaggeByID(String simid){
-	  return DigestUtils.md5Hex(this.getHdfsUserPathSimulationByID(simid)+System.currentTimeMillis())+".xml";
-	}*/
-	
+	public String getHdfsUserPathSimulationInboxMessagesFileByID(String simid, String mexID){
+		return this.getHdfsUserPathSimulationInboxMessages(simid)+"/"+MESSAGES_INBOX_FOLDER_MESSAGE_PREFIX+mexID+MESSAGES_INBOX_FOLDER_MESSAGE_EXTENSION;
+	}
 
-	
-	
-	
-	
-	
 	public String getHdfsUserPathHomeDir()
 	{
 		return SCUD_HDFS_HOME+"/"+username;
@@ -430,6 +428,38 @@ public class FileSystemSupport {
 	{
 		return this.getHdfsUserPathSimulationLoopByIDs(simid,loopid)+"/"+SELECTIONS_FOLDER;
 	}
+	
+	/**
+	 * 
+	 * @return a unique filename. If there is execption, it will be return MD5(System.currentTimeMillis)
+	 */
+	private String getMexID() {
+		InetAddress addr;
+		try {
+			addr = InetAddress.getLocalHost();
+			Enumeration<NetworkInterface> networks = NetworkInterface.getNetworkInterfaces();
+			while(networks.hasMoreElements()) {
+				NetworkInterface network = networks.nextElement();
+				byte[] mac = network.getHardwareAddress();
+
+				if(mac != null) {
+					StringBuilder sb = new StringBuilder();
+					for (int i = 0; i < mac.length; i++) {
+						sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
+					}
+					return DigestUtils.md5Hex(sb.toString()+(System.currentTimeMillis()+""));
+				}
+			}
+			return DigestUtils.md5Hex(System.currentTimeMillis()+"");
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+			return DigestUtils.md5Hex(System.currentTimeMillis()+"");
+		} catch (SocketException e){
+			e.printStackTrace();
+			return DigestUtils.md5Hex(System.currentTimeMillis()+"");
+		}
+	}
+	
 	/**
 	 * END SCUD-HDFS FS
 	 */
@@ -465,7 +495,6 @@ public class FileSystemSupport {
 		System.out.println("HDFS scud simulation execution:"+fs.getHdfsUserPathExecutionDirForSimId(1+""));
 		System.out.println("HDFS scud simulation messages:"+fs.getHdfsUserPathSimulationMessagesByID("1"));
 		System.out.println("HDFS scud simulation inbox messages:"+fs.getHdfsUserPathSimulationInboxMessages("1"));
-		System.out.println("HDFS scud simulation delivered messages:"+fs.getHdfsUserPathSimulationDeliveredMessages("1"));
 		//System.out.println("HDFS scud simulation.xml:"+fs.getHdfsUserPathSimulationsXml());
 		System.out.println("HDFS scud domain.xml for SIM1:"+fs.getHdfsUserPathDomainXML(1+""));
 		System.out.println("HDFS scud runx.xml for SIM1:"+fs.getHdfsUserPathRunsXml(1+""));
@@ -480,7 +509,7 @@ public class FileSystemSupport {
 		System.out.println("HDFS scud rating folder for loop 1 for SIM1:"+fs.getHdfsUserPathRatingFolderForSimLoop(1+"",1));
 		System.out.println("HDFS scud selection folder for loop 1 for SIM1:"+fs.getHdfsUserPathSelectionFolder(1+"",1));
 		System.out.println("HDFS File description inputtempdata"+fs.getHdfsUserPathDescriptionInputDirInputData(1+""));
-		
+
 		System.out.println("**********************************************************************");
 		System.out.println("**********************************************************************");
 	}

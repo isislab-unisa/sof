@@ -245,32 +245,12 @@ public class ScudManager {
 			String interpreter_simulation_generic) 
 					throws ParserConfigurationException, SAXException, IOException, TransformerException, NumberFormatException, JSchException, SftpException{
 
-		/**crea cartella temporanea lato client*/
-		/****************AIUTO****************/
-		//makeLocalTemporaryFolder(fs.getClientPathForTmpFolder());
-
-
-
 
 		/**path file simulations.xml utente hdfs*/
-		//String hdfs_path_list_sim = fs.getHdfsUserPathSimulationsXml();
+
 
 		/**path file simulations.xml utente lato client*/
 		String tmp_sim_xml_file = fs.getClientPathForTmpFile();
-
-		//LOCK simulations.xml
-		//Simulations simListFile = new Simulations();
-
-
-		/*if(HadoopFileSystemManager.ifExists(session, hdfs_path_list_sim)){
-			if(HadoopFileSystemManager.copyFromHdfsToClient(session, hdfs_path_list_sim, tmp_path_list_sim))
-				log.info("Copied successfully from "+hdfs_path_list_sim+" to "+tmp_path_list_sim);
-
-			simListFile = SimulationParser.convertXMLToSimulations(tmp_path_list_sim);
-		}else{
-			SimulationParser.convertSimulationsToXML(simListFile, tmp_path_list_sim);
-		}*/
-
 		//id simulation xml file
 		String idSimXmlFile = getSimID();
 		//path for simulation xml file
@@ -414,8 +394,20 @@ public class ScudManager {
 			log.info("Failed Copied "+hdfsSimXmlFile);
 
 
-		//removeLocalTemporaryFolder(tmpFolderName);
-		//removeLocalTemporaryFolder(fs.getClientSCUDHome());
+		//MESSAGES SIDE
+		
+				if(HadoopFileSystemManager.mkdir(session, fs.getHdfsUserPathSimulationMessagesByID(idSimXmlFile))){
+					log.info("Created "+fs.getHdfsUserPathSimulationMessagesByID(idSimXmlFile));
+					
+					if(HadoopFileSystemManager.mkdir(session, fs.getHdfsUserPathSimulationInboxMessages(idSimXmlFile))){
+						log.info("Created "+fs.getHdfsUserPathSimulationInboxMessages(idSimXmlFile));
+						
+					}else{
+						log.severe("Unable to create "+fs.getHdfsUserPathSimulationInboxMessages(idSimXmlFile));
+					}
+				}else{
+					log.severe("Unable to create "+fs.getHdfsUserPathSimulationMessagesByID(idSimXmlFile));
+				}
 
 		log.info("Simulation has been created.");
 		return sim;
@@ -636,10 +628,19 @@ public class ScudManager {
 		if(HadoopFileSystemManager.copyFromClientToHdfs(session, tmp_sim_xml_file, hdfsSimXmlFile))
 			log.info("Copied "+hdfsSimXmlFile);
 
-		/*(new File(tmp_sim_xml_file)).delete();
-		(new File(tmpRunXmlFilePath)).delete();*/
-		//removeLocalTemporaryFolder(tmpFolderName);
-
+		//MESSAGES SIDE
+		
+		if(HadoopFileSystemManager.mkdir(session, fs.getHdfsUserPathSimulationMessagesByID(simulationID))){
+			log.info("Created "+fs.getHdfsUserPathSimulationMessagesByID(simulationID));
+			
+			if(HadoopFileSystemManager.mkdir(session, fs.getHdfsUserPathSimulationInboxMessages(simulationID))){
+				log.info("Created "+fs.getHdfsUserPathSimulationInboxMessages(simulationID));
+			}else{
+				log.severe("Unable to create "+fs.getHdfsUserPathSimulationInboxMessages(simulationID));
+			}
+		}else{
+			log.severe("Unable to create "+fs.getHdfsUserPathSimulationMessagesByID(simulationID));
+		}
 		log.info("Simulation has been created.");
 		return s;
 	}

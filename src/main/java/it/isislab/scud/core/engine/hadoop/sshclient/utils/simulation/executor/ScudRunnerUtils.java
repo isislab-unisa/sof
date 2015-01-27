@@ -17,20 +17,27 @@ package it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.executor;
 import it.isislab.scud.core.engine.hadoop.sshclient.connection.FileSystemSupport;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.SimulationParser;
+import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulations;
 import it.isislab.scud.core.model.parameters.xsd.elements.Parameter;
 import it.isislab.scud.core.model.parameters.xsd.elements.ParameterDouble;
 import it.isislab.scud.core.model.parameters.xsd.elements.ParameterLong;
 import it.isislab.scud.core.model.parameters.xsd.elements.ParameterString;
 import it.isislab.scud.core.model.parameters.xsd.input.Input;
 import it.isislab.scud.core.model.parameters.xsd.input.Inputs;
+import it.isislab.scud.core.model.parameters.xsd.message.Message;
+import it.isislab.scud.core.model.parameters.xsd.message.Messages;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import com.jcraft.jsch.JSchException;
@@ -253,6 +260,40 @@ public class ScudRunnerUtils {
 		
 		rmr(tmpFolderPath);
 		return hdfs_to;
+	}
+
+	public static Messages convertXmlListToMessages(FileSystemSupport fs,
+			String tmpFolderPath) {
+		
+		File dir = new File(tmpFolderPath);
+		if(!dir.isDirectory()){
+			System.err.println(tmpFolderPath+" is not a directory");
+			return null;
+		}
+		Messages lsMexs = new Messages();
+		File[] ls = dir.listFiles();
+		for(File f: ls)
+			lsMexs.addMessage(convertXMLToMessage(f.getAbsolutePath()));
+		
+		return lsMexs;
+	}
+	
+	private static Message convertXMLToMessage(String xmlFilename){
+		JAXBContext context;
+		Message m=null;
+		try {
+			context = JAXBContext.newInstance(Message.class);
+			Unmarshaller um = context.createUnmarshaller();
+			m = (Message) um.unmarshal(new FileReader(xmlFilename));
+			
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return m;
 	}
 	
 }

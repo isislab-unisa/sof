@@ -23,12 +23,15 @@ import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.RunsParser;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.SimulationParser;
 import it.isislab.scud.core.model.parameters.xsd.input.Inputs;
+import it.isislab.scud.core.model.parameters.xsd.message.Message;
+import it.isislab.scud.core.model.parameters.xsd.message.Messages;
 import it.isislab.scud.core.model.parameters.xsd.output.Output;
 import it.isislab.scud.core.model.parameters.xsd.output.Outputs;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -347,6 +350,17 @@ public class SCUDRUNNER{
 			addLoopToSimulation(fs,sim,r);
 
 			log.info("Loop "+idLoop+" for Simulation "+simID+" is terminated");
+			Message m = null;
+			while((m = checkMessages(fs,sim))!=null){
+				if(m.getMessage().equals(Message.STOP_MESSAGE)){
+					doLoop = false;
+					break;
+				}else{
+					//Do somethings
+					log.info("I readed a new message....but I can't do anything");
+				}
+			}
+			
 
 		}while(doLoop);
 
@@ -357,6 +371,28 @@ public class SCUDRUNNER{
 		log.info("Simulation "+simID+" terminated");
 	}
 
+
+	/**
+	 * 
+	 * @param fs
+	 * @param sim
+	 * @return return false if there is a stop message, true otherwise.
+	 */
+	private static Message checkMessages(FileSystemSupport fs, Simulation sim) {
+		String tmpFolderPath = fs.getRemotePathForTmpFolderForUser();
+		ScudRunnerUtils.mkdir(tmpFolderPath);
+		ScudRunnerUtils.copyFilesFromHdfs(fs, fs.getHdfsUserPathSimulationInboxMessages(sim.getId()), tmpFolderPath);
+		Messages mss = ScudRunnerUtils.convertXmlListToMessages(fs,tmpFolderPath);
+		PriorityQueue<Message> listMessages = new PriorityQueue<Message>(mss.getMessages());
+		Message toResolve = listMessages.poll();
+		if(ScudRunnerUtils.rmrFromHdfs(fs, fs.getHdfsUserPathSimulationInboxMessagesFileByID(sim.getId(), toResolve.getId())))
+			log.info("Scheduled a new stop message");
+		else{
+			log.severe("Some problems when scheduling a stop message");
+		}
+		ScudRunnerUtils.rmr(tmpFolderPath);
+		return toResolve;
+	}
 
 	/**
 	 * Create loop directory
