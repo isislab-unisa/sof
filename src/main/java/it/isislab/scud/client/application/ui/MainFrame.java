@@ -522,9 +522,9 @@ public class MainFrame extends JFrame {
 	
 					final ProgressbarDialog pd=new ProgressbarDialog(this);
 					pd.setNoteMessage("Please wait.");
-					pd.setVisible(true);
+				
 					final JProgressBar bar=pd.getProgressBar1();
-					pd.setTitleMessage("Download simulation in: "+chooser.getSelectedFile().getAbsolutePath());
+					
 					bar.setIndeterminate(true);
 				
 					
@@ -538,26 +538,33 @@ public class MainFrame extends JFrame {
 							bar.setIndeterminate(false);
 
 							pd.setVisible(false);
+							JOptionPane.showMessageDialog(main_frame,"Zip File exported correctly!");
 						}
 					}
 					class MyTaskConnectExcel extends Thread {
 
 						public void run(){
 
-							controller.getresult(idSim,chooser.getSelectedFile().getAbsolutePath());
+							controller.getresultExcel(idSim,chooser.getSelectedFile().getAbsolutePath());
 							bar.setIndeterminate(false);
 
 							pd.setVisible(false);
+							
+							JOptionPane.showMessageDialog(main_frame,"Excel File exported correctly!");
 						}
 					}
 
 					if ((s != null) && (s.length() > 0)) {
 						if(s.equals("Excel"))
 						{
+							pd.setTitleMessage("Export simulation in: "+chooser.getSelectedFile().getAbsolutePath());
+							pd.setVisible(true);
 							(new MyTaskConnectExcel()).start();
 						}
 						else if(s.equals("Backup"))
 						{
+							pd.setTitleMessage("Download simulation in: "+chooser.getSelectedFile().getAbsolutePath());
+							pd.setVisible(true);
 							(new MyTaskConnectBackup()).start();
 						}else
 						{
