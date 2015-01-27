@@ -102,6 +102,56 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<id>SCUD</id>
+						<configuration>
+							<appendAssemblyId>true</appendAssemblyId>
+							<archive>
+								<manifest>
+									<mainClass>it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.executor.SCUD</mainClass>
+								</manifest>
+							</archive>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+							<finalName>SCUD</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
+							<attach>false</attach>
+							<outputDirectory>scud-resources</outputDirectory>
+						</configuration>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>SCUD-RUNNER</id>
+						<configuration>
+							<appendAssemblyId>true</appendAssemblyId>
+							<archive>
+								<manifest>
+									<mainClass>it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.executor.SCUDRUNNER</mainClass>
+								</manifest>
+							</archive>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+							<finalName>SCUD-RUNNER</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
+							<attach>false</attach>
+							<outputDirectory>scud-resources</outputDirectory>
+						</configuration>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.7</version>
 				<executions>
@@ -152,6 +202,8 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
+
+
 		</plugins>
 	</build>
 
@@ -657,11 +709,20 @@
 			<version>7.3.4</version>
 		</dependency>
 		<dependency>
-	<groupId>de.sciss</groupId>
-	<artifactId>weblaf</artifactId>
-	<version>1.27</version>
-</dependency>
-
+			<groupId>jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>de.sciss</groupId>
+			<artifactId>weblaf</artifactId>
+			<version>1.27</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.11</version>
+		</dependency>
 
 	</dependencies>
 	<repositories>

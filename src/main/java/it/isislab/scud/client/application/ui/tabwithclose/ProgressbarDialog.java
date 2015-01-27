@@ -13,6 +13,8 @@ public class ProgressbarDialog extends JDialog {
 	public ProgressbarDialog(Frame owner) {
 		super(owner);
 		initComponents();
+		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		this.setResizable(false);
 	}
 
 	public ProgressbarDialog(Dialog owner) {

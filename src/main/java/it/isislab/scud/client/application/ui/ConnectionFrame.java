@@ -24,6 +24,17 @@ public class ConnectionFrame extends JFrame {
 
 		progressBar1.setIndeterminate(true);
 		
+		buttonConnect.setEnabled(false);
+		buttonDemo.setEnabled(false);
+		textFielduserName.setEnabled(false);
+		passwordFieldPassword.setEnabled(false);
+		textFieldIP.setEnabled(false);
+		textFieldPort.setEnabled(false);
+		textFieldHadoopHome.setEnabled(false);
+		textFieldJavaHome.setEnabled(false);
+		textFieldSCUDHome.setEnabled(false);
+		textFieldSCUDHDFSHome.setEnabled(false);
+		
 		class MyTaskConnect extends Thread {
 
 	          public void run(){

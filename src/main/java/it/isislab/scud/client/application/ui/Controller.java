@@ -75,13 +75,20 @@ public class Controller {
 			//				c.printf("usage of submit command : submit ID [ID:intger ID of simulation execution environment]\n");
 			//				return null;
 		}else{
-			int simID = Integer.parseInt(params[0])-1;
+			//int simID = Integer.parseInt(params[0])-1;
+			
 			Simulations sims = ScudManager.getSimulationsData(session);
 			if(sims == null){
 				//					c.printf("No such simulation");
 				//					return null;
 			}
-			Simulation sim = sims.getSimulations().get(simID);
+			
+			Simulation sim = null;
+			for(Simulation s : sims.getSimulations())
+				if(s.getId().equals(params[0])){
+					sim =s;
+					break;
+				}
 			//sim = ScudManager.getSimulationDatabyId(session,  session.getUsername(), simID);
 			ScudManager.runAsynchronousSimulation(session,sim);
 			//ScudManager.runSimulation(session, session.getUsername(), simID, s.getLoop());	

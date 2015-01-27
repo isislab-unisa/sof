@@ -3,6 +3,7 @@ package it.isislab.scud.client.application.ui;
 import it.isislab.scud.client.application.ui.newsimulation.NewDomain;
 import it.isislab.scud.client.application.ui.newsimulation.NewInputOutput;
 import it.isislab.scud.client.application.ui.newsimulation.NewSimulationPanel;
+import it.isislab.scud.client.application.ui.newsimulation.NewSimulationProcess;
 import it.isislab.scud.client.application.ui.tabwithclose.JTabbedPaneWithCloseIcons;
 import it.isislab.scud.client.application.ui.tabwithclose.ProgressbarDialog;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Loop;
@@ -39,10 +40,13 @@ import scala.xml.dtd.DFAContentModel;
  */
 public class MainFrame extends JFrame {
 	protected final Controller controller; 
+	protected JFrame main_frame;
 	private static final long serialVersionUID = 1L;
 	public MainFrame(Controller controller) {
 		this.controller=controller;
 		initComponents();
+
+		main_frame=this;
 	}
 
 	private void initComponents() {
@@ -58,6 +62,7 @@ public class MainFrame extends JFrame {
 		buttonAdd = new JButton();
 		buttonExport = new JButton();
 		buttonStop = new JButton();
+		buttonShow = new JButton();
 		buttonSubmit = new JButton();
 		MainPanel = new JPanel();
 		LeftPanel = new JPanel();
@@ -116,6 +121,16 @@ public class MainFrame extends JFrame {
 				buttonExport.setIcon(new ImageIcon("scud-resources/images/ic_action_download.png"));
 				buttonExport.setToolTipText("Download. Downloads the simulation package from HDFS.");
 
+				buttonShow.setIcon(new ImageIcon("scud-resources/images/ic_action_about.png"));
+				buttonShow.setToolTipText("Show. Shows details about the selected simulations.");
+
+				buttonShow.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						buttonShowActionPerformed(e);
+					}
+				});
+
 				buttonReload.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -165,6 +180,8 @@ public class MainFrame extends JFrame {
 								.addComponent(buttonStop)
 								.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
 								.addComponent(buttonExport)
+								.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+								.addComponent(buttonShow)
 								.addGap(0, 0, Short.MAX_VALUE))
 						);
 				ButtonPanelLayout.setVerticalGroup(
@@ -175,7 +192,8 @@ public class MainFrame extends JFrame {
 										.addComponent(buttonAdd)
 										.addComponent(buttonSubmit)
 										.addComponent(buttonStop)
-										.addComponent(buttonExport))
+										.addComponent(buttonExport)
+										.addComponent(buttonShow))
 										.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 						);
 			}
@@ -237,10 +255,10 @@ public class MainFrame extends JFrame {
 												);
 									}
 									//									CentraltabbedPane.addTab("Test 01", TestCentralTabbedpanel);
-									CentraltabbedPane.addTab("Test 01", new NewSimulationPanel());
-									CentraltabbedPane.addTab("Test 02", new NewDomain());
-									CentraltabbedPane.addTab("Test 03", new NewInputOutput());
-									CentraltabbedPane.addTab("Test 04", new XMLPanel());
+									//									CentraltabbedPane.addTab("Test 01", new NewSimulationPanel(""));
+									//									CentraltabbedPane.addTab("Test 02", new NewDomain());
+									//									CentraltabbedPane.addTab("Test 03", new NewInputOutput());
+									//									CentraltabbedPane.addTab("Test 04", new XMLPanel());
 								}
 								CenterTabbedscrollPane.setViewportView(CentraltabbedPane);
 							}
@@ -374,8 +392,83 @@ public class MainFrame extends JFrame {
 		setLocationRelativeTo(null);
 	}
 
+	protected void buttonShowActionPerformed(ActionEvent e) {
+		DefaultMutableTreeNode selected =(DefaultMutableTreeNode)tree1.getLastSelectedPathComponent();
+		if(selected !=null && selected.toString().contains("Simulation name")){
+
+			Enumeration<DefaultMutableTreeNode> children = selected.children();
+			String status;
+			String idSim=null;
+			while(children.hasMoreElements()){
+				DefaultMutableTreeNode node = children.nextElement();
+				if(node.toString().contains("Id")){
+					String[] split = node.toString().split(":");
+					idSim = split[1].trim();
+				}
+			}
+
+			XMLPanel panel=new XMLPanel(sims_hdfs.get(idSim));
+
+			CentraltabbedPane.add(panel,"Sim: "+idSim);
+
+			CentraltabbedPane.setSelectedComponent(panel);
+		}
+
+
+	}
+
 	protected void buttonSubmitActionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		DefaultMutableTreeNode selected =(DefaultMutableTreeNode)tree1.getLastSelectedPathComponent();
+		if(selected !=null && selected.toString().contains("Simulation name")){
+
+			Enumeration<DefaultMutableTreeNode> children = selected.children();
+			String status;
+			String idSim=null;
+			while(children.hasMoreElements()){
+				DefaultMutableTreeNode node = children.nextElement();
+				if(node.toString().contains("Status")){
+					String[] split = node.toString().split(":");
+					status = split[1].trim();
+					if(!status.equalsIgnoreCase("created")){
+						JOptionPane.showMessageDialog(this,"Selection error!\n You must select a created simulation");
+						return;
+					}
+				}
+				if(node.toString().contains("Id")){
+					String[] split = node.toString().split(":");
+					idSim = split[1].trim();
+				}
+			}
+			final String final_sim_id=idSim;
+			final ProgressbarDialog pd=new ProgressbarDialog(this);
+			pd.setNoteMessage("Please wait.");
+			pd.setVisible(true);
+			final JProgressBar bar=pd.getProgressBar1();
+			pd.setTitleMessage("Submit simulation with id: "+final_sim_id);
+			bar.setIndeterminate(true);
+			class MyTaskConnect extends Thread {
+
+				public void run(){
+					if(final_sim_id!=null)
+						controller.submit(final_sim_id);
+					else{
+						JOptionPane.showMessageDialog(main_frame,"Submit Error! Please try again.");
+						return;
+					}
+
+					updateFileSystem();
+
+					bar.setIndeterminate(false);
+					pd.setVisible(false);
+				}
+			}
+
+			(new MyTaskConnect()).start();
+
+		}
+		else {
+			JOptionPane.showMessageDialog(this,"Selection error!\n You must select selection node from SCUD filesystem");
+		}
 
 	}
 
@@ -385,53 +478,114 @@ public class MainFrame extends JFrame {
 	}
 
 	protected void buttonExportActionPerformed(ActionEvent e) {
-		chooser = new JFileChooser();
-		chooser.setDialogTitle("Select your donwload directory");
-		chooser.setCurrentDirectory(new File("."));
-		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		chooser.setAcceptAllFileFilterUsed(false);
-		
-		
-		if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+
+	
 			DefaultMutableTreeNode selected =(DefaultMutableTreeNode)tree1.getLastSelectedPathComponent();
 			if(selected !=null && selected.toString().contains("Simulation name")){
-				final ProgressbarDialog pd=new ProgressbarDialog(this);
-				pd.setNoteMessage("Please wait.");
-				pd.setVisible(true);
-				final JProgressBar bar=pd.getProgressBar1();
-				pd.setTitleMessage("Download simulation in: "+chooser.getSelectedFile().getAbsolutePath());
-				bar.setIndeterminate(true);
 				
+				String simualtionID=null;
 				Enumeration<DefaultMutableTreeNode> children = selected.children();
 				while(children.hasMoreElements()){
 					DefaultMutableTreeNode node = children.nextElement();
 					if(node.toString().contains("Id")){
 						String[] split = node.toString().split(":");
-						final String idSim = split[1].trim();
-						class MyTaskConnect extends Thread {
-
-							public void run(){
-
-								controller.getresult(idSim,chooser.getSelectedFile().getAbsolutePath());
-								bar.setIndeterminate(false);
-
-								pd.setVisible(false);
-							}
-						}
-						(new MyTaskConnect()).start();
+						simualtionID = split[1].trim();
+						
 					}
+				}
+				if(simualtionID==null) 
+					{
+						JOptionPane.showMessageDialog(this,"Error in reading simulation ID, try again!.");
+						return;
+					}
+				
+				Object[] possibilities = {"Excel", "Backup"};
+				String s = (String)
+				JOptionPane.showInputDialog(this,
+						"Select how to export the simulation with ID:"+ simualtionID, 
+						"Export",
+						JOptionPane.QUESTION_MESSAGE,
+						javax.swing.UIManager.getIcon("OptionPane.informationIcon"), 
+						possibilities, 
+						"Excel");
+			
+
+				chooser = new JFileChooser();
+				chooser.setDialogTitle("Select your donwload directory");
+				chooser.setCurrentDirectory(new File("."));
+				chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				chooser.setAcceptAllFileFilterUsed(false);
+	
+	
+	
+				if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+	
+					final ProgressbarDialog pd=new ProgressbarDialog(this);
+					pd.setNoteMessage("Please wait.");
+					pd.setVisible(true);
+					final JProgressBar bar=pd.getProgressBar1();
+					pd.setTitleMessage("Download simulation in: "+chooser.getSelectedFile().getAbsolutePath());
+					bar.setIndeterminate(true);
+				
+					
+					
+					final String idSim =simualtionID;
+					class MyTaskConnectBackup extends Thread {
+
+						public void run(){
+
+							controller.getresult(idSim,chooser.getSelectedFile().getAbsolutePath());
+							bar.setIndeterminate(false);
+
+							pd.setVisible(false);
+						}
+					}
+					class MyTaskConnectExcel extends Thread {
+
+						public void run(){
+
+							controller.getresult(idSim,chooser.getSelectedFile().getAbsolutePath());
+							bar.setIndeterminate(false);
+
+							pd.setVisible(false);
+						}
+					}
+
+					if ((s != null) && (s.length() > 0)) {
+						if(s.equals("Excel"))
+						{
+							(new MyTaskConnectExcel()).start();
+						}
+						else if(s.equals("Backup"))
+						{
+							(new MyTaskConnectBackup()).start();
+						}else
+						{
+						
+						}
+					   
+					}
+					
+					
 				}
 			}
 			else {
-				JOptionPane.showMessageDialog(this,"Selection error!\n You must select selection node from SCUD filesystem");
+				
+				JOptionPane.showMessageDialog(this,"Selection error!\n You must select selection node from SCUD filesystem.");
 			}
-		}
+		
 
 	}
 
 
 	protected void buttonAddActionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		String sim_name=JOptionPane.showInputDialog("Simulation name:");
+
+		NewSimulationProcess tab=new NewSimulationProcess(sim_name);
+		tab.setNewSim();
+		CentraltabbedPane.add(tab,sim_name);
+		CentraltabbedPane.setSelectedComponent(tab);
+
 
 	}
 
@@ -491,8 +645,11 @@ public class MainFrame extends JFrame {
 	{
 		System.out.println("Loading simulations");
 		Simulations sims=controller.getsimulations();
-		
-		fs_root.removeAllChildren();
+		fs_root = new DefaultMutableTreeNode("SCUD FileSystem");
+		scrollPane1.remove(tree1);
+		tree1 = new JTree(fs_root);
+		scrollPane1.setViewportView(tree1);
+		sims_hdfs = new HashMap<String, Simulation>();
 		DefaultMutableTreeNode new_sim=null;
 		if(sims == null)
 		{
@@ -502,7 +659,7 @@ public class MainFrame extends JFrame {
 
 		for(Simulation s : sims.getSimulations())
 			sims_hdfs.put(s.getId(), s);
-		
+
 		Simulation s=null;
 		for (String key : sims_hdfs.keySet()) {
 			s = sims_hdfs.get(key);
@@ -513,6 +670,7 @@ public class MainFrame extends JFrame {
 			new_sim.add(new DefaultMutableTreeNode("Creation time: "+s.getCreationTime()));
 			DefaultMutableTreeNode descr=new DefaultMutableTreeNode("Description: "+s.getDescription().substring(0, (s.getDescription().length()>15)?15:s.getDescription().length()-1));
 			descr.add(new DefaultMutableTreeNode(s.getDescription()));
+			new_sim.add(descr);
 			new_sim.add(new DefaultMutableTreeNode("Id: "+s.getId()));
 			new_sim.add(new DefaultMutableTreeNode("Toolkit: "+s.getToolkit()));
 			new_sim.add(new DefaultMutableTreeNode("Status: "+s.getState()));
@@ -615,6 +773,7 @@ public class MainFrame extends JFrame {
 	private JButton buttonSubmit;
 	private JButton buttonExport;
 	private JButton buttonStop;
+	private JButton buttonShow;
 	private JPanel MainPanel;
 	private JPanel LeftPanel;
 	private JScrollPane scrollPane1;

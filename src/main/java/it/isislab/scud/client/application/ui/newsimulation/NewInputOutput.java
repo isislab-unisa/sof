@@ -1,8 +1,6 @@
 package it.isislab.scud.client.application.ui.newsimulation;
 
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 /*
  */
@@ -13,10 +11,11 @@ import javax.swing.border.*;
  * @author Red red
  */
 public class NewInputOutput extends JPanel {
-	public NewInputOutput() {
+	public NewInputOutput(NewSimulationProcess newSimulationProcess) {
+		sproc=newSimulationProcess;
 		initComponents();
 	}
-
+	private NewSimulationProcess sproc=null;
 	private void initComponents() {
 		panel1 = new JPanel();
 		scrollPane1 = new JScrollPane();
@@ -36,6 +35,7 @@ public class NewInputOutput extends JPanel {
 		buttonRemoveOutput = new JButton();
 		panel7 = new JPanel();
 		button9 = new JButton();
+		buttonPrev = new JButton();
 
 		//======== this ========
 
@@ -210,18 +210,25 @@ public class NewInputOutput extends JPanel {
 			//---- button9 ----
 			button9.setText("Save");
 
+			//---- buttonPrev ----
+			buttonPrev.setText("Prev");
+
 			GroupLayout panel7Layout = new GroupLayout(panel7);
 			panel7.setLayout(panel7Layout);
 			panel7Layout.setHorizontalGroup(
 				panel7Layout.createParallelGroup()
 					.addGroup(GroupLayout.Alignment.TRAILING, panel7Layout.createSequentialGroup()
-						.addGap(0, 811, Short.MAX_VALUE)
+						.addGap(0, 736, Short.MAX_VALUE)
+						.addComponent(buttonPrev)
+						.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
 						.addComponent(button9))
 			);
 			panel7Layout.setVerticalGroup(
 				panel7Layout.createParallelGroup()
 					.addGroup(panel7Layout.createSequentialGroup()
-						.addComponent(button9)
+						.addGroup(panel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+							.addComponent(button9)
+							.addComponent(buttonPrev))
 						.addGap(0, 8, Short.MAX_VALUE))
 			);
 		}
@@ -253,6 +260,7 @@ public class NewInputOutput extends JPanel {
 		);
 	}
 
+
 	private JPanel panel1;
 	private JScrollPane scrollPane1;
 	private JTree treeInput;
@@ -271,4 +279,5 @@ public class NewInputOutput extends JPanel {
 	private JButton buttonRemoveOutput;
 	private JPanel panel7;
 	private JButton button9;
+	private JButton buttonPrev;
 }
