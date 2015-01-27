@@ -36,8 +36,9 @@ A SCUD process, shown in the figure, consists in many optimization loops in whic
 If you would like to add features to the library, you will have to change the code in `src/` and then compile the library using Maven, in the project folder:
     
         $ mvn compile
+        $ mvn package
 
-After that yoy have to update `SCUD.jar` and `SCUD-RUNNER.jar` in the folder `scud-resources`. Those files are runnable jar file: the former with `SCUD.java` for the main class in the `MANIFEST` and the last with `SCUD-RUNNER.java`. Both the classes are located in the package `it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.executor`.
+After that yoy have updated `SCUD.jar` and `SCUD-RUNNER.jar` in the folder `scud-resources`. Those files are runnable jar file: the former with `SCUD.java` for the main class in the `MANIFEST` and the last with `SCUD-RUNNER.java`. Both the classes are located in the package `it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.executor`.
 
 To release the final build you must run the command:
     
