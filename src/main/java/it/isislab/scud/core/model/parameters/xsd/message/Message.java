@@ -18,7 +18,7 @@ public class Message {
 
     private Date created_date=null;
 	private String message="";
-	private String status="";
+	//private String status="";
 	private Date send_date =null;
 	private Date processed_date=null;
 
@@ -31,10 +31,10 @@ public class Message {
 	public String getMessage() {
 		return message;
 	}
-	@XmlElement(required=true, name="status")
+	/*@XmlElement(required=true, name="status")
 	public String getStatus() {
 		return status;
-	}
+	}*/
 	@XmlElement(required=true, name="sendDate")
 	public Date getSend_date() {
 		return send_date;
@@ -52,11 +52,11 @@ public class Message {
 	}
 
 
-
+/*
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
+*/
 
 	public void setSend_date(Date send_date) {
 		this.send_date = send_date;
