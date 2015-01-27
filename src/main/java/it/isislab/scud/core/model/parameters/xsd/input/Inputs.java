@@ -55,7 +55,7 @@ public class Inputs {
 	
 	
 	public static void main(String[] args){
-		JAXBContext context;
+/*		JAXBContext context;
 		Inputs i = new Inputs();
 
 		try {
@@ -66,6 +66,6 @@ public class Inputs {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-	}
+*/	}
 	
 }
