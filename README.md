@@ -5,7 +5,6 @@ SCUD was designed to manage three kinds of simulation engine: [MASON](http://cs.
 
 SCUD is a framework to exploit simulation optimization on Hadoop cluster. SCUD is divided in two main functional blocks the core and the client. The core component provides all functionality to write out Java based client application. The client is a command line Java application that shown the features of the core component and allows to execute PSE and SO process on a [Apache Hadoop](http://hadoop.apache.org/) cluster.
 
-The SCUD system presents two main entities: the SCUD client and the remote host machine on which is installed Hadoop, also named the Hadoop master node. Respectively on the left and on the right of the above figure.
 
 We designed the framework based on the following objectives:
 
@@ -13,6 +12,7 @@ We designed the framework based on the following objectives:
 * **flexibility and expandability**,both the simulation implementation and the simulation optimization functionalities can be implemented using different simulation toolkits (MASON, NetLogo, etc.) and/or exploiting different programming languages, provided that the hosting platform support them;
 * **efficiency**, the framework must ensure the highest performance according the re- sources available on the hosting platform.
 
+The SCUD system presents two main entities: the SCUD client and the remote host machine on which is installed Hadoop, also named the Hadoop master node. Respectively on the left and on the right of the above figure.
 ![alt tag](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/architecture/ascud.png)
 
 
