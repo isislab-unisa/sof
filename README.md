@@ -63,9 +63,9 @@ The output files will be in `target/`:
 
 Here is a minimum example of defining a client application using the SCUD core. The program create new simulation job in SO mode, submit the job to the system and wait until the process are finished.
 
-After build the project by Maven `mvn package`, you are able to run the example in the class `SCUDCoreSimpleApplication`. The final release is `target/SCUD-1.0-simple-application.jar`, exec the command in the target dir:
+After build the project by Maven `mvn package`, you are able to run the example in the class `SCUDCoreSimpleApplication.java`. The final release is `target/SCUD-1.0-client-shell.jar`, exec the command in the target dir:
 
-		'$ java -jar SCUD-1.0-simple-application.jar'
+		'$ java -jar SCUD-1.0-client-shell.jar'
 	
 This simple application shows some SCUD core features: 
 *	create new simulation optimization process;
@@ -181,11 +181,17 @@ public class SCUDCoreSimpleApplication {
 	}
 }
 ```
+## Getting Started SCUD Client GUI
 
-## Getting Started SCUD Client
-SCUD framework provides a Java command line client available in the release (SCUD-Client.jar):
+SCUD framework provides a Java command line client available in the release (`SCUD-client-ui.jar, SCUDClientUI.java`):
 
-    $  java -jar SCUD-Client.jar
+    $  java -jar SCUD-client-ui.jar
+
+
+## Getting Started SCUD Schell Client
+SCUD framework provides a Java command line client available in the release (`SCUD-client-shell.jar, SCUDCoreSimpleApplication.java`):
+
+    $  java -jar SCUD-client-shell.jar
 
 This client application use SSH to connect to the Hadoop cluster. The application parameters are the following:
 * `-h HOST NAME` cluster master node IP address. The default value is `localhost (127.0.0.1)`;
