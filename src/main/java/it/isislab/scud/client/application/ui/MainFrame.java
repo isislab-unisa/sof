@@ -410,6 +410,8 @@ public class MainFrame extends JFrame {
 			XMLPanel panel=new XMLPanel(sims_hdfs.get(idSim));
 			
 			CentraltabbedPane.add(panel,"Sim: "+idSim);
+			
+			CentraltabbedPane.setSelectedComponent(panel);
 		}
 		
 		
