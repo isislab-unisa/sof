@@ -45,23 +45,18 @@ To release the final build you must run the command:
        $ mvn package
     
 The output files will be in `target/`:
-
-        ├── SCUD-1.0-client.jar
-        ├── SCUD-1.0-library.jar
-        ├── SCUD-1.0-simple-application.jar
-        ├── classes
-        │   └── it
-        ├── generated-sources
-        │   └── annotations
-        ├── lib
-        │   ├── * (libraries)
-        ├── maven-archiver
-        │   └── pom.properties
-        ├── maven-status
-        │   └── maven-compiler-plugin
-        └── scud-resources
-        ├── SCUD-RUNNER.jar
-        └── SCUD.jar
+        .
+	├── SCUD-1.0-library.jar
+	├── SCUD-client-shell.jar
+	├── SCUD-client-ui.jar
+	├── archive-tmp
+	├── classes
+	├── examples-sim-aids
+	├── generated-sources
+	├── lib
+	├── maven-archiver
+	├── maven-status
+	└── scud-resources
 
 ## Example SCUD Simple Application
 
