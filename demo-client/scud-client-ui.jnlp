@@ -15,6 +15,6 @@
    <security>
   	<all-permissions/>
 	</security>
-   <application-desc main-class="it.isislab.scud.client.application.SCUDClientUI"/>
+   <application-desc main-class="SCUDClientUI"/>
 </jnlp>
 
