@@ -45,7 +45,7 @@ To release the final build you must run the command:
        $ mvn package
     
 The output files will be in `target/`:
-        .
+	.
 	├── SCUD-1.0-library.jar
 	├── SCUD-client-shell.jar
 	├── SCUD-client-ui.jar
