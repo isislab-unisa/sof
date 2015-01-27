@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <jnlp spec="1.0"
-      codebase="http://javaweb.eng/~mh156787/tutorial/jar/jws/" 
-      href="Notepad.jnlp">
+      codebase="https://github.com/isislab-unisa/scud/raw/master/demo-client/" 
+      href="scud-client-ui.jnlp">
    <information>
-      <title>Notepad Demo</title>
-      <vendor>Sun Microsystems, Inc.</vendor>
+      <title>SCUD Client</title>
+      <vendor>ISISLab</vendor>
    </information>
    <resources>     
-   	<jar href="Notepad.jar"/>   
-	<j2se version="1.3+"
+   	<jar href="SCUD-client-ui.jar"/>   
+	<j2se version="1.7+"
 	      href="http://java.sun.com/products/autodl/j2se"/>
    </resources>
-   <application-desc main-class="Notepad"/>
+   <application-desc main-class="it.isislab.scud.client.application.SCUDClientUI"/>
 </jnlp>
 
