@@ -9,9 +9,9 @@ import it.isislab.scud.client.application.ui.ConnectionFrame;
 
 public class SCUDClientUI {
 
-	public SCUDClientUI(String ... args)
+	public SCUDClientUI(String scud_path,String scud_runner_path)
 	{
-		ConnectionFrame c=new ConnectionFrame();
+		ConnectionFrame c=new ConnectionFrame(scud_path,scud_runner_path);
 		c.setVisible(true);
 	}
 
@@ -23,7 +23,7 @@ public class SCUDClientUI {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		SCUDClientUI ui = new SCUDClientUI();
+		SCUDClientUI ui = new SCUDClientUI("scud-resources/SCUD.jar","scud-resources/SCUD-RUNNER.jar");
 
 	}
 }
