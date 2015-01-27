@@ -141,7 +141,8 @@ public class Controller {
 						parsedParams[2],//INPUT.XML PATH 
 						parsedParams[3],//OUTPUT.XML PATH 
 						parsedParams[4],//DESCRIPTION SIM
-						parsedParams[5]);//SIMULATION EXEC PATH 
+						parsedParams[5],//SIMULATION EXEC PATH
+						parsedParams[6]); //SIMULATION BIN PATH
 				//					return null;
 			} catch (Exception e) {
 				//					e.printStackTrace();
