@@ -72,7 +72,7 @@ private void initComponents() {
 	label12 = new JLabel();
 	label13 = new JLabel();
 	label14 = new JLabel();
-	label15 = new URLLabel("Version 1.0, Powerd by ISISLab, 2015.","http://www.isislab.it");
+	label15 = new URLLabel("Version Pre-alpha 1.0, Powerd by ISISLab, 2015.","http://www.isislab.it");
 	label16 = new JLabel();
 	label17 = new URLLabel("View source code on GitHub.","https://github.com/isislab-unisa/scud");
 	panel2 = new JPanel();

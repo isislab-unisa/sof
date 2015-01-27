@@ -3,33 +3,55 @@ package it.isislab.scud.client.application.ui;
 import it.isislab.scud.core.engine.hadoop.sshclient.connection.HadoopFileSystemManager;
 import it.isislab.scud.core.engine.hadoop.sshclient.connection.ScudManager;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.environment.EnvironmentSession;
+import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Loop;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulations;
 import it.isislab.scud.core.exception.ParameterException;
+import it.isislab.scud.core.model.parameters.xsd.elements.Parameter;
+import it.isislab.scud.core.model.parameters.xsd.elements.ParameterDouble;
+import it.isislab.scud.core.model.parameters.xsd.elements.ParameterLong;
+import it.isislab.scud.core.model.parameters.xsd.elements.ParameterString;
+import it.isislab.scud.core.model.parameters.xsd.input.Input;
+import it.isislab.scud.core.model.parameters.xsd.output.Output;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 
 import com.jcraft.jsch.JSchException;
 
 public class Controller {
-	
-	 private static Controller instance = null;
-	   protected Controller() {
-	      // Exists only to defeat instantiation.
-	   }
-	   public static Controller getInstance(String ... args) {
-	      if(instance == null) {
-	         instance = new Controller();
-	         parseArguments(args);
-	         return instance.login()?instance:null;
-	      }
-	      return instance;
-	   }
-	   
+
+	private static Controller instance = null;
+	protected Controller() {
+		// Exists only to defeat instantiation.
+	}
+	public static Controller getInstance(String ... args) {
+		if(instance == null) {
+			instance = new Controller();
+			parseArguments(args);
+			return instance.login()?instance:null;
+		}
+		return instance;
+	}
+
 	private  EnvironmentSession session;
-	
+
 
 	public  void exit()
 	{
@@ -76,13 +98,13 @@ public class Controller {
 			//				return null;
 		}else{
 			//int simID = Integer.parseInt(params[0])-1;
-			
+
 			Simulations sims = ScudManager.getSimulationsData(session);
 			if(sims == null){
 				//					c.printf("No such simulation");
 				//					return null;
 			}
-			
+
 			Simulation sim = null;
 			for(Simulation s : sims.getSimulations())
 				if(s.getId().equals(params[0])){
@@ -151,17 +173,17 @@ public class Controller {
 			try {
 
 
-//				ScudManager.makeSimulationFolderForLoop(
-//						session,
-//						parsedParams[0]/*MODEL TYPE MASON - NETLOGO -GENERIC*/,
-//						parsedParams[1],/*SIM NAME*/
-//						parsedParams[2],/*domain_pathname*/ 
-//						parsedParams[3],/*bashCommandForRunnableFunction */
-//						parsedParams[4],/*output_description_filename*/
-//						parsedParams[5],/*executable_selection_function_filename */
-//						parsedParams[6],/*executable_rating_function_filename*/
-//						parsedParams[7],/*description_simulation*/
-//						parsedParams[8]);/*executable_simulation_filename*/
+				//				ScudManager.makeSimulationFolderForLoop(
+				//						session,
+				//						parsedParams[0]/*MODEL TYPE MASON - NETLOGO -GENERIC*/,
+				//						parsedParams[1],/*SIM NAME*/
+				//						parsedParams[2],/*domain_pathname*/ 
+				//						parsedParams[3],/*bashCommandForRunnableFunction */
+				//						parsedParams[4],/*output_description_filename*/
+				//						parsedParams[5],/*executable_selection_function_filename */
+				//						parsedParams[6],/*executable_rating_function_filename*/
+				//						parsedParams[7],/*description_simulation*/
+				//						parsedParams[8]);/*executable_simulation_filename*/
 				//					return null;
 			} catch (Exception e) {
 
@@ -183,7 +205,7 @@ public class Controller {
 
 	public  Simulations getsimulations(String ... params)
 	{
-		
+
 		return ScudManager.getSimulationsData(session);
 	}
 
@@ -246,10 +268,10 @@ public class Controller {
 			Simulation sim = null;
 			try{
 				for(Simulation s : sims.getSimulations())
-						if(s.getId().equals(params[0])){
-							sim =s;
-							break;
-						}
+					if(s.getId().equals(params[0])){
+						sim =s;
+						break;
+					}
 			}catch(IndexOutOfBoundsException e){
 				//					c.printf("No such simulation");
 				//					return null;
@@ -261,9 +283,160 @@ public class Controller {
 			//				return null;
 		}
 	}
-	
-	
-	
+	public  void getresultExcel(String ... params)
+	{
+
+		if(params == null)
+		{
+			//				c.printf("Error few parameters!\n Usage: getresult simID [destinationDirPath]");
+			//				return null;
+		}else{
+			Simulations sims = ScudManager.getSimulationsData(session);
+			if(sims == null){
+				//					c.printf("No such simulation");
+				//					return null;
+			}
+			Simulation sim = null;
+			try{
+				for(Simulation s : sims.getSimulations())
+					if(s.getId().equals(params[0])){
+						sim =s;
+						break;
+					}
+			}catch(IndexOutOfBoundsException e){
+				//					c.printf("No such simulation");
+				//					return null;
+			}
+			//if no path is specified, saves in current directory
+			String path = (params.length < 2)? System.getProperty("user.dir"):params[1];
+			path+=File.separator+"SIM-"+sim.getId()+".xls";
+
+			HSSFWorkbook workbook = new HSSFWorkbook();
+			HSSFSheet sheet = workbook.createSheet("Simulation ID "+sim.getId());
+
+
+			int row_num=0;
+			if(sim.getLoop())
+			{
+				List<Loop> loops=sim.getRuns().getLoops();
+				Collections.sort(loops,new Comparator<Loop>() {
+
+					@Override
+					public int compare(Loop o1, Loop o2) {
+						return Integer.compare(o1.getId(), o2.getId());
+					}
+				});
+				for(Loop l: loops)
+				{
+					Row row_loop=sheet.createRow(++row_num);
+					Cell c_loop_id=row_loop.createCell(0);
+					c_loop_id.setCellValue("Loop ID "+l.getId());
+					class PointTree
+					{
+						public Input getI() {
+							return i;
+						}
+						public void setI(Input i) {
+							this.i = i;
+						}
+						public Output getO() {
+							return o;
+						}
+						public void setO(Output o) {
+							this.o = o;
+						}
+						private Input i;
+						private Output o;
+					}
+					HashMap<Integer, PointTree> mapio=new HashMap<Integer, PointTree>();
+
+					if(l.getInputs()!=null)
+					{
+
+						for(Input i: l.getInputs().getinput_list())
+						{
+							PointTree p=new PointTree();
+							p.setI(i);
+							mapio.put(i.id, p);
+
+						}
+
+						if(l.getOutputs()!=null && l.getOutputs().getOutput_list()!=null)
+							for(Output i: l.getOutputs().getOutput_list())
+							{
+								mapio.get(i.getIdInput()).setO(i);
+							}
+						else {
+							System.out.println("No output found.");
+						}
+
+						for (Integer pt : mapio.keySet()) {
+							
+							Row row_input_id=sheet.createRow(++row_num);
+							Cell c_input_id=row_input_id.createCell(1);
+							c_input_id.setCellValue("Input ID "+pt);
+							
+							Row row_input_names=sheet.createRow(++row_num);
+							Row row_input_values=sheet.createRow(++row_num);
+							
+							Row row_output_id=sheet.createRow(++row_num);
+							Cell c_output_id=row_output_id.createCell(1);
+							c_output_id.setCellValue("Output ID "+pt);
+							
+							Row row_output_names=sheet.createRow(++row_num);
+							Row row_output_values=sheet.createRow(++row_num);
+							
+							int cell_input=1,cell_output=1;
+							for(Parameter p : mapio.get(pt).getI().param_element)
+							{
+								Cell c_input_name=row_input_names.createCell(++cell_input);
+								Cell c_input_value=row_input_values.createCell(++cell_input);
+								c_input_name.setCellValue(p.getvariable_name());
+								if(p.getparam() instanceof ParameterDouble) 
+									c_input_value.setCellValue(((ParameterDouble)p.getparam()).getvalue());
+								else  if(p.getparam() instanceof ParameterString) 
+									c_input_value.setCellValue(((ParameterString)p.getparam()).getvalue());
+								else if(p.getparam() instanceof ParameterLong) 
+									c_input_value.setCellValue(((ParameterLong)p.getparam()).getvalue());
+
+							}
+							if(mapio.get(pt).getO()!=null)
+								for(Parameter p : mapio.get(pt).getO().output_params)
+								{
+									Cell c_output_name=row_output_names.createCell(++cell_output);
+									Cell c_output_value=row_output_values.createCell(++cell_output);
+									c_output_name.setCellValue(p.getvariable_name());
+									if(p.getparam() instanceof ParameterDouble) 
+										c_output_value.setCellValue(((ParameterDouble)p.getparam()).getvalue());
+									else  if(p.getparam() instanceof ParameterString) 
+										c_output_value.setCellValue(((ParameterString)p.getparam()).getvalue());
+									else if(p.getparam() instanceof ParameterLong) 
+										c_output_value.setCellValue(((ParameterLong)p.getparam()).getvalue());
+								}
+						}
+
+					}
+
+				}
+			}
+
+
+			try {
+				FileOutputStream out = 
+						new FileOutputStream(new File(path));
+				workbook.write(out);
+				out.close();
+				System.out.println("Excel written successfully..");
+
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+
 	public  void list(String ... params)
 	{
 
@@ -341,16 +514,16 @@ public class Controller {
 						new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD-RUNNER.jar")
 						))!=null)
 				{
-//					System.out.println("Connected. Type \"help\", \"usage <command>\" or \"license\" for more information.");
+					//					System.out.println("Connected. Type \"help\", \"usage <command>\" or \"license\" for more information.");
 					attempts = 0;
 					accessGranted = true;
 					break;
 				}else{
-//					System.err.println("Login Correct but there are several problems in the hadoop environment, please contact your hadoop admin.");
+					//					System.err.println("Login Correct but there are several problems in the hadoop environment, please contact your hadoop admin.");
 					System.exit(-1);
 				}
 			} catch (Exception e) {
-//				System.err.println("Login Error. Check your credentials and ip:port of your server and try again .. ");
+				//				System.err.println("Login Error. Check your credentials and ip:port of your server and try again .. ");
 				e.printStackTrace();
 			}
 
@@ -396,7 +569,7 @@ public class Controller {
 		}
 
 	}
-	
+
 	public static String host= "172.16.15.103";
 	public static String pstring="cloudsim1205";
 	public static String PORT="22";
