@@ -499,7 +499,7 @@ public class MainFrame extends JFrame {
 						return;
 					}
 				
-				Object[] possibilities = {"Excel", "Backup"};
+				Object[] possibilities = {"choose export method", "Excel", "Backup"};
 				String s = (String)
 				JOptionPane.showInputDialog(this,
 						"Select how to export the simulation with ID:"+ simualtionID, 
@@ -507,9 +507,11 @@ public class MainFrame extends JFrame {
 						JOptionPane.QUESTION_MESSAGE,
 						javax.swing.UIManager.getIcon("OptionPane.informationIcon"), 
 						possibilities, 
-						"Excel");
-			
-
+						"choose export method");
+				if(s == null && s.equals("choose export method"))
+				{
+					return;
+				}
 				chooser = new JFileChooser();
 				chooser.setDialogTitle("Select your donwload directory");
 				chooser.setCurrentDirectory(new File("."));
