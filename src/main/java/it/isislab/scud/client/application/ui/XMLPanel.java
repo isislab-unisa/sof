@@ -53,32 +53,36 @@ public class XMLPanel extends JPanel {
 	}
 	private void doMouseClicked(MouseEvent me)
 	{
-	
 
-			DefaultMutableTreeNode selected =(DefaultMutableTreeNode)tree1.getLastSelectedPathComponent();
-			if(selected!=null && me.getClickCount() == 2)
+		DefaultMutableTreeNode selected =(DefaultMutableTreeNode)tree1.getLastSelectedPathComponent();
+		if(selected!=null && me.getClickCount() == 2)
+		{
+
+			if(selected.toString().contains("Loop Id"))
 			{
-				
-				if(selected.toString().contains("Loop Id"))
-				{
-					initChart(Integer.parseInt(selected.toString().split(": ")[1])-1);
-					
-				}
+				initChart(Integer.parseInt(selected.toString().split(": ")[1])-1);
+
 			}
-		
+		}
+
+
+
 
 	}
 	private void initChart(int id) {
-		DefaultCategoryDataset line_chart_dataset = new DefaultCategoryDataset();
-		Loop l=loops.get(id);
-		
+		if(loops.size()>0)
+		{
+
+			DefaultCategoryDataset line_chart_dataset = new DefaultCategoryDataset();
+			Loop l=loops.get(id);
+
 			if(l.getInputs()!=null)
 			{
 
 				if(l.getOutputs()!=null)
 				{
 					List<Output> outputs=l.getOutputs().getOutput_list();
-					
+
 					Collections.sort(outputs,new Comparator<Output>() {
 
 						@Override
@@ -88,7 +92,7 @@ public class XMLPanel extends JPanel {
 					});
 					for(Output i: outputs)
 					{
-						
+
 						for (Parameter p : i.output_params) {
 							if((p.getparam() instanceof ParameterDouble))
 								line_chart_dataset.addValue(((ParameterDouble)p.getparam()).getvalue(), "Output: "+i.getIdInput()+ " Loop: "+l.getId(), p.getvariable_name());
@@ -96,26 +100,29 @@ public class XMLPanel extends JPanel {
 								if( (p.getparam() instanceof ParameterLong))
 									line_chart_dataset.addValue(((ParameterLong)p.getparam()).getvalue(), "Output: "+i.getIdInput()+ " Loop: "+l.getId(), p.getvariable_name());
 						}
-						
+
 					}
 				}
-			
-			
+
+
+			}
+
+
+			JFreeChart lineChartObject=ChartFactory.createLineChart("Simulation "+s.getName()+" Output Loop: "+(id+1),"Variables","Values",line_chart_dataset,PlotOrientation.VERTICAL,true,true,false);                
+
+			ChartPanel chartPanel = new ChartPanel( lineChartObject );
+			//		chartPanel.setSize( new java.awt.Dimension( ((int)panel2.getPreferredSize().width/2), ((int)panel2.getPreferredSize().height)) );
+			chartPanel.setSize( new java.awt.Dimension( 800, 600 ));
+			JPanel p=new JPanel();
+			p.add(chartPanel);
+			p.setSize( new java.awt.Dimension( 800, 600 ));
+
+			(scrollPane2.getViewport()).removeAll();
+			(scrollPane2.getViewport()).add(p);        
+		}else
+		{
+			JOptionPane.showMessageDialog(this, "Outputs for this simulation\nare not available yet, try later.");
 		}
-
-	
-		JFreeChart lineChartObject=ChartFactory.createLineChart("Simulation "+s.getName()+" Output Loop: "+(id+1),"Variables","Values",line_chart_dataset,PlotOrientation.VERTICAL,true,true,false);                
-
-		ChartPanel chartPanel = new ChartPanel( lineChartObject );
-//		chartPanel.setSize( new java.awt.Dimension( ((int)panel2.getPreferredSize().width/2), ((int)panel2.getPreferredSize().height)) );
-		chartPanel.setSize( new java.awt.Dimension( 800, 600 ));
-		JPanel p=new JPanel();
-		p.add(chartPanel);
-		p.setSize( new java.awt.Dimension( 800, 600 ));
-		
-		(scrollPane2.getViewport()).removeAll();
-		(scrollPane2.getViewport()).add(p);        
-
 
 	}
 
@@ -219,14 +226,14 @@ public class XMLPanel extends JPanel {
 		}
 
 		tree1.expandRow(0);
-		
+
 		tree1.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent me) {
 				doMouseClicked(me);
 			}
 		});
 	}
-	
+
 	private void initComponents() {
 
 		panel1 = new JPanel();
