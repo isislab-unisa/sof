@@ -16,7 +16,7 @@ public static void main(String[] args) throws JAXBException {
 	mex.setCreated_date(new Date(System.currentTimeMillis()));
 	mex.setMessage("piecoro");
 	mex.setSend_date(new Date(System.currentTimeMillis()));
-	mex.setStatus("sended");
+	//mex.setStatus("sended");
 	
 	
 	
