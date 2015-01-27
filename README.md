@@ -5,14 +5,8 @@ SCUD was designed to manage three kinds of simulation engine: [MASON](http://cs.
 
 SCUD is a framework to exploit simulation optimization on Hadoop cluster. SCUD is divided in two main functional blocks the core and the client. The core component provides all functionality to write out Java based client application. The client is a command line Java application that shown the features of the core component and allows to execute PSE and SO process on a [Apache Hadoop](http://hadoop.apache.org/) cluster.
 
-
-We designed the framework based on the following objectives:
-
-* **zero configuration** the framework neither require the installation nor the configu- ration of any additional software, only Hadoop and a SSH access to the hosting platform are required;
-* **flexibility and expandability**,both the simulation implementation and the simulation optimization functionalities can be implemented using different simulation toolkits (MASON, NetLogo, etc.) and/or exploiting different programming languages, provided that the hosting platform support them;
-* **efficiency**, the framework must ensure the highest performance according the re- sources available on the hosting platform.
-
 The SCUD system presents two main entities: the SCUD client and the remote host machine on which is installed Hadoop, also named the Hadoop master node. Respectively on the left and on the right of the above figure.
+
 ![alt tag](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/architecture/ascud.png)
 
 
@@ -187,6 +181,27 @@ public class SCUDCoreSimpleApplication {
 	}
 }
 ```
+
+# Run SCUD on Environment example
+
+It's possible to run Scud on a generic machine. Obviuosly this must have configured hadoop environment. A possible example is a "Sandbox" developed from HortonWorks  http://hortonworks.com/products/hortonworks-sandbox/. Sandbox is a personal, portable Hadoop environment.
+
+### How to execute SCUD, VirtualBox Example
+After you have installed VirtualBox. At Hortonworks site, in Download&Install section, at this link http://hortonassets.s3.amazonaws.com/2.2/Sandbox_HDP_2.2_VirtualBox.ova , you can download the Sandbox.
+Steps to follow:
+* You execute HortonWorks SandBox 2.1
+* Booting virtual machine(you follow the instructions)
+* login:root and password:hadoop
+
+After you have enable network on VirtuaBox (Settings->Network->Scheda con bride). Now you need of some parameters to execute SCUD-Client (See "Getting Started SCUD Client GUI" section for details):
+* nodeIP : ip of master node(from Sandbox shell give ifconfig command and take inet addr )
+* hadoop home directory: folder that contains bin directory where you can find  executable hadoop command(hdfs)   
+* home dir : folder where you create SCUD directory  
+* java bin directory folder  folder that cointains java command
+* scud home dir path where you create SCUD directory on distributed file system 
+
+ java -jar SCUD-Client.jar -h 192.168.0.1 -port 1022 -bindir /home/hadoop/bin -homedir /home/user -javbindir /home/java/bin -scudhomedir /home/user/app/scudtmp
+
 ## Getting Started SCUD Client GUI
 
 SCUD framework provides a Java command line client available in the release (`SCUD-client-ui.jar, SCUDClientUI.java`):
