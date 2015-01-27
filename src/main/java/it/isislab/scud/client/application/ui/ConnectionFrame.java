@@ -2,6 +2,8 @@ package it.isislab.scud.client.application.ui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -13,11 +15,27 @@ import javax.swing.border.*;
  */
 public class ConnectionFrame extends JFrame {
 	private ConnectionFrame frame;
-	public ConnectionFrame() {
+	
+	public  String host_address= "172.16.15.103";
+	public  String pstring="cloudsim1205";
+	public  String port="22";
+	public  String bindir="/home/hadoop/hadoop-2.4.0";  
+	public  String homedir="/home/hadoop/"; 
+	public  String javabindir ="/usr/bin/";
+	public  String user_name="hadoop";
+	public  String scudhomedir="/";
+	
+	public  String scudjarpath="scud-resources/SCUD.jar";
+	public  String scudjarrunnerpath="scud-resources/SCUD-RUNNER.jar";
+	
+	public ConnectionFrame(String scudjarpath, String scudjarrunnerpath) {
 
 		initComponents();
 		this.setVisible(true);
 		frame=this;
+	
+		this.scudjarpath=scudjarpath;
+		this.scudjarrunnerpath=scudjarrunnerpath;
 	}
 
 	private void buttonConnectActionPerformed(ActionEvent e) {
@@ -38,7 +56,17 @@ public class ConnectionFrame extends JFrame {
 		class MyTaskConnect extends Thread {
 
 	          public void run(){
-	        		Controller c=Controller.getInstance();
+	        		Controller c=Controller.getInstance(
+	        				host_address,
+	        				user_name,
+	        				pstring,
+	        				port,
+	        				bindir,
+	        				homedir,
+	        				javabindir,
+	        				scudhomedir,
+	        				scudjarpath,
+	        				scudjarrunnerpath);
 					if(c!=null)
 					{
 						MainFrame main =new MainFrame(c);
@@ -107,8 +135,15 @@ private void initComponents() {
 	{
 
 
-		label12.setIcon(new ImageIcon("scud-resources/images/isislab.png"));
-
+//		label12.setIcon(new ImageIcon("scud-resources/images/isislab.png"));
+		try {
+			label12.setIcon(new ImageIcon(
+					new URL("https://raw.githubusercontent.com/isislab-unisa/scud/master/scud-resources/images/isislab.png")));
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			System.err.println("Problems in loading image.");
+			e1.printStackTrace();
+		}
 		//---- label13 ----
 		label13.setText("SCUD");
 		label13.setFont(new Font("Lucida Grande", Font.BOLD, 36));
