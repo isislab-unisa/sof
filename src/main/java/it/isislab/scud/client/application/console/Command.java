@@ -418,28 +418,17 @@ public enum Command implements Prompt
 
 				String bash = "if "+cmd+" ; then echo 0; else echo -1; fi";
 
-				System.err.println(bash);
 				try {
 					HadoopFileSystemManager.exec(SCUDShellClient.session,bash);
 				} catch (Exception e ) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					return null;
 				}
+				
+				c.printf("Process killed");
+				ScudManager.setSimulationStatus(SCUDShellClient.session,sim,Simulation.KILLED);
 				return null;
-				//
-				// pkill non ha value return, trattato a parte anche nel metodo exec generale
-				//
-				/*boolean result = Integer.parseInt(HadoopFileSystemManager.exec(SCUDShellClient.session,bash))<0?false:true;
-					if(result){
-						c.printf("Process killed");
-						ScudManager.setSimulationStatus(SCUDShellClient.session,sim,Simulation.KILLED);
-						return null;
-
-					else{
-						c.printf("Error: unable kill process");
-						return null;
-					}*/ 
-
 			}
 		}
 	}),
