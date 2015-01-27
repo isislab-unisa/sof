@@ -58,7 +58,7 @@ public class XMLPanel extends JPanel {
 			DefaultMutableTreeNode selected =(DefaultMutableTreeNode)tree1.getLastSelectedPathComponent();
 			if(selected!=null && me.getClickCount() == 2)
 			{
-				System.out.println(selected.toString());
+				
 				if(selected.toString().contains("Loop Id"))
 				{
 					initChart(Integer.parseInt(selected.toString().split(": ")[1])-1);
@@ -112,6 +112,7 @@ public class XMLPanel extends JPanel {
 		JPanel p=new JPanel();
 		p.add(chartPanel);
 		p.setSize( new java.awt.Dimension( 800, 600 ));
+		
 		(scrollPane2.getViewport()).removeAll();
 		(scrollPane2.getViewport()).add(p);        
 
