@@ -113,7 +113,38 @@ public enum Command implements Prompt
 
 			if(parsedParams.length == 6)
 			{
+				
 				try {
+					ScudManager.checkParamMakeSimulationFolder(parsedParams);
+					
+				} catch (ParameterException e1) {
+					// TODO Auto-generated catch block
+					c.printf(e1.getMessage());
+					return null;
+				}
+				try {
+
+
+					ScudManager.makeSimulationFolder(
+							
+							SCUDShellClient.session,
+							parsedParams[0],//MODEL TYPE MASON - NETLOGO -GENERIC
+							parsedParams[1],//SIM NAME
+							parsedParams[2],//INPUT.XML PATH 
+							parsedParams[3],//OUTPUT.XML PATH 
+							parsedParams[4],//DESCRIPTION SIM
+							parsedParams[5],//SIMULATION EXEC PATH
+							""); //interpretergenericpath
+					return null;
+				} catch (Exception e) {
+					e.printStackTrace();
+					c.printf("Error in making execution environment!\n");
+					return null;
+				}
+			}
+			else if(parsedParams.length == 7){
+				try {
+					
 					ScudManager.checkParamMakeSimulationFolder(parsedParams);
 				} catch (ParameterException e1) {
 					// TODO Auto-generated catch block
@@ -130,14 +161,17 @@ public enum Command implements Prompt
 							parsedParams[2],//INPUT.XML PATH 
 							parsedParams[3],//OUTPUT.XML PATH 
 							parsedParams[4],//DESCRIPTION SIM
-							parsedParams[5]);//SIMULATION EXEC PATH 
+							parsedParams[5],//SIMULATION EXEC PATH
+							parsedParams[6]); //intepretergenericpath
 					return null;
 				} catch (Exception e) {
 					e.printStackTrace();
 					c.printf("Error in making execution environment!\n");
 					return null;
 				}
-			}else{
+			}
+			
+			else{
 				c.printf("Error "+(parsedParams.length<6?"few":"much more")+" parameters.:\n");
 				c.printf("usage: MODEL[MASON-NETLOGO-GENERIC] SIM-NAME[String]INPUT.xml[String absolutely]"
 						+ " Output.xml[String absolutely path] DESCRIPTION-SIM[String] SIMULATION-EXECUTABLE-MODEL[String absolutely path]\n");
@@ -164,7 +198,39 @@ public enum Command implements Prompt
 				}
 				try {
 
+					
+					
+					ScudManager.makeSimulationFolderForLoop(
+							SCUDShellClient.session,
+							parsedParams[0]/*MODEL TYPE MASON - NETLOGO -GENERIC*/,
+							parsedParams[1],/*SIM NAME*/
+							parsedParams[2],/*domain_pathname*/ 
+							parsedParams[3],/*bashCommandForRunnableFunctionSelection */
+							parsedParams[4],/*bashCommandForRunnableFunctionEvaluate*/
+							parsedParams[5],/*output_description_filename*/
+							parsedParams[6],/*executable_selection_function_filename*/ 
+							parsedParams[7],/*executable_rating_function_filename*/
+							parsedParams[8],/*description_simulation*/
+							parsedParams[9],"");/*executable_simulation_filename*/
+					
+					return null;
+				} catch (Exception e) {
 
+					e.printStackTrace();
+					c.printf("Error in making execution environment!\n");
+					return null;
+				}
+			}
+			else if(parsedParams.length == 11){
+				
+				try {
+					ScudManager.checkParamMakeSimulationFolder(parsedParams);
+				} catch (ParameterException e1) {
+					// TODO Auto-generated catch block
+					c.printf(e1.getMessage());
+					return null;
+				}
+				try {
 
 					
 					
@@ -179,7 +245,8 @@ public enum Command implements Prompt
 							parsedParams[6],/*executable_selection_function_filename*/ 
 							parsedParams[7],/*executable_rating_function_filename*/
 							parsedParams[8],/*description_simulation*/
-							parsedParams[9]);/*executable_simulation_filename*/
+							parsedParams[9],/*executable_simulation_filename*/
+							parsedParams[10]);//interpreter generic
 					
 					return null;
 				} catch (Exception e) {
@@ -188,7 +255,13 @@ public enum Command implements Prompt
 					c.printf("Error in making execution environment!\n");
 					return null;
 				}
-			}else{
+				
+				
+				
+			}
+			
+			
+			else{
 				c.printf("Error "+(parsedParams.length<10?"few":"much more")+" parameters.:\n");
 				c.printf("usage: MODEL[MASON-NETLOGO-GENERIC] SIM-NAME[String] "+
 						"DOMAIN.xml[String absolutely] "+

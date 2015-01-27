@@ -109,11 +109,6 @@ public class SCUD {
 		
 		
 		
-		
-		
-		
-		
-		
 		if(args.length==14){
 			SIMULATION_NAME=args[0]; 
 			SIMULATION_HOME= args[1];

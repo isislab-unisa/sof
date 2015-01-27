@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name="runnable")
-@XmlType(propOrder={"simulation","selection","rating","bashCommandForRunnableFunctionSelect","bashCommandForRunnableFunctionEvaluate"})
+@XmlType(propOrder={"simulation","selection","rating","bashCommandForRunnableFunctionSelect","bashCommandForRunnableFunctionEvaluate","bashCommandForGenericSimulation"})
 public class RunnableFile {
 	
 	private String simulation;
@@ -27,6 +27,7 @@ public class RunnableFile {
 	private String rating;
 	private String bashCommandForRunnableFunctionSelect;
 	private String bashCommandForRunnableFunctionEvaluate;
+	private String bashCommandForGenericSimulation="";
 	
 	
 	public RunnableFile() {}
@@ -63,7 +64,15 @@ public class RunnableFile {
 	}
 	
 	
-
+	
+	public String getBashCommandForGenericSimulation()
+	{return bashCommandForGenericSimulation;}
+	
+	public void setBashCommandForGenericSimulation(String bashcommandGeneric)
+	{bashCommandForGenericSimulation=bashcommandGeneric;}
+	
+	
+	
 	public String getBashCommandForRunnableFunctionEvaluate() {
 		return bashCommandForRunnableFunctionEvaluate;
 	}

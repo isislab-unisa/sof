@@ -45,57 +45,57 @@ public class SCUDRUNNER{
 
 	@Option(name="-u", usage="username")
 	public static String USERNAME;
-	
+
 	/*	@Option(name="-host",usage="hostname")
 	public String host;
 
 	@Option(name="-p", usage="password")
 	public String passowrd;*/
-	
+
 	@Option(name="-simid", usage="simulation id")
 	public static String simID;
 	//@Option(name="-loopid", usage="loop id")
 	//public static int loopID;
-	
+
 	@Option(name="-hadoopbin", usage="hadoop bin directory installing")
 	public static String hadoopbindir="";
-	
+
 	@Option(name="-hdfsrootdir",usage="Hdfs home directory")
 	public static String hdfsRootDir; 
 
 	@Option(name="-remoterootdir", usage="remote home directory")
 	public static String remoteRootDir;
-	
-/*	private String simName;
-	
-	
+
+	/*	private String simName;
+
+
 	public String simulationHOME;
-	
-	
+
+
 	private String simulationToolkit;
-	
+
 	private String executable_sim_file;
-	
-	
+
+
 	private String mapperExecutionLoopInputDataPath;
-	
-	
+
+
 	private String mapperExecutionLoopOutputPath;
-	
-	
+
+
 	private String simulation_description_output_xml;
-	
-	
+
+
 	private boolean LOOP;
-	
+
 	private String description;
-	
-	
+
+
 	private String bashCommandForRunnableFile;
 	private String RUNNABLE_RATING_PROGRAMM;
 	private String mapperExecutionLoopInputXMLPath;*/
 	private static FileSystemSupport fs =null;
-	
+
 	public static Logger log = Logger.getLogger(SCUDRUNNER.class.getName());
 
 
@@ -143,23 +143,23 @@ public class SCUDRUNNER{
 		this.HADOOP_HOME = ;
 	}
 
-	
 
 
-	*//**
-	 * USE THIS CONSTRUCTOR IF YOU WANT TO RUN A ONE SHOT SIMULATION
-	 * @param session
-	 * @param author
-	 * @param simulationName
-	 * @param simulationHOME
-	 * @param simulationTYPE
-	 * @param simulationPROGRAM
-	 * @param mapperInputPath
-	 * @param mapperOutputPath
-	 * @param description_OUTPUT_DOMAIN_FILE
-	 * @param oneloop
-	 * @param description
-	 *//*
+
+	  *//**
+	  * USE THIS CONSTRUCTOR IF YOU WANT TO RUN A ONE SHOT SIMULATION
+	  * @param session
+	  * @param author
+	  * @param simulationName
+	  * @param simulationHOME
+	  * @param simulationTYPE
+	  * @param simulationPROGRAM
+	  * @param mapperInputPath
+	  * @param mapperOutputPath
+	  * @param description_OUTPUT_DOMAIN_FILE
+	  * @param oneloop
+	  * @param description
+	  *//*
 	public SCUDRUNNER(String author,
 			String simulationName, String simulationHOME,
 			String simulationTYPE, String simulationPROGRAM,
@@ -185,7 +185,7 @@ public class SCUDRUNNER{
 		//il secondo vuoto è javabindir e nun me serve ca .:;
 		fs = new FileSystemSupport(hadoopbindir,"", hdfsRootDir, remoteRootDir, "", USERNAME);
 	}
-	
+
 	public void setLogFile() throws SecurityException, IOException{
 		FileHandler fileHandler = new FileHandler(fs.getRemotePathForTmpLogFileForUser());
 		fileHandler.setFormatter(new SimpleFormatter());
@@ -194,15 +194,25 @@ public class SCUDRUNNER{
 
 	private static void invokeMapperProcess(Simulation s, int loopID) {
 		//String output =""; test output comand
+
+
+
+
 		String bash=hadoopbindir+"/bin/hadoop jar "+fs.getRemoteSCUDHome()+"/SCUD.jar "+
 				s.getName()+" "+
 				fs.getHdfsUserPathSimulationByID(s.getId())+" "+
-				s.getToolkit()+" "+
-				s.getRunnableFile().getSimulation()+" "+
+				s.getToolkit()+" ";
+
+
+		if(s.getToolkit().equalsIgnoreCase("generic")){
+         bash+=s.getRunnableFile().getBashCommandForGenericSimulation()+" ";
+		}
+
+		bash+=s.getRunnableFile().getSimulation()+" "+
 				fs.getHdfsUserPathSimulationLoopByIDsInputDATA(s.getId(), loopID)+" "+
 				fs.getHdfsUserPathOutputLoopDIR(s.getId(), loopID)+" "+
 				fs.getHdfsUserPathDescriptionOutputXML(s.getId())+" ";
-		
+
 		if(s.getLoop()){
 			bash +=fs.getHdfsUserPathSimulationLoopByIDsInputXML(s.getId(), loopID )+
 					" "+fs.getHdfsUserPathRatingFolderForSimLoop(s.getId(), loopID)+" ";
@@ -212,16 +222,18 @@ public class SCUDRUNNER{
 				s.getAuthor()+" "+ 
 				s.getDescription();
 
-		
-		
+
+
 		if(s.getLoop())
 			bash += " "+s.getRunnableFile().getBashCommandForRunnableFunctionEvaluate()+
-					" "+s.getRunnableFile().getRating();
+			" "+s.getRunnableFile().getRating();
+
+
+
+
+		System.out.println(bash);
 		
 		
-		
-		
-		//System.out.println(bash);
 		try {
 			Process process = Runtime.getRuntime().exec(bash);
 			try {
@@ -235,8 +247,8 @@ public class SCUDRUNNER{
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+
 	/**
 	 * Metodo supporto
 	 * @throws IOException 
@@ -248,15 +260,15 @@ public class SCUDRUNNER{
 			FileSystemSupport fs,
 			Simulation sim
 			) throws NumberFormatException, JSchException, IOException, SftpException{
-		
+
 		String simID = sim.getId();
 		setSimulationStatus(fs,sim, Simulation.RUNNING);
 		String tmpFolderPath = fs.getRemotePathForTmpFolderForUser();
 		ScudRunnerUtils.mkdir(tmpFolderPath);
 		String tmpFolderName = tmpFolderPath.substring(tmpFolderPath.lastIndexOf("/")+1, tmpFolderPath.length());
 		//String hdfs_USER_HOME=fs.getHdfsUserPathHomeDir();
-		
-		
+
+
 		//String hdfs_SimPath = fs.getHdfsUserPathSimulationByID(simID);
 
 		String hdfs_domain_xml_file = fs.getHdfsUserPathDomainXML(simID);
@@ -278,7 +290,7 @@ public class SCUDRUNNER{
 			if(doLoop /*& idLoop > 1*/){
 				String hdfs_simulation_rating_folder = fs.getHdfsUserPathRatingFolderForSimLoop(simID, idLoop-1);
 				String hdfs_simulation_loop_input_xml = fs.getHdfsUserPathSimulationLoopByIDsInputXML(simID, idLoop-1);
-				
+
 				SelectionFunction f= new SelectionFunction(
 						hdfs_domain_xml_file,
 						hdfs_simulation_loop_input_xml,
@@ -286,13 +298,13 @@ public class SCUDRUNNER{
 						hdfs_simulation_rating_folder, 
 						currentExecutionInputLoopPath,
 						sim.getRunnableFile().getBashCommandForRunnableFunctionSelect());
-				
+
 				doLoop=f.generateNewInput(fs);
-				
-			//	if(idLoop > 4) doLoop=false;
-				
+
+				//	if(idLoop > 4) doLoop=false;
+
 				if(!doLoop){
-					
+
 					if(removeLoopDir(fs,simID, idLoop))
 						System.out.println("Deleted "+currentLoopDirPathName);
 					setSimulationStatus(fs, sim, Simulation.FINISHED);
@@ -326,26 +338,26 @@ public class SCUDRUNNER{
 
 			Runs r = setLoopProperty(fs,simID,idLoop,Loop.RUNNING);
 			addLoopToSimulation(fs,sim,r);
-			
-			
+
+
 			invokeMapperProcess(sim, idLoop);
-			
+
 
 			r = setLoopProperty(fs,simID,idLoop, Loop.FINISHED);
 			addLoopToSimulation(fs,sim,r);
-			
+
 			log.info("Loop "+idLoop+" for Simulation "+simID+" is terminated");
 
 		}while(doLoop);
-		
+
 		setSimulationStatus(fs,sim, Simulation.FINISHED);
 
 		ScudRunnerUtils.rmr(tmpFolderPath);
 
 		log.info("Simulation "+simID+" terminated");
 	}
-	
-	
+
+
 	/**
 	 * Create loop directory
 	 * @throws IOException 
@@ -355,12 +367,12 @@ public class SCUDRUNNER{
 	 */
 	private static int makeLoopDir(FileSystemSupport fs, String simID2) throws NumberFormatException, JSchException, IOException, SftpException{
 
-	
+
 		String tmpFolderPath = fs.getRemotePathForTmpFolderForUser();
 		ScudRunnerUtils.mkdir(tmpFolderPath);
 		String tmpFolderName = tmpFolderPath.substring(tmpFolderPath.lastIndexOf("/")+1, tmpFolderPath.length());
-		
-		
+
+
 		String hdfsXMLPath = fs.getHdfsUserPathRunsXml(simID2);
 
 		//String runsXmlFile = fs.getRemotePathForTmpFolderForUser();
@@ -383,7 +395,7 @@ public class SCUDRUNNER{
 
 		String loopPath=fs.getHdfsUserPathSimulationLoopByIDs(simID2, loopNumber);
 
-		
+
 		if(ScudRunnerUtils.hdfs_mkdirp(fs,loopPath))
 			log.info("Created "+loopPath);
 
@@ -397,18 +409,18 @@ public class SCUDRUNNER{
 
 		return loopNumber;
 	}
-	
-	
+
+
 	private static boolean removeLoopDir(FileSystemSupport fs,String simID, int loopId) throws NumberFormatException, JSchException, IOException, SftpException{
 
 		String tmpFolderPath = fs.getRemotePathForTmpFolderForUser();
-		
+
 		ScudRunnerUtils.mkdir(tmpFolderPath);
 		String tmpFolderName = tmpFolderPath.substring(tmpFolderPath.lastIndexOf("/")+1, tmpFolderPath.length());
-		
-		
+
+
 		String hdfsXMLPath = fs.getHdfsUserPathRunsXml(simID);
-		
+
 		String hdfs_loopFolder = fs.getHdfsUserPathSimulationLoopByIDs(simID, loopId);
 
 		String localXMLPath = fs.getRemotePathForTmpFileForUser(tmpFolderName);
@@ -438,7 +450,7 @@ public class SCUDRUNNER{
 
 		return result;
 	}
-	
+
 	private static Runs setLoopProperty(FileSystemSupport fs, String simID, int idLoop,
 			String status) throws NumberFormatException, JSchException, IOException, SftpException {
 
@@ -451,8 +463,8 @@ public class SCUDRUNNER{
 		String tmpRunsFile= fs.getRemotePathForTmpFileForUser(tmpFolderName);
 
 		String hdfs_input_xml_file = fs.getHdfsUserPathSimulationLoopByIDsInputXML(simID, idLoop);
-		
-		
+
+
 		if(ScudRunnerUtils.copyFileFromHdfs(fs,hdfs_runs_xml, tmpRunsFile))
 			ScudManager.log.info("Copied successfully "+hdfs_runs_xml+" to "+tmpRunsFile);
 
@@ -464,7 +476,7 @@ public class SCUDRUNNER{
 					l.setStartTime();
 
 					String tmpInputXmlFile = fs.getRemotePathForTmpFileForUser(tmpFolderName);
-					
+
 					if(ScudRunnerUtils.copyFileFromHdfs(fs,hdfs_input_xml_file, tmpInputXmlFile))
 						ScudManager.log.info("Copied successfully "+hdfs_runs_xml+" to "+tmpInputXmlFile);
 
@@ -508,7 +520,7 @@ public class SCUDRUNNER{
 			}
 		RunsParser.convertRunsToXML(r, tmpRunsFile);
 		ScudRunnerUtils.rmrFromHdfs(fs,hdfs_runs_xml);
-		
+
 		if(ScudRunnerUtils.copyFileInHdfs(fs,tmpRunsFile, hdfs_runs_xml))
 			ScudManager.log.info("Copied "+tmpRunsFile+" to "+hdfs_runs_xml);
 
@@ -517,25 +529,25 @@ public class SCUDRUNNER{
 
 		return r;
 	}
-	
+
 	private static void addLoopToSimulation(FileSystemSupport fs, Simulation sim, Runs runs) throws NumberFormatException, JSchException, IOException, SftpException {
 
 		String tmpFolderPath =fs.getRemotePathForTmpFolderForUser();
 		ScudRunnerUtils.mkdir(tmpFolderPath);
 
 		String tmpFolderName = tmpFolderPath.substring(tmpFolderPath.lastIndexOf("/")+1, tmpFolderPath.length());
-		
+
 		String hdfsXmlSim=fs.getHdfsUserPathSimulationXMLFile(sim.getId()); 
 
 		String localFile = fs.getRemotePathForTmpFileForUser(tmpFolderName);
-		
+
 		/*if(ScudRunnerUtils.copyFileFromHdfs(fs,hdfsXmlSim, localFile))
 			SCUDRUNNER.log.info("Copied "+hdfsXmlSim+" to "+localFile);*/
 
 		//Simulation sim = SimulationParser.convertXMLToSimulation(localFile);
 
 		sim.setRuns(runs);
-		
+
 		SimulationParser.convertSimulationToXML(sim, localFile);
 		if(ScudRunnerUtils.ifExists(fs, hdfsXmlSim)){
 			if(ScudRunnerUtils.rmrFromHdfs(fs,hdfsXmlSim))
@@ -546,26 +558,26 @@ public class SCUDRUNNER{
 		ScudRunnerUtils.rmr(tmpFolderPath);
 
 	}
-	
+
 	private static void setSimulationStatus(FileSystemSupport fs,
 			Simulation sim, String status){
 
 		String tmpFolderPath =fs.getRemotePathForTmpFolderForUser();
 		ScudRunnerUtils.mkdir(tmpFolderPath);
-		
+
 		String tmpFolderName = tmpFolderPath.substring(tmpFolderPath.lastIndexOf("/")+1, tmpFolderPath.length());
 
 		String localSimXml =fs.getRemotePathForTmpFileForUser(tmpFolderName);
 
 		//String hdfs_simulation_xml = fs.getHdfsUserPathSimulationsXml();
 		String hdfsXmlSim=fs.getHdfsUserPathSimulationXMLFile(sim.getId()); 
-		
+
 		/*if(ScudRunnerUtils.copyFileFromHdfs(fs,hdfsXmlSim, localSimXml))
 			log.info("Copied successfully from "+hdfsXmlSim +" to "+localSimXml);*/
 
 		//Simulation s = SimulationParser.convertXMLToSimulation(localSimXml);
 		sim.setState(status);
-		
+
 		/*for(Simulation s: list.getSimulations())
 			if(s.getId().equals(simID)){
 				s.setState(status);
@@ -581,15 +593,15 @@ public class SCUDRUNNER{
 			if(ScudRunnerUtils.rmrFromHdfs(fs,hdfsXmlSim))
 				log.info("Removed "+hdfsXmlSim+" successfully");
 		}
-		
+
 		if(ScudRunnerUtils.copyFileInHdfs(fs,localSimXml, hdfsXmlSim))
 			log.info("Copied "+localSimXml+" to "+hdfsXmlSim);
-		
+
 		ScudRunnerUtils.rmr(tmpFolderPath);
-		
+
 	}
-	
-	
+
+
 	public static void main(String[] params){
 
 
@@ -601,7 +613,7 @@ public class SCUDRUNNER{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		sr.setFileSystem();
 		try {
 			sr.setLogFile();

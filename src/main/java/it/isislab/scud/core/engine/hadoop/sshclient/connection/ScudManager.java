@@ -241,7 +241,8 @@ public class ScudManager {
 			String input_filename,
 			String output_description_filename,
 			String description_simulation,
-			String executable_simulation_filename) 
+			String executable_simulation_filename,
+			String interpreter_simulation_generic) 
 					throws ParserConfigurationException, SAXException, IOException, TransformerException, NumberFormatException, JSchException, SftpException{
 
 		/**crea cartella temporanea lato client*/
@@ -305,7 +306,16 @@ public class ScudManager {
 		String execFileName = executable_simulation_filename.substring(executable_simulation_filename.lastIndexOf(File.separator)+1, executable_simulation_filename.length());
 		//f.setSimulation(hdfs_sim_dir+File.separator+execFileName);
 		f.setSimulation(fs.getHdfsUserPathSimulationExeForId(idSimXmlFile, execFileName));
+		if(toolkit.equalsIgnoreCase("generic")){
+			f.setBashCommandForGenericSimulation(interpreter_simulation_generic);	
+		}
+		
+		
+		
 		sim.setRunnableFile(f);
+		
+		
+		
 		//simListFile.addSimulation(s);
 
 		/**
@@ -444,7 +454,8 @@ public class ScudManager {
 			String executable_selection_function_filename,
 			String executable_rating_function_filename,
 			String description_simulation,
-			String executable_simulation_filename) throws Exception,ParserConfigurationException, SAXException, IOException, TransformerException, NumberFormatException, JSchException{
+			String executable_simulation_filename,
+			String interpreter_generic_path) throws Exception,ParserConfigurationException, SAXException, IOException, TransformerException, NumberFormatException, JSchException{
 
 
 		//String tmpFolderName = makeLocalTemporaryFolder(System.getProperty("java.io.tmpdir")+System.currentTimeMillis()+File.separator+HadoopManagerOnSSH.TEMPORARY_FOLDER+session.getUsername());
@@ -512,8 +523,17 @@ public class ScudManager {
 		String ratingFileName = executable_rating_function_filename.substring(executable_rating_function_filename.lastIndexOf(File.separator)+1, executable_rating_function_filename.length());
 		f.setRating(fs.getHdfsUserPathRatingExeForId(simulationID, ratingFileName));
 
+		
+		
+		
+		
+		
+		
 		f.setBashCommandForRunnableFunctionEvaluate(bashCommandForRunnableFunctionEvaluate);
 		f.setBashCommandForRunnableFunctionSelect(bashCommandForRunnableFunctionSelect);
+		if(toolkit.equalsIgnoreCase("generic")){
+			f.setBashCommandForGenericSimulation(interpreter_generic_path);}
+		
 
 		s.setRunnableFile(f);
 		//simListFile.addSimulation(s);
@@ -933,13 +953,14 @@ public class ScudManager {
 
 
 	public static boolean checkParamMakeSimulationFolder(String[] params) throws ParameterException{
-
+		 int SIMULATION_PSE_THRESHOLD=7;
 		//params[0]/*TOOLKIT TYPE MASON - NETLOGO -GENERIC*/,
 		//params[1],/*SIM NAME*/
 		//params[2],/*INPUT.XML PATH*/ 
 		//params[3],/*OUTPUT.XML PATH */
 		//params[4],/*DESCRIPTION SIM*/
 		//params[5],/*SIMULATION EXEC PATH */
+		//params[6]  //generic interpreter path 
 
 
 		/*params[0]MODEL TYPE MASON - NETLOGO -GENERIC,
@@ -951,8 +972,9 @@ public class ScudManager {
 		params[6],executable_selection_function_filename 
 		params[7],executable_rating_function_filename
 		params[8],description_simulation
-		params[9],executable_simulation_filename*/
-
+		params[9],executable_simulation_filename
+		params[10] //generic interpreter path*/
+        
 
 		if(   ! (   params[0].equalsIgnoreCase("netlogo") || 
 				params[0].equalsIgnoreCase("mason") || 
@@ -963,7 +985,9 @@ public class ScudManager {
 
 		}
 		JAXBContext context;
-		if(params.length >6){
+		
+		
+		if(params.length >SIMULATION_PSE_THRESHOLD){
 			Domain dom = new Domain();
 			try {
 				context = JAXBContext.newInstance(Domain.class);
@@ -992,7 +1016,7 @@ public class ScudManager {
 			context = JAXBContext.newInstance(Output.class);
 
 			Unmarshaller unmarshal = context.createUnmarshaller();
-			if(params.length > 6)
+			if(params.length > SIMULATION_PSE_THRESHOLD)
 				out = (Output) unmarshal.unmarshal(new File(params[5]));
 			else
 				out = (Output) unmarshal.unmarshal(new File(params[3]));
@@ -1001,7 +1025,7 @@ public class ScudManager {
 		}
 
 		if(params[0].equalsIgnoreCase("netlogo"))
-			if(params.length > 6){
+			if(params.length > SIMULATION_PSE_THRESHOLD){
 				if(!params[9].endsWith(".nlogo"))
 					throw new ParameterException("Invalid file extension netlogo");
 			}
@@ -1011,7 +1035,7 @@ public class ScudManager {
 			}
 
 		if(params[0].equalsIgnoreCase("mason"))
-			if(params.length > 6){
+			if(params.length > SIMULATION_PSE_THRESHOLD){
 				if(!params[9].endsWith(".jar"))
 					throw new ParameterException("Invalid file extension mason");
 			}
@@ -1106,7 +1130,7 @@ public class ScudManager {
 
 		int indexEndDescription = 0;
 
-		if(!params[indexBeginDescription].startsWith("\"") && (params.length==6 || params.length==10))
+		if(!params[indexBeginDescription].startsWith("\"") && (params.length==6 || params.length==7 || params.length==11 || params.length==10))
 			return params;
 
 		if(params[indexBeginDescription].startsWith("\"")){
