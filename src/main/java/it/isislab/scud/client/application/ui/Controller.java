@@ -38,13 +38,45 @@ import com.jcraft.jsch.JSchException;
 public class Controller {
 
 	private static Controller instance = null;
-	protected Controller() {
-		// Exists only to defeat instantiation.
-	}
-	public static Controller getInstance(String ... args) {
+	
+	public  String host_address= "172.16.15.103";
+	public  String pstring="cloudsim1205";
+	public  String port="22";
+	public  String bindir="/home/hadoop/hadoop-2.4.0";  
+	public  String homedir="/home/hadoop/"; 
+	public  String javabindir ="/usr/bin/";
+	public  String user_name="hadoop";
+	public  String scudhomedir="/";
+	
+	public  String scudjarpath="";
+	public  String scudjarrunnerpath="";
+
+
+	
+	public static Controller getInstance(
+			String host_address,
+			String user_name,
+			String pstring,
+			String port,
+			String bindir,
+			String homedir,
+			String javabindir,
+			String scudhomedir,
+			String scudjarpath,
+			String scudrunnerjarpath) {
 		if(instance == null) {
 			instance = new Controller();
-			parseArguments(args);
+			
+			instance.host_address=host_address;
+			instance.pstring=pstring;
+			instance.port=port;
+			instance.bindir=bindir;
+			instance.homedir=homedir;
+			instance.javabindir=javabindir;
+			instance.user_name=user_name;
+			instance.scudjarpath=scudjarpath;
+			instance.scudjarrunnerpath=scudrunnerjarpath;
+			
 			return instance.login()?instance:null;
 		}
 		return instance;
@@ -509,8 +541,8 @@ public class Controller {
 				if(!javabindir.endsWith("/"))
 					javabindir+="/";
 
-				ScudManager.setFileSystem(bindir,System.getProperty("user.dir"), scudhomedir, homedir, javabindir ,name);
-				if ((session=ScudManager.connect(name, host, pstring, bindir,Integer.parseInt(PORT),
+				ScudManager.setFileSystem(bindir,System.getProperty("user.dir"), scudhomedir, homedir, javabindir ,user_name);
+				if ((session=ScudManager.connect(user_name, host_address, pstring, bindir,Integer.parseInt(port),
 						new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD.jar"),
 						new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD-RUNNER.jar")
 						))!=null)
@@ -533,61 +565,9 @@ public class Controller {
 		return session!=null;
 
 	}
-	private  static void parseArguments(String[] args) {
 
-		for (int i = 0; i < args.length; i++) {
-			if(i%2==0)
-			{
-				switch (args[i-1]) {
-				case PARAM_USER_NAME:
-					name=args[i];
-					break;
-				case PARAM_PASSWORD:
-					pstring=args[i];
-					break;
-				case PARAM_IP:
-					host=args[i];
-					break;
-				case PARAM_PORT:
-					PORT=args[i];
-					break;
-				case PARAM_BINDIR:
-					bindir=args[i];
-					break;
-				case PARAM_JAVA_HOME:
-					javabindir=args[i];
-					break;
-				case PARAM_SCUD_HOME:
-					scudhomedir=args[i];
-					break;
-				case PARAM_USER_HOME_DIR:
-					homedir=args[i];
-					break;
-				default:
-					break;
-				}
-			}
-		}
 
-	}
 
-	public static String host= "172.16.15.103";
-	public static String pstring="cloudsim1205";
-	public static String PORT="22";
-	public static String bindir="/home/hadoop/hadoop-2.4.0";  
-	public static String homedir="/home/hadoop/"; 
-	public static String javabindir ="/usr/bin/";
-	public static String name="hadoop";
-	public static String scudhomedir="/";
-
-	public static final String PARAM_USER_NAME="username";
-	public static final String PARAM_PASSWORD="password";
-	public static final String PARAM_IP="ip";
-	public static final String PARAM_PORT="port";
-	public static final String PARAM_BINDIR="bindir";
-	public static final String PARAM_JAVA_HOME="javahome";
-	public static final String PARAM_SCUD_HOME="scudhome";
-	public static final String PARAM_USER_HOME_DIR="homedir";
 
 
 }
