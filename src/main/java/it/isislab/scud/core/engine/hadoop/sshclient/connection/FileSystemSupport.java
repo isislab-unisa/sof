@@ -118,7 +118,6 @@ public class FileSystemSupport {
 
 	private String username;
 
-	private final String SIMULATION_LIST_FILENAME="simulations.xml";
 	private final String SIMULATION_LIST_FOLDER="simulations";
 	private final String DESCRIPTION_FOLDER="description";
 	private final String EXECUTION_FOLDER="execution";
@@ -318,10 +317,6 @@ public class FileSystemSupport {
 	public String getHdfsUserPathSimulationInboxMessages(String simid){
 		return this.getHdfsUserPathSimulationMessagesByID(simid)+"/"+MESSAGES_INBOX_FOLDER;
 	}
-
-	public String getHdfsUserPathSimulationInboxMessagesFile(String simid){
-		return this.getHdfsUserPathSimulationInboxMessages(simid)+"/"+MESSAGES_INBOX_FOLDER_MESSAGE_PREFIX+getMexID()+MESSAGES_INBOX_FOLDER_MESSAGE_EXTENSION;
-	}
 	
 	public String getHdfsUserPathSimulationInboxMessagesFileByID(String simid, String mexID){
 		return this.getHdfsUserPathSimulationInboxMessages(simid)+"/"+MESSAGES_INBOX_FOLDER_MESSAGE_PREFIX+mexID+MESSAGES_INBOX_FOLDER_MESSAGE_EXTENSION;
@@ -428,37 +423,7 @@ public class FileSystemSupport {
 	{
 		return this.getHdfsUserPathSimulationLoopByIDs(simid,loopid)+"/"+SELECTIONS_FOLDER;
 	}
-	
-	/**
-	 * 
-	 * @return a unique filename. If there is execption, it will be return MD5(System.currentTimeMillis)
-	 */
-	private String getMexID() {
-		InetAddress addr;
-		try {
-			addr = InetAddress.getLocalHost();
-			Enumeration<NetworkInterface> networks = NetworkInterface.getNetworkInterfaces();
-			while(networks.hasMoreElements()) {
-				NetworkInterface network = networks.nextElement();
-				byte[] mac = network.getHardwareAddress();
 
-				if(mac != null) {
-					StringBuilder sb = new StringBuilder();
-					for (int i = 0; i < mac.length; i++) {
-						sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
-					}
-					return DigestUtils.md5Hex(sb.toString()+(System.currentTimeMillis()+""));
-				}
-			}
-			return DigestUtils.md5Hex(System.currentTimeMillis()+"");
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-			return DigestUtils.md5Hex(System.currentTimeMillis()+"");
-		} catch (SocketException e){
-			e.printStackTrace();
-			return DigestUtils.md5Hex(System.currentTimeMillis()+"");
-		}
-	}
 	
 	/**
 	 * END SCUD-HDFS FS

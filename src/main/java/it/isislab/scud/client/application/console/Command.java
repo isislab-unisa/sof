@@ -16,12 +16,14 @@ package it.isislab.scud.client.application.console;
 
 
 import it.isislab.scud.client.application.SCUDShellClient;
+import it.isislab.scud.core.engine.hadoop.sshclient.connection.FileSystemSupport;
 import it.isislab.scud.core.engine.hadoop.sshclient.connection.HadoopFileSystemManager;
 import it.isislab.scud.core.engine.hadoop.sshclient.connection.ScudManager;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.environment.EnvironmentSession;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulations;
 import it.isislab.scud.core.exception.ParameterException;
+import it.isislab.scud.core.model.parameters.xsd.message.Message;
 
 import java.io.IOException;
 import java.util.Date;
@@ -428,6 +430,38 @@ public enum Command implements Prompt
 				
 				c.printf("Process killed");
 				ScudManager.setSimulationStatus(SCUDShellClient.session,sim,Simulation.KILLED);
+				return null;
+			}
+		}
+	}),
+	STOP(new Action()
+	{
+		@Override
+		public Object exec(Console c, String[] params,String stringPrompt)
+		{
+			if(params == null || params.length < 1 )
+			{
+				c.printf("Error few parameters!\n Usage: stop simID");
+				return null;
+			}else{
+				int simID = Integer.parseInt(params[0])-1;
+
+				Simulations listSim  = ScudManager.getSimulationsData(SCUDShellClient.session);
+				if(listSim == null){
+					c.printf("No such simulation");
+					return null;
+				}
+				if(listSim.getSimulations().size()-1<simID){
+					c.printf("Simulation not exists");
+					return null;
+				}
+
+				Simulation sim = listSim.getSimulations().get(simID);
+				Message stop = new Message();
+				stop.setId(ScudManager.getMexID());
+				stop.setMessage(Message.STOP_MESSAGE);
+				ScudManager.sendMessage(SCUDShellClient.session, sim, stop);
+				
 				return null;
 			}
 		}

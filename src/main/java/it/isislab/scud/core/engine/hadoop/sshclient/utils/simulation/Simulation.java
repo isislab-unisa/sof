@@ -38,11 +38,13 @@ public class Simulation {
 	public static final String FINISHED="finished";
 	public static final String KILLED="killed";
 	public static final String ABORTED="aborted";
+	public static final String STOPPED = "stopped";
 	
 	
 	private static final String type_toolkit_mason = "mason";
 	private static final String type_toolkit_netlogo = "netlogo";
 	private static final String type_toolkit_generic = "generic";
+	
 	
 //	public static RGB CREATED_COLOR=new RGB(205,255,51);
 //	public static RGB SUBMITTED_COLOR=new RGB(30,144,255);

@@ -281,6 +281,7 @@ public class SCUDRUNNER{
 		//String currentOutputPath;
 		//String mapperInputLoopPath="";
 		boolean doLoop=sim.getLoop();
+		boolean STOPPED = false;
 
 		do{
 			int idLoop = makeLoopDir(fs,simID);
@@ -354,17 +355,18 @@ public class SCUDRUNNER{
 			while((m = checkMessages(fs,sim))!=null){
 				if(m.getMessage().equals(Message.STOP_MESSAGE)){
 					doLoop = false;
+					STOPPED = true;
 					break;
 				}else{
 					//Do somethings
-					log.info("I readed a new message....but I can't do anything");
+					log.info("I have read a new message....but I can't do anything");
 				}
 			}
 			
 
 		}while(doLoop);
 
-		setSimulationStatus(fs,sim, Simulation.FINISHED);
+		setSimulationStatus(fs,sim, STOPPED?Simulation.STOPPED:Simulation.FINISHED);
 
 		ScudRunnerUtils.rmr(tmpFolderPath);
 

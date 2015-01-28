@@ -21,9 +21,11 @@ import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.RunsParser;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.SimulationParser;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulations;
+import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.executor.ScudRunnerUtils;
 import it.isislab.scud.core.exception.ParameterException;
 import it.isislab.scud.core.model.parameters.xsd.domain.Domain;
 import it.isislab.scud.core.model.parameters.xsd.input.Inputs;
+import it.isislab.scud.core.model.parameters.xsd.message.Message;
 import it.isislab.scud.core.model.parameters.xsd.output.Output;
 
 import java.io.File;
@@ -913,7 +915,64 @@ public class ScudManager {
 		}
 
 	}
+	
+	public static boolean sendMessage(EnvironmentSession session,Simulation simulation, Message m){
+		String mexID = getMexID();
+		String hdfs_mex_filename = fs.getHdfsUserPathSimulationInboxMessagesFileByID(simulation.getId(), mexID);
+		String tmp_file = fs.getClientPathForTmpFile();
+		Message.convertMessageToXml(m, tmp_file);
+		boolean toReturn = false;
+		try {
+			toReturn = HadoopFileSystemManager.copyFromClientToHdfs(session, tmp_file, hdfs_mex_filename);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSchException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SftpException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return toReturn;
+	}
 
+	/**
+	 * 
+	 * @return a unique filename. If there is execption, it will be return MD5(System.currentTimeMillis)
+	 */
+	public static String getMexID() {
+		InetAddress addr;
+		try {
+			addr = InetAddress.getLocalHost();
+			Enumeration<NetworkInterface> networks = NetworkInterface.getNetworkInterfaces();
+			while(networks.hasMoreElements()) {
+				NetworkInterface network = networks.nextElement();
+				byte[] mac = network.getHardwareAddress();
+
+				if(mac != null) {
+					StringBuilder sb = new StringBuilder();
+					for (int i = 0; i < mac.length; i++) {
+						sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
+					}
+					return DigestUtils.md5Hex(sb.toString()+(System.currentTimeMillis()+""));
+				}
+			}
+			return DigestUtils.md5Hex(System.currentTimeMillis()+"");
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+			return DigestUtils.md5Hex(System.currentTimeMillis()+"");
+		} catch (SocketException e){
+			e.printStackTrace();
+			return DigestUtils.md5Hex(System.currentTimeMillis()+"");
+		}
+	}
+	
+	
 	public static boolean existOnHost(EnvironmentSession session,String path)
 	{
 		String output ="";
