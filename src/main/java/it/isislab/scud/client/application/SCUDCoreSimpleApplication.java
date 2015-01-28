@@ -18,12 +18,8 @@ import it.isislab.scud.core.engine.hadoop.sshclient.connection.ScudManager;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.environment.EnvironmentSession;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulations;
-
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-
-import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 
 public class SCUDCoreSimpleApplication {
@@ -78,8 +74,8 @@ public class SCUDCoreSimpleApplication {
 		}
 		//CREATE SIMULATION FROM EXAMPLE IN SO MODE
 		try {
-			ScudManager.makeSimulationFolderForLoop(session, toolkit, simulation_name, domain_pathname, bashCommandForRunnableFunctionSelection,bashCommandForRunnableFunctionEvaluate, output_description_filename, 
-					executable_selection_function_filename, executable_rating_function_filename, description_simulation, executable_simulation_filename,"");
+			ScudManager.makeSimulationFolderForLoop(session, toolkit, simulation_name, domain_pathname, bashCommandForRunnableFunctionSelection,bashCommandForRunnableFunctionEvaluate, 
+					output_description_filename, executable_selection_function_filename, executable_rating_function_filename, description_simulation, executable_simulation_filename,""/*param exacutable param for generic mode, not required for netlogo and mason*/);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -92,7 +88,7 @@ public class SCUDCoreSimpleApplication {
 			System.err.println("No such simulations.");
 		}
 		System.out.println("******************************************************");
-		
+
 		for(int i=1; i<=sims.getSimulations().size(); i++){
 			int simID= i-1;
 			Simulation s = sims.getSimulations().get(simID);
@@ -101,10 +97,10 @@ public class SCUDCoreSimpleApplication {
 
 		System.out.println("******************************************************");
 
-		System.out.println("Submit the simulation with sim-id "+(sims.getSimulations().size()));
+		System.out.println("Start the simulation with sim-id "+(sims.getSimulations().size()));
 		sims = ScudManager.getSimulationsData(session);
-		
-		
+
+
 		Simulation s = sims.getSimulations().get(sims.getSimulations().size()-1);
 		if(s == null){
 			System.err.println("No such simulation with ID "+sims.getSimulations().size());
@@ -115,13 +111,13 @@ public class SCUDCoreSimpleApplication {
 
 		System.out.println("Waiting for simulation ends.");
 		Simulation sim=null;
-		
-		
+
+
 		do{
 			sims = ScudManager.getSimulationsData(session);
 			sim = sims.getSimulations().get(sims.getSimulations().size()-1);
-			
-			
+
+
 		}while(!(sim.getState().equals(Simulation.FINISHED)));
 		System.exit(0);
 
