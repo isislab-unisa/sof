@@ -14,18 +14,8 @@
  */
 package it.isislab.scud.core.model.parameters.xsd.domain;
 
-
-
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
-
-import java.io.File;
-
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
@@ -52,7 +42,7 @@ public class Domain {
 				result.setSystemId(suggestedFileName);
 				return result;
 			}
-		});*/
+		});
 		Simulation s = new Simulation();
 		s.setAuthor("Flavio");
 		s.setToolkit("generic");
@@ -92,6 +82,6 @@ public class Domain {
  
 		Unmarshaller unmarshall=context.createUnmarshaller();
 		Domain dd= (Domain) unmarshall.unmarshal(new File("domain.xml"));
-		System.out.println(dd.param);
+		System.out.println(dd.param);*/
 	}
 }
