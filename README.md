@@ -59,7 +59,7 @@ The output files will be in `target/`:
 		├── maven-status
 		└── scud-resources
 		
-# Run SCUD on test environment
+# SCUD on test environment
 
 To easily test the SCUD environment you can set up a virtual machine with Apache Hadoop infrastructure on your local machine. A popular example of that is a **Hortonworks Data Platform (HDP)**, an open source Apache Hadoop data platform, architected for the enterprise, developed from [Hortonworks](http://hortonworks.com/). The HDP 2.2 Sandbox is provided as a self-contained virtual machine. No data center, no cloud service and no internet connection needed in order to the SCUD framework.
 
