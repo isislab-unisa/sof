@@ -17,14 +17,7 @@ package it.isislab.scud.core.model.parameters.xsd.input;
 
 
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
-import it.isislab.scud.core.exception.ParameterException;
-
-import java.io.File;
 import java.util.List;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
