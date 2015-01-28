@@ -370,7 +370,7 @@ public class SCUDRUNNER{
 
 		ScudRunnerUtils.rmr(tmpFolderPath);
 
-		log.info("Simulation "+simID+" terminated");
+		log.info("Simulation "+simID+ (STOPPED?" stopped":" terminated"));
 	}
 
 
@@ -383,14 +383,18 @@ public class SCUDRUNNER{
 	private static Message checkMessages(FileSystemSupport fs, Simulation sim) {
 		String tmpFolderPath = fs.getRemotePathForTmpFolderForUser();
 		ScudRunnerUtils.mkdir(tmpFolderPath);
-		ScudRunnerUtils.copyFilesFromHdfs(fs, fs.getHdfsUserPathSimulationInboxMessages(sim.getId()), tmpFolderPath);
-		Messages mss = ScudRunnerUtils.convertXmlListToMessages(fs,tmpFolderPath);
+		String hdfs_mexs_path= fs.getHdfsUserPathSimulationInboxMessages(sim.getId());
+		String tmp_inbox_FolderName = hdfs_mexs_path.substring(hdfs_mexs_path.lastIndexOf("/")+1, hdfs_mexs_path.length());
+		ScudRunnerUtils.copyFilesFromHdfs(fs, hdfs_mexs_path, tmpFolderPath);
+		Messages mss = ScudRunnerUtils.convertXmlListToMessages(fs,tmpFolderPath+"/"+tmp_inbox_FolderName);
+		if(mss == null)
+			return null;
 		PriorityQueue<Message> listMessages = new PriorityQueue<Message>(mss.getMessages());
 		Message toResolve = listMessages.poll();
 		if(ScudRunnerUtils.rmrFromHdfs(fs, fs.getHdfsUserPathSimulationInboxMessagesFileByID(sim.getId(), toResolve.getId())))
-			log.info("Scheduled a new stop message");
+			log.info("Scheduled a new message");
 		else{
-			log.severe("Some problems when scheduling a stop message");
+			log.severe("Some problems when scheduling message");
 		}
 		ScudRunnerUtils.rmr(tmpFolderPath);
 		return toResolve;

@@ -58,14 +58,48 @@ The output files will be in `target/`:
 		├── maven-archiver
 		├── maven-status
 		└── scud-resources
+		
+# SCUD on test environment
 
-## Example SCUD Simple Application
+To easily test the SCUD environment you can set up a virtual machine with Apache Hadoop infrastructure on your local machine. A popular example of that is a **Hortonworks Data Platform (HDP)**, an open source Apache Hadoop data platform, architected for the enterprise, developed from [Hortonworks](http://hortonworks.com/). The HDP 2.2 Sandbox is provided as a self-contained virtual machine. No data center, no cloud service and no internet connection needed in order to the SCUD framework.
+
+Download the virtual machine at Hortonworks [download page](http://hortonworks.com/products/hortonworks-sandbox/), and install your prefered available virtual machine in order to set up the environment.
+
+### How to execute SCUD using VirtualBox HDP 2.2 Sandbox
+
+After you have installed [VirtualBox](https://www.virtualbox.org/) and downloaded the virtual machine for VirtualBox, follow this steps:
+
+* Execute HortonWorks SandBox 2.2;
+* Boot the virtual machine (follow the instructions on the Hortonworks's site);
+* usually the user's credentials are login: **root** and password: **hadoop** (please check it on Hortonworks's site).
+
+Afterwards you must enable network on the VirtualBox [Settings-> Network-> Enable Network Adapter, choose Bridged Adapter for "Attached To" option]. Reboot the machine and check the connection availability.
+
+In both SCUD clients are needed some system configuration parameters:
+
+* *Node IP address* [`-h`]: IP of Hadoop Master node (in this scenario  the IP address of the virtual machine, you can see it by running the command:  `ifconfig`);
+* *Hadoop home directory* [`-bindir`]: the folder that contains the bin directory of Hadoop infrastructure, where you can find  all the Hadoop commands, in this case `/usr/`;   
+* *Home directory* [`-homedir`]: folder where you create SCUD temporary directory on the remote machine (Hadoop Master node), in this case the virtual machine home like `/root`;  
+* *Java bin directory* [`-javabindir`]: folder that cointains `/bin` directory of Java installation, in this case `/usr/bin/`;
+* *Scud home directory* [`-scudhomedir`]: SCUD installation folder on the HDFS, in this case `/user/root/`. 
+
+Examples: 
+
+* **SCUD Simple Client** change the parameters setting in the Java class and run it (see  [Getting Started SCUD Client](https://github.com/isislab-unisa/scud/blob/master/README.md#getting-started-scud-client-an-example-of-simple-client) section).
+
+* **SCUD Shell Client** `$  java -jar SCUD-Client.jar -h 192.168.0.2  -bindir /usr/  -homedir /root/ -javabindir /usr/bin/ -scudhomedir /user/root/` (see  [Getting Started SCUD Client GUI](https://github.com/isislab-unisa/scud/blob/master/README.md#getting-started-scud-client-gui) section).
+     
+* **SCUD GUI Client** provides the parameters setting in the GUI (see  [Getting Started SCUD Schell Client](https://github.com/isislab-unisa/scud/blob/master/README.md#getting-started-scud-schell-client) section).
+
+
+## Getting Started SCUD Client, an example of simple client
 
 Here is a minimum example of defining a client application using the SCUD core. The program create new simulation job in SO mode, submit the job to the system and wait until the process are finished.
 
 After build the project by Maven `mvn package`, you are able to run the example in the class `SCUDCoreSimpleApplication.java`. The final release is `target/SCUD-1.0-client-shell.jar`, exec the command in the target dir:
 
-		'$ java -jar SCUD-1.0-client-shell.jar'
+
+	$ java -jar SCUD-1.0-client-shell.jar
 	
 This simple application shows some SCUD core features: 
 *	create new simulation optimization process;
@@ -117,7 +151,7 @@ public class SCUDCoreSimpleApplication {
 		try {
 			ScudManager.setFileSystem(bindir,System.getProperty("user.dir"), scudhomedir, homedir, javabindir ,name);
 			if ((session=ScudManager.connect(name, host, pstring, bindir,PORT,
-					new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD.jar"),
+					new FileInputStream(System.getProperty("ushttp://hortonworks.com/er.dir")+File.separator+"scud-resources"+File.separator+"SCUD.jar"),
 					new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD-RUNNER.jar")
 					))!=null)
 			{
@@ -182,34 +216,16 @@ public class SCUDCoreSimpleApplication {
 }
 ```
 
-# Run SCUD on Environment example
 
-It's possible to run Scud on a generic machine. Obviuosly this must have configured hadoop environment. A possible example is a "Sandbox" developed from HortonWorks  http://hortonworks.com/products/hortonworks-sandbox/. Sandbox is a personal, portable Hadoop environment.
 
-### How to execute SCUD, VirtualBox Example
-After you have installed VirtualBox. At Hortonworks site, in Download&Install section, at this link http://hortonassets.s3.amazonaws.com/2.2/Sandbox_HDP_2.2_VirtualBox.ova , you can download the Sandbox.
-Steps to follow:
-* You execute HortonWorks SandBox 2.1
-* Booting virtual machine(you follow the instructions)
-* login:root and password:hadoop
-
-After you have enable network on VirtuaBox (Settings->Network->Scheda con bride). Now you need of some parameters to execute SCUD-Client (See "Getting Started SCUD Client GUI" section for details):
-* nodeIP : ip of master node(from Sandbox shell give ifconfig command and take inet addr )
-* hadoop home directory: folder that contains bin directory where you can find  executable hadoop command(hdfs)   
-* home dir : folder where you create SCUD directory  
-* java bin directory folder  folder that cointains java command
-* scud home dir path where you create SCUD directory on distributed file system 
-
- java -jar SCUD-Client.jar -h 192.168.0.1 -port 1022 -bindir /home/hadoop/bin -homedir /home/user -javbindir /home/java/bin -scudhomedir /home/user/app/scudtmp
-
-## Getting Started SCUD Client GUI
+# Getting Started SCUD Client GUI
 
 SCUD framework provides a Java command line client available in the release (`SCUD-client-ui.jar, SCUDClientUI.java`):
 
     $  java -jar SCUD-client-ui.jar
 
 
-## Getting Started SCUD Schell Client
+# Getting Started SCUD Schell Client
 SCUD framework provides a Java command line client available in the release (`SCUD-client-shell.jar, SCUDCoreSimpleApplication.java`):
 
     $  java -jar SCUD-client-shell.jar
@@ -387,7 +403,7 @@ To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/sch
 - - -
 
 
-## License
+### License
 Copyright ISISLab, 2015 Università degli Studi di Salerno.
 
 Licensed under the Apache License, Version 2.0 (the "License"); You may not use this file except in compliance with the License. You may obtain a copy of the License at

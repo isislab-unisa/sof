@@ -60,14 +60,12 @@ public class Message implements Comparable<Message>{
 		this.created_date = created_date;
 	}
 
-	@XmlTransient
 	@Override
 	public int compareTo(Message m) {
 		// TODO Auto-generated method stub
 		return created_date.compareTo(m.created_date);
 	}	
 
-	@XmlTransient
 	public static Message convertXMLToMessage(String xmlFilename){
 		JAXBContext context;
 		Message m=null;
@@ -86,7 +84,6 @@ public class Message implements Comparable<Message>{
 		return m;
 	}
 	
-	@XmlTransient
 	public static String convertMessageToXml(Message m, String filename){
 		JAXBContext context;
 		try {

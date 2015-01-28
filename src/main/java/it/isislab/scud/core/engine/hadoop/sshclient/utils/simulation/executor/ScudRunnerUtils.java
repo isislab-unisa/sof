@@ -272,6 +272,8 @@ public class ScudRunnerUtils {
 		}
 		Messages lsMexs = new Messages();
 		File[] ls = dir.listFiles();
+		if(ls.length==0)
+			return null;
 		for(File f: ls)
 			lsMexs.addMessage(convertXMLToMessage(f.getAbsolutePath()));
 		
