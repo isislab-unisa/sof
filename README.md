@@ -321,10 +321,11 @@ Returns for each simulation the following information:
 
 - - -
 
-* **`stop`** stop simulation execution(you can use start command to restart). This command takes the following input parameters: 
+* **`stop`** stop simulation execution(you can use start command to restart). This command takes the following input parameters:
     - `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation (given in the list command). 
         * usage `stop x` where x is your simulation identifier.
 
+- - -
 
 * **`getsimulation`** shows all data information of a simulation and loops. This command takes the following input parameters: 
     - `simulation identifier` an integer number associated to the simulation. Note: this is the simulation identifier to use for all command to refer a simulation (given in the list command). 
