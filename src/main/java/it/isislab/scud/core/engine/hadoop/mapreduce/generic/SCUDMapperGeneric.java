@@ -18,8 +18,6 @@ package it.isislab.scud.core.engine.hadoop.mapreduce.generic;
 
 
 import it.isislab.scud.core.engine.hadoop.mapreduce.generic.util.SimulationGeneric;
-import it.isislab.scud.core.engine.hadoop.mapreduce.mason.util.SimulationMASON;
-
 import java.io.File;
 import java.io.IOException;
 
