@@ -96,7 +96,7 @@ Examples:
 * **SCUD GUI Client** provides the parameters setting in the GUI.
 * 
 
-## Example SCUD Simple Client
+## Getting Started SCUD Client, an example of simple client
 
 Here is a minimum example of defining a client application using the SCUD core. The program create new simulation job in SO mode, submit the job to the system and wait until the process are finished.
 
