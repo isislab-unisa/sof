@@ -92,7 +92,7 @@ Examples:
 
       $  java -jar SCUD-Client.jar -h 192.168.0.2  -bindir /usr/  -homedir /root/ -javabindir /usr/bin/ -scudhomedir /user/root/
 
-- (see  [Getting Started SCUD Client GUI](https://github.com/isislab-unisa/scud/blob/master/README.md#getting-started-scud-client-gui) section).
+	- (see  [Getting Started SCUD Client GUI](https://github.com/isislab-unisa/scud/blob/master/README.md#getting-started-scud-client-gui) section).
      
 * **SCUD GUI Client** provides the parameters setting in the GUI (see  [Getting Started SCUD Schell Client](https://github.com/isislab-unisa/scud/blob/master/README.md#getting-started-scud-schell-client) section).
 
