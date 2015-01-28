@@ -21,13 +21,11 @@ import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.RunsParser;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.SimulationParser;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulations;
-import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.executor.ScudRunnerUtils;
 import it.isislab.scud.core.exception.ParameterException;
 import it.isislab.scud.core.model.parameters.xsd.domain.Domain;
 import it.isislab.scud.core.model.parameters.xsd.input.Inputs;
 import it.isislab.scud.core.model.parameters.xsd.message.Message;
 import it.isislab.scud.core.model.parameters.xsd.output.Output;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -42,59 +40,30 @@ import java.util.Enumeration;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.xml.sax.SAXException;
-
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 
-
+/**
+ * 
+ * Manager for the environment
+ *
+ */
 public class ScudManager {
-	//private static final String HDFS_HOME=File.separator+"SCUD"+File.separator;
-	//private static final String SIMULATION_LIST_FILENAME="simulations.xml";
-	//private static final String DESCRIPTION_FOLDER="description";
-	//private static final String EXECUTION_FOLDER="execution";
-	//private static final String LOOP_LIST_FILENAME="runs.xml";
-	//public static final String INPUT_XML_FILENAME="input.xml";
-	//public static final String INPUT_TMP_FILENAME="input.tmp";
-	//public static final String OUTPUT_XML_FILENAME="output.xml";
-	//public static final String DOMAIN_XML_FILENAME="domain.xml";
-	//private static final String LOOP_LIST_PATHNAME=EXECUTION_FOLDER+"/"+LOOP_LIST_FILENAME;
-	//private static final String MODEL_FOLDER_HOME=DESCRIPTION_FOLDER+"/model";
-	//private static final String DOMAIN_FOLDER_HOME=DESCRIPTION_FOLDER+File.separator+"domain";
-	/*private static final String INPUT_FOLDER_HOME=DESCRIPTION_FOLDER+File.separator+"input";
-	private static final String OUTPUT_FOLDER_HOME=DESCRIPTION_FOLDER+File.separator+"output";
-	private static final String RATING_FOLDER_HOME=DESCRIPTION_FOLDER+File.separator+"rating";
-	private static final String SELECTION_FOLDER_HOME=DESCRIPTION_FOLDER+File.separator+"selection";*/
-	//private static final String LOOP_FOLDER_NAME=EXECUTION_FOLDER+File.separator+"loop";
-	//	public static final String NETLOGO_MODEL="netlogo";
-	//	public static final String MASON_MODEL="mason";
-	//	public static final String GENERIC_MODEL="generic";
+
 
 	public static final boolean ENABLE_SIMULATION_OPTIMIZATION=true;
 	public static final boolean DISABLE_SIMULATION_OPTIMIZATION=false;
-
-	/*public static final String SIMULATION_OPTIMIZATION="loop";
-	public static final String ONE_SHOT="one";*/
-
-	/*public static String SIMULATION_TYPE_MASON="M";
-	public static String SIMULATION_TYPE_NETLOGO="N";
-	public static String SIMULATION_TYPE_GENERIC="G";*/
 	public static FileSystemSupport fs = null;
-
-	//private static final String TEMPORARY_FOLDER="SCUD-";
-
-	//public static final String TEMPORARY_FOLDER=getLocalTemporaryFolder();
 
 	public static Logger log = Logger.getLogger(ScudManager.class.getName());
 
@@ -121,14 +90,10 @@ public class ScudManager {
 		InputStream srcSCUD=null;
 		InputStream srcSCUDR=null;
 		try{
-			/************************QUESTO FUNZIONA PER RAP!!!!!*************************/
-			//			srcSCUD=ConnectionSSH.class.getResourceAsStream("//SCUD.jar");
-			//			srcSCUDR=ConnectionSSH.class.getResourceAsStream("//SCUD-RUNNER.jar");
-			/*****************************************************************************/
+
 			srcSCUD=SCUD_STREAM;
 			srcSCUDR=SCUD_RUNNER_STREAM;
-			//		srcSCUD =RWT.getResourceManager().getLocation( "executable"+File.separator+"SCUD.jar" ); 
-			//		srcSCUDR = RWT.getResourceManager().getLocation( "executable"+File.separator+"SCUD-RUNNER.jar" ); 
+
 		}catch(Exception e)
 		{
 			System.err.println("PATH"+srcSCUD);
@@ -160,13 +125,10 @@ public class ScudManager {
 				if(ScudManager.addUser(s,username))
 				{
 					log.info("Created user on hadoop and on Remote for name"+username);
-					/*log.info("Copying SCUD.jar");
-					log.info("Copying SCUD-RUNNER.jar");*/
+
 
 					HadoopFileSystemManager.makeRemoteTempFolder(s, fs.getRemoteSCUDtmpForUser());
-					/*HadoopFileSystemManager.sftpFromLocalToHost(s,srcSCUD, fs.getRemotePathForFile("SCUD.jar"));
-					HadoopFileSystemManager.sftpFromLocalToHost(s,srcSCUDR, fs.getRemotePathForFile("SCUD-RUNNER.jar"));
-					 */
+
 				}
 				else{
 					log.severe("Unable to create new user and "+fs.getRemoteSCUDtmpForUser());
@@ -187,15 +149,14 @@ public class ScudManager {
 				log.info("Copying SCUD.jar");
 
 
-				/*String remoteSCUDHome = fs.getRemoteSCUDHome();
-				HadoopFileSystemManager.makeHostTempFolder(s, remoteSCUDHome);*/
+
 				HadoopFileSystemManager.sftpFromClientToRemote(s,srcSCUD, fs.getRemotePathForFile("SCUD.jar"));
 				HadoopFileSystemManager.sftpFromClientToRemote(s,srcSCUDR, fs.getRemotePathForFile("SCUD-RUNNER.jar"));
 
-				//return s;
+
 			} 
 
-			//if(!ScudManager.existOnHost(s, HadoopFileSystemManager.TEMPORARY_STATIC_FOLDER))
+
 			if(!ScudManager.existOnHost(s, fs.getRemoteSCUDtmpForUser()))
 			{	
 				HadoopFileSystemManager.makeRemoteTempFolder(s, fs.getRemoteSCUDtmpForUser());
@@ -258,24 +219,20 @@ public class ScudManager {
 		//path for simulation xml file
 		String hdfsSimXmlFile = fs.getHdfsUserPathSimulationXMLFile(idSimXmlFile);
 
-		//int simulationID=simListFile.getSimulations().size()+1;
 
 		/**path simulazione utente su hdfs (comprende l'sim_ID)*/
 		String hdfs_sim_dir= fs.getHdfsUserPathSimulationByID(idSimXmlFile);
 
 		/**path file runs.xml per la data simulazione HDFS*/
-		//String hdfs_runXmlFile_path = hdfs_sim_dir+File.separator+LOOP_LIST_PATHNAME;
+
 		String hdfs_runXmlFile_path = fs.getHdfsUserPathRunsXml(idSimXmlFile);
 
 		/**Path output directory su HDFS*/
-		//String hdfs_output_folder = hdfs_sim_dir+File.separator+OUTPUT_FOLDER_HOME;
 		String hdfs_output_folder = fs.getHdfsUserPathDescriptionOutputDir(idSimXmlFile);
 
 		/**Path input directory su HDFS*/
-		//String hdfs_input_folder = hdfs_sim_dir+File.separator+INPUT_FOLDER_HOME;
 		String hdfs_input_folder = fs.getHdfsUserPathDescriptionInputDir(idSimXmlFile);
 
-		//Simulation s = new Simulation(simulationID);
 		Simulation sim = new Simulation(idSimXmlFile);
 		sim.setName(simulation_name);
 		sim.setAuthor(session.getUsername());
@@ -286,19 +243,18 @@ public class ScudManager {
 		sim.setLoop(DISABLE_SIMULATION_OPTIMIZATION);
 		RunnableFile f = new RunnableFile();
 		String execFileName = executable_simulation_filename.substring(executable_simulation_filename.lastIndexOf(File.separator)+1, executable_simulation_filename.length());
-		//f.setSimulation(hdfs_sim_dir+File.separator+execFileName);
+
 		f.setSimulation(fs.getHdfsUserPathSimulationExeForId(idSimXmlFile, execFileName));
 		if(toolkit.equalsIgnoreCase("generic")){
 			f.setBashCommandForGenericSimulation(interpreter_simulation_generic);	
 		}
-		
-		
-		
+
+
+
 		sim.setRunnableFile(f);
-		
-		
-		
-		//simListFile.addSimulation(s);
+
+
+
 
 		/**
 		 * create simulation folder
@@ -397,19 +353,19 @@ public class ScudManager {
 
 
 		//MESSAGES SIDE
-		
-				if(HadoopFileSystemManager.mkdir(session, fs.getHdfsUserPathSimulationMessagesByID(idSimXmlFile))){
-					log.info("Created "+fs.getHdfsUserPathSimulationMessagesByID(idSimXmlFile));
-					
-					if(HadoopFileSystemManager.mkdir(session, fs.getHdfsUserPathSimulationInboxMessages(idSimXmlFile))){
-						log.info("Created "+fs.getHdfsUserPathSimulationInboxMessages(idSimXmlFile));
-						
-					}else{
-						log.severe("Unable to create "+fs.getHdfsUserPathSimulationInboxMessages(idSimXmlFile));
-					}
-				}else{
-					log.severe("Unable to create "+fs.getHdfsUserPathSimulationMessagesByID(idSimXmlFile));
-				}
+
+		if(HadoopFileSystemManager.mkdir(session, fs.getHdfsUserPathSimulationMessagesByID(idSimXmlFile))){
+			log.info("Created "+fs.getHdfsUserPathSimulationMessagesByID(idSimXmlFile));
+
+			if(HadoopFileSystemManager.mkdir(session, fs.getHdfsUserPathSimulationInboxMessages(idSimXmlFile))){
+				log.info("Created "+fs.getHdfsUserPathSimulationInboxMessages(idSimXmlFile));
+
+			}else{
+				log.severe("Unable to create "+fs.getHdfsUserPathSimulationInboxMessages(idSimXmlFile));
+			}
+		}else{
+			log.severe("Unable to create "+fs.getHdfsUserPathSimulationMessagesByID(idSimXmlFile));
+		}
 
 		log.info("Simulation has been created.");
 		return sim;
@@ -452,33 +408,12 @@ public class ScudManager {
 			String interpreter_generic_path) throws Exception,ParserConfigurationException, SAXException, IOException, TransformerException, NumberFormatException, JSchException{
 
 
-		//String tmpFolderName = makeLocalTemporaryFolder(System.getProperty("java.io.tmpdir")+System.currentTimeMillis()+File.separator+HadoopManagerOnSSH.TEMPORARY_FOLDER+session.getUsername());
-		//String tmpFolderName = makeLocalTemporaryFolder(homeDir+System.currentTimeMillis()+File.separator+HadoopFileSystemManager.TEMPORARY_FOLDER+session.getUsername());
 
 		String tmpFolderName = fs.getClientPathForTmpFolder();
-		//makeLocalTemporaryFolder(tmpFolderName);
 
-		//String hdfs_user_dir = HDFS_HOME+session.getUsername();
-		//String hdfs_user_dir = fs.getHdfsUserPathHomeDir();
-
-		//String hdfs_sim_dir=hdfs_user_dir+File.separator+"SIM-";
-		//String hdfs_path_list_sim = hdfs_user_dir+File.separator+SIMULATION_LIST_FILENAME;
-		//String hdfs_path_list_sim = fs.getHdfsUserPathSimulationsXml();
-		//String tmp_path_list_sim = tmpFolderName+File.separator+SIMULATION_LIST_FILENAME;
 
 		String tmp_sim_xml_file= fs.getClientPathForTmpFile();
 
-		//LOCK simulations.xml
-		//Simulations simListFile = new Simulations();
-
-		/*if(HadoopFileSystemManager.ifExists(session, hdfs_path_list_sim)){
-			if(HadoopFileSystemManager.copyFromHdfsToClient(session, hdfs_path_list_sim, tmp_path_list_sim))
-				log.info("Copied successfully from "+hdfs_path_list_sim+" to "+tmp_path_list_sim);
-
-			simListFile = SimulationParser.convertXMLToSimulations(tmp_path_list_sim);
-		}else{
-			SimulationParser.convertSimulationsToXML(simListFile, tmp_path_list_sim);
-		}*/
 
 
 		//int simulationID=simListFile.getSimulations().size()+1;
@@ -517,17 +452,17 @@ public class ScudManager {
 		String ratingFileName = executable_rating_function_filename.substring(executable_rating_function_filename.lastIndexOf(File.separator)+1, executable_rating_function_filename.length());
 		f.setRating(fs.getHdfsUserPathRatingExeForId(simulationID, ratingFileName));
 
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		f.setBashCommandForRunnableFunctionEvaluate(bashCommandForRunnableFunctionEvaluate);
 		f.setBashCommandForRunnableFunctionSelect(bashCommandForRunnableFunctionSelect);
 		if(toolkit.equalsIgnoreCase("generic")){
 			f.setBashCommandForGenericSimulation(interpreter_generic_path);}
-		
+
 
 		s.setRunnableFile(f);
 		//simListFile.addSimulation(s);
@@ -631,10 +566,10 @@ public class ScudManager {
 			log.info("Copied "+hdfsSimXmlFile);
 
 		//MESSAGES SIDE
-		
+
 		if(HadoopFileSystemManager.mkdir(session, fs.getHdfsUserPathSimulationMessagesByID(simulationID))){
 			log.info("Created "+fs.getHdfsUserPathSimulationMessagesByID(simulationID));
-			
+
 			if(HadoopFileSystemManager.mkdir(session, fs.getHdfsUserPathSimulationInboxMessages(simulationID))){
 				log.info("Created "+fs.getHdfsUserPathSimulationInboxMessages(simulationID));
 			}else{
@@ -679,60 +614,7 @@ public class ScudManager {
 	}
 
 
-	/*public static Simulation getSimulationDatabyId(EnvironmentSession session,String username, String simID) throws NumberFormatException, JSchException, IOException{
 
-		//String tmpFolderName = makeLocalTemporaryFolder(HadoopFileSystemManager.TEMPORARY_FOLDER+username+"-"+simID+"/simulation");
-
-		//String tmpFolderName = HadoopFileSystemManager.makeHostTempFolder(session, HadoopFileSystemManager.TEMPORARY_FOLDER+username+"-"+simID+"/simulation");
-		String tmpFolderName = makeLocalTemporaryFolder(fs.getClientSCUDtmp());
-
-		//String hdfsFile=HDFS_HOME+username+"/"+SIMULATION_LIST_FILENAME;
-		//String hdfsFile=fs.getHdfsUserPathSimulationsXml();
-		String hdfsFile=fs.getHdfsUserPathSimulationXMLFile(simID);
-
-		//String localFile = tmpFolderName+File.separator+SIMULATION_LIST_FILENAME;
-		String localFile = fs.getClientPathForTmpFile();
-
-
-		if(HadoopFileSystemManager.copyFromHdfsToClient(session, hdfsFile, localFile))
-			ScudManager.log.info("Copied "+hdfsFile+" to "+localFile);
-
-		Simulation sim = SimulationParser.convertXMLToSimulation(localFile);
-		Simulations list = SimulationParser.convertXMLToSimulations(localFile);
-		Simulation sim=null;
-		for(Simulation s: list.getSimulations())
-			if(s.getId().equals(simID)){
-				sim = s;
-				break;
-			}
-		removeLocalTemporaryFolder(tmpFolderName);
-
-
-		return sim;
-	}
-	 */
-
-
-	/*public static Simulations getSimulationsData(EnvironmentSession session, String username) throws NumberFormatException, JSchException, IOException{
-
-		//String tmpFolderName = makeLocalTemporaryFolder(HadoopFileSystemManager.TEMPORARY_FOLDER+username+"-"+System.currentTimeMillis());
-
-		//String tmpFolderName = HadoopFileSystemManager.makeHostTempFolder(session, HadoopFileSystemManager.TEMPORARY_FOLDER+username+"-"+System.currentTimeMillis());
-		String tmpFolderName = makeLocalTemporaryFolder(fs.getClientPathForTmpFolder());
-
-		//String hdfsFile=HDFS_HOME+username+File.separator+SIMULATION_LIST_FILENAME;
-		String hdfsFile=fs.getHdfsUserPathSimulationsXml();
-
-		//String localFile = tmpFolderName+File.separator+SIMULATION_LIST_FILENAME;
-		String localFile = fs.getClientPathForTmpFile();
-
-		if(!HadoopFileSystemManager.copyFromHdfsToClient(session, hdfsFile, localFile)) return null;
-		Simulations list = SimulationParser.convertXMLToSimulations(localFile);
-
-		removeLocalTemporaryFolder(tmpFolderName);
-
-		return list;
-	}*/
 
 
 	/**
@@ -793,19 +675,7 @@ public class ScudManager {
 		String hadoop_home_path=session.getHadoop_home_path();
 
 		//one and loop
-		/*int idLoop=1;
-		 * String nameSim=simulation.getName();
-		String homeSim=fs.getHdfsUserPathSimulationByID(simID);
-		String toolkit=simulation.getToolkit();
-		String simRunFile=simulation.getRunnableFile().getSimulation();
-		String mapperInputData=fs.getHdfsUserPathSimulationLoopByIDsInputDATA(simID, idLoop);
-		String mapperOutputPathExecution=fs.getHdfsUserPathOutputLoopDIR(simID, idLoop)	;			
-		String descrOutputXml=fs.getHdfsUserPathDescriptionOutputXML(simID);
-		boolean isLoop=simulation.getLoop();
-		String simDescr=simulation.getDescription();
-		String host=session.getHost();
-		int port=session.getPort();
-		String clientHomePath=fs.getClientSCUDHome();*/
+
 
 		String cmd=null;
 
@@ -915,7 +785,7 @@ public class ScudManager {
 		}
 
 	}
-	
+
 	public static boolean sendMessage(EnvironmentSession session,Simulation simulation, Message m){
 		String mexID = getMexID();
 		String hdfs_mex_filename = fs.getHdfsUserPathSimulationInboxMessagesFileByID(simulation.getId(), mexID);
@@ -937,7 +807,7 @@ public class ScudManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return toReturn;
 	}
 
@@ -971,8 +841,8 @@ public class ScudManager {
 			return DigestUtils.md5Hex(System.currentTimeMillis()+"");
 		}
 	}
-	
-	
+
+
 	public static boolean existOnHost(EnvironmentSession session,String path)
 	{
 		String output ="";
@@ -1013,7 +883,7 @@ public class ScudManager {
 
 
 	public static boolean checkParamMakeSimulationFolder(String[] params) throws ParameterException{
-		 int SIMULATION_PSE_THRESHOLD=7;
+		int SIMULATION_PSE_THRESHOLD=7;
 		//params[0]/*TOOLKIT TYPE MASON - NETLOGO -GENERIC*/,
 		//params[1],/*SIM NAME*/
 		//params[2],/*INPUT.XML PATH*/ 
@@ -1034,7 +904,7 @@ public class ScudManager {
 		params[8],description_simulation
 		params[9],executable_simulation_filename
 		params[10] //generic interpreter path*/
-        
+
 
 		if(   ! (   params[0].equalsIgnoreCase("netlogo") || 
 				params[0].equalsIgnoreCase("mason") || 
@@ -1045,8 +915,8 @@ public class ScudManager {
 
 		}
 		JAXBContext context;
-		
-		
+
+
 		if(params.length >SIMULATION_PSE_THRESHOLD){
 			Domain dom = new Domain();
 			try {
@@ -1269,7 +1139,7 @@ public class ScudManager {
 			zip.delete();
 		try {
 			zipDir(client_tmp_file_path, client_tmp_download);
-			
+
 			FileUtils.moveFile(new File(client_tmp_file_path), new File(dowload_client_path+File.separator+fileZipName));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -1278,8 +1148,8 @@ public class ScudManager {
 		}
 		removeLocalTemporaryFolder(fs.getClientSCUDHome());
 	}
-	
-	
+
+
 	private static void zipDir(String zipFileName, String dir) throws Exception {
 		File dirObj = new File(dir);
 		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFileName));

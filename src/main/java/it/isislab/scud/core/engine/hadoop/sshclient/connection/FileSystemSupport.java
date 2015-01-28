@@ -15,12 +15,6 @@
 package it.isislab.scud.core.engine.hadoop.sshclient.connection;
 
 import java.io.File;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.Enumeration;
-
 import org.apache.commons.codec.digest.DigestUtils;
 /**
  * File system description for SCUD framework.
@@ -303,21 +297,17 @@ public class FileSystemSupport {
 	}
 
 
-
-
-
-
-
-	//messages 
+	//MESSAGES 
 	public String getHdfsUserPathSimulationMessagesByID(String simid){
 
 		return this.getHdfsUserPathSimulationByID(simid)+"/"+SIMULATION_MESSAGES_FOLDER;
 	}
-	//inbox
+	//inbox folder
 	public String getHdfsUserPathSimulationInboxMessages(String simid){
 		return this.getHdfsUserPathSimulationMessagesByID(simid)+"/"+MESSAGES_INBOX_FOLDER;
 	}
-	
+
+	//message.xml 
 	public String getHdfsUserPathSimulationInboxMessagesFileByID(String simid, String mexID){
 		return this.getHdfsUserPathSimulationInboxMessages(simid)+"/"+MESSAGES_INBOX_FOLDER_MESSAGE_PREFIX+mexID+MESSAGES_INBOX_FOLDER_MESSAGE_EXTENSION;
 	}
@@ -361,10 +351,6 @@ public class FileSystemSupport {
 		return this.getHdfsUserPathSimulationsListDir()+"/SIM-"+id+".xml";
 	}
 
-	/*public String getHdfsUserPathSimulationsXml()
-	{
-		return  this.getHdfsUserPathHomeDir()+"/"+SIMULATION_LIST_FILENAME;
-	}*/
 
 	public String getHdfsUserPathRunsXml(String simid)
 	{
@@ -424,14 +410,16 @@ public class FileSystemSupport {
 		return this.getHdfsUserPathSimulationLoopByIDs(simid,loopid)+"/"+SELECTIONS_FOLDER;
 	}
 
-	
+
 	/**
 	 * END SCUD-HDFS FS
 	 */
 	public static void main(String[] args)
 	{
 
-		FileSystemSupport fs=new FileSystemSupport("",System.getProperty("user.dir"), "/myapplication/","/home/michele/il/bello/", "/usr/giuann/java/bin","umberto");
+
+		//TEST
+		/*FileSystemSupport fs=new FileSystemSupport("",System.getProperty("user.dir"), "/myapplication/","/home/michele/il/bello/", "/usr/giuann/java/bin","umberto");
 
 		System.out.println("******************CLIENT APPLICATION**********************************");
 		System.out.println("Client scud home:[getClientSCUDHome()]"+fs.getClientSCUDHome());
@@ -476,7 +464,7 @@ public class FileSystemSupport {
 		System.out.println("HDFS File description inputtempdata"+fs.getHdfsUserPathDescriptionInputDirInputData(1+""));
 
 		System.out.println("**********************************************************************");
-		System.out.println("**********************************************************************");
+		System.out.println("**********************************************************************");*/
 	}
 
 

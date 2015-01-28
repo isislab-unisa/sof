@@ -18,18 +18,10 @@ import it.isislab.scud.core.engine.hadoop.sshclient.utils.environment.Environmen
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Formatter;
-import java.util.HashMap;
-import java.util.Locale;
 import java.util.Random;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSchException;
-import com.sun.org.apache.bcel.internal.generic.LCONST;
+
 
 public class ResourcesManager {
 
