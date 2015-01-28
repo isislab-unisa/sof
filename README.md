@@ -66,7 +66,7 @@ Here is a minimum example of defining a client application using the SCUD core. 
 After build the project by Maven `mvn package`, you are able to run the example in the class `SCUDCoreSimpleApplication.java`. The final release is `target/SCUD-1.0-client-shell.jar`, exec the command in the target dir:
 
 
-	`$ java -jar SCUD-1.0-client-shell.jar
+	$ java -jar SCUD-1.0-client-shell.jar
 	
 This simple application shows some SCUD core features: 
 *	create new simulation optimization process;
