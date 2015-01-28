@@ -13,8 +13,9 @@ public class GenerateXMLMessage {
 public static void main(String[] args) throws JAXBException {
 	
 	Message mex=new Message();
-	mex.setCreated_date(new Date(System.currentTimeMillis()));
+	//mex.setCreated_date(new Date(System.currentTimeMillis()));
 	mex.setMessage("prova");
+	
 	//mex.setStatus("sended");
 	
 	

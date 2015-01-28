@@ -457,6 +457,10 @@ public enum Command implements Prompt
 				}
 
 				Simulation sim = listSim.getSimulations().get(simID);
+				if(sim.getState().equals(Simulation.STOPPED)){
+					c.printf("Already stopped!\n");
+					return null;
+				}
 				Message stop = new Message();
 				stop.setId(ScudManager.getMexID());
 				stop.setMessage(Message.STOP_MESSAGE);
