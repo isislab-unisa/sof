@@ -117,7 +117,7 @@ public class SCUDCoreSimpleApplication {
 		try {
 			ScudManager.setFileSystem(bindir,System.getProperty("user.dir"), scudhomedir, homedir, javabindir ,name);
 			if ((session=ScudManager.connect(name, host, pstring, bindir,PORT,
-					new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD.jar"),
+					new FileInputStream(System.getProperty("ushttp://hortonworks.com/er.dir")+File.separator+"scud-resources"+File.separator+"SCUD.jar"),
 					new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD-RUNNER.jar")
 					))!=null)
 			{
@@ -184,24 +184,33 @@ public class SCUDCoreSimpleApplication {
 
 # Run SCUD on Environment example
 
-It's possible to run Scud on a generic machine. Obviuosly this must have configured hadoop environment. A possible example is a "Sandbox" developed from HortonWorks  http://hortonworks.com/products/hortonworks-sandbox/. Sandbox is a personal, portable Hadoop environment.
+It is possible to run SCUD on a out of the box Hadoop platform. An example is a **Hortonworks Data Platform (HDP)**, an open source Apache Hadoop data platform, architected for the enterprise, developed from [Hortonworks](http://hortonworks.com/). The HDP 2.2 Sandbox is provided as a self-contained virtual machine. No data center, no cloud service and no internet connection needed in order to the SCUD framework.
 
-### How to execute SCUD, VirtualBox Example
-After you have installed VirtualBox. At Hortonworks site, in Download&Install section, at this link http://hortonassets.s3.amazonaws.com/2.2/Sandbox_HDP_2.2_VirtualBox.ova , you can download the Sandbox.
-Steps to follow:
-* You execute HortonWorks SandBox 2.1
-* Booting virtual machine(you follow the instructions)
-* login:root and password:hadoop
+Download the virtual machine at Hortonworks [download page](http://hortonworks.com/products/hortonworks-sandbox/), and install your prefered available virtual machine in order to set up the environment.
 
-After you have enable network on VirtuaBox (Settings->Network->Scheda con bride). Now you need of some parameters to execute SCUD-Client (See "Getting Started SCUD Client GUI" section for details):
-* nodeIP : ip of master node(from Sandbox shell give ifconfig command and take inet addr )
-* hadoop home directory: folder that contains bin directory where you can find  executable hadoop command(hdfs)   
-* home dir : folder where you create SCUD directory  
-* java bin directory folder  folder that cointains java command
-* scud home dir path where you create SCUD directory on distributed file system 
+### How to execute SCUD using VirtualBox HDP 2.2 Sandbox -- Example
 
- java -jar SCUD-Client.jar -h 192.168.0.1 -port 1022 -bindir /home/hadoop/bin -homedir /home/user -javbindir /home/java/bin -scudhomedir /home/user/app/scudtmp
+After you have installed [VirtualBox](https://www.virtualbox.org/) and downloaded the virtual machine for VirtualBox, follow this steps:
 
+* Execute HortonWorks SandBox 2.2;
+* Boot the virtual machine (follow the instructions on the Hortonworks's site);
+* usually the user's credentials are login: **root** and password: **hadoop** (please check it on Hortonworks's site).
+
+Afterwards you must enable network on the VirtualBox [Settings-> Network-> Enable Network Adapter, choose Bridged Adapter for "Attached To" option]. Reboot the machine and check the connection availability.
+
+In both SCUD clients are needed some system configuration parameters:
+
+* node IP address [`-h`]: IP of Hadoop Master node (in this scenario  the IP address of the virtual machine, you can see it by running the command:  `ifconfig`);
+* Hadoop home directory [`-bindir`]: the folder that contains the bin directory of Hadoop infrastructure, where you can find  all the Hadoop commands, in this case `/usr/`;   
+* Home directory [`-homedir`]: folder where you create SCUD temporary directory on the remote machine (Hadoop Master node), in this case the virtual machine home like `/root`;  
+* Java bin directory [`-javabindir`]: folder that cointains `/bin` directory of Java installation, in this case `/usr/bin/`;
+* Scud home directory [`-scudhomedir`]: SCUD installation folder on the HDFS, in this case `/user/root/`. 
+
+Examples: 
+
+* **SCUD Shell Client**
+ 	$ java -jar SCUD-Client.jar -h 192.168.0.2  -bindir /usr/  -homedir /root/ -javabindir /usr/bin/ -scudhomedir /user/root/
+* **SCUD GUI Client** provides the same parameters in the UI.
 ## Getting Started SCUD Client GUI
 
 SCUD framework provides a Java command line client available in the release (`SCUD-client-ui.jar, SCUDClientUI.java`):
