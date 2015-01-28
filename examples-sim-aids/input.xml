@@ -3,10 +3,10 @@
   <simulation author="pippo">
     <name>aids</name>
     <loop>true</loop>
-    <description>test nota</description>
+    <note>test nota</note>
     <toolkit>netlogo</toolkit>
     </simulation>
- <input id="1">
+    <input id="1" rounds="10">
     <element variableName="step">
       <long>315</long>
       </element>
@@ -25,7 +25,7 @@
       <double>0</double>
       </element>
 </input>
-<input id="2">
+<input id="2" rounds="10">
     <element variableName="step">
       <long>315</long>
       </element>
@@ -44,7 +44,7 @@
       <double>2</double>
       </element>
 </input>
-<input id="3">
+<input id="3" rounds="10">
     <element variableName="step">
       <long>315</long>
       </element>
