@@ -209,7 +209,8 @@ In both SCUD clients are needed some system configuration parameters:
 Examples: 
 
 * **SCUD Shell Client**
- 		$ java -jar SCUD-Client.jar -h 192.168.0.2  -bindir /usr/  -homedir /root/ -javabindir /usr/bin/ -scudhomedir /user/root/
+ 		
+`	$ java -jar SCUD-Client.jar -h 192.168.0.2  -bindir /usr/  -homedir /root/ -javabindir /usr/bin/ -scudhomedir /user/root/`
 * **SCUD GUI Client** provides the same parameters in the UI.
 ## Getting Started SCUD Client GUI
 
