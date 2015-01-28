@@ -77,7 +77,7 @@ Afterwards you must enable network on the VirtualBox [Settings-> Network-> Enabl
 
 In both SCUD clients are needed some system configuration parameters:
 
-* *Node IP address* [`-h`]: IP of Hadoop Master node (in this scenario  the IP address of the virtual machine, you can see it by running the command:  `ifconfig`);
+* *Node IP address* [`-h`]: IP of Hadoop Master node (in this scenario  the IP address of the virtual machine, you can find it by running the command:  `ifconfig`);
 * *Hadoop home directory* [`-bindir`]: the folder that contains the bin directory of Hadoop infrastructure, where you can find  all the Hadoop commands, in this case `/usr/`;   
 * *Home directory* [`-homedir`]: folder where you create SCUD temporary directory on the remote machine (Hadoop Master node), in this case the virtual machine home like `/root`;  
 * *Java bin directory* [`-javabindir`]: folder that cointains `/bin` directory of Java installation, in this case `/usr/bin/`;
