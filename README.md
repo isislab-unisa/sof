@@ -58,8 +58,45 @@ The output files will be in `target/`:
 		├── maven-archiver
 		├── maven-status
 		└── scud-resources
+		
+# Run SCUD on test environment
 
-## Example SCUD Simple Application
+To easily test the SCUD environment you can set up a virtual machine with Apache Hadoop infrastructure on your local machine. A popular example of that is a **Hortonworks Data Platform (HDP)**, an open source Apache Hadoop data platform, architected for the enterprise, developed from [Hortonworks](http://hortonworks.com/). The HDP 2.2 Sandbox is provided as a self-contained virtual machine. No data center, no cloud service and no internet connection needed in order to the SCUD framework.
+
+Download the virtual machine at Hortonworks [download page](http://hortonworks.com/products/hortonworks-sandbox/), and install your prefered available virtual machine in order to set up the environment.
+
+### How to execute SCUD using VirtualBox HDP 2.2 Sandbox
+
+After you have installed [VirtualBox](https://www.virtualbox.org/) and downloaded the virtual machine for VirtualBox, follow this steps:
+
+* Execute HortonWorks SandBox 2.2;
+* Boot the virtual machine (follow the instructions on the Hortonworks's site);
+* usually the user's credentials are login: **root** and password: **hadoop** (please check it on Hortonworks's site).
+
+Afterwards you must enable network on the VirtualBox [Settings-> Network-> Enable Network Adapter, choose Bridged Adapter for "Attached To" option]. Reboot the machine and check the connection availability.
+
+In both SCUD clients are needed some system configuration parameters:
+
+* *Node IP address* [`-h`]: IP of Hadoop Master node (in this scenario  the IP address of the virtual machine, you can see it by running the command:  `ifconfig`);
+* *Hadoop home directory* [`-bindir`]: the folder that contains the bin directory of Hadoop infrastructure, where you can find  all the Hadoop commands, in this case `/usr/`;   
+* *Home directory* [`-homedir`]: folder where you create SCUD temporary directory on the remote machine (Hadoop Master node), in this case the virtual machine home like `/root`;  
+* *Java bin directory* [`-javabindir`]: folder that cointains `/bin` directory of Java installation, in this case `/usr/bin/`;
+* *Scud home directory* [`-scudhomedir`]: SCUD installation folder on the HDFS, in this case `/user/root/`. 
+
+Examples: 
+
+* **SCUD Simple Client** change the parameters setting in the Java class and run it.
+
+* **SCUD Shell Client**
+
+
+      $  java -jar SCUD-Client.jar -h 192.168.0.2  -bindir /usr/  -homedir /root/ -javabindir /usr/bin/ -scudhomedir /user/root/
+     
+     
+* **SCUD GUI Client** provides the parameters setting in the GUI.
+* 
+
+## Example SCUD Simple Client
 
 Here is a minimum example of defining a client application using the SCUD core. The program create new simulation job in SO mode, submit the job to the system and wait until the process are finished.
 
@@ -183,39 +220,7 @@ public class SCUDCoreSimpleApplication {
 }
 ```
 
-# Run SCUD on Environment example
 
-It is possible to run SCUD on a out of the box Hadoop platform. An example is a **Hortonworks Data Platform (HDP)**, an open source Apache Hadoop data platform, architected for the enterprise, developed from [Hortonworks](http://hortonworks.com/). The HDP 2.2 Sandbox is provided as a self-contained virtual machine. No data center, no cloud service and no internet connection needed in order to the SCUD framework.
-
-Download the virtual machine at Hortonworks [download page](http://hortonworks.com/products/hortonworks-sandbox/), and install your prefered available virtual machine in order to set up the environment.
-
-### How to execute SCUD using VirtualBox HDP 2.2 Sandbox
-
-After you have installed [VirtualBox](https://www.virtualbox.org/) and downloaded the virtual machine for VirtualBox, follow this steps:
-
-* Execute HortonWorks SandBox 2.2;
-* Boot the virtual machine (follow the instructions on the Hortonworks's site);
-* usually the user's credentials are login: **root** and password: **hadoop** (please check it on Hortonworks's site).
-
-Afterwards you must enable network on the VirtualBox [Settings-> Network-> Enable Network Adapter, choose Bridged Adapter for "Attached To" option]. Reboot the machine and check the connection availability.
-
-In both SCUD clients are needed some system configuration parameters:
-
-* *Node IP address* [`-h`]: IP of Hadoop Master node (in this scenario  the IP address of the virtual machine, you can see it by running the command:  `ifconfig`);
-* *Hadoop home directory* [`-bindir`]: the folder that contains the bin directory of Hadoop infrastructure, where you can find  all the Hadoop commands, in this case `/usr/`;   
-* *Home directory* [`-homedir`]: folder where you create SCUD temporary directory on the remote machine (Hadoop Master node), in this case the virtual machine home like `/root`;  
-* *Java bin directory* [`-javabindir`]: folder that cointains `/bin` directory of Java installation, in this case `/usr/bin/`;
-* *Scud home directory* [`-scudhomedir`]: SCUD installation folder on the HDFS, in this case `/user/root/`. 
-
-Examples: 
-
-* **SCUD Shell Client**
-
-
-      $  java -jar SCUD-Client.jar -h 192.168.0.2  -bindir /usr/  -homedir /root/ -javabindir /usr/bin/ -scudhomedir /user/root/
-     
-     
-* **SCUD GUI Client** provides the same parameters above example in the GUI.
 
 # Getting Started SCUD Client GUI
 
