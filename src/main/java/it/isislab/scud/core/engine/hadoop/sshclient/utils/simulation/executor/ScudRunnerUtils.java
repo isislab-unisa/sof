@@ -17,7 +17,6 @@ package it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.executor;
 import it.isislab.scud.core.engine.hadoop.sshclient.connection.FileSystemSupport;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.SimulationParser;
-import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulations;
 import it.isislab.scud.core.model.parameters.xsd.elements.Parameter;
 import it.isislab.scud.core.model.parameters.xsd.elements.ParameterDouble;
 import it.isislab.scud.core.model.parameters.xsd.elements.ParameterLong;
@@ -26,23 +25,23 @@ import it.isislab.scud.core.model.parameters.xsd.input.Input;
 import it.isislab.scud.core.model.parameters.xsd.input.Inputs;
 import it.isislab.scud.core.model.parameters.xsd.message.Message;
 import it.isislab.scud.core.model.parameters.xsd.message.Messages;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 
+/**
+ * 
+ * Utils for runner
+ *
+ */
 public class ScudRunnerUtils {
 
 	public static boolean mkdir(String dirname){
@@ -52,7 +51,7 @@ public class ScudRunnerUtils {
 		else
 			return f.mkdirs();
 	}
-	
+
 	public static boolean rmr(String pathname){
 		File f = new File(pathname);
 		if(!f.exists())
@@ -65,21 +64,21 @@ public class ScudRunnerUtils {
 					else
 						f2.delete();
 				}
-				
+
 				return f.delete();
 			}else{
 				return f.delete();
 			}
 		}
 	}
-	
+
 	public static Simulation getSimulationById(FileSystemSupport fs,String simID) {
 
 		String tmpFolderPath = fs.getRemotePathForTmpFolderForUser();
 		mkdir(tmpFolderPath);
-		
+
 		String tmpFolderName = tmpFolderPath.substring(tmpFolderPath.lastIndexOf("/")+1, tmpFolderPath.length());
-		
+
 		//String hdfsFile=fs.getHdfsUserPathSimulationsXml();
 		String hdfsFile=fs.getHdfsUserPathSimulationXMLFile(simID);
 
@@ -95,43 +94,37 @@ public class ScudRunnerUtils {
 		}
 
 		Simulation s = SimulationParser.convertXMLToSimulation(localFile);
+
 		
-		/*Simulations list = SimulationParser.convertXMLToSimulations(localFile);
-		Simulation sim=null;
-		for(Simulation s: list.getSimulations())
-			if(s.getId().equals(simID)){
-				sim = s;
-				break;
-			}*/
 		rmr(tmpFolderPath);
 		return s;
 	}
-	
+
 	public static boolean ifExists(FileSystemSupport fs,String hdfsPath){
 		String cmd =fs.getRemoteHadoopInstallBinPath()+"/hdfs dfs -test -e "+hdfsPath;
 		return exec(cmd);
 	}
-	
+
 	public static boolean copyFileFromHdfs(FileSystemSupport fs,String hdfsPath, String destinationPath){
 		String command = fs.getRemoteHadoopInstallBinPath()+"/hdfs dfs -get "+hdfsPath+" "+destinationPath;
 		return exec(command);
 	}
-	
+
 	public static boolean copyFileInHdfs(FileSystemSupport fs,String local_from, String hdfs_to){
 		String command = fs.getRemoteHadoopInstallBinPath()+"/hdfs dfs -put "+local_from+" "+hdfs_to;
 		return exec(command);
 	}
-	
+
 	public static boolean hdfs_mkdirp(FileSystemSupport fs,String newDirectory){
 		String command = fs.getRemoteHadoopInstallBinPath()+"/hdfs dfs -mkdir -p "+newDirectory;
 		return exec(command);
 	}
-	
+
 	public static boolean rmrFromHdfs(FileSystemSupport fs,String hdfs_path){
 		String command=fs.getRemoteHadoopInstallBinPath()+"/hdfs dfs -rm -r "+hdfs_path;
 		return exec(command);
 	}
-	
+
 	public static boolean chmodX(String filename){
 		File f = new File(filename);
 		if(f.exists())
@@ -159,11 +152,11 @@ public class ScudRunnerUtils {
 			e.printStackTrace();
 			return false;
 		}
-		
+
 	}
-	
-	
-	
+
+
+
 	private static boolean exec(String command){
 		Process process;
 		try {
@@ -180,12 +173,12 @@ public class ScudRunnerUtils {
 			return false;
 		}
 	}
-	
+
 	public static boolean copyFilesFromHdfs(FileSystemSupport fs,String hdfs_from, String localDir_to){
 		String command =fs.getRemoteHadoopInstallBinPath()+"/hdfs dfs -get "+hdfs_from+" "+localDir_to;
 		return exec(command);
 	}
-	
+
 	public static boolean moveFromHdfsToHdfs(FileSystemSupport fs,String hdfs_from, String hdfs_to){
 		boolean result = true;
 		String folder = fs.getRemotePathForTmpFolderForUser();
@@ -197,23 +190,23 @@ public class ScudRunnerUtils {
 		result &=rmr(folder);
 		return result;
 	}
-	
-	
-	
+
+
+
 	public static String convertXmlToData(FileSystemSupport fs, String hdfs_from, String hdfs_to) throws NumberFormatException, JSchException, IOException, SftpException {
 
 		//String destinationPath = hdfs_xmlFilePathName.substring(0,hdfs_xmlFilePathName.lastIndexOf('/'));
 		String tmpFolderPath = fs.getRemotePathForTmpFolderForUser();
 		mkdir(tmpFolderPath);
-		
+
 		String tmpFolderName = tmpFolderPath.substring(tmpFolderPath.lastIndexOf("/")+1, tmpFolderPath.length());
-		
+
 		String tmpXmlFile = fs.getRemotePathForTmpFileForUser(tmpFolderName);
 
 		File tmp_file = null;
 		Inputs inputs;
 		copyFileFromHdfs(fs,hdfs_from, tmpXmlFile);
-		
+
 		tmp_file = new File(tmpXmlFile);
 		try {
 			String line = "";
@@ -245,11 +238,11 @@ public class ScudRunnerUtils {
 			BufferedWriter br=new BufferedWriter(fw);
 			br.write(line);
 			br.close();
-			
-			
+
+
 			if(copyFileInHdfs(fs,newTmpFilename, hdfs_to))
 				SCUDRUNNER.log.info("Converted "+hdfs_from+" to "+hdfs_to);
-			
+
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -257,14 +250,14 @@ public class ScudRunnerUtils {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		rmr(tmpFolderPath);
 		return hdfs_to;
 	}
 
 	public static Messages convertXmlListToMessages(FileSystemSupport fs,
 			String tmpFolderPath) {
-		
+
 		File dir = new File(tmpFolderPath);
 		if(!dir.isDirectory()){
 			System.err.println(tmpFolderPath+" is not a directory");
@@ -276,10 +269,10 @@ public class ScudRunnerUtils {
 			return null;
 		for(File f: ls)
 			lsMexs.addMessage(convertXMLToMessage(f.getAbsolutePath()));
-		
+
 		return lsMexs;
 	}
-	
+
 	private static Message convertXMLToMessage(String xmlFilename){
 		JAXBContext context;
 		Message m=null;
@@ -287,7 +280,7 @@ public class ScudRunnerUtils {
 			context = JAXBContext.newInstance(Message.class);
 			Unmarshaller um = context.createUnmarshaller();
 			m = (Message) um.unmarshal(new FileReader(xmlFilename));
-			
+
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -297,5 +290,5 @@ public class ScudRunnerUtils {
 		}
 		return m;
 	}
-	
+
 }
