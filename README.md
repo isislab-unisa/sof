@@ -189,7 +189,7 @@ It is possible to run SCUD on a out of the box Hadoop platform. An example is a 
 
 Download the virtual machine at Hortonworks [download page](http://hortonworks.com/products/hortonworks-sandbox/), and install your prefered available virtual machine in order to set up the environment.
 
-### How to execute SCUD using VirtualBox HDP 2.2 Sandbox -- Example
+### How to execute SCUD using VirtualBox HDP 2.2 Sandbox
 
 After you have installed [VirtualBox](https://www.virtualbox.org/) and downloaded the virtual machine for VirtualBox, follow this steps:
 
@@ -217,14 +217,14 @@ Examples:
      
 * **SCUD GUI Client** provides the same parameters above example in the GUI.
 
-## Getting Started SCUD Client GUI
+# Getting Started SCUD Client GUI
 
 SCUD framework provides a Java command line client available in the release (`SCUD-client-ui.jar, SCUDClientUI.java`):
 
     $  java -jar SCUD-client-ui.jar
 
 
-## Getting Started SCUD Schell Client
+# Getting Started SCUD Schell Client
 SCUD framework provides a Java command line client available in the release (`SCUD-client-shell.jar, SCUDCoreSimpleApplication.java`):
 
     $  java -jar SCUD-client-shell.jar
@@ -402,7 +402,7 @@ To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/sch
 - - -
 
 
-## License
+### License
 Copyright ISISLab, 2015 Università degli Studi di Salerno.
 
 Licensed under the Apache License, Version 2.0 (the "License"); You may not use this file except in compliance with the License. You may obtain a copy of the License at
