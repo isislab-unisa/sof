@@ -62,7 +62,7 @@ public enum Command implements Prompt
 		c.printf("***************************************************************************************************\n*");
 		c.printf("*    help                 |print commands list.                                                   *\n*");
 		//c.printf("*    usage                |print commands usage, usage <command, >.                               *\n*");
-		c.printf("*    submit               |exec the simulation corresponding to the given id.                     *\n*");
+		c.printf("*    start                |exec the simulation corresponding to the given id.                     *\n*");
 		c.printf("*    createsimulation     |create new simulation execution.                                       *\n*");
 		c.printf("*    getsimulations       |print all simulations created by the user.                             *\n*");
 		c.printf("*    getsimulation        |print status of the simulation corresponding to the given id.          *\n*");
@@ -77,7 +77,7 @@ public enum Command implements Prompt
 		}
 	}),
 
-	SUBMIT(new Action()
+	START(new Action()
 	{
 		@Override
 		public Object exec(Console c, String[] params,String stringPrompt)
@@ -87,7 +87,7 @@ public enum Command implements Prompt
 			 */
 			if(params == null || params.length < 1 )
 			{
-				c.printf("usage of submit command : submit ID [ID:intger ID of simulation execution environment]\n");
+				c.printf("usage of start command : start ID [ID:intger ID of simulation execution environment]\n");
 				return null;
 			}else{
 				int simID = Integer.parseInt(params[0])-1;

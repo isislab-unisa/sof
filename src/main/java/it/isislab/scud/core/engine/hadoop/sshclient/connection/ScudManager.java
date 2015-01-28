@@ -1220,36 +1220,6 @@ public class ScudManager {
 		return newParams.toArray(new String[newParams.size()]);
 	}
 
-	private static void zipDir(String zipFileName, String dir) throws Exception {
-		File dirObj = new File(dir);
-		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFileName));
-		log.info("Creating : " + zipFileName);
-		addDir(dirObj, out);
-		out.close();
-	}
-
-	private static void addDir(File dirObj, ZipOutputStream out) throws IOException {
-		File[] files = dirObj.listFiles();
-		byte[] tmpBuf = new byte[1024];
-
-		for (int i = 0; i < files.length; i++) {
-			if (files[i].isDirectory()) {
-				addDir(files[i], out);
-				continue;
-			}
-
-			FileInputStream in = new FileInputStream(files[i].getAbsolutePath());
-			System.out.println("Zipping: " + files[i].getName());
-			out.putNextEntry(new ZipEntry(files[i].getAbsolutePath()));
-			int len;
-			while ((len = in.read(tmpBuf)) > 0) {
-				out.write(tmpBuf, 0, len);
-			}
-			out.closeEntry();
-			in.close();
-		}
-	}
-
 	/**
 	 * download the simulation's folder from hdfs filesystem in zip format
 	 * @param session
@@ -1299,7 +1269,7 @@ public class ScudManager {
 			zip.delete();
 		try {
 			zipDir(client_tmp_file_path, client_tmp_download);
-			//makeLocalTemporaryFolder(dowload_client_path);
+			
 			FileUtils.moveFile(new File(client_tmp_file_path), new File(dowload_client_path+File.separator+fileZipName));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -1307,6 +1277,38 @@ public class ScudManager {
 			return;
 		}
 		removeLocalTemporaryFolder(fs.getClientSCUDHome());
+	}
+	
+	
+	private static void zipDir(String zipFileName, String dir) throws Exception {
+		File dirObj = new File(dir);
+		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFileName));
+		log.info("Creating : " + zipFileName);
+		addDir(dirObj, out,dir);
+		out.close();
+	}
+
+	private static void addDir(File dirObj, ZipOutputStream out, String dirToZip) throws IOException {
+		File[] files = dirObj.listFiles();
+		byte[] tmpBuf = new byte[1024];
+
+		for (int i = 0; i < files.length; i++) {
+			if (files[i].isDirectory()) {
+				addDir(files[i], out,dirToZip);
+				continue;
+			}
+
+			FileInputStream in = new FileInputStream(files[i].getAbsolutePath());
+			System.out.println("Zipping: " + files[i].getName());
+			String filename = files[i].getAbsolutePath().substring(dirToZip.length());
+			out.putNextEntry(new ZipEntry(filename));
+			int len;
+			while ((len = in.read(tmpBuf)) > 0) {
+				out.write(tmpBuf, 0, len);
+			}
+			out.closeEntry();
+			in.close();
+		}
 	}
 
 }
