@@ -458,11 +458,14 @@ public enum Command implements Prompt
 					c.printf("Already stopped!\n");
 					return null;
 				}
-				Message stop = new Message();
-				stop.setId(ScudManager.getMexID());
-				stop.setMessage(Message.STOP_MESSAGE);
-				ScudManager.sendMessage(SCUDShellClient.session, sim, stop);
-				
+				sim = listSim.getSimulations().get(simID);
+				if(sim.getState().equals(Simulation.RUNNING)){
+				   Message stop = new Message();
+				   stop.setId(ScudManager.getMexID());
+				   stop.setMessage(Message.STOP_MESSAGE);
+				   ScudManager.sendMessage(SCUDShellClient.session, sim, stop);
+				   return null;
+				}
 				return null;
 			}
 		}
