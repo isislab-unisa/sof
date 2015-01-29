@@ -58,12 +58,10 @@ public enum Command implements Prompt
 		{   c.printf("**************************************ISISLab******************************************************\n*");
 		c.printf("***************************************************************************************************\n*");
 		c.printf("*    help                 |print commands list.                                                   *\n*");
-		//c.printf("*    usage                |print commands usage, usage <command, >.                               *\n*");
 		c.printf("*    start                |exec the simulation corresponding to the given id.                     *\n*");
 		c.printf("*    createsimulation     |create new simulation execution.                                       *\n*");
 		c.printf("*    getsimulations       |print all simulations created by the user.                             *\n*");
 		c.printf("*    getsimulation        |print status of the simulation corresponding to the given id.          *\n*");
-		//c.printf("    printresult          |print metrics on the results of the simulation corresponding to the given id.\n");
 		c.printf("*    getresult            |download the results of the simulation corresponding to the given id.  *\n*");
 		c.printf("*    list                 |show the simulation list.                                              *\n*");
 		c.printf("*    kill                 |kill the simulation corresponding to the given id.                     *\n*");
