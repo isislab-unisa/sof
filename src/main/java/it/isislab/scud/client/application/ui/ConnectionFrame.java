@@ -16,18 +16,34 @@ import javax.swing.border.*;
 public class ConnectionFrame extends JFrame {
 	private ConnectionFrame frame;
 	
-	public  String host_address= "172.16.15.103";
-	public  String pstring="cloudsim1205";
-	public  String port="22";
-	public  String bindir="/home/hadoop/hadoop-2.4.0";  
-	public  String homedir="/home/hadoop/"; 
-	public  String javabindir ="/usr/bin/";
-	public  String user_name="hadoop";
-	public  String scudhomedir="/";
 	
+	
+	//OXYGEN for testing
+	public  String host_address= "172.16.142.103";
+	public  String pstring="clgvittorio";
+	public  String port="22";
+	public  String bindir="/isis/hadoop-2.4.0";  
+	public  String homedir="/isis/"; 
+	public  String javabindir ="/usr/local/java/bin";
+	public  String user_name="isis";
+	public  String scudhomedir="/";
 	public  String scudjarpath="scud-resources/SCUD.jar";
 	public  String scudjarrunnerpath="scud-resources/SCUD-RUNNER.jar";
 	
+	
+	
+	/** real code
+	public  String host_address="";
+	public  String pstring="";
+	public  String port="";
+	public  String bindir="";  
+	public  String homedir=""; 
+	public  String javabindir ="";
+	public  String user_name="";
+	public  String scudhomedir="";
+	public  String scudjarpath="scud-resources/SCUD.jar";
+	public  String scudjarrunnerpath="scud-resources/SCUD-RUNNER.jar";
+	*/
 	public ConnectionFrame(String scudjarpath, String scudjarrunnerpath) {
 
 		initComponents();
@@ -56,7 +72,17 @@ public class ConnectionFrame extends JFrame {
 		class MyTaskConnect extends Thread {
 
 	          public void run(){
-	        		Controller c=Controller.getInstance(
+	        	 /* 
+	        	  * REAL CODE commentato pèr test su oxygen
+	        	  * host_address=textFieldIP.getText(); 
+	        	  user_name=textFielduserName.getText();
+	        	  pstring=passwordFieldPassword.getText();
+	        	  port=textFieldPort.getText();
+	        	  bindir=textFieldHadoopHome.getText();
+	        	  homedir=textFieldSCUDHome.getText();
+	        	  javabindir=textFieldJavaHome.getText();
+	        	  scudhomedir=textFieldSCUDHDFSHome.getText();*/
+	        	  Controller c=Controller.getInstance(
 	        				host_address,
 	        				user_name,
 	        				pstring,

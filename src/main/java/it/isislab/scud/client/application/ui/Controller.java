@@ -39,18 +39,36 @@ public class Controller {
 
 	private static Controller instance = null;
 	
-	public  String host_address= "172.16.15.103";
+	/*public  String host_address= "172.16.15.103";
 	public  String pstring="cloudsim1205";
 	public  String port="22";
 	public  String bindir="/home/hadoop/hadoop-2.4.0";  
 	public  String homedir="/home/hadoop/"; 
 	public  String javabindir ="/usr/bin/";
 	public  String user_name="hadoop";
-	public  String scudhomedir="/";
-	
+	public  String scudhomedir="/";*/
+	/*public  String host_address= "";
+	public  String pstring="";
+	public  String port="";
+	public  String bindir="";  
+	public  String homedir=""; 
+	public  String javabindir ="";
+	public  String user_name="";
+	public  String scudhomedir="";
 	public  String scudjarpath="";
 	public  String scudjarrunnerpath="";
-
+	
+*/
+	public  String host_address= "172.16.142.103";
+	public  String pstring="clgvittorio";
+	public  String port="22";
+	public  String bindir="/isis/hadoop-2.4.0";  
+	public  String homedir="/isis/"; 
+	public  String javabindir ="/usr/local/java/bin";
+	public  String user_name="isis";
+	public  String scudhomedir="/";
+	public  String scudjarpath="scud-resources/SCUD.jar";
+	public  String scudjarrunnerpath="scud-resources/SCUD-RUNNER.jar";
 
 	
 	public static Controller getInstance(
@@ -119,7 +137,7 @@ public class Controller {
 		//		c.printf("***************************************************************************************************\n");
 	}
 
-	public  void submit(String ...params)
+	public  void start(String ...params)
 	{
 		/**
 		 * Simulation s = getSimulationDatabyId(session,  username, simID);
@@ -132,6 +150,7 @@ public class Controller {
 			//int simID = Integer.parseInt(params[0])-1;
 
 			Simulations sims = ScudManager.getSimulationsData(session);
+			
 			if(sims == null){
 				//					c.printf("No such simulation");
 				//					return null;
@@ -144,6 +163,7 @@ public class Controller {
 					break;
 				}
 			//sim = ScudManager.getSimulationDatabyId(session,  session.getUsername(), simID);
+			
 			ScudManager.runAsynchronousSimulation(session,sim);
 			//ScudManager.runSimulation(session, session.getUsername(), simID, s.getLoop());	
 			//				return null;

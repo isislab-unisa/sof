@@ -1,8 +1,6 @@
 package it.isislab.scud.client.application.ui;
 
-import it.isislab.scud.client.application.ui.newsimulation.NewDomain;
-import it.isislab.scud.client.application.ui.newsimulation.NewInputOutput;
-import it.isislab.scud.client.application.ui.newsimulation.NewSimulationPanel;
+
 import it.isislab.scud.client.application.ui.newsimulation.NewSimulationProcess;
 import it.isislab.scud.client.application.ui.tabwithclose.JTabbedPaneWithCloseIcons;
 import it.isislab.scud.client.application.ui.tabwithclose.ProgressbarDialog;
@@ -12,7 +10,6 @@ import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulations
 import it.isislab.scud.core.model.parameters.xsd.elements.Parameter;
 import it.isislab.scud.core.model.parameters.xsd.input.Input;
 import it.isislab.scud.core.model.parameters.xsd.output.Output;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,21 +18,14 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
-
 import javax.swing.*;
 import javax.swing.border.*;
-import javax.swing.plaf.metal.MetalTabbedPaneUI;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import org.apache.hadoop.hdfs.web.HftpFileSystem;
-import org.apache.log4j.Logger;
 
-import scala.xml.dtd.DFAContentModel;
 
 /**
  * @author Carmine Spagnuolo
@@ -469,7 +459,7 @@ public class MainFrame extends JFrame {
 
 				public void run(){
 					if(final_sim_id!=null)
-						controller.submit(final_sim_id);
+						controller.start(final_sim_id);
 					else{
 						JOptionPane.showMessageDialog(main_frame,"Submit Error! Please try again.");
 						return;
