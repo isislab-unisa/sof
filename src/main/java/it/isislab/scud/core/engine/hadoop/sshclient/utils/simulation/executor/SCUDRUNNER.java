@@ -208,7 +208,7 @@ public class SCUDRUNNER{
 
 
 		if(s.getToolkit().equalsIgnoreCase("generic")){
-         bash+=s.getRunnableFile().getBashCommandForGenericSimulation()+" ";
+			bash+=s.getRunnableFile().getBashCommandForGenericSimulation()+" ";
 		}
 
 		bash+=s.getRunnableFile().getSimulation()+" "+
@@ -235,8 +235,8 @@ public class SCUDRUNNER{
 
 
 		System.out.println(bash);
-		
-		
+
+
 		try {
 			Process process = Runtime.getRuntime().exec(bash);
 			try {
@@ -362,7 +362,7 @@ public class SCUDRUNNER{
 					log.info("I have read a new message....but I can't do anything");
 				}
 			}
-			
+
 
 		}while(doLoop);
 
@@ -391,7 +391,9 @@ public class SCUDRUNNER{
 			return null;
 		PriorityQueue<Message> listMessages = new PriorityQueue<Message>(mss.getMessages());
 		Message toResolve = listMessages.poll();
-		if(ScudRunnerUtils.rmrFromHdfs(fs, fs.getHdfsUserPathSimulationInboxMessagesFileByID(sim.getId(), toResolve.getId())))
+
+		//if(ScudRunnerUtils.rmrFromHdfs(fs, fs.getHdfsUserPathSimulationInboxMessagesFileByID(sim.getId(), toResolve.getId())))
+		if(ScudRunnerUtils.rmrFromHdfs(fs, fs.getHdfsUserPathSimulationInboxMessages(sim.getId())+File.separator+"*"))	
 			log.info("Scheduled a new message");
 		else{
 			log.severe("Some problems when scheduling message");
