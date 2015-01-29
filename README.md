@@ -81,7 +81,7 @@ In both SCUD clients are needed some system configuration parameters:
 * *Hadoop home directory* [`-bindir`]: the folder that contains the bin directory of Hadoop infrastructure, where you can find  all the Hadoop commands, in this case `/usr/`;   
 * *Home directory* [`-homedir`]: folder where you create SCUD temporary directory on the remote machine (Hadoop Master node), in this case the virtual machine home like `/root`;  
 * *Java bin directory* [`-javabindir`]: folder that cointains `/bin` directory of Java installation, in this case `/usr/bin/`;
-* *Scud home directory* [`-scudhomedir`]: SCUD installation folder on the HDFS, in this case `/user/guest/`. 
+* *Scud home directory* [`-scudhomedir`]: SCUD installation folder on the HDFS, in this case `/user/root/`. 
 
 Examples: 
 
