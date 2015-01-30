@@ -41,7 +41,7 @@ import com.jcraft.jsch.JSchException;
 public class Controller {
 
 	private static Controller instance = null;
-	
+
 	/*public  String host_address= "172.16.15.103";
 	public  String pstring="cloudsim1205";
 	public  String port="22";
@@ -60,8 +60,8 @@ public class Controller {
 	public  String scudhomedir="";
 	public  String scudjarpath="";
 	public  String scudjarrunnerpath="";
-	
-*/
+
+	 */
 	public  String host_address= "172.16.142.103";
 	public  String pstring="clgvittorio";
 	public  String port="22";
@@ -73,7 +73,7 @@ public class Controller {
 	public  String scudjarpath="scud-resources/SCUD.jar";
 	public  String scudjarrunnerpath="scud-resources/SCUD-RUNNER.jar";
 
-	
+
 	public static Controller getInstance(
 			String host_address,
 			String user_name,
@@ -87,7 +87,7 @@ public class Controller {
 			String scudrunnerjarpath) {
 		if(instance == null) {
 			instance = new Controller();
-			
+
 			instance.host_address=host_address;
 			instance.pstring=pstring;
 			instance.port=port;
@@ -97,7 +97,7 @@ public class Controller {
 			instance.user_name=user_name;
 			instance.scudjarpath=scudjarpath;
 			instance.scudjarrunnerpath=scudrunnerjarpath;
-			
+
 			return instance.login()?instance:null;
 		}
 		return instance;
@@ -153,7 +153,7 @@ public class Controller {
 			//int simID = Integer.parseInt(params[0])-1;
 
 			Simulations sims = ScudManager.getSimulationsData(session);
-			
+
 			if(sims == null){
 				//					c.printf("No such simulation");
 				//					return null;
@@ -166,32 +166,32 @@ public class Controller {
 					break;
 				}
 			//sim = ScudManager.getSimulationDatabyId(session,  session.getUsername(), simID);
-			
+
 			ScudManager.runAsynchronousSimulation(session,sim);
 			//ScudManager.runSimulation(session, session.getUsername(), simID, s.getLoop());	
 			//				return null;
 		}
 	}
 	public void stop(String ...params){
-	
+
 		Simulations listSim  = ScudManager.getSimulationsData(session);
 		if(listSim == null){
-			
+
 		}
-		
+
 		Simulation sim = null;
 		for(Simulation s : listSim.getSimulations())
 			if(s.getId().equals(params[0])){
 				sim =s;
 				break;
 			}
-		
+
 		if(sim.getState().equals(Simulation.RUNNING)){
-		   Message stop = new Message();
-		   stop.setId(ScudManager.getMexID());
-		   stop.setMessage(Message.STOP_MESSAGE);
-		   ScudManager.sendMessage(session, sim, stop);
-		   return;
+			Message stop = new Message();
+			stop.setId(ScudManager.getMexID());
+			stop.setMessage(Message.STOP_MESSAGE);
+			ScudManager.sendMessage(session, sim, stop);
+			return;
 		}
 	}
 
@@ -219,15 +219,44 @@ public class Controller {
 						parsedParams[2],//INPUT.XML PATH 
 						parsedParams[3],//OUTPUT.XML PATH 
 						parsedParams[4],//DESCRIPTION SIM
-						parsedParams[5],//SIMULATION EXEC PATH
-						parsedParams[6]); //SIMULATION BIN PATH
+						parsedParams[5], //SIMULATION EXEC PATH
+						"");//only generic
+
 				//					return null;
 			} catch (Exception e) {
 				//					e.printStackTrace();
 				//					c.printf("Error in making execution environment!\n");
 				//					return null;
 			}
-		}else{
+		}else if(parsedParams.length == 7){
+			try {
+				
+				ScudManager.checkParamMakeSimulationFolder(parsedParams);
+			} catch (ParameterException e1) {
+				// TODO Auto-generated catch block
+				//c.printf(e1.getMessage());
+				//return null;
+			}
+			try {
+
+
+				ScudManager.makeSimulationFolder(
+						SCUDShellClient.session,
+						parsedParams[0],//MODEL TYPE MASON - NETLOGO -GENERIC
+						parsedParams[1],//SIM NAME
+						parsedParams[2],//INPUT.XML PATH 
+						parsedParams[3],//OUTPUT.XML PATH 
+						parsedParams[4],//DESCRIPTION SIM
+						parsedParams[5],//SIMULATION EXEC PATH
+						parsedParams[6]); //intepretergenericpath
+				//return null;
+			} catch (Exception e) {
+				//e.printStackTrace();
+				//c.printf("Error in making execution environment!\n");
+				//return null;
+			}
+		}
+else{
 			//				c.printf("Error "+(parsedParams.length<6?"few":"much more")+" parameters.:\n");
 			//				c.printf("usage: MODEL[MASON-NETLOGO-GENERIC] SIM-NAME[String]INPUT.xml[String absolutely]"
 			//						+ " Output.xml[String absolutely path] DESCRIPTION-SIM[String] SIMULATION-EXECUTABLE-MODEL[String absolutely path]\n");
@@ -238,9 +267,9 @@ public class Controller {
 	public  void createsimulationloop(String ... params)
 	{
 
-		String parsedParams[] = ScudManager.parseParamenters(params,7);
+		String parsedParams[] = ScudManager.parseParamenters(params,8);
 
-		if(parsedParams.length == 9)
+		if(parsedParams.length == 10)
 		{
 			try {
 				ScudManager.checkParamMakeSimulationFolder(parsedParams);
@@ -252,24 +281,62 @@ public class Controller {
 			try {
 
 
-				//				ScudManager.makeSimulationFolderForLoop(
-				//						session,
-				//						parsedParams[0]/*MODEL TYPE MASON - NETLOGO -GENERIC*/,
-				//						parsedParams[1],/*SIM NAME*/
-				//						parsedParams[2],/*domain_pathname*/ 
-				//						parsedParams[3],/*bashCommandForRunnableFunction */
-				//						parsedParams[4],/*output_description_filename*/
-				//						parsedParams[5],/*executable_selection_function_filename */
-				//						parsedParams[6],/*executable_rating_function_filename*/
-				//						parsedParams[7],/*description_simulation*/
-				//						parsedParams[8]);/*executable_simulation_filename*/
+				ScudManager.makeSimulationFolderForLoop(
+						SCUDShellClient.session,
+						parsedParams[0]/*MODEL TYPE MASON - NETLOGO -GENERIC*/,
+						parsedParams[1],/*SIM NAME*/
+						parsedParams[2],/*domain_pathname*/ 
+						parsedParams[3],/*bashCommandForRunnableFunctionSelection */
+						parsedParams[4],/*bashCommandForRunnableFunctionEvaluate*/
+						parsedParams[5],/*output_description_filename*/
+						parsedParams[6],/*executable_selection_function_filename*/ 
+						parsedParams[7],/*executable_rating_function_filename*/
+						parsedParams[8],/*description_simulation*/
+						parsedParams[9],"");/*executable_simulation_filename*/
 				//					return null;
 			} catch (Exception e) {
 
-				e.printStackTrace();
+				//e.printStackTrace();
 				//					c.printf("Error in making execution environment!\n");
 				//					return null;
 			}
+		}else if(parsedParams.length == 11){
+			
+			try {
+				ScudManager.checkParamMakeSimulationFolder(parsedParams);
+			} catch (ParameterException e1) {
+				// TODO Auto-generated catch block
+		//		c.printf(e1.getMessage());
+			//	return null;
+			}
+			try {
+
+				
+				
+				ScudManager.makeSimulationFolderForLoop(
+						SCUDShellClient.session,
+						parsedParams[0]/*MODEL TYPE MASON - NETLOGO -GENERIC*/,
+						parsedParams[1],/*SIM NAME*/
+						parsedParams[2],/*domain_pathname*/ 
+						parsedParams[3],/*bashCommandForRunnableFunctionSelection */
+						parsedParams[4],/*bashCommandForRunnableFunctionEvaluate*/
+						parsedParams[5],/*output_description_filename*/
+						parsedParams[6],/*executable_selection_function_filename*/ 
+						parsedParams[7],/*executable_rating_function_filename*/
+						parsedParams[8],/*description_simulation*/
+						parsedParams[9],/*executable_simulation_filename*/
+						parsedParams[10]);//interpreter generic
+				
+				//return null;
+			} catch (Exception e) {
+
+				//e.printStackTrace();
+				//c.printf("Error in making execution environment!\n");
+				//return null;
+			}
+			
+			
+			
 		}else{
 			//				c.printf("Error "+(parsedParams.length<9?"few":"much more")+" parameters.:\n");
 			//				c.printf("usage: MODEL[MASON-NETLOGO-GENERIC] SIM-NAME[String] "+
@@ -450,21 +517,21 @@ public class Controller {
 						}
 
 						for (Integer pt : mapio.keySet()) {
-							
+
 							Row row_input_id=sheet.createRow(++row_num);
 							Cell c_input_id=row_input_id.createCell(1);
 							c_input_id.setCellValue("Input ID "+pt);
-							
+
 							Row row_input_names=sheet.createRow(++row_num);
 							Row row_input_values=sheet.createRow(++row_num);
-							
+
 							Row row_output_id=sheet.createRow(++row_num);
 							Cell c_output_id=row_output_id.createCell(1);
 							c_output_id.setCellValue("Output ID "+pt);
-							
+
 							Row row_output_names=sheet.createRow(++row_num);
 							Row row_output_values=sheet.createRow(++row_num);
-							
+
 							int cell_input=1,cell_output=1;
 							for(Parameter p : mapio.get(pt).getI().param_element)
 							{
@@ -586,7 +653,7 @@ public class Controller {
 				}
 				if(!javabindir.endsWith("/"))
 					javabindir+="/";
-				
+
 				if(!scudhomedir.endsWith("/"))
 					scudhomedir+="/";
 
