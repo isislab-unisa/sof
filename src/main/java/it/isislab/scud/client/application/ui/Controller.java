@@ -15,7 +15,6 @@ import it.isislab.scud.core.model.parameters.xsd.elements.ParameterString;
 import it.isislab.scud.core.model.parameters.xsd.input.Input;
 import it.isislab.scud.core.model.parameters.xsd.message.Message;
 import it.isislab.scud.core.model.parameters.xsd.output.Output;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,12 +24,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.swing.JFrame;
-import javax.swing.tree.DefaultMutableTreeNode;
-
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -148,7 +141,7 @@ public class Controller {
 		if(params == null || params.length < 1 )
 		{
 			//				c.printf("usage of submit command : submit ID [ID:intger ID of simulation execution environment]\n");
-			//				return null;
+
 		}else{
 			//int simID = Integer.parseInt(params[0])-1;
 
@@ -156,7 +149,7 @@ public class Controller {
 
 			if(sims == null){
 				//					c.printf("No such simulation");
-				//					return null;
+
 			}
 
 			Simulation sim = null;
@@ -169,7 +162,7 @@ public class Controller {
 
 			ScudManager.runAsynchronousSimulation(session,sim);
 			//ScudManager.runSimulation(session, session.getUsername(), simID, s.getLoop());	
-			//				return null;
+
 		}
 	}
 	public void stop(String ...params){
@@ -205,9 +198,9 @@ public class Controller {
 			try {
 				ScudManager.checkParamMakeSimulationFolder(parsedParams);
 			} catch (ParameterException e1) {
-				// TODO Auto-generated catch block
+
 				//					c.printf(e1.getMessage());
-				//					return null;
+
 			}
 			try {
 
@@ -222,20 +215,20 @@ public class Controller {
 						parsedParams[5], //SIMULATION EXEC PATH
 						"");//only generic
 
-				//					return null;
+
 			} catch (Exception e) {
-				//					e.printStackTrace();
+
 				//					c.printf("Error in making execution environment!\n");
-				//					return null;
+
 			}
 		}else if(parsedParams.length == 7){
 			try {
-				
+
 				ScudManager.checkParamMakeSimulationFolder(parsedParams);
 			} catch (ParameterException e1) {
-				// TODO Auto-generated catch block
+
 				//c.printf(e1.getMessage());
-				//return null;
+
 			}
 			try {
 
@@ -249,18 +242,18 @@ public class Controller {
 						parsedParams[4],//DESCRIPTION SIM
 						parsedParams[5],//SIMULATION EXEC PATH
 						parsedParams[6]); //intepretergenericpath
-				//return null;
+
 			} catch (Exception e) {
-				//e.printStackTrace();
+
 				//c.printf("Error in making execution environment!\n");
-				//return null;
+
 			}
 		}
-else{
+		else{
 			//				c.printf("Error "+(parsedParams.length<6?"few":"much more")+" parameters.:\n");
 			//				c.printf("usage: MODEL[MASON-NETLOGO-GENERIC] SIM-NAME[String]INPUT.xml[String absolutely]"
 			//						+ " Output.xml[String absolutely path] DESCRIPTION-SIM[String] SIMULATION-EXECUTABLE-MODEL[String absolutely path]\n");
-			//				return null;
+
 		}
 	}
 
@@ -274,9 +267,9 @@ else{
 			try {
 				ScudManager.checkParamMakeSimulationFolder(parsedParams);
 			} catch (ParameterException e1) {
-				// TODO Auto-generated catch block
+
 				//					c.printf(e1.getMessage());
-				//					return null;
+
 			}
 			try {
 
@@ -293,26 +286,26 @@ else{
 						parsedParams[7],/*executable_rating_function_filename*/
 						parsedParams[8],/*description_simulation*/
 						parsedParams[9],"");/*executable_simulation_filename*/
-				//					return null;
+
 			} catch (Exception e) {
 
 				//e.printStackTrace();
 				//					c.printf("Error in making execution environment!\n");
-				//					return null;
+
 			}
 		}else if(parsedParams.length == 11){
-			
+
 			try {
 				ScudManager.checkParamMakeSimulationFolder(parsedParams);
 			} catch (ParameterException e1) {
-				// TODO Auto-generated catch block
-		//		c.printf(e1.getMessage());
-			//	return null;
+
+				//		c.printf(e1.getMessage());
+
 			}
 			try {
 
-				
-				
+
+
 				ScudManager.makeSimulationFolderForLoop(
 						SCUDShellClient.session,
 						parsedParams[0]/*MODEL TYPE MASON - NETLOGO -GENERIC*/,
@@ -326,24 +319,24 @@ else{
 						parsedParams[8],/*description_simulation*/
 						parsedParams[9],/*executable_simulation_filename*/
 						parsedParams[10]);//interpreter generic
-				
-				//return null;
+
+
 			} catch (Exception e) {
 
-				//e.printStackTrace();
+
 				//c.printf("Error in making execution environment!\n");
-				//return null;
+
 			}
-			
-			
-			
+
+
+
 		}else{
 			//				c.printf("Error "+(parsedParams.length<9?"few":"much more")+" parameters.:\n");
 			//				c.printf("usage: MODEL[MASON-NETLOGO-GENERIC] SIM-NAME[String] "+
 			//						"DOMAIN.xml[String absolutely]"+"bash command[for function selection example /usr/bin/sh]"
 			//						+ " Output.xml[String absolutely path] "+"function selection absolutly path"+
 			//						"rating selection absolutly path"+"DESCRIPTION-SIM[String] SIMULATION-EXECUTABLE-MODEL[String absolutely path]\n");
-			//				return null;
+
 		}
 	}
 
@@ -361,13 +354,13 @@ else{
 		if(params == null || params.length < 1 )
 		{
 			//				c.printf("few parameters!\n Usage: getsimuation #IDSIM");
-			//				return null;
+
 		}else{
 			int simID = Integer.parseInt(params[0])-1;
 			Simulations listSim  = ScudManager.getSimulationsData(session);
 			if(listSim == null){
 				//					c.printf("No such simulation");
-				//					return null;
+
 			}
 			Simulation sim = listSim.getSimulations().get(simID);
 			try {
@@ -380,19 +373,19 @@ else{
 
 
 				//					c.printf(sim+"\n");
-				//					return null;
+
 			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
-				//					return null;
+
 			} catch (JSchException e) {
 				//					c.printf("Error during resource creating\n"+e.getMessage());
 				e.printStackTrace();
-				//					return null;
+
 			} catch (IOException e) {
 				//					c.printf("Error during resource creating\n"+e.getMessage());
 				e.printStackTrace();
-				//					return null;
+
 			}
 
 		}
@@ -404,12 +397,12 @@ else{
 		if(params == null)
 		{
 			//				c.printf("Error few parameters!\n Usage: getresult simID [destinationDirPath]");
-			//				return null;
+
 		}else{
 			Simulations sims = ScudManager.getSimulationsData(session);
 			if(sims == null){
 				//					c.printf("No such simulation");
-				//					return null;
+
 			}
 			Simulation sim = null;
 			try{
@@ -420,13 +413,13 @@ else{
 					}
 			}catch(IndexOutOfBoundsException e){
 				//					c.printf("No such simulation");
-				//					return null;
+
 			}
 			//if no path is specified, saves in current directory
 			String path = (params.length < 2)? System.getProperty("user.dir"):params[1];
 			//				c.printf("Simulation will download in: "+path);
 			ScudManager.downloadSimulation(session,sim.getId(),path);
-			//				return null;
+
 		}
 	}
 	public  void getresultExcel(String ... params)
@@ -435,12 +428,12 @@ else{
 		if(params == null)
 		{
 			//				c.printf("Error few parameters!\n Usage: getresult simID [destinationDirPath]");
-			//				return null;
+
 		}else{
 			Simulations sims = ScudManager.getSimulationsData(session);
 			if(sims == null){
 				//					c.printf("No such simulation");
-				//					return null;
+
 			}
 			Simulation sim = null;
 			try{
@@ -451,7 +444,7 @@ else{
 					}
 			}catch(IndexOutOfBoundsException e){
 				//					c.printf("No such simulation");
-				//					return null;
+
 			}
 			//if no path is specified, saves in current directory
 			String path = (params.length < 2)? System.getProperty("user.dir"):params[1];
@@ -589,7 +582,7 @@ else{
 		Simulations sims = ScudManager.getSimulationsData(session);
 		if(sims == null){
 			//				c.printf("No such simulation");
-			//				return null;
+
 		}
 		for(int i=1; i<=sims.getSimulations().size(); i++){
 			int simID= i-1;
@@ -598,7 +591,7 @@ else{
 			//				c.printf("sim-id: "+i+" name: "+s.getName()+" state: "+s.getState()+" time: "+s.getCreationTime()+" hdfsId: "+s.getId()+" *\n");
 			//				c.printf("*****************************************************************************************************************\n");
 		}
-		//			return null;
+
 	}
 	public  void kill(int simID,String ... params)
 	{
@@ -606,18 +599,18 @@ else{
 		if(params == null || params.length < 1 )
 		{
 			//				c.printf("Error few parameters!\n Usage: kill simID");
-			//				return null;
+
 		}else{
 			//				int simID = Integer.parseInt(params[0])-1;
 
 			Simulations listSim  = ScudManager.getSimulationsData(session);
 			if(listSim == null){
 				//					c.printf("No such simulation");
-				//					return null;
+
 			}
 			if(listSim.getSimulations().size()-1<simID){
 				//					c.printf("Simulation not exists");
-				//					return null;
+
 			}
 
 			Simulation sim = listSim.getSimulations().get(simID);
@@ -629,10 +622,10 @@ else{
 			try {
 				HadoopFileSystemManager.exec(session,bash);
 			} catch (Exception e ) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
-			//				return null;
+
 
 
 		}
@@ -681,7 +674,7 @@ else{
 		return session!=null;
 
 	}
-	
+
 
 
 
