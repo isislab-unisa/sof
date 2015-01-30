@@ -1,5 +1,6 @@
 package it.isislab.scud.client.application.ui;
 
+import it.isislab.scud.client.application.SCUDShellClient;
 import it.isislab.scud.core.engine.hadoop.sshclient.connection.HadoopFileSystemManager;
 import it.isislab.scud.core.engine.hadoop.sshclient.connection.ScudManager;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.environment.EnvironmentSession;
@@ -12,6 +13,7 @@ import it.isislab.scud.core.model.parameters.xsd.elements.ParameterDouble;
 import it.isislab.scud.core.model.parameters.xsd.elements.ParameterLong;
 import it.isislab.scud.core.model.parameters.xsd.elements.ParameterString;
 import it.isislab.scud.core.model.parameters.xsd.input.Input;
+import it.isislab.scud.core.model.parameters.xsd.message.Message;
 import it.isislab.scud.core.model.parameters.xsd.output.Output;
 
 import java.io.File;
@@ -26,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.JFrame;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -169,6 +172,29 @@ public class Controller {
 			//				return null;
 		}
 	}
+	public void stop(String ...params){
+	
+		Simulations listSim  = ScudManager.getSimulationsData(session);
+		if(listSim == null){
+			
+		}
+		
+		Simulation sim = null;
+		for(Simulation s : listSim.getSimulations())
+			if(s.getId().equals(params[0])){
+				sim =s;
+				break;
+			}
+		
+		if(sim.getState().equals(Simulation.RUNNING)){
+		   Message stop = new Message();
+		   stop.setId(ScudManager.getMexID());
+		   stop.setMessage(Message.STOP_MESSAGE);
+		   ScudManager.sendMessage(session, sim, stop);
+		   return;
+		}
+	}
+
 	public  void createsimulation(String ... params)
 	{
 
@@ -560,6 +586,9 @@ public class Controller {
 				}
 				if(!javabindir.endsWith("/"))
 					javabindir+="/";
+				
+				if(!scudhomedir.endsWith("/"))
+					scudhomedir+="/";
 
 				ScudManager.setFileSystem(bindir,System.getProperty("user.dir"), scudhomedir, homedir, javabindir ,user_name);
 				if ((session=ScudManager.connect(user_name, host_address, pstring, bindir,Integer.parseInt(port),
@@ -585,8 +614,6 @@ public class Controller {
 		return session!=null;
 
 	}
-
-
 
 
 

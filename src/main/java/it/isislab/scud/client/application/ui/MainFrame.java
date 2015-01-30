@@ -9,7 +9,9 @@ import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulations;
 import it.isislab.scud.core.model.parameters.xsd.elements.Parameter;
 import it.isislab.scud.core.model.parameters.xsd.input.Input;
+import it.isislab.scud.core.model.parameters.xsd.message.Message;
 import it.isislab.scud.core.model.parameters.xsd.output.Output;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +22,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
+
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -438,8 +441,8 @@ public class MainFrame extends JFrame {
 				if(node.toString().contains("Status")){
 					String[] split = node.toString().split(":");
 					status = split[1].trim();
-					if(!status.equalsIgnoreCase("created")){
-						JOptionPane.showMessageDialog(this,"Selection error!\n You must select a created simulation");
+					if(!status.equalsIgnoreCase(Simulation.CREATED) && !status.equalsIgnoreCase(Simulation.STOPPED)){
+						JOptionPane.showMessageDialog(this,"Selection error!\n You must select either created or stopped simulation only");
 						return;
 					}
 				}
@@ -482,7 +485,61 @@ public class MainFrame extends JFrame {
 	}
 
 	protected void buttonStopActionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		DefaultMutableTreeNode selected =(DefaultMutableTreeNode)tree1.getLastSelectedPathComponent();
+		if(selected !=null && selected.toString().contains("Simulation name")){
+
+			Enumeration<DefaultMutableTreeNode> children = selected.children();
+			String status;
+			String idSim=null;
+			while(children.hasMoreElements()){
+				DefaultMutableTreeNode node = children.nextElement();
+				if(node.toString().contains("Status")){
+					String[] split = node.toString().split(":");
+					status = split[1].trim();
+					if(status.equalsIgnoreCase("stopped")){
+						JOptionPane.showMessageDialog(this,"Simulation already stopped");
+						return;
+					}else
+						if(!status.equalsIgnoreCase("running")){
+							JOptionPane.showMessageDialog(this,"Selection error!\n You must select a running simulation");
+							return;
+						}
+				}
+				if(node.toString().contains("Id")){
+					String[] split = node.toString().split(":");
+					idSim = split[1].trim();
+				}
+			}
+			final String final_sim_id=idSim;
+			final ProgressbarDialog pd=new ProgressbarDialog(this);
+			pd.setNoteMessage("Please wait.");
+			pd.setVisible(true);
+			final JProgressBar bar=pd.getProgressBar1();
+			pd.setTitleMessage("Stopping simulation with id: "+final_sim_id);
+			bar.setIndeterminate(true);
+			class MyTaskConnect extends Thread {
+
+				public void run(){
+					if(final_sim_id!=null)
+						controller.stop(final_sim_id);
+					else{
+						JOptionPane.showMessageDialog(main_frame,"Stop Error! Please try again.");
+						return;
+					}
+
+					updateFileSystem();
+
+					bar.setIndeterminate(false);
+					pd.setVisible(false);
+				}
+			}
+
+			(new MyTaskConnect()).start();
+
+		}
+		else {
+			JOptionPane.showMessageDialog(this,"Selection error!\n You must select selection node from SCUD filesystem");
+		}
 
 	}
 
@@ -687,7 +744,7 @@ public class MainFrame extends JFrame {
 			new_sim.add(new DefaultMutableTreeNode("Author: "+s.getAuthor()));
 			new_sim.add(new DefaultMutableTreeNode("Creation time: "+s.getCreationTime()));
 			DefaultMutableTreeNode descr=new DefaultMutableTreeNode("Description: "+s.getDescription().substring(0, (s.getDescription().length()>15)?15:s.getDescription().length()-1));
-			descr.add(new DefaultMutableTreeNode(s.getDescription()));
+			//descr.add(new DefaultMutableTreeNode(s.getDescription()));
 			new_sim.add(descr);
 			new_sim.add(new DefaultMutableTreeNode("Id: "+s.getId()));
 			new_sim.add(new DefaultMutableTreeNode("Toolkit: "+s.getToolkit()));

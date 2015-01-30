@@ -17,7 +17,7 @@ public class ConnectionFrame extends JFrame {
 	private ConnectionFrame frame;
 	
 	
-	
+	/*
 	//OXYGEN for testing
 	public  String host_address= "172.16.142.103";
 	public  String pstring="clgvittorio";
@@ -30,9 +30,9 @@ public class ConnectionFrame extends JFrame {
 	public  String scudjarpath="scud-resources/SCUD.jar";
 	public  String scudjarrunnerpath="scud-resources/SCUD-RUNNER.jar";
 	
+	*/
 	
-	
-	/** real code
+	/** real code*/
 	public  String host_address="";
 	public  String pstring="";
 	public  String port="";
@@ -43,12 +43,27 @@ public class ConnectionFrame extends JFrame {
 	public  String scudhomedir="";
 	public  String scudjarpath="scud-resources/SCUD.jar";
 	public  String scudjarrunnerpath="scud-resources/SCUD-RUNNER.jar";
-	*/
+	
 	public ConnectionFrame(String scudjarpath, String scudjarrunnerpath) {
 
 		initComponents();
 		this.setVisible(true);
 		frame=this;
+		/**
+		 * for debugging
+		 */
+		boolean setDefaultText = true;
+		
+		if(setDefaultText){
+			textFielduserName.setText("isis");
+			textFieldIP.setText("172.16.142.103");
+			passwordFieldPassword.setText("clgvittorio");
+			textFieldPort.setText("22");
+			textFieldHadoopHome.setText("/isis/hadoop-2.4.0");  
+			textFieldSCUDHome.setText("/isis/"); 
+			textFieldJavaHome.setText("/usr/local/java/bin");
+			textFieldSCUDHDFSHome.setText("/");
+		}
 	
 		this.scudjarpath=scudjarpath;
 		this.scudjarrunnerpath=scudjarrunnerpath;
@@ -72,16 +87,18 @@ public class ConnectionFrame extends JFrame {
 		class MyTaskConnect extends Thread {
 
 	          public void run(){
-	        	 /* 
-	        	  * REAL CODE commentato pèr test su oxygen
-	        	  * host_address=textFieldIP.getText(); 
+	        	  
+	        	  /* REAL CODE commentato pèr test su oxygen*/
+	        	  
+	        	  host_address=textFieldIP.getText(); 
 	        	  user_name=textFielduserName.getText();
 	        	  pstring=passwordFieldPassword.getText();
 	        	  port=textFieldPort.getText();
 	        	  bindir=textFieldHadoopHome.getText();
 	        	  homedir=textFieldSCUDHome.getText();
 	        	  javabindir=textFieldJavaHome.getText();
-	        	  scudhomedir=textFieldSCUDHDFSHome.getText();*/
+	        	  scudhomedir=textFieldSCUDHDFSHome.getText();
+	        	  
 	        	  Controller c=Controller.getInstance(
 	        				host_address,
 	        				user_name,
@@ -417,6 +434,9 @@ private void initComponents() {
 	setLocationRelativeTo(getOwner());
 
 }
+
+
+
 
 private JPanel panel1;
 private JLabel label12;
