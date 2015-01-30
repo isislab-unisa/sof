@@ -17,6 +17,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -39,9 +41,11 @@ public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	public MainFrame(Controller controller) {
 		this.controller=controller;
+		main_frame=this;
 		initComponents();
 
-		main_frame=this;
+		
+		
 	}
 
 	private void initComponents() {
@@ -136,6 +140,7 @@ public class MainFrame extends JFrame {
 					System.err.println("Error in loading images.");
 					e1.printStackTrace();
 				}
+				
 				buttonShow.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -400,6 +405,12 @@ public class MainFrame extends JFrame {
 			}
 		});
 
+		main_frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e){
+				controller.exit();
+			}
+		});
+		
 		pack();
 		setLocationRelativeTo(null);
 	}
@@ -424,6 +435,7 @@ public class MainFrame extends JFrame {
 			CentraltabbedPane.add(panel,"Sim: "+idSim);
 
 			CentraltabbedPane.setSelectedComponent(panel);
+			
 		}
 
 
