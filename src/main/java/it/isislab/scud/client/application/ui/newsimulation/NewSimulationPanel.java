@@ -3,6 +3,9 @@ package it.isislab.scud.client.application.ui.newsimulation;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -39,7 +42,7 @@ public class NewSimulationPanel extends JPanel {
 		textFieldSelectionCommand = new JTextField();
 		textFieldEvaluateCommand = new JTextField();
 		textFieldSelectionFunctionFIle = new JTextField();
-		textField1ModelFile = new JTextField();
+		textFieldModelFile = new JTextField();
 		textFieldEvaluateFunctionFile = new JTextField();
 		panel4 = new JPanel();
 		button1 = new JButton();
@@ -169,7 +172,7 @@ public class NewSimulationPanel extends JPanel {
 							.addComponent(textFieldSelectionCommand, GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
 							.addComponent(textFieldEvaluateCommand)
 							.addComponent(textFieldSelectionFunctionFIle)
-							.addComponent(textField1ModelFile)
+							.addComponent(textFieldModelFile)
 							.addComponent(textFieldEvaluateFunctionFile)
 							.addComponent(textFieldSimCommand, GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE))
 						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -180,7 +183,7 @@ public class NewSimulationPanel extends JPanel {
 						.addGap(10, 10, 10)
 						.addGroup(panel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 							.addComponent(label5)
-							.addComponent(textField1ModelFile, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(textFieldModelFile, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGap(18, 18, 18)
 						.addGroup(panel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 							.addComponent(label6)
@@ -271,18 +274,28 @@ public class NewSimulationPanel extends JPanel {
 		
 		
 		comboBoxToolkit.setSelectedIndex(0);
+		comboBoxToolkit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(((String)comboBoxToolkit.getSelectedItem()).equalsIgnoreCase("generic")){
+					textFieldModelFile.setEnabled(true);
+				}else{
+					textFieldModelFile.setEnabled(false);
+				}
+				
+			}
+		});
 		comboBoxMode.setSelectedIndex(0);
 		comboBoxMode.addActionListener (new ActionListener () {
 		    public void actionPerformed(ActionEvent e) {
 		        if(((String)comboBoxMode.getSelectedItem()).contains("SO"))
 		        	{
-		        		System.out.println(comboBoxMode.getSelectedItem());
 		        		switchSOPanel(true);
 		        	}
 		        else{
 	        		switchSOPanel(false);
 		        }
-		        System.out.println("switch");
 		    }
 		});
 		switchSOPanel(false);
@@ -295,6 +308,137 @@ public class NewSimulationPanel extends JPanel {
 				
 			}
 		});
+		
+		textFieldModelFile.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JFileChooser fc = new JFileChooser();
+				fc.setDialogTitle("Select your simulation model");
+				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				if(textFieldModelFile.getText().isEmpty())
+					fc.setCurrentDirectory(new File("."));
+				else
+					fc.setCurrentDirectory(new File(textFieldModelFile.getText()));
+				
+				fc.setMultiSelectionEnabled(false);
+				if (fc.showOpenDialog(textFieldModelFile)== JFileChooser.APPROVE_OPTION)
+					textFieldModelFile.setText(fc.getSelectedFile().getAbsolutePath());
+				else
+					JOptionPane.showMessageDialog(textFieldModelFile, "Selection failed!\nPlease select your simulation model");
+			}
+		});
+		textFieldSelectionFunctionFIle.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JFileChooser fc = new JFileChooser();
+				fc.setDialogTitle("Select your Selection function executable");
+				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				if(textFieldSelectionFunctionFIle.getText().isEmpty())
+					fc.setCurrentDirectory(new File("."));
+				else
+					fc.setCurrentDirectory(new File(textFieldSelectionFunctionFIle.getText()));
+				
+				fc.setMultiSelectionEnabled(false);
+				if (fc.showOpenDialog(textFieldSelectionFunctionFIle)== JFileChooser.APPROVE_OPTION)
+					textFieldSelectionFunctionFIle.setText(fc.getSelectedFile().getAbsolutePath());
+				else
+					JOptionPane.showMessageDialog(textFieldSelectionFunctionFIle, "Selection failed!\nPlease select your selection function executable");
+			}
+		});
+		
+		textFieldEvaluateFunctionFile.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JFileChooser fc = new JFileChooser();
+				fc.setDialogTitle("Select your evaluate function executable");
+				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				if(textFieldEvaluateFunctionFile.getText().isEmpty())
+					fc.setCurrentDirectory(new File("."));
+				else
+					fc.setCurrentDirectory(new File(textFieldEvaluateFunctionFile.getText()));
+				
+				fc.setMultiSelectionEnabled(false);
+				if (fc.showOpenDialog(textFieldEvaluateFunctionFile)== JFileChooser.APPROVE_OPTION)
+					textFieldEvaluateFunctionFile.setText(fc.getSelectedFile().getAbsolutePath());
+				else
+					JOptionPane.showMessageDialog(textFieldEvaluateFunctionFile, "Selection failed!\nPlease select your evaluate function executable");
+			}
+		});
 	}
 	private void switchSOPanel(boolean status)
 	{
@@ -304,7 +448,7 @@ public class NewSimulationPanel extends JPanel {
 		textFieldSelectionCommand.setEnabled(status);
 		textFieldEvaluateCommand.setEnabled(status);
 		textFieldSelectionFunctionFIle.setEnabled(status);
-		textField1ModelFile.setEnabled(status);
+		textFieldModelFile.setEnabled(status);
 		textFieldEvaluateFunctionFile.setEnabled(status);
 		label5.setEnabled(status);
 		label6.setEnabled(status);
@@ -320,7 +464,7 @@ public class NewSimulationPanel extends JPanel {
 //		parent.add(new NewDomain());
 		sproc.setDomainView();
 		
-		
+		 
 		String author=textFieldAuthor.getText();
 		String mode=(String) comboBoxMode.getSelectedItem();
 		String toolkit=(String) comboBoxToolkit.getSelectedItem();
@@ -328,14 +472,14 @@ public class NewSimulationPanel extends JPanel {
 		
 		if( author.isEmpty() )
 		{
-			JOptionPane.showMessageDialog(this, "Uou must fulfill all fields.");
+			JOptionPane.showMessageDialog(this, "You must fulfill all fields.");
 			return;
 		}
 		
 		if(panel3.isEnabled())
 		{
 			String simcommand=textFieldSimCommand.getText();
-			String simdirpath=textField1ModelFile.getText();
+			String simdirpath=textFieldModelFile.getText();
 			String selcommand=textFieldSelectionCommand.getText();
 			String selpath=textFieldSelectionFunctionFIle.getText();
 			String evalcomma=textFieldEvaluateCommand.getText();
@@ -343,7 +487,7 @@ public class NewSimulationPanel extends JPanel {
 			if( simcommand.isEmpty() || simdirpath.isEmpty() || selcommand.isEmpty() || selpath.isEmpty() 
 					|| evalcomma.isEmpty() || evalpath.isEmpty())
 			{
-				JOptionPane.showMessageDialog(this, "Uou must fulfill all fields.");
+				JOptionPane.showMessageDialog(this, "You must fulfill all fields.");
 				return;
 			}
 		}
@@ -383,7 +527,7 @@ public class NewSimulationPanel extends JPanel {
 	private JTextField textFieldSelectionCommand;
 	private JTextField textFieldEvaluateCommand;
 	private JTextField textFieldSelectionFunctionFIle;
-	private JTextField textField1ModelFile;
+	private JTextField textFieldModelFile;
 	private JTextField textFieldEvaluateFunctionFile;
 	private JPanel panel4;
 	private JButton button1;
