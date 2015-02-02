@@ -91,6 +91,28 @@ Examples:
      
 * **SCUD GUI Client** provides the parameters setting in the GUI (see  [Getting Started SCUD Schell Client](https://github.com/isislab-unisa/scud/blob/master/README.md#getting-started-scud-schell-client) section).
 
+## Define Parameters Domain/Input/Output/Evaluate: SCUD XML schemas
+
+SCUD support two executions modes, as mentioned above, PSE and SO.
+In PSE mode the input to the simulation and the output must be in XML, compliant with input/output schemas. In the SO mode the user must not provide the input files but must declare the parameters domain in XML using the domain schema.
+
+In the following there are shown the SCUD parameters XML schemas:
+
+* **XML Domain**
+To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/domain.xsd) link there is the domain XML schema.
+
+- - -
+
+* **XML Input**
+To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/input.xsd) link there is the input XML schema.
+
+- - -
+
+* **XML Output**
+To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/output.xsd) link there is the output XML schema.
+
+- - -
+
 
 ## Getting Started SCUD Client, an example of simple client
 
@@ -394,27 +416,6 @@ This command takes the following input parameters:
 
 - - -
 
-#### SCUD XML schemas
-SCUD support two executions modes, as mentioned above, PSE and SO.
-In PSE mode the input to the simulation and the output must be in XML, compliant with input/output schemas. In the SO mode the user must not provide the input files but must declare the parameters domain in XML using the domain schema.
-
-In the following there are shown the SCUD parameters XML schemas.
-
-
-* **XML Domain**
-To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/domain.xsd) link there is the domain XML schema.
-
-- - -
-
-* **XML Input**
-To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/input.xsd) link there is the input XML schema.
-
-- - -
-
-* **XML Output**
-To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/output.xsd) link there is the output XML schema.
-
-- - -
 
 
 ### License
