@@ -1,7 +1,17 @@
 package it.isislab.scud.client.application.ui.newsimulation;
 
+import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
+import it.isislab.scud.core.model.parameters.xsd.domain.Domain;
+import it.isislab.scud.core.model.parameters.xsd.domain.ParameterDomain;
+import it.isislab.scud.core.model.parameters.xsd.domain.ParameterDomainContinuous;
+import it.isislab.scud.core.model.parameters.xsd.domain.ParameterDomainDiscrete;
+import it.isislab.scud.core.model.parameters.xsd.domain.ParameterDomainListString;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -42,7 +52,7 @@ public class NewDomain extends JPanel {
 		panelInnerDetailsNumeric = new NewDomainParameterNumeric();
 		panelInnerDetailsListValues = new NewDomainListValues();
 		panel5 = new JPanel();
-		button3 = new JButton();
+		buttonNext = new JButton();
 		buttonPrev = new JButton();
 
 		//======== panel1 ========
@@ -191,7 +201,7 @@ public class NewDomain extends JPanel {
 		{
 
 			//---- button3 ----
-			button3.setText("Next");
+			buttonNext.setText("Next");
 
 			//---- buttonPrev ----
 			buttonPrev.setText("Prev");
@@ -204,14 +214,14 @@ public class NewDomain extends JPanel {
 						.addGap(0, 679, Short.MAX_VALUE)
 						.addComponent(buttonPrev)
 						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(button3))
+						.addComponent(buttonNext))
 			);
 			panel5Layout.setVerticalGroup(
 				panel5Layout.createParallelGroup()
 					.addGroup(GroupLayout.Alignment.TRAILING, panel5Layout.createSequentialGroup()
 						.addGap(0, 0, Short.MAX_VALUE)
 						.addGroup(panel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-							.addComponent(button3)
+							.addComponent(buttonNext)
 							.addComponent(buttonPrev)))
 			);
 		}
@@ -307,14 +317,7 @@ public class NewDomain extends JPanel {
 			}
 		});
 		
-		DefaultMutableTreeNode simNode = new DefaultMutableTreeNode();
-		treeModel.insertNodeInto(simNode, rootTreeNode, rootTreeNode.getChildCount());
-		treeModel.insertNodeInto(new DefaultMutableTreeNode("author: "+sproc.getSim().autho), simNode, simNode.getChildCount());
-		treeModel.insertNodeInto(new DefaultMutableTreeNode("name: "+sproc.getSim().getSimName()), simNode, simNode.getChildCount());
-		treeModel.insertNodeInto(new DefaultMutableTreeNode("toolkit: "+sproc.getSim().toolkit), simNode, simNode.getChildCount());
-		treeModel.insertNodeInto(new DefaultMutableTreeNode("description: "+sproc.getSim().descr), simNode, simNode.getChildCount());
-		treeModel.insertNodeInto(new DefaultMutableTreeNode("mode: "+sproc.getSim().mode), simNode, simNode.getChildCount());
-		tree.expandPath(new TreePath(simNode.getPath()));
+
 		
 		buttonAdd.addActionListener(new ActionListener() {
 			
@@ -345,7 +348,8 @@ public class NewDomain extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				DefaultMutableTreeNode selected =(DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
-				if(selected !=null && selected.toString().contains("Domain") && !selected.toString().contains("param")){
+				if(selected !=null && selected.toString().equalsIgnoreCase("Domain") && !selected.toString().equalsIgnoreCase("param")
+						&& selected.toString().equalsIgnoreCase("simulation")){
 					JOptionPane.showMessageDialog(tree, "Selection error.\nSelect a param object to delete it.");
 				}else{
 					treeModel.removeNodeFromParent(selected);
@@ -354,9 +358,110 @@ public class NewDomain extends JPanel {
 			}
 		});
 		
+		buttonNext.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				buttonNextActionPerformed(e);
+			}
+		});
+		
+	}
+	
+	public void setTreeNode(){
+		DefaultMutableTreeNode simNode = new DefaultMutableTreeNode("Simulation");
+		treeModel.insertNodeInto(simNode, rootTreeNode, rootTreeNode.getChildCount());
+		treeModel.insertNodeInto(new DefaultMutableTreeNode("author: "+sproc.getSim().getAuthor()), simNode, simNode.getChildCount());
+		treeModel.insertNodeInto(new DefaultMutableTreeNode("name: "+sproc.getSim().getName()), simNode, simNode.getChildCount());
+		treeModel.insertNodeInto(new DefaultMutableTreeNode("toolkit: "+sproc.getSim().getToolkit()), simNode, simNode.getChildCount());
+		treeModel.insertNodeInto(new DefaultMutableTreeNode("description: "+sproc.getSim().getDescription()), simNode, simNode.getChildCount());
+		treeModel.insertNodeInto(new DefaultMutableTreeNode("mode: "+(sproc.getSim().getLoop()?"SO":"PSE")), simNode, simNode.getChildCount());
+		tree.expandPath(new TreePath(simNode.getPath()));
+	}
+	
+	protected void buttonNextActionPerformed(ActionEvent e) {
+
+		
+		dom = new Domain();
+		dom.simulation = sproc.getSim();
+		List<ParameterDomain> list = new ArrayList<>();
+		Enumeration<DefaultMutableTreeNode> en = rootTreeNode.children();
+		while(en.hasMoreElements()){
+			DefaultMutableTreeNode node = en.nextElement();
+			System.out.println("valuto "+node.toString());
+			if(!node.toString().equalsIgnoreCase("simulation") ||
+				!node.toString().equalsIgnoreCase("domain") ){
+				if(node.toString().equalsIgnoreCase("param")){
+					Enumeration<DefaultMutableTreeNode> paramNodeTree = node.children();
+					ParameterDomain pd = new ParameterDomain();
+					while(paramNodeTree.hasMoreElements()){
+						DefaultMutableTreeNode paramChild = paramNodeTree.nextElement();
+						System.out.println("Sono in param e valuto "+paramChild.toString());
+						if(paramChild.toString().contains("variableName")){
+							pd.setvariable_name(paramChild.toString().split(":")[1].trim());
+						}else{
+							if(paramChild.toString().equalsIgnoreCase("continuous")){
+								ParameterDomainContinuous pdc = new ParameterDomainContinuous();
+								Enumeration<DefaultMutableTreeNode> continuousNodeTree = paramChild.children();
+								while(continuousNodeTree.hasMoreElements()){
+									DefaultMutableTreeNode child = continuousNodeTree.nextElement();
+									if(child.toString().contains("min"))
+										pdc.setmin(Double.parseDouble(child.toString().split(":")[1].trim()));
+									else
+										if(child.toString().contains("max"))
+											pdc.setmax(Double.parseDouble(child.toString().split(":")[1].trim()));
+										else
+											pdc.setincrement(Double.parseDouble(child.toString().split(":")[1].trim()));
+								}										
+								
+								pd.setparameter(pdc);
+								
+							}else{
+								if(paramChild.toString().equalsIgnoreCase("string")){
+									ParameterDomainListString pdls = new ParameterDomainListString();
+									Enumeration<DefaultMutableTreeNode> stringNodeTree = paramChild.children();
+									ArrayList<String> list_string = new ArrayList<String>();
+									while(stringNodeTree.hasMoreElements()){
+										DefaultMutableTreeNode child = stringNodeTree.nextElement();
+										list_string.add(child.toString().split(":")[1].trim());
+									}										
+									pdls.setlist(list_string);
+									pd.setparameter(pdls);
+									
+								}else{
+									if(paramChild.toString().equalsIgnoreCase("discrete")){
+										ParameterDomainDiscrete pdd = new ParameterDomainDiscrete();
+										Enumeration<DefaultMutableTreeNode> discreteNodeTree = paramChild.children();
+										while(discreteNodeTree.hasMoreElements()){
+											DefaultMutableTreeNode child = discreteNodeTree.nextElement();
+											if(child.toString().contains("min"))
+												pdd.setmin(Long.parseLong(child.toString().split(":")[1].trim()));
+											else
+												if(child.toString().contains("max"))
+													pdd.setmax(Long.parseLong(child.toString().split(":")[1].trim()));
+												else
+													pdd.setincrement(Long.parseLong(child.toString().split(":")[1].trim()));
+										}										
+										
+										pd.setparameter(pdd);
+									}
+								}
+							}
+						}
+					}
+					list.add(pd);
+				}
+			}
+			
+		}
+		
+		sproc.setDomainIO();
+		
 	}
 
 
+	private Domain dom;
 	private JPanel panel1;
 	private JScrollPane scrollPane1;
 	private JTree tree;
@@ -376,6 +481,6 @@ public class NewDomain extends JPanel {
 	private NewDomainParameterNumeric panelInnerDetailsNumeric;
 	private NewDomainListValues panelInnerDetailsListValues; 
 	private JPanel panel5;
-	private JButton button3;
+	private JButton buttonNext;
 	private JButton buttonPrev;
 }

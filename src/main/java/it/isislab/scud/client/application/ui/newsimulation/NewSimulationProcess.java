@@ -1,5 +1,7 @@
 package it.isislab.scud.client.application.ui.newsimulation;
 
+import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
+
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
@@ -20,8 +22,8 @@ public class NewSimulationProcess extends JPanel{
 		
 	}
 	
-	public NewSimulationPanel getSim(){
-		return newsimpan;
+	public Simulation getSim(){
+		return newsimpan.getSim();
 	}
 	
 
@@ -34,6 +36,7 @@ public class NewSimulationProcess extends JPanel{
 	public void setDomainView() {
 		this.removeAll();
 		this.add(newdomain);
+		newdomain.setTreeNode();
 		
 	}
 	public void setDomainIO() {

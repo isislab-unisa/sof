@@ -1,14 +1,24 @@
 package it.isislab.scud.client.application.ui.newsimulation;
 
+import it.isislab.scud.core.engine.hadoop.sshclient.connection.ScudManager;
+import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
+
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.Enumeration;
 
 import javax.swing.*;
 import javax.swing.border.*;
+
+import org.apache.commons.codec.digest.DigestUtils;
 
 public class NewSimulationPanel extends JPanel {
 	private String sim_name="";
@@ -458,32 +468,35 @@ public class NewSimulationPanel extends JPanel {
 		label10.setEnabled(status);
 	}
 	protected void buttonNextActionPerformed(ActionEvent e) {
-//		
-//		Container parent=this.getParent();
-//		parent.remove(this);
-//		parent.add(new NewDomain());
-		sproc.setDomainView();
+
 		
+		sim = new Simulation();
 		 
-		String author=textFieldAuthor.getText();
-		String mode=(String) comboBoxMode.getSelectedItem();
-		String toolkit=(String) comboBoxToolkit.getSelectedItem();
-		String descr=textArea1.getText();
+		author=textFieldAuthor.getText();
+		mode=(String) comboBoxMode.getSelectedItem();
+		toolkit=(String) comboBoxToolkit.getSelectedItem();
+		descr=textArea1.getText();
 		
 		if( author.isEmpty() )
 		{
 			JOptionPane.showMessageDialog(this, "You must fulfill all fields.");
 			return;
 		}
-		
+		sim.setAuthor(author);
+		sim.setToolkit(toolkit);
+		sim.setDescription(descr);
+		sim.setLoop(panel3.isEnabled());
+		sim.setName(sim_name);
+		sproc.setDomainView();
 		if(panel3.isEnabled())
 		{
-			String simcommand=textFieldSimCommand.getText();
-			String simdirpath=textFieldModelFile.getText();
-			String selcommand=textFieldSelectionCommand.getText();
-			String selpath=textFieldSelectionFunctionFIle.getText();
-			String evalcomma=textFieldEvaluateCommand.getText();
-			String evalpath=textFieldEvaluateFunctionFile.getText();
+			simcommand=textFieldSimCommand.getText();
+			simdirpath=textFieldModelFile.getText();
+			selcommand=textFieldSelectionCommand.getText();
+			selpath=textFieldSelectionFunctionFIle.getText();
+			evalcomma=textFieldEvaluateCommand.getText();
+			evalpath=textFieldEvaluateFunctionFile.getText();
+			
 			if( simcommand.isEmpty() || simdirpath.isEmpty() || selcommand.isEmpty() || selpath.isEmpty() 
 					|| evalcomma.isEmpty() || evalpath.isEmpty())
 			{
@@ -492,14 +505,13 @@ public class NewSimulationPanel extends JPanel {
 			}
 		}
 		
-		
 	}
 	
-	public String getSimName(){
-		return sim_name;
+	public Simulation getSim(){
+		return sim;
 	}
 	
-	public String autho;
+	public String author;
 	public String mode;
 	public String toolkit;
 	public String descr;
@@ -511,6 +523,7 @@ public class NewSimulationPanel extends JPanel {
 	public String evalpath;
 	
 	private JPanel panel1;
+	private Simulation sim;
 	private JLabel label1;
 	private JLabel label2;
 	private JLabel label3;
