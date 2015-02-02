@@ -1,7 +1,15 @@
 package it.isislab.scud.client.application.ui.newsimulation;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+
+import scala.reflect.DefDef;
 
 public class NewDomain extends JPanel {
 	public NewDomain(NewSimulationProcess newSimulationProcess) {
@@ -13,17 +21,26 @@ public class NewDomain extends JPanel {
 	private void initComponents() {
 		panel1 = new JPanel();
 		scrollPane1 = new JScrollPane();
-		tree1 = new JTree();
+		rootTreeNode = new DefaultMutableTreeNode("Domain");
+		treeModel = new DefaultTreeModel(rootTreeNode);
+		tree = new JTree(treeModel);
+		tree.setExpandsSelectedPaths(true);
 		panel2 = new JPanel();
 		buttonAdd = new JButton();
 		buttonEdit = new JButton();
 		buttonRemove = new JButton();
 		panel3 = new JPanel();
-		label1 = new JLabel();
+		labelType = new JLabel();
 		comboBoxType = new JComboBox();
-		label2 = new JLabel();
-		textField1 = new JTextField();
-		panel4 = new JPanel();
+		comboBoxType.addItem(new String ("-- Select a parameter type --"));
+		comboBoxType.addItem(new String ("continuous"));
+		comboBoxType.addItem(new String ("discrete"));
+		comboBoxType.addItem(new String ("string"));
+		labelVarName = new JLabel();
+		textFieldVarName = new JTextField();
+		panelDetails = new JPanel();
+		panelInnerDetailsNumeric = new NewDomainParameterNumeric();
+		panelInnerDetailsListValues = new NewDomainListValues();
 		panel5 = new JPanel();
 		button3 = new JButton();
 		buttonPrev = new JButton();
@@ -34,7 +51,7 @@ public class NewDomain extends JPanel {
 
 			//======== scrollPane1 ========
 			{
-				scrollPane1.setViewportView(tree1);
+				scrollPane1.setViewportView(tree);
 			}
 
 			//======== panel2 ========
@@ -93,30 +110,46 @@ public class NewDomain extends JPanel {
 			);
 		}
 
-		//======== panel3 ========
 		{
 			panel3.setBorder(new TitledBorder("New parameter domain"));
 
 			//---- label1 ----
-			label1.setText("Type:");
+			labelType.setText("Type:");
 
 			//---- label2 ----
-			label2.setText("Variable name:");
+			labelVarName.setText("Variable name:");
 
-			//======== panel4 ========
+			//======== panelDetails ========
 			{
-				panel4.setBorder(new TitledBorder("Details"));
+				panelDetails.setBorder(new TitledBorder("Details"));
 
-				GroupLayout panel4Layout = new GroupLayout(panel4);
-				panel4.setLayout(panel4Layout);
-				panel4Layout.setHorizontalGroup(
-					panel4Layout.createParallelGroup()
+				
+				GroupLayout panelDetailsLayout = new GroupLayout(panelDetails);
+				panelDetails.setLayout(panelDetailsLayout);
+				panelDetailsLayout.setHorizontalGroup(
+						panelDetailsLayout.createParallelGroup()
 						.addGap(0, 342, Short.MAX_VALUE)
 				);
-				panel4Layout.setVerticalGroup(
-					panel4Layout.createParallelGroup()
+				panelDetailsLayout.setVerticalGroup(
+					panelDetailsLayout.createParallelGroup()
 						.addGap(0, 491, Short.MAX_VALUE)
 				);
+				/*GroupLayout panelDetailsLayout = new GroupLayout(panelDetails);
+				panelDetails.setLayout(panelDetailsLayout);
+				panelDetailsLayout.setHorizontalGroup(
+					panelDetailsLayout.createParallelGroup()
+						.addGroup(panelDetailsLayout.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(panelInnerDetails, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addContainerGap())
+				);
+				panelDetailsLayout.setVerticalGroup(
+					panelDetailsLayout.createParallelGroup()
+						.addGroup(panelDetailsLayout.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(panelInnerDetails, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addContainerGap())
+				);*/
 			}
 
 			GroupLayout panel3Layout = new GroupLayout(panel3);
@@ -126,14 +159,14 @@ public class NewDomain extends JPanel {
 					.addGroup(panel3Layout.createSequentialGroup()
 						.addContainerGap()
 						.addGroup(panel3Layout.createParallelGroup()
-							.addComponent(panel4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(panelDetails, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addGroup(panel3Layout.createSequentialGroup()
 								.addGroup(panel3Layout.createParallelGroup()
-									.addComponent(label1)
-									.addComponent(label2))
+									.addComponent(labelType)
+									.addComponent(labelVarName))
 								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
 								.addGroup(panel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-									.addComponent(textField1)
+									.addComponent(textFieldVarName)
 									.addComponent(comboBoxType, GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE))))
 						.addGap(25, 25, 25))
 			);
@@ -142,14 +175,14 @@ public class NewDomain extends JPanel {
 					.addGroup(panel3Layout.createSequentialGroup()
 						.addContainerGap()
 						.addGroup(panel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-							.addComponent(label1)
+							.addComponent(labelType)
 							.addComponent(comboBoxType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGap(18, 18, 18)
 						.addGroup(panel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-							.addComponent(label2)
-							.addComponent(textField1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(labelVarName)
+							.addComponent(textFieldVarName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGap(18, 18, 18)
-						.addComponent(panel4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(panelDetails, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addContainerGap())
 			);
 		}
@@ -208,22 +241,140 @@ public class NewDomain extends JPanel {
 					.addComponent(panel5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(15, Short.MAX_VALUE))
 		);
+		
+		
+		comboBoxType.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(((String)comboBoxType.getSelectedItem()).equalsIgnoreCase("discrete") ||
+						((String)comboBoxType.getSelectedItem()).equalsIgnoreCase("continuous")){
+
+					panelDetails.removeAll();
+					
+					GroupLayout panelDetailsLayout = new GroupLayout(panelDetails);
+					panelDetails.setLayout(panelDetailsLayout);
+					panelDetailsLayout.setHorizontalGroup(
+						panelDetailsLayout.createParallelGroup()
+							.addGroup(panelDetailsLayout.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(panelInnerDetailsNumeric, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addContainerGap())
+					);
+					panelDetailsLayout.setVerticalGroup(
+						panelDetailsLayout.createParallelGroup()
+							.addGroup(panelDetailsLayout.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(panelInnerDetailsNumeric, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addContainerGap())
+					);
+					
+				}else{
+					if(((String)comboBoxType.getSelectedItem()).equalsIgnoreCase("string")){
+						panelDetails.removeAll();
+						//aggiungere pannello per stringhe
+						GroupLayout panelDetailsLayout = new GroupLayout(panelDetails);
+						panelDetails.setLayout(panelDetailsLayout);
+						panelDetailsLayout.setHorizontalGroup(
+								panelDetailsLayout.createParallelGroup()
+								.addGroup(panelDetailsLayout.createSequentialGroup()
+										.addContainerGap()
+										.addComponent(panelInnerDetailsListValues, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addContainerGap())
+								);
+						panelDetailsLayout.setVerticalGroup(
+								panelDetailsLayout.createParallelGroup()
+								.addGroup(panelDetailsLayout.createSequentialGroup()
+										.addContainerGap()
+										.addComponent(panelInnerDetailsListValues, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addContainerGap())
+								);
+					}else{
+						panelDetails.removeAll();
+						GroupLayout panelDetailsLayout = new GroupLayout(panelDetails);
+						panelDetails.setLayout(panelDetailsLayout);
+						panelDetailsLayout.setHorizontalGroup(
+								panelDetailsLayout.createParallelGroup()
+								.addGap(0, 342, Short.MAX_VALUE)
+						);
+						panelDetailsLayout.setVerticalGroup(
+							panelDetailsLayout.createParallelGroup()
+								.addGap(0, 491, Short.MAX_VALUE)
+						);
+					}
+				}
+			}
+		});
+		
+		DefaultMutableTreeNode simNode = new DefaultMutableTreeNode();
+		treeModel.insertNodeInto(simNode, rootTreeNode, rootTreeNode.getChildCount());
+		treeModel.insertNodeInto(new DefaultMutableTreeNode("author: "+sproc.getSim().autho), simNode, simNode.getChildCount());
+		treeModel.insertNodeInto(new DefaultMutableTreeNode("name: "+sproc.getSim().getSimName()), simNode, simNode.getChildCount());
+		treeModel.insertNodeInto(new DefaultMutableTreeNode("toolkit: "+sproc.getSim().toolkit), simNode, simNode.getChildCount());
+		treeModel.insertNodeInto(new DefaultMutableTreeNode("description: "+sproc.getSim().descr), simNode, simNode.getChildCount());
+		treeModel.insertNodeInto(new DefaultMutableTreeNode("mode: "+sproc.getSim().mode), simNode, simNode.getChildCount());
+		tree.expandPath(new TreePath(simNode.getPath()));
+		
+		buttonAdd.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				paramTreeNode = new DefaultMutableTreeNode("param");
+				treeModel.insertNodeInto(paramTreeNode, rootTreeNode, rootTreeNode.getChildCount());
+				treeModel.insertNodeInto(new DefaultMutableTreeNode("variableName: "+textFieldVarName.getText()), paramTreeNode, paramTreeNode.getChildCount());
+				DefaultMutableTreeNode varType;
+				if(((String)comboBoxType.getSelectedItem()).equalsIgnoreCase("string")){
+					varType = new DefaultMutableTreeNode("list");
+					treeModel.insertNodeInto(varType, paramTreeNode, paramTreeNode.getChildCount());
+					for(String v : panelInnerDetailsListValues.getListValues())
+						treeModel.insertNodeInto(new DefaultMutableTreeNode("value: "+v), varType, varType.getChildCount());
+
+				}else{
+					varType = new DefaultMutableTreeNode(comboBoxType.getSelectedItem());
+					treeModel.insertNodeInto(varType, paramTreeNode, paramTreeNode.getChildCount());
+					treeModel.insertNodeInto(new DefaultMutableTreeNode("min: "+panelInnerDetailsNumeric.getMin()), varType, varType.getChildCount());
+					treeModel.insertNodeInto(new DefaultMutableTreeNode("max: "+panelInnerDetailsNumeric.getMax()), varType, varType.getChildCount());
+					treeModel.insertNodeInto(new DefaultMutableTreeNode("increment: "+panelInnerDetailsNumeric.getIncrement()), varType, varType.getChildCount());
+				}
+				tree.expandPath(new TreePath(paramTreeNode.getPath()));
+			}
+		});
+		buttonRemove.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DefaultMutableTreeNode selected =(DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+				if(selected !=null && selected.toString().contains("Domain") && !selected.toString().contains("param")){
+					JOptionPane.showMessageDialog(tree, "Selection error.\nSelect a param object to delete it.");
+				}else{
+					treeModel.removeNodeFromParent(selected);
+				}
+				
+			}
+		});
+		
 	}
 
 
 	private JPanel panel1;
 	private JScrollPane scrollPane1;
-	private JTree tree1;
+	private JTree tree;
+	private DefaultMutableTreeNode rootTreeNode;
+	private DefaultTreeModel treeModel;
+	private DefaultMutableTreeNode paramTreeNode;
 	private JPanel panel2;
 	private JButton buttonAdd;
 	private JButton buttonEdit;
 	private JButton buttonRemove;
 	private JPanel panel3;
-	private JLabel label1;
+	private JLabel labelType;
 	private JComboBox comboBoxType;
-	private JLabel label2;
-	private JTextField textField1;
-	private JPanel panel4;
+	private JLabel labelVarName;
+	private JTextField textFieldVarName;
+	private JPanel panelDetails;
+	private NewDomainParameterNumeric panelInnerDetailsNumeric;
+	private NewDomainListValues panelInnerDetailsListValues; 
 	private JPanel panel5;
 	private JButton button3;
 	private JButton buttonPrev;

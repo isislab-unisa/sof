@@ -493,8 +493,12 @@ public class NewSimulationPanel extends JPanel {
 		}
 		
 		
-		
 	}
+	
+	public String getSimName(){
+		return sim_name;
+	}
+	
 	public String autho;
 	public String mode;
 	public String toolkit;

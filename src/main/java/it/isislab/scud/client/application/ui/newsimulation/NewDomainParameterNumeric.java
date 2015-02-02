@@ -66,6 +66,22 @@ public class NewDomainParameterNumeric extends JPanel {
 					.addContainerGap(30, Short.MAX_VALUE))
 		);
 	}
+	
+	
+
+	public String getMin() {
+		return textFieldMin.getText();
+	}
+
+	public String getMax() {
+		return textFieldMax.getText();
+	}
+
+	public String getIncrement() {
+		return textFieldIncrement.getText();
+	}
+
+
 
 	private JLabel label1;
 	private JLabel label2;

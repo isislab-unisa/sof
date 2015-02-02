@@ -1,9 +1,11 @@
 package it.isislab.scud.client.application.ui.newsimulation;
 
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.*;
-import javax.swing.GroupLayout;
-/*
- */
 
 
 
@@ -17,16 +19,9 @@ public class NewDomainListValues extends JPanel {
 
 	private void initComponents() {
 		scrollPane1 = new JScrollPane();
-		listValue = new JList();
-		button1 = new JButton();
-
-		//======== this ========
-
-		setBorder(new javax.swing.border.CompoundBorder(
-			new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-				"JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-				javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-				java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
+		listModel = new DefaultListModel<String>();
+		listValue = new JList(listModel);
+		buttonAdd = new JButton();
 
 
 		//======== scrollPane1 ========
@@ -35,7 +30,7 @@ public class NewDomainListValues extends JPanel {
 		}
 
 		//---- button1 ----
-		button1.setText("Add");
+		buttonAdd.setText("Add");
 
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
@@ -47,7 +42,7 @@ public class NewDomainListValues extends JPanel {
 						.addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
 						.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
 							.addGap(0, 285, Short.MAX_VALUE)
-							.addComponent(button1)))
+							.addComponent(buttonAdd)))
 					.addContainerGap())
 		);
 		layout.setVerticalGroup(
@@ -56,12 +51,31 @@ public class NewDomainListValues extends JPanel {
 					.addContainerGap()
 					.addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(18, 18, 18)
-					.addComponent(button1)
+					.addComponent(buttonAdd)
 					.addContainerGap(8, Short.MAX_VALUE))
 		);
+		
+		buttonAdd.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String newValue = JOptionPane.showInputDialog("Insert the new value here");
+				if(!listModel.contains(newValue))
+					listModel.addElement(newValue);
+			}
+		});
+	}
+	
+	public ArrayList<String> getListValues(){
+		ArrayList<String> list = new ArrayList<String>();
+		for (int i = 0; i < listModel.getSize(); i++) {
+			list.add(listModel.getElementAt(i));
+		}
+		return list;
 	}
 
 	private JScrollPane scrollPane1;
 	private JList listValue;
-	private JButton button1;
+	private DefaultListModel<String> listModel;
+	private JButton buttonAdd;
 }

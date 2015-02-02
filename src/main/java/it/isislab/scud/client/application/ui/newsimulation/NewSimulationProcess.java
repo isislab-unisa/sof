@@ -19,6 +19,12 @@ public class NewSimulationProcess extends JPanel{
 	
 		
 	}
+	
+	public NewSimulationPanel getSim(){
+		return newsimpan;
+	}
+	
+
 	public void setNewSim() {
 		this.removeAll();
 		this.add(newsimpan);
