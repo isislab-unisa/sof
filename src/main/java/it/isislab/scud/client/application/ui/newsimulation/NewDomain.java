@@ -72,6 +72,9 @@ public class NewDomain extends JPanel {
 
 				//---- buttonEdit ----
 				buttonEdit.setText("Edit");
+							
+				
+				
 
 				//---- buttonRemove ----
 				buttonRemove.setText("Remove");
@@ -319,6 +322,32 @@ public class NewDomain extends JPanel {
 		
 
 		
+		//ACTION LISTENER
+		
+		buttonEdit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(buttonEdit, "Not implemented yet");
+				
+			}
+		});
+		
+		
+		//ACTIONLISTENER
+		
+		
+		buttonPrev.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(buttonPrev, "Not implemented yet");
+				
+			}
+		});
+		
+		
+		
 		buttonAdd.addActionListener(new ActionListener() {
 			
 			@Override
@@ -348,11 +377,11 @@ public class NewDomain extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				DefaultMutableTreeNode selected =(DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
-				if(selected !=null && selected.toString().equalsIgnoreCase("Domain") && !selected.toString().equalsIgnoreCase("param")
-						&& selected.toString().equalsIgnoreCase("simulation")){
-					JOptionPane.showMessageDialog(tree, "Selection error.\nSelect a param object to delete it.");
-				}else{
+				if(selected !=null && selected.toString().equalsIgnoreCase("param")){
 					treeModel.removeNodeFromParent(selected);
+					
+				}else{
+					JOptionPane.showMessageDialog(tree, "Selection error.\nSelect a param object to delete it.");
 				}
 				
 			}
