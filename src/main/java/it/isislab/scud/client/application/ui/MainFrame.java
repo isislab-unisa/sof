@@ -87,11 +87,6 @@ public class MainFrame extends JFrame {
 			//======== menuSCUDCLIENT ========
 			{
 				menuPrincipal.setText("SCUD Client");
-				menuPrincipal.setBackground(Color.blue);
-				
-
-				
-				
 				
 				//---- menuItemAbout ----
 				menuItemAbout.setText("About         ");
