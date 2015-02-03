@@ -1,5 +1,8 @@
 package it.isislab.scud.client.application.ui.newsimulation;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 import javax.swing.border.*;
 /*
@@ -159,6 +162,42 @@ public class NewInputOutput extends JPanel {
 				//---- buttonRemoveOutput ----
 				buttonRemoveOutput.setText("Remove");
 
+				
+				
+				
+				
+				//ACTIONLISTENER
+			
+				buttonEditOutput.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						JOptionPane.showMessageDialog(buttonEditOutput, "Not Implemented yet");
+						
+					}
+				});
+				
+				
+				buttonEditInput.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						JOptionPane.showMessageDialog(buttonEditOutput, "Not Implemented yet");
+						
+					}
+				});
+				
+				buttonPrev.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						JOptionPane.showMessageDialog(buttonEditOutput, "Not Implemented yet");
+						
+					}
+				});
+				
+				
+				
 				GroupLayout panel6Layout = new GroupLayout(panel6);
 				panel6.setLayout(panel6Layout);
 				panel6Layout.setHorizontalGroup(
@@ -260,6 +299,11 @@ public class NewInputOutput extends JPanel {
 		);
 	}
 
+	
+	
+	
+	
+	
 
 	private JPanel panel1;
 	private JScrollPane scrollPane1;
