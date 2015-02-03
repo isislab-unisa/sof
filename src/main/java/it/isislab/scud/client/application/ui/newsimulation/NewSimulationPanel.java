@@ -1,24 +1,15 @@
 package it.isislab.scud.client.application.ui.newsimulation;
 
-import it.isislab.scud.core.engine.hadoop.sshclient.connection.ScudManager;
-import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 
-import java.awt.Container;
+import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.Enumeration;
-
 import javax.swing.*;
 import javax.swing.border.*;
 
-import org.apache.commons.codec.digest.DigestUtils;
 
 public class NewSimulationPanel extends JPanel {
 	private String sim_name="";
@@ -55,7 +46,7 @@ public class NewSimulationPanel extends JPanel {
 		textFieldModelFile = new JTextField();
 		textFieldEvaluateFunctionFile = new JTextField();
 		panel4 = new JPanel();
-		button1 = new JButton();
+		buttonNext = new JButton();
 
 		//======== this ========
 
@@ -222,7 +213,7 @@ public class NewSimulationPanel extends JPanel {
 		{
 
 			//---- button1 ----
-			button1.setText("Next");
+			buttonNext.setText("Next");
 
 			GroupLayout panel4Layout = new GroupLayout(panel4);
 			panel4.setLayout(panel4Layout);
@@ -230,14 +221,14 @@ public class NewSimulationPanel extends JPanel {
 				panel4Layout.createParallelGroup()
 					.addGroup(GroupLayout.Alignment.TRAILING, panel4Layout.createSequentialGroup()
 						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(button1)
+						.addComponent(buttonNext)
 						.addContainerGap())
 			);
 			panel4Layout.setVerticalGroup(
 				panel4Layout.createParallelGroup()
 					.addGroup(GroupLayout.Alignment.TRAILING, panel4Layout.createSequentialGroup()
 						.addGap(0, 0, Short.MAX_VALUE)
-						.addComponent(button1))
+						.addComponent(buttonNext))
 			);
 		}
 
@@ -310,7 +301,7 @@ public class NewSimulationPanel extends JPanel {
 		});
 		switchSOPanel(false);
 		
-		button1.addActionListener(new ActionListener() {
+		buttonNext.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -547,5 +538,5 @@ public class NewSimulationPanel extends JPanel {
 	private JTextField textFieldModelFile;
 	private JTextField textFieldEvaluateFunctionFile;
 	private JPanel panel4;
-	private JButton button1;
+	private JButton buttonNext;
 }
