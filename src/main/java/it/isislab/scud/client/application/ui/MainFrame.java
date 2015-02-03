@@ -55,7 +55,6 @@ public class MainFrame extends JFrame {
 		menuBar1 = new JMenuBar();
 		menuPrincipal = new JMenu();
 		menuItemAbout = new JMenuItem();
-		menuItemExit = new JMenuItem();
 		BackgroundPanel = new JPanel();
 		ButtonPanel = new JPanel();
 		buttonReload = new JButton();
@@ -98,21 +97,8 @@ public class MainFrame extends JFrame {
 				menuItemAbout.setText("About         ");
 		
 				menuPrincipal.add(menuItemAbout);
-				
-				
-				
-				
-				
-				//---- menuItemExit----
-				menuItemExit.setText("Exit        ");
-		
-				menuItemExit.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						System.exit(0);
-					}
-				});
-				menuPrincipal.add(menuItemExit);
+								
+			
 			}
 			
 			
@@ -882,7 +868,6 @@ public class MainFrame extends JFrame {
 	private JMenuBar menuBar1;
 	private JMenu menuPrincipal;
 	private JMenuItem menuItemAbout;
-	private JMenuItem menuItemExit;
 	private JPanel BackgroundPanel;
 	private JPanel ButtonPanel;
 	private JButton buttonReload;
