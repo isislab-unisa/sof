@@ -53,8 +53,9 @@ public class MainFrame extends JFrame {
 
 
 		menuBar1 = new JMenuBar();
-		menu1 = new JMenu();
-		menuItem1 = new JMenuItem();
+		menuPrincipal = new JMenu();
+		menuItemAbout = new JMenuItem();
+		menuItemExit = new JMenuItem();
 		BackgroundPanel = new JPanel();
 		ButtonPanel = new JPanel();
 		buttonReload = new JButton();
@@ -84,15 +85,39 @@ public class MainFrame extends JFrame {
 		//======== menuBar1 ========
 		{
 
-			//======== menu1 ========
+			//======== menuSCUDCLIENT ========
 			{
-				menu1.setText("SCUD Client");
+				menuPrincipal.setText("SCUD Client");
+				menuPrincipal.setBackground(Color.blue);
+				
 
-				//---- menuItem1 ----
-				menuItem1.setText("About");
-				menu1.add(menuItem1);
+				
+				
+				
+				//---- menuItemAbout ----
+				menuItemAbout.setText("About         ");
+		
+				menuPrincipal.add(menuItemAbout);
+				
+				
+				
+				
+				
+				//---- menuItemExit----
+				menuItemExit.setText("Exit        ");
+		
+				menuItemExit.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						System.exit(0);
+					}
+				});
+				menuPrincipal.add(menuItemExit);
 			}
-			menuBar1.add(menu1);
+			
+			
+			
+			menuBar1.add(menuPrincipal);
 		}
 		setJMenuBar(menuBar1);
 
@@ -667,7 +692,11 @@ public class MainFrame extends JFrame {
 
 	protected void buttonAddActionPerformed(ActionEvent e) {
 		String sim_name=JOptionPane.showInputDialog("Simulation name:");
-
+        while(sim_name.trim().equals("")){
+        	JOptionPane.showMessageDialog(buttonShow, "Simulation name cannot be null","Warning", 0);
+        	sim_name=JOptionPane.showInputDialog("Simulation name:");
+        }
+		
 		NewSimulationProcess tab=new NewSimulationProcess(sim_name);
 		tab.setNewSim();
 		CentraltabbedPane.add(tab,sim_name);
@@ -851,8 +880,9 @@ public class MainFrame extends JFrame {
 	}
 	private DefaultMutableTreeNode fs_root;
 	private JMenuBar menuBar1;
-	private JMenu menu1;
-	private JMenuItem menuItem1;
+	private JMenu menuPrincipal;
+	private JMenuItem menuItemAbout;
+	private JMenuItem menuItemExit;
 	private JPanel BackgroundPanel;
 	private JPanel ButtonPanel;
 	private JButton buttonReload;
