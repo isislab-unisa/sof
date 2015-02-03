@@ -18,6 +18,9 @@ import javax.swing.border.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 import scala.reflect.DefDef;
 
@@ -341,7 +344,8 @@ public class NewDomain extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(buttonPrev, "Not implemented yet");
+				//JOptionPane.showMessageDialog(buttonPrev, "Not implemented yet");
+				sproc.setNewSim();
 				
 			}
 		});
@@ -361,7 +365,7 @@ public class NewDomain extends JPanel {
 					treeModel.insertNodeInto(varType, paramTreeNode, paramTreeNode.getChildCount());
 					for(String v : panelInnerDetailsListValues.getListValues())
 						treeModel.insertNodeInto(new DefaultMutableTreeNode("value: "+v), varType, varType.getChildCount());
-
+					
 				}else{
 					varType = new DefaultMutableTreeNode(comboBoxType.getSelectedItem());
 					treeModel.insertNodeInto(varType, paramTreeNode, paramTreeNode.getChildCount());
@@ -370,8 +374,15 @@ public class NewDomain extends JPanel {
 					treeModel.insertNodeInto(new DefaultMutableTreeNode("increment: "+panelInnerDetailsNumeric.getIncrement()), varType, varType.getChildCount());
 				}
 				tree.expandPath(new TreePath(paramTreeNode.getPath()));
+				
+				panelInnerDetailsNumeric.cleanField();
+				panelInnerDetailsListValues.cleanField();
+				comboBoxType.setSelectedIndex(0);
+				textFieldVarName.setText("");
+				
 			}
 		});
+		
 		buttonRemove.addActionListener(new ActionListener() {
 			
 			@Override
@@ -484,7 +495,7 @@ public class NewDomain extends JPanel {
 			}
 			
 		}
-		
+		dom.param = list;
 		sproc.setDomainIO();
 		
 	}

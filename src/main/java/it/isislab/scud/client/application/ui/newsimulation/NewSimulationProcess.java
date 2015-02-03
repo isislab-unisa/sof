@@ -18,7 +18,6 @@ public class NewSimulationProcess extends JPanel{
 		newdomain=new NewDomain(this);
 		newio=new NewInputOutput(this);
 		this.setLayout(new BorderLayout());
-	
 		
 	}
 	

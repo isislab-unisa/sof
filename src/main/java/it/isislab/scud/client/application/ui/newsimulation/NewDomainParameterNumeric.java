@@ -97,8 +97,13 @@ public class NewDomainParameterNumeric extends JPanel {
 		return textFieldIncrement.getText();
 	}
 
-	
-
+	public void cleanField(){
+		
+		textFieldMin.setText("");     
+		textFieldMax.setText("");      
+		textFieldIncrement.setText("");
+	}      
+           
 	private JLabel labelMin;
 	private JLabel labelMax;
 	private JLabel labelIncrement;

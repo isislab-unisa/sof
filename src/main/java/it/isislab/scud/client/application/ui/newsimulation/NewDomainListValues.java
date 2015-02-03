@@ -66,6 +66,11 @@ public class NewDomainListValues extends JPanel {
 		});
 	}
 	
+	public void cleanField(){
+		listModel.removeAllElements();
+		listValue = new JList<String>(listModel);
+	}
+	
 	public ArrayList<String> getListValues(){
 		ArrayList<String> list = new ArrayList<String>();
 		for (int i = 0; i < listModel.getSize(); i++) {
