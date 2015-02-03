@@ -1,6 +1,5 @@
 package it.isislab.scud.client.application.ui.newsimulation;
 
-import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import it.isislab.scud.core.model.parameters.xsd.domain.Domain;
 import it.isislab.scud.core.model.parameters.xsd.domain.ParameterDomain;
 import it.isislab.scud.core.model.parameters.xsd.domain.ParameterDomainContinuous;
@@ -18,11 +17,6 @@ import javax.swing.border.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-
-import scala.reflect.DefDef;
 
 public class NewDomain extends JPanel {
 	public NewDomain(NewSimulationProcess newSimulationProcess) {
@@ -44,7 +38,7 @@ public class NewDomain extends JPanel {
 		buttonRemove = new JButton();
 		panel3 = new JPanel();
 		labelType = new JLabel();
-		comboBoxType = new JComboBox();
+		comboBoxType = new JComboBox<String>();
 		comboBoxType.addItem(new String ("-- Select a parameter type --"));
 		comboBoxType.addItem(new String ("continuous"));
 		comboBoxType.addItem(new String ("discrete"));
@@ -409,7 +403,7 @@ public class NewDomain extends JPanel {
 		
 	}
 	
-	public void setTreeNode(){
+	public void setTreeNodes(){
 		DefaultMutableTreeNode simNode = new DefaultMutableTreeNode("Simulation");
 		treeModel.insertNodeInto(simNode, rootTreeNode, rootTreeNode.getChildCount());
 		treeModel.insertNodeInto(new DefaultMutableTreeNode("author: "+sproc.getSim().getAuthor()), simNode, simNode.getChildCount());
@@ -499,6 +493,10 @@ public class NewDomain extends JPanel {
 		sproc.setDomainIO();
 		
 	}
+	
+	public Domain getDomain(){
+		return dom;
+	}
 
 
 	private Domain dom;
@@ -514,7 +512,7 @@ public class NewDomain extends JPanel {
 	private JButton buttonRemove;
 	private JPanel panel3;
 	private JLabel labelType;
-	private JComboBox comboBoxType;
+	private JComboBox<String> comboBoxType;
 	private JLabel labelVarName;
 	private JTextField textFieldVarName;
 	private JPanel panelDetails;
