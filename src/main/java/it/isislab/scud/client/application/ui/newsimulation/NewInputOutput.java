@@ -1,11 +1,17 @@
 package it.isislab.scud.client.application.ui.newsimulation;
 
+import it.isislab.scud.client.application.ui.tabwithclose.ProgressbarDialog;
 import it.isislab.scud.core.model.parameters.xsd.domain.Domain;
 import it.isislab.scud.core.model.parameters.xsd.domain.ParameterDomain;
 import it.isislab.scud.core.model.parameters.xsd.domain.ParameterDomainContinuous;
 import it.isislab.scud.core.model.parameters.xsd.domain.ParameterDomainDiscrete;
 import it.isislab.scud.core.model.parameters.xsd.domain.ParameterDomainListString;
+import it.isislab.scud.core.model.parameters.xsd.elements.Parameter;
+import it.isislab.scud.core.model.parameters.xsd.elements.ParameterDouble;
+import it.isislab.scud.core.model.parameters.xsd.elements.ParameterLong;
+import it.isislab.scud.core.model.parameters.xsd.elements.ParameterString;
 import it.isislab.scud.core.model.parameters.xsd.input.Input;
+import it.isislab.scud.core.model.parameters.xsd.input.Inputs;
 import it.isislab.scud.core.model.parameters.xsd.output.Output;
 
 import java.awt.Dimension;
@@ -21,6 +27,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 
 
@@ -45,11 +54,12 @@ public class NewInputOutput extends JPanel {
 		labelInputVarType = new JLabel();
 		labelInputVarName = new JLabel();
 		textFieldRounds = new JTextField();
-		comboBoxInputVarType = new JComboBox<String>();
-		comboBoxInputVarType.addItem(new String ("-- Select a parameter type --"));
-		comboBoxInputVarType.addItem(new String ("continuous"));
-		comboBoxInputVarType.addItem(new String ("discrete"));
-		comboBoxInputVarType.addItem(new String ("string"));
+		comboBoxInputVarTypeModel = new DefaultComboBoxModel<String>();
+		comboBoxInputVarType = new JComboBox<String>(comboBoxInputVarTypeModel);
+		comboBoxInputVarTypeModel.addElement(new String ("-- Select a parameter type --"));
+		comboBoxInputVarTypeModel.addElement(new String ("continuous"));
+		comboBoxInputVarTypeModel.addElement(new String ("discrete"));
+		comboBoxInputVarTypeModel.addElement(new String ("string"));
 		textFieldInputValue = new JTextField();
 		labelInputValue = new JLabel();
 		comboBoxInputVarNameModel = new DefaultComboBoxModel<String>();
@@ -69,12 +79,14 @@ public class NewInputOutput extends JPanel {
 		panelInnerOutput = new JPanel();
 		labelOutputVarType = new JLabel();
 		labelOutputVarName = new JLabel();
-		comboBoxOutputVarType = new JComboBox<String>();
-		comboBoxOutputVarType.addItem(new String (COMBOBOX_ZERO_INDEX_ELEMENT));
-		comboBoxOutputVarType.addItem(new String ("continuous"));
-		comboBoxOutputVarType.addItem(new String ("discrete"));
-		comboBoxOutputVarType.addItem(new String ("string"));
-		comboBoxOutputVarName = new JComboBox<String>();
+		comboBoxOutputVarTypeModel = new DefaultComboBoxModel<String>();
+		comboBoxOutputVarType = new JComboBox<String>(comboBoxOutputVarTypeModel);
+		comboBoxOutputVarTypeModel.addElement(new String (COMBOBOX_ZERO_INDEX_ELEMENT));
+		comboBoxOutputVarTypeModel.addElement(new String ("continuous"));
+		comboBoxOutputVarTypeModel.addElement(new String ("discrete"));
+		comboBoxOutputVarTypeModel.addElement(new String ("string"));
+		comboBoxOutputVarNameModel = new DefaultComboBoxModel<String>();
+		comboBoxOutputVarName = new JComboBox<String>(comboBoxOutputVarNameModel);
 		panel6 = new JPanel();
 		buttonAddOutput = new JButton();
 		buttonEditOutput = new JButton();
@@ -84,7 +96,6 @@ public class NewInputOutput extends JPanel {
 		buttonPrev = new JButton();
 		
 		panelInnerInput.setVisible(false);
-		panelInnerOutput.setVisible(false);
 		
 		//======== panelInputDetails ========
 		{
@@ -441,6 +452,7 @@ public class NewInputOutput extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setInputPanel();
+				selectedInputVarName.clear();
 				inputNode = new DefaultMutableTreeNode("Input");
 				treeModelInput.insertNodeInto(inputNode, rootInputNode, rootInputNode.getChildCount());
 				
@@ -457,11 +469,16 @@ public class NewInputOutput extends JPanel {
 				
 				DefaultMutableTreeNode elementNode = new DefaultMutableTreeNode("param");
 				treeModelInput.insertNodeInto(elementNode, inputNode, inputNode.getChildCount());
+				
+				selectedInputVarName.add(comboBoxInputVarName.getSelectedItem().toString());
+				
 				treeModelInput.insertNodeInto(new DefaultMutableTreeNode("variableName: "+comboBoxInputVarName.getSelectedItem()), elementNode, elementNode.getChildCount());
 				DefaultMutableTreeNode typeNode = new DefaultMutableTreeNode(comboBoxInputVarType.getSelectedItem());
 				treeModelInput.insertNodeInto(typeNode, elementNode, elementNode.getChildCount());
 				treeModelInput.insertNodeInto(new DefaultMutableTreeNode("value: "+textFieldInputValue.getText()), typeNode, typeNode.getChildCount());
 				treeInput.expandPath(new TreePath(elementNode.getPath()));
+				treeInput.expandPath(new TreePath(typeNode.getPath()));
+				resetNewInputPanel();
 			}
 		});
 		
@@ -469,17 +486,196 @@ public class NewInputOutput extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				comboBoxInputVarNameModel.removeAllElements();
 				fillInputVarNamePanel(comboBoxInputVarType.getSelectedItem().toString());
 				
 			}
 		});
+		
+		comboBoxOutputVarType.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				comboBoxOutputVarNameModel.removeAllElements();
+				fillOutputVarNamePanel(comboBoxOutputVarType.getSelectedItem().toString());
+				
+			}
+		});
+		
+		buttonAddOutput.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				/*DefaultMutableTreeNode elementNode = new DefaultMutableTreeNode("param");
+				treeModelOutput.insertNodeInto(elementNode, rootOutputNode, rootOutputNode.getChildCount());*/
+				DefaultMutableTreeNode typeNode = new DefaultMutableTreeNode(comboBoxOutputVarType.getSelectedItem());
+				treeModelOutput.insertNodeInto(typeNode, rootOutputNode, rootOutputNode.getChildCount());
+				
+				selectedOutputVarName.add(comboBoxOutputVarName.getSelectedItem().toString());
+				
+				treeModelOutput.insertNodeInto(new DefaultMutableTreeNode("variableName: "+comboBoxOutputVarName.getSelectedItem()), typeNode, typeNode.getChildCount());
+				
+				treeOutput.expandPath(new TreePath(typeNode.getPath()));
+				resetNewOutputPanel();
+			}
+		});
+		
+		buttonPrev.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sproc.setDomainView();
+			}
+		});
+		
+		buttonSave.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				inputs = new Inputs();
+				output = new Output();
+				inputs.setsimulation(sproc.getSim());
+				final ProgressbarDialog pd=new ProgressbarDialog(sproc.mainFrame);
+				pd.setNoteMessage("Please wait.");
+				pd.setVisible(true);
+				final JProgressBar bar=pd.getProgressBar1();
+				pd.setTitleMessage("Saving simulation");
+				bar.setIndeterminate(true);
+				class MyTaskConnect extends Thread {
+
+					public void run(){
+						loadInput();
+						loadOutput();
+					//	saveSimulationOnHdfs();
+
+						bar.setIndeterminate(false);
+						pd.setVisible(false);
+					}
+				}
+
+				(new MyTaskConnect()).start();
+			}
+		});
 	}
 	
-	public void fillInputVarNamePanel(String varType){
+	private void loadInput(){
+		ArrayList<Input> listInput = new ArrayList<Input>();
+		DefaultMutableTreeNode inputNode;
+		for(int index=0;index<rootInputNode.getChildCount(); index++){
+			inputNode =(DefaultMutableTreeNode) rootInputNode.getChildAt(index);
+			if(inputNode.toString().equalsIgnoreCase("input")){
+				listInput.add(getInput(listInput.size()+1,inputNode));
+			}
+		}
+		inputs.setinput_list(listInput);
+        
+	}
+	
+	private void loadOutput(){
+		output = new Output();
+		ArrayList<Parameter> list_out = new ArrayList<Parameter>();
+		DefaultMutableTreeNode child;
+		Parameter p;
+		for(int index=0; index<rootOutputNode.getChildCount(); index++){
+			child = (DefaultMutableTreeNode)rootOutputNode.getChildAt(index);
+			p = new Parameter();
+			if(child.toString().equalsIgnoreCase("continuous")){
+				ParameterDouble pd = new ParameterDouble();
+				p.setvariable_name(child.getFirstChild().toString().split(":")[1].trim());
+				p.setparam(pd);
+			}else{
+				if(child.toString().equalsIgnoreCase("discrete")){
+					ParameterLong pl = new ParameterLong();
+					p.setvariable_name(child.getFirstChild().toString().split(":")[1].trim());
+					p.setparam(pl);
+				}else{
+					if(child.toString().equalsIgnoreCase("string")){
+						ParameterString ps = new ParameterString();
+						p.setvariable_name(child.getFirstChild().toString().split(":")[1].trim());
+						p.setparam(ps);
+					}
+				}
+			}
+			list_out.add(p);
+		}
+		output.output_params = list_out;
+		
+		/*JAXBContext context;
+		try {
+			context = JAXBContext.newInstance(Output.class);
+			Marshaller jaxbMarshaller = context.createMarshaller();
+	        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	        jaxbMarshaller.marshal(output, System.out);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+	}
+	
+	private Input getInput(int nexId,DefaultMutableTreeNode inputNode){
+		Input i = new Input();
+		i.id = nexId;
+		DefaultMutableTreeNode child;
+		DefaultMutableTreeNode varType;
+		Parameter p;
+		ArrayList<Parameter> param_list = new ArrayList<Parameter>();
+		for(int index=0; index<inputNode.getChildCount(); index++){
+				child =(DefaultMutableTreeNode) inputNode.getChildAt(index);
+				if(child.getChildCount() > 0){ // param treeNode
+					p = new Parameter();
+					for(int j=0; j<child.getChildCount(); j++){
+						varType =(DefaultMutableTreeNode) child.getChildAt(j);
+					
+						if(varType.getChildCount()==0)
+							p.setvariable_name(varType.toString().split(":")[1].trim());
+						else{
+							String varValue = varType.getFirstChild().toString();
+							if(varType.toString().equalsIgnoreCase("continuous")){
+								ParameterDouble pd = new ParameterDouble();
+								pd.setvalue(Double.parseDouble(varType.getFirstChild().toString().split(":")[1].trim()));
+								p.setparam(pd);
+							}else{
+								if(varType.toString().equalsIgnoreCase("discrete")){
+									ParameterLong pl = new ParameterLong();
+									pl.setvalue(Long.parseLong(varType.getFirstChild().toString().split(":")[1].trim()));
+									p.setparam(pl);
+								}else{
+									if(varType.toString().equalsIgnoreCase("string")){
+										ParameterString ps = new ParameterString();
+										ps.setvalue(varType.getFirstChild().toString().split(":")[1].trim());
+										p.setparam(ps);
+									}
+								}
+							}
+							param_list.add(p);
+						}
+					}
+				}else{
+					i.rounds = Integer.parseInt(child.toString().split(":")[1].trim());
+				}
+		}
+		i.param_element = param_list;
+		return i;
+	}
+	
+	private void resetNewInputPanel(){
+		comboBoxInputVarTypeModel.setSelectedItem(COMBOBOX_ZERO_INDEX_ELEMENT);
+		comboBoxInputVarNameModel.removeAllElements();
+		textFieldInputValue.setText("");
+	}
+	
+	private void resetNewOutputPanel(){
+		comboBoxOutputVarTypeModel.setSelectedItem(COMBOBOX_ZERO_INDEX_ELEMENT);
+		comboBoxOutputVarNameModel.removeAllElements();
+	}
+	
+	private void fillInputVarNamePanel(String varType){
 		if(varType.equalsIgnoreCase(COMBOBOX_ZERO_INDEX_ELEMENT))
 			return;
 		Domain d = sproc.getDomain();
 		for(ParameterDomain pd : d.param){
+			if(selectedInputVarName.contains(pd.getvariable_name()))
+				continue;
 			Object paramObj = pd.getparameter();
 			if (paramObj instanceof ParameterDomainContinuous){
 				ParameterDomainContinuous pdc = (ParameterDomainContinuous)paramObj;
@@ -500,8 +696,35 @@ public class NewInputOutput extends JPanel {
 			}
 		}
 	}
+	private void fillOutputVarNamePanel(String varType){
+		if(varType.equalsIgnoreCase(COMBOBOX_ZERO_INDEX_ELEMENT))
+			return;
+		Domain d = sproc.getDomain();
+		for(ParameterDomain pd : d.param){
+			if(selectedOutputVarName.contains(pd.getvariable_name()))
+				continue;
+			Object paramObj = pd.getparameter();
+			if (paramObj instanceof ParameterDomainContinuous){
+				ParameterDomainContinuous pdc = (ParameterDomainContinuous)paramObj;
+				if(varType.equalsIgnoreCase("continuous"))
+					comboBoxOutputVarNameModel.addElement(pd.getvariable_name());
+			}else{
+				if (paramObj instanceof ParameterDomainDiscrete){
+					ParameterDomainDiscrete pdd = (ParameterDomainDiscrete)paramObj;
+					if(varType.equalsIgnoreCase("discrete"))
+						comboBoxOutputVarNameModel.addElement(pd.getvariable_name());
+				}else{
+					if (paramObj instanceof ParameterDomainListString){
+						ParameterDomainListString pdls = (ParameterDomainListString)paramObj;
+						if(varType.equalsIgnoreCase("string"))
+							comboBoxOutputVarNameModel.addElement(pd.getvariable_name());
+					}
+				}
+			}
+		}
+	}
 	
-	public void setInputPanel(){
+	private void setInputPanel(){
 		panelInnerInput.setVisible(true);
 		comboBoxInputVarType.setSelectedIndex(0);
 		comboBoxInputVarNameModel.removeAllElements();
@@ -512,6 +735,8 @@ public class NewInputOutput extends JPanel {
 
 	
 	public void setTreeNodes(){
+		if(rootInputNode.getChildCount()!=0 && rootInputNode.getFirstChild().toString().equalsIgnoreCase("Simulation"))
+			return;
 		DefaultMutableTreeNode simNode = new DefaultMutableTreeNode("Simulation");
 		treeModelInput.insertNodeInto(simNode, rootInputNode, rootInputNode.getChildCount());
 		treeModelInput.insertNodeInto(new DefaultMutableTreeNode("author: "+sproc.getSim().getAuthor()), simNode, simNode.getChildCount());
@@ -522,16 +747,16 @@ public class NewInputOutput extends JPanel {
 		treeInput.expandPath(new TreePath(simNode.getPath()));
 	}
 	
-	
-	
 
 	private static String COMBOBOX_ZERO_INDEX_ELEMENT = "-- Select a parameter type --";
+	private ArrayList<String> selectedInputVarName = new ArrayList<String>();
+	private ArrayList<String> selectedOutputVarName = new ArrayList<String>();
 	private DefaultMutableTreeNode rootInputNode;
 	private DefaultMutableTreeNode rootOutputNode;
 	private DefaultMutableTreeNode inputNode;
 	private DefaultTreeModel treeModelInput;
 	private DefaultTreeModel treeModelOutput;
-	private Input input;
+	private Inputs inputs;
 	private Output output;
 	private JPanel panelInputDetails;
 	private JScrollPane scrollPane1;
@@ -542,6 +767,7 @@ public class NewInputOutput extends JPanel {
 	private JLabel labelInputVarType;
 	private JLabel labelInputVarName;
 	private JTextField textFieldRounds;
+	private DefaultComboBoxModel<String> comboBoxInputVarTypeModel;
 	private JComboBox<String> comboBoxInputVarType;
 	private JTextField textFieldInputValue;
 	private JLabel labelInputValue;
@@ -559,7 +785,9 @@ public class NewInputOutput extends JPanel {
 	private JPanel panelInnerOutput;
 	private JLabel labelOutputVarType;
 	private JLabel labelOutputVarName;
+	private DefaultComboBoxModel<String> comboBoxOutputVarTypeModel;
 	private JComboBox<String> comboBoxOutputVarType;
+	private DefaultComboBoxModel<String> comboBoxOutputVarNameModel;
 	private JComboBox<String> comboBoxOutputVarName;
 	private JPanel panel6;
 	private JButton buttonAddOutput;

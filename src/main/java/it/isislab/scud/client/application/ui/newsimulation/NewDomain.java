@@ -404,6 +404,8 @@ public class NewDomain extends JPanel {
 	}
 	
 	public void setTreeNodes(){
+		if(rootTreeNode.getChildCount()!=0 && rootTreeNode.getFirstChild().toString().equalsIgnoreCase("Simulation"))
+			return;
 		DefaultMutableTreeNode simNode = new DefaultMutableTreeNode("Simulation");
 		treeModel.insertNodeInto(simNode, rootTreeNode, rootTreeNode.getChildCount());
 		treeModel.insertNodeInto(new DefaultMutableTreeNode("author: "+sproc.getSim().getAuthor()), simNode, simNode.getChildCount());
@@ -423,7 +425,6 @@ public class NewDomain extends JPanel {
 		Enumeration<DefaultMutableTreeNode> en = rootTreeNode.children();
 		while(en.hasMoreElements()){
 			DefaultMutableTreeNode node = en.nextElement();
-			System.out.println("valuto "+node.toString());
 			if(!node.toString().equalsIgnoreCase("simulation") ||
 				!node.toString().equalsIgnoreCase("domain") ){
 				if(node.toString().equalsIgnoreCase("param")){
@@ -431,7 +432,6 @@ public class NewDomain extends JPanel {
 					ParameterDomain pd = new ParameterDomain();
 					while(paramNodeTree.hasMoreElements()){
 						DefaultMutableTreeNode paramChild = paramNodeTree.nextElement();
-						System.out.println("Sono in param e valuto "+paramChild.toString());
 						if(paramChild.toString().contains("variableName")){
 							pd.setvariable_name(paramChild.toString().split(":")[1].trim());
 						}else{
@@ -452,13 +452,14 @@ public class NewDomain extends JPanel {
 								pd.setparameter(pdc);
 								
 							}else{
-								if(paramChild.toString().equalsIgnoreCase("string")){
+								if(paramChild.toString().equalsIgnoreCase("list")){
 									ParameterDomainListString pdls = new ParameterDomainListString();
 									Enumeration<DefaultMutableTreeNode> stringNodeTree = paramChild.children();
 									ArrayList<String> list_string = new ArrayList<String>();
 									while(stringNodeTree.hasMoreElements()){
 										DefaultMutableTreeNode child = stringNodeTree.nextElement();
 										list_string.add(child.toString().split(":")[1].trim());
+										
 									}										
 									pdls.setlist(list_string);
 									pd.setparameter(pdls);

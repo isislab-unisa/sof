@@ -5,6 +5,7 @@ import it.isislab.scud.core.model.parameters.xsd.domain.Domain;
 
 import java.awt.BorderLayout;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class NewSimulationProcess extends JPanel{
@@ -12,12 +13,14 @@ public class NewSimulationProcess extends JPanel{
 	private NewSimulationPanel newsimpan;
 	private NewDomain newdomain;
 	private NewInputOutput newio;
+	protected JFrame mainFrame;
 	
-	public NewSimulationProcess(String sim_name)
+	public NewSimulationProcess(String sim_name, JFrame main_frame)
 	{
 		newsimpan=new NewSimulationPanel(sim_name,this);
 		newdomain=new NewDomain(this);
 		newio=new NewInputOutput(this);
+		mainFrame = main_frame;
 		this.setLayout(new BorderLayout());
 		
 	}

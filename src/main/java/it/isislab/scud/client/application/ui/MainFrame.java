@@ -678,7 +678,7 @@ public class MainFrame extends JFrame {
         	sim_name=JOptionPane.showInputDialog("Simulation name:");
         }
 		
-		NewSimulationProcess tab=new NewSimulationProcess(sim_name);
+		NewSimulationProcess tab=new NewSimulationProcess(sim_name,this);
 		tab.setNewSim();
 		CentraltabbedPane.add(tab,sim_name);
 		CentraltabbedPane.setSelectedComponent(tab);
