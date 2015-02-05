@@ -199,7 +199,7 @@ public class Controller {
 				ScudManager.checkParamMakeSimulationFolder(parsedParams);
 			} catch (ParameterException e1) {
 
-				//					c.printf(e1.getMessage());
+				System.out.print(e1.getMessage());
 
 			}
 			try {
@@ -218,7 +218,7 @@ public class Controller {
 
 			} catch (Exception e) {
 
-				//					c.printf("Error in making execution environment!\n");
+				System.out.print("Error in making execution environment!\n");
 
 			}
 		}else if(parsedParams.length == 7){
@@ -227,7 +227,7 @@ public class Controller {
 				ScudManager.checkParamMakeSimulationFolder(parsedParams);
 			} catch (ParameterException e1) {
 
-				//c.printf(e1.getMessage());
+				System.out.print(e1.getMessage());
 
 			}
 			try {
@@ -245,14 +245,14 @@ public class Controller {
 
 			} catch (Exception e) {
 
-				//c.printf("Error in making execution environment!\n");
+				System.out.print("Error in making execution environment!\n");
 
 			}
 		}
 		else{
-			//				c.printf("Error "+(parsedParams.length<6?"few":"much more")+" parameters.:\n");
-			//				c.printf("usage: MODEL[MASON-NETLOGO-GENERIC] SIM-NAME[String]INPUT.xml[String absolutely]"
-			//						+ " Output.xml[String absolutely path] DESCRIPTION-SIM[String] SIMULATION-EXECUTABLE-MODEL[String absolutely path]\n");
+			System.out.print("Error "+(parsedParams.length<6?"few":"much more")+" parameters.:\n");
+			System.out.print("usage: MODEL[MASON-NETLOGO-GENERIC] SIM-NAME[String]INPUT.xml[String absolutely]"
+									+ " Output.xml[String absolutely path] DESCRIPTION-SIM[String] SIMULATION-EXECUTABLE-MODEL[String absolutely path]\n");
 
 		}
 	}
@@ -268,14 +268,14 @@ public class Controller {
 				ScudManager.checkParamMakeSimulationFolder(parsedParams);
 			} catch (ParameterException e1) {
 
-				//					c.printf(e1.getMessage());
+				System.out.print(e1.getMessage());
 
 			}
 			try {
 
 
 				ScudManager.makeSimulationFolderForLoop(
-						SCUDShellClient.session,
+						session,
 						parsedParams[0]/*MODEL TYPE MASON - NETLOGO -GENERIC*/,
 						parsedParams[1],/*SIM NAME*/
 						parsedParams[2],/*domain_pathname*/ 
@@ -289,8 +289,9 @@ public class Controller {
 
 			} catch (Exception e) {
 
-				//e.printStackTrace();
-				//					c.printf("Error in making execution environment!\n");
+				System.out.print("Error in making execution environment!\n");
+				System.out.print(e.getMessage());
+				e.printStackTrace();
 
 			}
 		}else if(parsedParams.length == 11){
@@ -299,7 +300,8 @@ public class Controller {
 				ScudManager.checkParamMakeSimulationFolder(parsedParams);
 			} catch (ParameterException e1) {
 
-				//		c.printf(e1.getMessage());
+				System.out.print(e1.getMessage());
+				e1.printStackTrace();
 
 			}
 			try {
@@ -307,7 +309,7 @@ public class Controller {
 
 
 				ScudManager.makeSimulationFolderForLoop(
-						SCUDShellClient.session,
+						session,
 						parsedParams[0]/*MODEL TYPE MASON - NETLOGO -GENERIC*/,
 						parsedParams[1],/*SIM NAME*/
 						parsedParams[2],/*domain_pathname*/ 
@@ -324,18 +326,19 @@ public class Controller {
 			} catch (Exception e) {
 
 
-				//c.printf("Error in making execution environment!\n");
+				System.out.print("Error in making execution environment!\n");
+				e.printStackTrace();
 
 			}
 
 
 
 		}else{
-			//				c.printf("Error "+(parsedParams.length<9?"few":"much more")+" parameters.:\n");
-			//				c.printf("usage: MODEL[MASON-NETLOGO-GENERIC] SIM-NAME[String] "+
-			//						"DOMAIN.xml[String absolutely]"+"bash command[for function selection example /usr/bin/sh]"
-			//						+ " Output.xml[String absolutely path] "+"function selection absolutly path"+
-			//						"rating selection absolutly path"+"DESCRIPTION-SIM[String] SIMULATION-EXECUTABLE-MODEL[String absolutely path]\n");
+			System.out.print("Error "+(parsedParams.length<9?"few":"much more")+" parameters.:\n");
+			System.out.print("usage: MODEL[MASON-NETLOGO-GENERIC] SIM-NAME[String] "+
+									"DOMAIN.xml[String absolutely]"+"bash command[for function selection example /usr/bin/sh]"
+									+ " Output.xml[String absolutely path] "+"function selection absolutly path"+
+									"rating selection absolutly path"+"DESCRIPTION-SIM[String] SIMULATION-EXECUTABLE-MODEL[String absolutely path]\n");
 
 		}
 	}

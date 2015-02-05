@@ -682,8 +682,6 @@ public class MainFrame extends JFrame {
 		tab.setNewSim();
 		CentraltabbedPane.add(tab,sim_name);
 		CentraltabbedPane.setSelectedComponent(tab);
-
-
 	}
 
 	protected void buttonReloadActionPerformed(ActionEvent e) {
@@ -864,6 +862,10 @@ public class MainFrame extends JFrame {
 		return controller;
 	}
 	
+	public JTabbedPaneWithCloseIcons getPaneWithCloseIcons(){
+		return CentraltabbedPane;
+	}
+	
 	private DefaultMutableTreeNode fs_root;
 	private JMenuBar menuBar1;
 	private JMenu menuPrincipal;
@@ -884,7 +886,7 @@ public class MainFrame extends JFrame {
 	private JSplitPane splitPane1;
 	private JPanel Toppanel;
 	private JScrollPane CenterTabbedscrollPane;
-	private JTabbedPaneWithCloseIcons CentraltabbedPane;
+	protected JTabbedPaneWithCloseIcons CentraltabbedPane;
 	private JPanel TestCentralTabbedpanel;
 	private JPanel Bottonpanel;
 	private JScrollPane CenterBottomscrollPane;

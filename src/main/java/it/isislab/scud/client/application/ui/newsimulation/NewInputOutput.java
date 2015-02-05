@@ -17,6 +17,8 @@ import it.isislab.scud.core.model.parameters.xsd.output.Output;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -94,6 +96,9 @@ public class NewInputOutput extends JPanel {
 		comboBoxOutputVarTypeModel.addElement(new String ("string"));
 		comboBoxOutputVarNameModel = new DefaultComboBoxModel<String>();
 		comboBoxOutputVarName = new JComboBox<String>(comboBoxOutputVarNameModel);
+		labelOtherVarname = new JLabel();
+		textFieldOtherVarName = new JTextField();
+		textFieldOtherVarName.setEnabled(false);
 		panel6 = new JPanel();
 		buttonAddOutput = new JButton();
 		buttonEditOutput = new JButton();
@@ -291,36 +296,45 @@ public class NewInputOutput extends JPanel {
 
 					//---- labelOutputVarName ----
 					labelOutputVarName.setText("variable name");
+					labelOtherVarname.setText("other");
 
-					GroupLayout panelInnerInput2Layout = new GroupLayout(panelInnerOutput);
-					panelInnerOutput.setLayout(panelInnerInput2Layout);
-					panelInnerInput2Layout.setHorizontalGroup(
-						panelInnerInput2Layout.createParallelGroup()
-							.addGroup(panelInnerInput2Layout.createSequentialGroup()
+					GroupLayout panelInnerOutputLayout = new GroupLayout(panelInnerOutput);
+					panelInnerOutput.setLayout(panelInnerOutputLayout);
+					panelInnerOutputLayout.setHorizontalGroup(
+						panelInnerOutputLayout.createParallelGroup()
+							.addGroup(panelInnerOutputLayout.createSequentialGroup()
 								.addContainerGap()
-								.addGroup(panelInnerInput2Layout.createParallelGroup()
-									.addGroup(panelInnerInput2Layout.createSequentialGroup()
+								.addGroup(panelInnerOutputLayout.createParallelGroup()
+									.addGroup(panelInnerOutputLayout.createSequentialGroup()
 										.addComponent(labelOutputVarType, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
 										.addGap(29, 29, 29)
 										.addComponent(comboBoxOutputVarType, GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE))
-									.addGroup(panelInnerInput2Layout.createSequentialGroup()
-										.addComponent(labelOutputVarName, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+									.addGroup(panelInnerOutputLayout.createSequentialGroup()
+										.addGroup(panelInnerOutputLayout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
+											.addComponent(labelOtherVarname, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+											.addComponent(labelOutputVarName, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE))
 										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-										.addComponent(comboBoxOutputVarName, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)))
+										.addGroup(panelInnerOutputLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+											.addComponent(comboBoxOutputVarName, GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+											.addComponent(textFieldOtherVarName, GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE))))
 								.addContainerGap())
 					);
-					panelInnerInput2Layout.setVerticalGroup(
-						panelInnerInput2Layout.createParallelGroup()
-							.addGroup(panelInnerInput2Layout.createSequentialGroup()
+					panelInnerOutputLayout.setVerticalGroup(
+						panelInnerOutputLayout.createParallelGroup()
+							.addGroup(panelInnerOutputLayout.createSequentialGroup()
 								.addContainerGap()
-								.addGroup(panelInnerInput2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+								.addGroup(panelInnerOutputLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 									.addComponent(labelOutputVarType, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
 									.addComponent(comboBoxOutputVarType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 								.addGap(27, 27, 27)
-								.addGroup(panelInnerInput2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+								.addGroup(panelInnerOutputLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 									.addComponent(labelOutputVarName, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
 									.addComponent(comboBoxOutputVarName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addContainerGap(192, Short.MAX_VALUE))
+								.addGap(18, 18, 18)
+								.addGroup(panelInnerOutputLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+									.addComponent(labelOtherVarname, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+									.addComponent(textFieldOtherVarName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addContainerGap(146, Short.MAX_VALUE))
 					);
 				}
 
@@ -504,8 +518,22 @@ public class NewInputOutput extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				comboBoxOutputVarNameModel.removeAllElements();
+				textFieldOtherVarName.setEnabled(false);
 				fillOutputVarNamePanel(comboBoxOutputVarType.getSelectedItem().toString());
 				
+			}
+		});
+		
+		comboBoxOutputVarName.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(comboBoxOutputVarName.getSelectedItem()!=null && comboBoxOutputVarName.getSelectedItem().toString().equalsIgnoreCase("other")){
+					textFieldOtherVarName.setEnabled(true);
+				}else{
+					textFieldOtherVarName.setText("");
+					textFieldOtherVarName.setEnabled(false);
+				}	
 			}
 		});
 		
@@ -517,11 +545,15 @@ public class NewInputOutput extends JPanel {
 				treeModelOutput.insertNodeInto(elementNode, rootOutputNode, rootOutputNode.getChildCount());*/
 				DefaultMutableTreeNode typeNode = new DefaultMutableTreeNode(comboBoxOutputVarType.getSelectedItem());
 				treeModelOutput.insertNodeInto(typeNode, rootOutputNode, rootOutputNode.getChildCount());
-				
-				selectedOutputVarName.add(comboBoxOutputVarName.getSelectedItem().toString());
-				
-				treeModelOutput.insertNodeInto(new DefaultMutableTreeNode("variableName: "+comboBoxOutputVarName.getSelectedItem()), typeNode, typeNode.getChildCount());
-				
+				if(textFieldOtherVarName.isEnabled()){
+					selectedOutputVarName.add(textFieldOtherVarName.getText());
+
+					treeModelOutput.insertNodeInto(new DefaultMutableTreeNode("variableName: "+textFieldOtherVarName.getText()), typeNode, typeNode.getChildCount());
+				}else{
+					selectedOutputVarName.add(comboBoxOutputVarName.getSelectedItem().toString());
+
+					treeModelOutput.insertNodeInto(new DefaultMutableTreeNode("variableName: "+comboBoxOutputVarName.getSelectedItem()), typeNode, typeNode.getChildCount());
+				}
 				treeOutput.expandPath(new TreePath(typeNode.getPath()));
 				resetNewOutputPanel();
 			}
@@ -564,6 +596,7 @@ public class NewInputOutput extends JPanel {
 					}
 				}
 				(new MyTaskConnect()).start();
+				sproc.mainFrame.getPaneWithCloseIcons().remove(sproc);
 			}
 		});
 	}
@@ -639,7 +672,9 @@ public class NewInputOutput extends JPanel {
 			context = JAXBContext.newInstance(Domain.class);
 			jaxbMarshaller = context.createMarshaller();
 	        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-	        jaxbMarshaller.marshal(sproc.getDomain(), tmpFile);
+	        jaxbMarshaller.marshal(sproc.getDomain(), System.out);
+	        jaxbMarshaller.marshal(sproc.getDomain(), tmpFile); 
+	      
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -650,7 +685,9 @@ public class NewInputOutput extends JPanel {
 			context = JAXBContext.newInstance(Inputs.class);
 			jaxbMarshaller = context.createMarshaller();
 	        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	        jaxbMarshaller.marshal(inputs, System.out);
 	        jaxbMarshaller.marshal(inputs, tmpFile);
+	       
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -661,7 +698,9 @@ public class NewInputOutput extends JPanel {
 			context = JAXBContext.newInstance(Output.class);
 			jaxbMarshaller = context.createMarshaller();
 	        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	        jaxbMarshaller.marshal(output, System.out);
 	        jaxbMarshaller.marshal(output, tmpFile);
+	        
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -673,6 +712,7 @@ public class NewInputOutput extends JPanel {
 	private String saveSimulationOnHdfs(String tmpDir){
 		
 		if(inputs.getsimulation().getLoop()){
+			if(inputs.getsimulation().getToolkit().equalsIgnoreCase("generic")){
 			sproc.mainFrame.getController().createsimulationloop(
 					inputs.getsimulation().getToolkit(),/*MODEL TYPE MASON - NETLOGO -GENERIC*/   
 					inputs.getsimulation().getName(),/*SIM NAME*/                               
@@ -684,16 +724,39 @@ public class NewInputOutput extends JPanel {
 					sproc.newsimpan.evalpath,/*executable_rating_function_filename*/    
 					inputs.getsimulation().getDescription(),/*description_simulation*/
 					sproc.newsimpan.simdirpath,
-					(inputs.getsimulation().getToolkit().equalsIgnoreCase("generic"))?sproc.newsimpan.simcommand:""	);
+					sproc.newsimpan.simcommand);
+			}else{
+				sproc.mainFrame.getController().createsimulationloop(
+						inputs.getsimulation().getToolkit(),/*MODEL TYPE MASON - NETLOGO -GENERIC*/   
+						inputs.getsimulation().getName(),/*SIM NAME*/                               
+						tmpDir+File.separator+"domain.xml",/*domain_pathname*/                        
+						sproc.newsimpan.selcommand,/*bashCommandForRunnableFunctionSelection */
+						sproc.newsimpan.evalcomma,/*bashCommandForRunnableFunctionEvaluate*/ 
+						tmpDir+File.separator+"output.xml",/*output_description_filename*/            
+						sproc.newsimpan.selpath,/*executable_selection_function_filename*/ 
+						sproc.newsimpan.evalpath,/*executable_rating_function_filename*/    
+						inputs.getsimulation().getDescription(),/*description_simulation*/
+						sproc.newsimpan.simdirpath);
+			}
 		}else{
-			sproc.mainFrame.getController().createsimulation(
-					inputs.getsimulation().getToolkit(),//MODEL TYPE MASON - NETLOGO -GENERIC 
-					inputs.getsimulation().getName(),//SIM NAME                            
-					tmpDir+File.separator+"input.xml",//INPUT.XML PATH                      
-					tmpDir+File.separator+"output.xml",//OUTPUT.XML PATH                     
-					inputs.getsimulation().getDescription(),//DESCRIPTION SIM                     
-					sproc.newsimpan.simdirpath, //SIMULATION EXEC PATH 
-					(inputs.getsimulation().getToolkit().equalsIgnoreCase("generic"))?sproc.newsimpan.simcommand:"");
+			if(inputs.getsimulation().getToolkit().equalsIgnoreCase("generic")){
+				sproc.mainFrame.getController().createsimulation(
+						inputs.getsimulation().getToolkit(),//MODEL TYPE MASON - NETLOGO -GENERIC 
+						inputs.getsimulation().getName(),//SIM NAME                            
+						tmpDir+File.separator+"input.xml",//INPUT.XML PATH                      
+						tmpDir+File.separator+"output.xml",//OUTPUT.XML PATH                     
+						inputs.getsimulation().getDescription(),//DESCRIPTION SIM                     
+						sproc.newsimpan.simdirpath, //SIMULATION EXEC PATH 
+						sproc.newsimpan.simcommand);
+			}else{
+				sproc.mainFrame.getController().createsimulation(
+						inputs.getsimulation().getToolkit(),//MODEL TYPE MASON - NETLOGO -GENERIC 
+						inputs.getsimulation().getName(),//SIM NAME                            
+						tmpDir+File.separator+"input.xml",//INPUT.XML PATH                      
+						tmpDir+File.separator+"output.xml",//OUTPUT.XML PATH                     
+						inputs.getsimulation().getDescription(),//DESCRIPTION SIM                     
+						sproc.newsimpan.simdirpath);
+			}
 		}
 		
 		return tmpDir;
@@ -819,6 +882,7 @@ public class NewInputOutput extends JPanel {
 				}
 			}
 		}
+		comboBoxOutputVarNameModel.addElement("other");
 	}
 	
 	private void setInputPanel(){
@@ -882,10 +946,12 @@ public class NewInputOutput extends JPanel {
 	private JPanel panelInnerOutput;
 	private JLabel labelOutputVarType;
 	private JLabel labelOutputVarName;
+	private JLabel labelOtherVarname;
 	private DefaultComboBoxModel<String> comboBoxOutputVarTypeModel;
 	private JComboBox<String> comboBoxOutputVarType;
 	private DefaultComboBoxModel<String> comboBoxOutputVarNameModel;
 	private JComboBox<String> comboBoxOutputVarName;
+	private JTextField textFieldOtherVarName;
 	private JPanel panel6;
 	private JButton buttonAddOutput;
 	private JButton buttonEditOutput;
