@@ -353,34 +353,10 @@ public class NewSimulationPanel extends JPanel {
 					JOptionPane.showMessageDialog(textFieldModelFile, "Selection failed!\nPlease select your simulation model");
 			}
 		});
-		textFieldSelectionFunctionFIle.addMouseListener(new MouseListener() {
+		textFieldSelectionFunctionFIle.addActionListener(new ActionListener() {
 			
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = new JFileChooser();
 				fc.setDialogTitle("Select your Selection function executable");
 				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -394,37 +370,14 @@ public class NewSimulationPanel extends JPanel {
 					textFieldSelectionFunctionFIle.setText(fc.getSelectedFile().getAbsolutePath());
 				else
 					JOptionPane.showMessageDialog(textFieldSelectionFunctionFIle, "Selection failed!\nPlease select your selection function executable");
+				
 			}
 		});
 		
-		textFieldEvaluateFunctionFile.addMouseListener(new MouseListener() {
+		textFieldEvaluateFunctionFile.addActionListener(new ActionListener() {
 			
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = new JFileChooser();
 				fc.setDialogTitle("Select your evaluate function executable");
 				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);

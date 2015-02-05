@@ -17,6 +17,8 @@ import it.isislab.scud.core.model.parameters.xsd.output.Output;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -30,6 +32,11 @@ import javax.swing.tree.TreePath;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+
+import com.sun.opengl.util.FileUtil;
 
 
 
@@ -536,23 +543,26 @@ public class NewInputOutput extends JPanel {
 				output = new Output();
 				inputs.setsimulation(sproc.getSim());
 				final ProgressbarDialog pd=new ProgressbarDialog(sproc.mainFrame);
-				pd.setNoteMessage("Please wait.");
+
 				pd.setVisible(true);
 				final JProgressBar bar=pd.getProgressBar1();
 				pd.setTitleMessage("Saving simulation");
+				pd.setNoteMessage("Please wait.");
 				bar.setIndeterminate(true);
 				class MyTaskConnect extends Thread {
 
 					public void run(){
 						loadInput();
 						loadOutput();
-					//	saveSimulationOnHdfs();
-
+						String tmpDir = generateXMLfiles();
+						pd.setTitleMessage("Loading simulation on HDFS");
+						pd.setNoteMessage("Please wait.");
+						saveSimulationOnHdfs(tmpDir);
+						removeTMPFile(tmpDir);
 						bar.setIndeterminate(false);
 						pd.setVisible(false);
 					}
 				}
-
 				(new MyTaskConnect()).start();
 			}
 		});
@@ -610,6 +620,93 @@ public class NewInputOutput extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
+	}
+	
+	private String generateXMLfiles(){
+		File f = FileUtils.getTempDirectory();
+		if(!f.exists())
+			try {
+				f.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		JAXBContext context;
+		Marshaller jaxbMarshaller;
+		
+		File tmpFile = new File(f.getAbsolutePath()+File.separator+"domain.xml");
+		try {
+			context = JAXBContext.newInstance(Domain.class);
+			jaxbMarshaller = context.createMarshaller();
+	        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	        jaxbMarshaller.marshal(sproc.getDomain(), tmpFile);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		tmpFile = new File(f.getAbsolutePath()+File.separator+"input.xml");
+		try {
+			context = JAXBContext.newInstance(Inputs.class);
+			jaxbMarshaller = context.createMarshaller();
+	        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	        jaxbMarshaller.marshal(inputs, tmpFile);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		tmpFile = new File(f.getAbsolutePath()+File.separator+"output.xml");
+		try {
+			context = JAXBContext.newInstance(Output.class);
+			jaxbMarshaller = context.createMarshaller();
+	        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	        jaxbMarshaller.marshal(output, tmpFile);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return f.getAbsolutePath();
+	}
+	
+	private String saveSimulationOnHdfs(String tmpDir){
+		
+		if(inputs.getsimulation().getLoop()){
+			sproc.mainFrame.getController().createsimulationloop(
+					inputs.getsimulation().getToolkit(),/*MODEL TYPE MASON - NETLOGO -GENERIC*/   
+					inputs.getsimulation().getName(),/*SIM NAME*/                               
+					tmpDir+File.separator+"domain.xml",/*domain_pathname*/                        
+					sproc.newsimpan.selcommand,/*bashCommandForRunnableFunctionSelection */
+					sproc.newsimpan.evalcomma,/*bashCommandForRunnableFunctionEvaluate*/ 
+					tmpDir+File.separator+"output.xml",/*output_description_filename*/            
+					sproc.newsimpan.selpath,/*executable_selection_function_filename*/ 
+					sproc.newsimpan.evalpath,/*executable_rating_function_filename*/    
+					inputs.getsimulation().getDescription(),/*description_simulation*/
+					sproc.newsimpan.simdirpath,
+					(inputs.getsimulation().getToolkit().equalsIgnoreCase("generic"))?sproc.newsimpan.simcommand:""	);
+		}else{
+			sproc.mainFrame.getController().createsimulation(
+					inputs.getsimulation().getToolkit(),//MODEL TYPE MASON - NETLOGO -GENERIC 
+					inputs.getsimulation().getName(),//SIM NAME                            
+					tmpDir+File.separator+"input.xml",//INPUT.XML PATH                      
+					tmpDir+File.separator+"output.xml",//OUTPUT.XML PATH                     
+					inputs.getsimulation().getDescription(),//DESCRIPTION SIM                     
+					sproc.newsimpan.simdirpath, //SIMULATION EXEC PATH 
+					(inputs.getsimulation().getToolkit().equalsIgnoreCase("generic"))?sproc.newsimpan.simcommand:"");
+		}
+		
+		return tmpDir;
+	}
+	
+	private void removeTMPFile(String tmpDir){
+		File f = new File(tmpDir);
+		if(!f.exists())
+			return;
+		for(File c : f.listFiles()){
+			c.delete();
+		}
+		f.delete();
 	}
 	
 	private Input getInput(int nexId,DefaultMutableTreeNode inputNode){

@@ -859,6 +859,11 @@ public class MainFrame extends JFrame {
 		tree1.expandRow(0);
 
 	}
+	
+	public Controller getController(){
+		return controller;
+	}
+	
 	private DefaultMutableTreeNode fs_root;
 	private JMenuBar menuBar1;
 	private JMenu menuPrincipal;
