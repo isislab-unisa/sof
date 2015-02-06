@@ -723,6 +723,11 @@
 			<artifactId>poi</artifactId>
 			<version>3.11</version>
 		</dependency>
+		<dependency>
+			<groupId>org.openl.rules</groupId>
+			<artifactId>org.openl.lib.poi.dev</artifactId>
+			<version>5.9.3.1</version>
+		</dependency>
 
 	</dependencies>
 	<repositories>

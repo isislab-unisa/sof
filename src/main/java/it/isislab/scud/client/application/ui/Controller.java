@@ -15,6 +15,7 @@ import it.isislab.scud.core.model.parameters.xsd.elements.ParameterString;
 import it.isislab.scud.core.model.parameters.xsd.input.Input;
 import it.isislab.scud.core.model.parameters.xsd.message.Message;
 import it.isislab.scud.core.model.parameters.xsd.output.Output;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,10 +25,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 import com.jcraft.jsch.JSchException;
 
@@ -453,9 +457,9 @@ public class Controller {
 			String path = (params.length < 2)? System.getProperty("user.dir"):params[1];
 			path+=File.separator+"SIM-"+sim.getId()+".xls";
 
-			HSSFWorkbook workbook = new HSSFWorkbook();
-			HSSFSheet sheet = workbook.createSheet("Simulation ID "+sim.getId());
-
+			SXSSFWorkbook workbook = new SXSSFWorkbook();
+			Sheet sheet = workbook.createSheet("Simulation ID "+sim.getId());
+   
 
 			int row_num=0;
 			if(sim.getLoop())
@@ -531,8 +535,9 @@ public class Controller {
 							int cell_input=1,cell_output=1;
 							for(Parameter p : mapio.get(pt).getI().param_element)
 							{
-								Cell c_input_name=row_input_names.createCell(++cell_input);
-								Cell c_input_value=row_input_values.createCell(++cell_input);
+								Cell c_input_name=row_input_names.createCell(cell_input);
+								Cell c_input_value=row_input_values.createCell(cell_input);
+								cell_input++;
 								c_input_name.setCellValue(p.getvariable_name());
 								if(p.getparam() instanceof ParameterDouble) 
 									c_input_value.setCellValue(((ParameterDouble)p.getparam()).getvalue());
@@ -545,8 +550,9 @@ public class Controller {
 							if(mapio.get(pt).getO()!=null)
 								for(Parameter p : mapio.get(pt).getO().output_params)
 								{
-									Cell c_output_name=row_output_names.createCell(++cell_output);
-									Cell c_output_value=row_output_values.createCell(++cell_output);
+									Cell c_output_name=row_output_names.createCell(cell_output);
+									Cell c_output_value=row_output_values.createCell(cell_output);
+									cell_output++;
 									c_output_name.setCellValue(p.getvariable_name());
 									if(p.getparam() instanceof ParameterDouble) 
 										c_output_value.setCellValue(((ParameterDouble)p.getparam()).getvalue());
