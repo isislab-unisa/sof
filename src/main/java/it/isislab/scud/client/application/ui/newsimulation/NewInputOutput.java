@@ -73,7 +73,7 @@ public class NewInputOutput extends JPanel {
 		labelInputValue = new JLabel();
 		comboBoxInputVarNameModel = new DefaultComboBoxModel<String>();
 		comboBoxInputVarName = new JComboBox<String>(comboBoxInputVarNameModel);
-		
+
 		buttonAddParam = new JButton();
 		panel5 = new JPanel();
 		buttonNewInput = new JButton();
@@ -106,9 +106,9 @@ public class NewInputOutput extends JPanel {
 		panel7 = new JPanel();
 		buttonSave = new JButton();
 		buttonPrev = new JButton();
-		
+
 		panelInnerInput.setVisible(false);
-		
+
 		//======== panelInputDetails ========
 		{
 			panelInputDetails.setBorder(new TitledBorder("Input"));
@@ -137,82 +137,82 @@ public class NewInputOutput extends JPanel {
 
 					//---- labelInputValue ----
 					labelInputValue.setText("value");
-					
+
 					buttonAddParam.setText("Add param");
 
 
 					GroupLayout panelInnerInputLayout = new GroupLayout(panelInnerInput);
 					panelInnerInput.setLayout(panelInnerInputLayout);
 					panelInnerInputLayout.setHorizontalGroup(
-						panelInnerInputLayout.createParallelGroup()
+							panelInnerInputLayout.createParallelGroup()
 							.addGroup(panelInnerInputLayout.createSequentialGroup()
-								.addContainerGap()
-								.addGroup(panelInnerInputLayout.createParallelGroup()
-									.addGroup(panelInnerInputLayout.createSequentialGroup()
-										.addGroup(panelInnerInputLayout.createParallelGroup()
-											.addComponent(labelRounds, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-											.addComponent(labelInputVarName, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-											.addComponent(labelInputVarType, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE))
-										.addGroup(panelInnerInputLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+									.addContainerGap()
+									.addGroup(panelInnerInputLayout.createParallelGroup()
 											.addGroup(panelInnerInputLayout.createSequentialGroup()
-												.addGap(29, 29, 29)
-												.addGroup(panelInnerInputLayout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-													.addComponent(comboBoxInputVarType, GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
-													.addComponent(textFieldRounds, GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)))
-											.addGroup(GroupLayout.Alignment.TRAILING, panelInnerInputLayout.createSequentialGroup()
-												.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-												.addComponent(comboBoxInputVarName, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE))))
-									.addGroup(panelInnerInputLayout.createSequentialGroup()
-										.addGroup(panelInnerInputLayout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-											.addComponent(buttonAddParam, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
-											.addComponent(labelInputValue, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE))
-										.addGap(29, 29, 29)
-										.addComponent(textFieldInputValue, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE)))
-								.addContainerGap(46, Short.MAX_VALUE))
-					);
+													.addGroup(panelInnerInputLayout.createParallelGroup()
+															.addComponent(labelRounds, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+															.addComponent(labelInputVarName, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+															.addComponent(labelInputVarType, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE))
+															.addGroup(panelInnerInputLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+																	.addGroup(panelInnerInputLayout.createSequentialGroup()
+																			.addGap(29, 29, 29)
+																			.addGroup(panelInnerInputLayout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
+																					.addComponent(comboBoxInputVarType, GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+																					.addComponent(textFieldRounds, GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)))
+																					.addGroup(GroupLayout.Alignment.TRAILING, panelInnerInputLayout.createSequentialGroup()
+																							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+																							.addComponent(comboBoxInputVarName, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE))))
+																							.addGroup(panelInnerInputLayout.createSequentialGroup()
+																									.addGroup(panelInnerInputLayout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
+																											.addComponent(buttonAddParam, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+																											.addComponent(labelInputValue, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE))
+																											.addGap(29, 29, 29)
+																											.addComponent(textFieldInputValue, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE)))
+																											.addContainerGap(46, Short.MAX_VALUE))
+							);
 					panelInnerInputLayout.setVerticalGroup(
 							panelInnerInputLayout.createParallelGroup()
-								.addGroup(panelInnerInputLayout.createSequentialGroup()
+							.addGroup(panelInnerInputLayout.createSequentialGroup()
 									.addContainerGap()
 									.addGroup(panelInnerInputLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-										.addComponent(labelRounds, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-										.addComponent(textFieldRounds, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE))
-									.addGap(28, 28, 28)
-									.addGroup(panelInnerInputLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-										.addComponent(labelInputVarType, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-										.addComponent(comboBoxInputVarType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-									.addGap(27, 27, 27)
-									.addGroup(panelInnerInputLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-										.addComponent(labelInputVarName, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-										.addComponent(comboBoxInputVarName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-									.addGap(30, 30, 30)
-									.addGroup(panelInnerInputLayout.createParallelGroup()
-										.addComponent(labelInputValue, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-										.addGroup(panelInnerInputLayout.createSequentialGroup()
-											.addGap(3, 3, 3)
-											.addComponent(textFieldInputValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-									.addComponent(buttonAddParam)
-									.addContainerGap())
-						);
+											.addComponent(labelRounds, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+											.addComponent(textFieldRounds, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE))
+											.addGap(28, 28, 28)
+											.addGroup(panelInnerInputLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+													.addComponent(labelInputVarType, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+													.addComponent(comboBoxInputVarType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+													.addGap(27, 27, 27)
+													.addGroup(panelInnerInputLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+															.addComponent(labelInputVarName, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+															.addComponent(comboBoxInputVarName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+															.addGap(30, 30, 30)
+															.addGroup(panelInnerInputLayout.createParallelGroup()
+																	.addComponent(labelInputValue, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+																	.addGroup(panelInnerInputLayout.createSequentialGroup()
+																			.addGap(3, 3, 3)
+																			.addComponent(textFieldInputValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+																			.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+																			.addComponent(buttonAddParam)
+																			.addContainerGap())
+							);
 				}
 
 				GroupLayout panelNewInputLayout = new GroupLayout(panelNewInput);
 				panelNewInput.setLayout(panelNewInputLayout);
 				panelNewInputLayout.setHorizontalGroup(
-					panelNewInputLayout.createParallelGroup()
+						panelNewInputLayout.createParallelGroup()
 						.addGroup(GroupLayout.Alignment.TRAILING, panelNewInputLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(panelInnerInput, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addContainerGap())
-				);
+								.addContainerGap()
+								.addComponent(panelInnerInput, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addContainerGap())
+						);
 				panelNewInputLayout.setVerticalGroup(
-					panelNewInputLayout.createParallelGroup()
+						panelNewInputLayout.createParallelGroup()
 						.addGroup(GroupLayout.Alignment.TRAILING, panelNewInputLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(panelInnerInput, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addContainerGap())
-				);
+								.addContainerGap()
+								.addComponent(panelInnerInput, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addContainerGap())
+						);
 			}
 
 			//======== panel5 ========
@@ -230,46 +230,46 @@ public class NewInputOutput extends JPanel {
 				GroupLayout panel5Layout = new GroupLayout(panel5);
 				panel5.setLayout(panel5Layout);
 				panel5Layout.setHorizontalGroup(
-					panel5Layout.createParallelGroup()
+						panel5Layout.createParallelGroup()
 						.addGroup(panel5Layout.createSequentialGroup()
-							.addComponent(buttonNewInput)
-							.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-							.addComponent(buttonEditInput)
-							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 246, Short.MAX_VALUE)
-							.addComponent(buttonRemoveInput))
-				);
+								.addComponent(buttonNewInput)
+								.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+								.addComponent(buttonEditInput)
+								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 246, Short.MAX_VALUE)
+								.addComponent(buttonRemoveInput))
+						);
 				panel5Layout.setVerticalGroup(
-					panel5Layout.createParallelGroup()
+						panel5Layout.createParallelGroup()
 						.addGroup(panel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-							.addComponent(buttonNewInput)
-							.addComponent(buttonEditInput)
-							.addComponent(buttonRemoveInput))
-				);
+								.addComponent(buttonNewInput)
+								.addComponent(buttonEditInput)
+								.addComponent(buttonRemoveInput))
+						);
 			}
 
 			GroupLayout panelInputDetailsLayout = new GroupLayout(panelInputDetails);
 			panelInputDetails.setLayout(panelInputDetailsLayout);
 			panelInputDetailsLayout.setHorizontalGroup(
-				panelInputDetailsLayout.createParallelGroup()
+					panelInputDetailsLayout.createParallelGroup()
 					.addGroup(panelInputDetailsLayout.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(panelInputDetailsLayout.createParallelGroup()
-							.addComponent(panel5, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(scrollPane1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
-							.addComponent(panelNewInput, GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE))
-						.addContainerGap())
-			);
+							.addContainerGap()
+							.addGroup(panelInputDetailsLayout.createParallelGroup()
+									.addComponent(panel5, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(scrollPane1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+									.addComponent(panelNewInput, GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE))
+									.addContainerGap())
+					);
 			panelInputDetailsLayout.setVerticalGroup(
-				panelInputDetailsLayout.createParallelGroup()
+					panelInputDetailsLayout.createParallelGroup()
 					.addGroup(panelInputDetailsLayout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 336, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(panel5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(panelNewInput, GroupLayout.PREFERRED_SIZE, 334, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(36, Short.MAX_VALUE))
-			);
+							.addContainerGap()
+							.addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 336, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							.addComponent(panel5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							.addComponent(panelNewInput, GroupLayout.PREFERRED_SIZE, 334, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(36, Short.MAX_VALUE))
+					);
 		}
 
 		//======== panelOutputDetails ========
@@ -301,59 +301,59 @@ public class NewInputOutput extends JPanel {
 					GroupLayout panelInnerOutputLayout = new GroupLayout(panelInnerOutput);
 					panelInnerOutput.setLayout(panelInnerOutputLayout);
 					panelInnerOutputLayout.setHorizontalGroup(
-						panelInnerOutputLayout.createParallelGroup()
+							panelInnerOutputLayout.createParallelGroup()
 							.addGroup(panelInnerOutputLayout.createSequentialGroup()
-								.addContainerGap()
-								.addGroup(panelInnerOutputLayout.createParallelGroup()
-									.addGroup(panelInnerOutputLayout.createSequentialGroup()
-										.addComponent(labelOutputVarType, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-										.addGap(29, 29, 29)
-										.addComponent(comboBoxOutputVarType, GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE))
-									.addGroup(panelInnerOutputLayout.createSequentialGroup()
-										.addGroup(panelInnerOutputLayout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-											.addComponent(labelOtherVarname, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
-											.addComponent(labelOutputVarName, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE))
-										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-										.addGroup(panelInnerOutputLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-											.addComponent(comboBoxOutputVarName, GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
-											.addComponent(textFieldOtherVarName, GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE))))
-								.addContainerGap())
-					);
+									.addContainerGap()
+									.addGroup(panelInnerOutputLayout.createParallelGroup()
+											.addGroup(panelInnerOutputLayout.createSequentialGroup()
+													.addComponent(labelOutputVarType, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+													.addGap(29, 29, 29)
+													.addComponent(comboBoxOutputVarType, GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE))
+													.addGroup(panelInnerOutputLayout.createSequentialGroup()
+															.addGroup(panelInnerOutputLayout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
+																	.addComponent(labelOtherVarname, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+																	.addComponent(labelOutputVarName, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE))
+																	.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+																	.addGroup(panelInnerOutputLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+																			.addComponent(comboBoxOutputVarName, GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+																			.addComponent(textFieldOtherVarName, GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE))))
+																			.addContainerGap())
+							);
 					panelInnerOutputLayout.setVerticalGroup(
-						panelInnerOutputLayout.createParallelGroup()
+							panelInnerOutputLayout.createParallelGroup()
 							.addGroup(panelInnerOutputLayout.createSequentialGroup()
-								.addContainerGap()
-								.addGroup(panelInnerOutputLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-									.addComponent(labelOutputVarType, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-									.addComponent(comboBoxOutputVarType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGap(27, 27, 27)
-								.addGroup(panelInnerOutputLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-									.addComponent(labelOutputVarName, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-									.addComponent(comboBoxOutputVarName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGap(18, 18, 18)
-								.addGroup(panelInnerOutputLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-									.addComponent(labelOtherVarname, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-									.addComponent(textFieldOtherVarName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addContainerGap(146, Short.MAX_VALUE))
-					);
+									.addContainerGap()
+									.addGroup(panelInnerOutputLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+											.addComponent(labelOutputVarType, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+											.addComponent(comboBoxOutputVarType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+											.addGap(27, 27, 27)
+											.addGroup(panelInnerOutputLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+													.addComponent(labelOutputVarName, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+													.addComponent(comboBoxOutputVarName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+													.addGap(18, 18, 18)
+													.addGroup(panelInnerOutputLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+															.addComponent(labelOtherVarname, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+															.addComponent(textFieldOtherVarName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+															.addContainerGap(146, Short.MAX_VALUE))
+							);
 				}
 
 				GroupLayout panelNewOutputLayout = new GroupLayout(panelNewOutput);
 				panelNewOutput.setLayout(panelNewOutputLayout);
 				panelNewOutputLayout.setHorizontalGroup(
-					panelNewOutputLayout.createParallelGroup()
+						panelNewOutputLayout.createParallelGroup()
 						.addGroup(GroupLayout.Alignment.TRAILING, panelNewOutputLayout.createSequentialGroup()
-							.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(panelInnerOutput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())
-				);
+								.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(panelInnerOutput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap())
+						);
 				panelNewOutputLayout.setVerticalGroup(
-					panelNewOutputLayout.createParallelGroup()
+						panelNewOutputLayout.createParallelGroup()
 						.addGroup(panelNewOutputLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(panelInnerOutput, GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
-							.addContainerGap())
-				);
+								.addContainerGap()
+								.addComponent(panelInnerOutput, GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
+								.addContainerGap())
+						);
 			}
 
 			//======== panel6 ========
@@ -371,46 +371,46 @@ public class NewInputOutput extends JPanel {
 				GroupLayout panel6Layout = new GroupLayout(panel6);
 				panel6.setLayout(panel6Layout);
 				panel6Layout.setHorizontalGroup(
-					panel6Layout.createParallelGroup()
+						panel6Layout.createParallelGroup()
 						.addGroup(panel6Layout.createSequentialGroup()
-							.addComponent(buttonAddOutput)
-							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							.addComponent(buttonEditOutput)
-							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(buttonRemoveOutput))
-				);
+								.addComponent(buttonAddOutput)
+								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+								.addComponent(buttonEditOutput)
+								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(buttonRemoveOutput))
+						);
 				panel6Layout.setVerticalGroup(
-					panel6Layout.createParallelGroup()
+						panel6Layout.createParallelGroup()
 						.addGroup(panel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-							.addComponent(buttonAddOutput)
-							.addComponent(buttonEditOutput)
-							.addComponent(buttonRemoveOutput))
-				);
+								.addComponent(buttonAddOutput)
+								.addComponent(buttonEditOutput)
+								.addComponent(buttonRemoveOutput))
+						);
 			}
 
 			GroupLayout panelOutputDetailsLayout = new GroupLayout(panelOutputDetails);
 			panelOutputDetails.setLayout(panelOutputDetailsLayout);
 			panelOutputDetailsLayout.setHorizontalGroup(
-				panelOutputDetailsLayout.createParallelGroup()
+					panelOutputDetailsLayout.createParallelGroup()
 					.addGroup(panelOutputDetailsLayout.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(panelOutputDetailsLayout.createParallelGroup()
-							.addComponent(panel6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(scrollPane2)
-							.addComponent(panelNewOutput, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE))
-						.addContainerGap())
-			);
+							.addContainerGap()
+							.addGroup(panelOutputDetailsLayout.createParallelGroup()
+									.addComponent(panel6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(scrollPane2)
+									.addComponent(panelNewOutput, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE))
+									.addContainerGap())
+					);
 			panelOutputDetailsLayout.setVerticalGroup(
-				panelOutputDetailsLayout.createParallelGroup()
+					panelOutputDetailsLayout.createParallelGroup()
 					.addGroup(panelOutputDetailsLayout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 337, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(panel6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(panelNewOutput, GroupLayout.PREFERRED_SIZE, 331, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-			);
+							.addContainerGap()
+							.addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 337, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							.addComponent(panel6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							.addComponent(panelNewOutput, GroupLayout.PREFERRED_SIZE, 331, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					);
 		}
 
 		//======== panel7 ========
@@ -425,74 +425,74 @@ public class NewInputOutput extends JPanel {
 			GroupLayout panel7Layout = new GroupLayout(panel7);
 			panel7.setLayout(panel7Layout);
 			panel7Layout.setHorizontalGroup(
-				panel7Layout.createParallelGroup()
+					panel7Layout.createParallelGroup()
 					.addGroup(GroupLayout.Alignment.TRAILING, panel7Layout.createSequentialGroup()
-						.addGap(0, 736, Short.MAX_VALUE)
-						.addComponent(buttonPrev)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-						.addComponent(buttonSave))
-			);
+							.addGap(0, 736, Short.MAX_VALUE)
+							.addComponent(buttonPrev)
+							.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+							.addComponent(buttonSave))
+					);
 			panel7Layout.setVerticalGroup(
-				panel7Layout.createParallelGroup()
+					panel7Layout.createParallelGroup()
 					.addGroup(panel7Layout.createSequentialGroup()
-						.addGroup(panel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-							.addComponent(buttonSave)
-							.addComponent(buttonPrev))
-						.addGap(0, 8, Short.MAX_VALUE))
-			);
+							.addGroup(panel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+									.addComponent(buttonSave)
+									.addComponent(buttonPrev))
+									.addGap(0, 8, Short.MAX_VALUE))
+					);
 		}
 
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
 		layout.setHorizontalGroup(
-			layout.createParallelGroup()
+				layout.createParallelGroup()
 				.addGroup(layout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(layout.createParallelGroup()
-						.addComponent(panel7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGroup(layout.createSequentialGroup()
-							.addComponent(panelInputDetails, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-							.addComponent(panelOutputDetails, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(58, Short.MAX_VALUE))
-		);
+						.addContainerGap()
+						.addGroup(layout.createParallelGroup()
+								.addComponent(panel7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addGroup(layout.createSequentialGroup()
+										.addComponent(panelInputDetails, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+										.addComponent(panelOutputDetails, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+										.addContainerGap(58, Short.MAX_VALUE))
+				);
 		layout.setVerticalGroup(
-			layout.createParallelGroup()
+				layout.createParallelGroup()
 				.addGroup(layout.createSequentialGroup()
-					.addGap(33, 33, 33)
-					.addGroup(layout.createParallelGroup()
-						.addComponent(panelInputDetails, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panelOutputDetails, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addComponent(panel7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		
+						.addGap(33, 33, 33)
+						.addGroup(layout.createParallelGroup()
+								.addComponent(panelInputDetails, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(panelOutputDetails, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+								.addComponent(panel7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				);
+
 		buttonNewInput.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setInputPanel();
 				selectedInputVarName.clear();
 				inputNode = new DefaultMutableTreeNode("Input");
 				treeModelInput.insertNodeInto(inputNode, rootInputNode, rootInputNode.getChildCount());
-				
+
 			}
 		});
-		
+
 		buttonAddParam.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				DefaultMutableTreeNode roundsNode = new DefaultMutableTreeNode("rounds: "+textFieldRounds.getText());
 				if(inputNode.getChildCount()==0)
 					treeModelInput.insertNodeInto(roundsNode, inputNode, inputNode.getChildCount());
-				
+
 				DefaultMutableTreeNode elementNode = new DefaultMutableTreeNode("param");
 				treeModelInput.insertNodeInto(elementNode, inputNode, inputNode.getChildCount());
-				
+
 				selectedInputVarName.add(comboBoxInputVarName.getSelectedItem().toString());
-				
+
 				treeModelInput.insertNodeInto(new DefaultMutableTreeNode("variableName: "+comboBoxInputVarName.getSelectedItem()), elementNode, elementNode.getChildCount());
 				DefaultMutableTreeNode typeNode = new DefaultMutableTreeNode(comboBoxInputVarType.getSelectedItem());
 				treeModelInput.insertNodeInto(typeNode, elementNode, elementNode.getChildCount());
@@ -502,30 +502,30 @@ public class NewInputOutput extends JPanel {
 				resetNewInputPanel();
 			}
 		});
-		
+
 		comboBoxInputVarType.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				comboBoxInputVarNameModel.removeAllElements();
 				fillInputVarNamePanel(comboBoxInputVarType.getSelectedItem().toString());
-				
+
 			}
 		});
-		
+
 		comboBoxOutputVarType.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				comboBoxOutputVarNameModel.removeAllElements();
 				textFieldOtherVarName.setEnabled(false);
 				fillOutputVarNamePanel(comboBoxOutputVarType.getSelectedItem().toString());
-				
+
 			}
 		});
-		
+
 		comboBoxOutputVarName.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(comboBoxOutputVarName.getSelectedItem()!=null && comboBoxOutputVarName.getSelectedItem().toString().equalsIgnoreCase("other")){
@@ -536,9 +536,9 @@ public class NewInputOutput extends JPanel {
 				}	
 			}
 		});
-		
+
 		buttonAddOutput.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				/*DefaultMutableTreeNode elementNode = new DefaultMutableTreeNode("param");
@@ -558,17 +558,17 @@ public class NewInputOutput extends JPanel {
 				resetNewOutputPanel();
 			}
 		});
-		
+
 		buttonPrev.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				sproc.setDomainView();
 			}
 		});
-		
+
 		buttonSave.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				inputs = new Inputs();
@@ -600,7 +600,7 @@ public class NewInputOutput extends JPanel {
 			}
 		});
 	}
-	
+
 	private void loadInput(){
 		ArrayList<Input> listInput = new ArrayList<Input>();
 		DefaultMutableTreeNode inputNode;
@@ -611,9 +611,9 @@ public class NewInputOutput extends JPanel {
 			}
 		}
 		inputs.setinput_list(listInput);
-        
+
 	}
-	
+
 	private void loadOutput(){
 		output = new Output();
 		ArrayList<Parameter> list_out = new ArrayList<Parameter>();
@@ -642,7 +642,7 @@ public class NewInputOutput extends JPanel {
 			list_out.add(p);
 		}
 		output.output_params = list_out;
-		
+
 		/*JAXBContext context;
 		try {
 			context = JAXBContext.newInstance(Output.class);
@@ -654,7 +654,7 @@ public class NewInputOutput extends JPanel {
 			e.printStackTrace();
 		}*/
 	}
-	
+
 	private String generateXMLfiles(){
 		File f = FileUtils.getTempDirectory();
 		if(!f.exists())
@@ -666,65 +666,65 @@ public class NewInputOutput extends JPanel {
 			}
 		JAXBContext context;
 		Marshaller jaxbMarshaller;
-		
+
 		File tmpFile = new File(f.getAbsolutePath()+File.separator+"domain.xml");
 		try {
 			context = JAXBContext.newInstance(Domain.class);
 			jaxbMarshaller = context.createMarshaller();
-	        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-	        jaxbMarshaller.marshal(sproc.getDomain(), System.out);
-	        jaxbMarshaller.marshal(sproc.getDomain(), tmpFile); 
-	      
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(sproc.getDomain(), System.out);
+			jaxbMarshaller.marshal(sproc.getDomain(), tmpFile); 
+
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		tmpFile = new File(f.getAbsolutePath()+File.separator+"input.xml");
 		try {
 			context = JAXBContext.newInstance(Inputs.class);
 			jaxbMarshaller = context.createMarshaller();
-	        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-	        jaxbMarshaller.marshal(inputs, System.out);
-	        jaxbMarshaller.marshal(inputs, tmpFile);
-	       
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(inputs, System.out);
+			jaxbMarshaller.marshal(inputs, tmpFile);
+
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		tmpFile = new File(f.getAbsolutePath()+File.separator+"output.xml");
 		try {
 			context = JAXBContext.newInstance(Output.class);
 			jaxbMarshaller = context.createMarshaller();
-	        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-	        jaxbMarshaller.marshal(output, System.out);
-	        jaxbMarshaller.marshal(output, tmpFile);
-	        
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(output, System.out);
+			jaxbMarshaller.marshal(output, tmpFile);
+
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return f.getAbsolutePath();
 	}
-	
+
 	private String saveSimulationOnHdfs(String tmpDir){
-		
+
 		if(inputs.getsimulation().getLoop()){
 			if(inputs.getsimulation().getToolkit().equalsIgnoreCase("generic")){
-			sproc.mainFrame.getController().createsimulationloop(
-					inputs.getsimulation().getToolkit(),/*MODEL TYPE MASON - NETLOGO -GENERIC*/   
-					inputs.getsimulation().getName(),/*SIM NAME*/                               
-					tmpDir+File.separator+"domain.xml",/*domain_pathname*/                        
-					sproc.newsimpan.selcommand,/*bashCommandForRunnableFunctionSelection */
-					sproc.newsimpan.evalcomma,/*bashCommandForRunnableFunctionEvaluate*/ 
-					tmpDir+File.separator+"output.xml",/*output_description_filename*/            
-					sproc.newsimpan.selpath,/*executable_selection_function_filename*/ 
-					sproc.newsimpan.evalpath,/*executable_rating_function_filename*/    
-					inputs.getsimulation().getDescription(),/*description_simulation*/
-					sproc.newsimpan.simdirpath,
-					sproc.newsimpan.simcommand);
+				sproc.mainFrame.getController().createsimulationloop(
+						inputs.getsimulation().getToolkit(),/*MODEL TYPE MASON - NETLOGO -GENERIC*/   
+						inputs.getsimulation().getName(),/*SIM NAME*/                               
+						tmpDir+File.separator+"domain.xml",/*domain_pathname*/                        
+						sproc.newsimpan.selcommand,/*bashCommandForRunnableFunctionSelection */
+						sproc.newsimpan.evalcomma,/*bashCommandForRunnableFunctionEvaluate*/ 
+						tmpDir+File.separator+"output.xml",/*output_description_filename*/            
+						sproc.newsimpan.selpath,/*executable_selection_function_filename*/ 
+						sproc.newsimpan.evalpath,/*executable_rating_function_filename*/    
+						inputs.getsimulation().getDescription(),/*description_simulation*/
+						sproc.newsimpan.simdirpath,
+						sproc.newsimpan.simcommand);
 			}else{
 				sproc.mainFrame.getController().createsimulationloop(
 						inputs.getsimulation().getToolkit(),/*MODEL TYPE MASON - NETLOGO -GENERIC*/   
@@ -754,14 +754,14 @@ public class NewInputOutput extends JPanel {
 						inputs.getsimulation().getName(),//SIM NAME                            
 						tmpDir+File.separator+"input.xml",//INPUT.XML PATH                      
 						tmpDir+File.separator+"output.xml",//OUTPUT.XML PATH                     
-						inputs.getsimulation().getDescription(),//DESCRIPTION SIM                     
-						sproc.newsimpan.simdirpath);
+						inputs.getsimulation().getDescription()//DESCRIPTION SIM                     
+						,sproc.newsimpan.simdirpath/*,""*/);
 			}
 		}
-		
+
 		return tmpDir;
 	}
-	
+
 	private void removeTMPFile(String tmpDir){
 		File f = new File(tmpDir);
 		if(!f.exists())
@@ -771,7 +771,7 @@ public class NewInputOutput extends JPanel {
 		}
 		f.delete();
 	}
-	
+
 	private Input getInput(int nexId,DefaultMutableTreeNode inputNode){
 		Input i = new Input();
 		i.id = nexId;
@@ -780,55 +780,55 @@ public class NewInputOutput extends JPanel {
 		Parameter p;
 		ArrayList<Parameter> param_list = new ArrayList<Parameter>();
 		for(int index=0; index<inputNode.getChildCount(); index++){
-				child =(DefaultMutableTreeNode) inputNode.getChildAt(index);
-				if(child.getChildCount() > 0){ // param treeNode
-					p = new Parameter();
-					for(int j=0; j<child.getChildCount(); j++){
-						varType =(DefaultMutableTreeNode) child.getChildAt(j);
-					
-						if(varType.getChildCount()==0)
-							p.setvariable_name(varType.toString().split(":")[1].trim());
-						else{
-							String varValue = varType.getFirstChild().toString();
-							if(varType.toString().equalsIgnoreCase("continuous")){
-								ParameterDouble pd = new ParameterDouble();
-								pd.setvalue(Double.parseDouble(varType.getFirstChild().toString().split(":")[1].trim()));
-								p.setparam(pd);
+			child =(DefaultMutableTreeNode) inputNode.getChildAt(index);
+			if(child.getChildCount() > 0){ // param treeNode
+				p = new Parameter();
+				for(int j=0; j<child.getChildCount(); j++){
+					varType =(DefaultMutableTreeNode) child.getChildAt(j);
+
+					if(varType.getChildCount()==0)
+						p.setvariable_name(varType.toString().split(":")[1].trim());
+					else{
+						String varValue = varType.getFirstChild().toString();
+						if(varType.toString().equalsIgnoreCase("continuous")){
+							ParameterDouble pd = new ParameterDouble();
+							pd.setvalue(Double.parseDouble(varType.getFirstChild().toString().split(":")[1].trim()));
+							p.setparam(pd);
+						}else{
+							if(varType.toString().equalsIgnoreCase("discrete")){
+								ParameterLong pl = new ParameterLong();
+								pl.setvalue(Long.parseLong(varType.getFirstChild().toString().split(":")[1].trim()));
+								p.setparam(pl);
 							}else{
-								if(varType.toString().equalsIgnoreCase("discrete")){
-									ParameterLong pl = new ParameterLong();
-									pl.setvalue(Long.parseLong(varType.getFirstChild().toString().split(":")[1].trim()));
-									p.setparam(pl);
-								}else{
-									if(varType.toString().equalsIgnoreCase("string")){
-										ParameterString ps = new ParameterString();
-										ps.setvalue(varType.getFirstChild().toString().split(":")[1].trim());
-										p.setparam(ps);
-									}
+								if(varType.toString().equalsIgnoreCase("string")){
+									ParameterString ps = new ParameterString();
+									ps.setvalue(varType.getFirstChild().toString().split(":")[1].trim());
+									p.setparam(ps);
 								}
 							}
-							param_list.add(p);
 						}
+						param_list.add(p);
 					}
-				}else{
-					i.rounds = Integer.parseInt(child.toString().split(":")[1].trim());
 				}
+			}else{
+				i.rounds = Integer.parseInt(child.toString().split(":")[1].trim());
+			}
 		}
 		i.param_element = param_list;
 		return i;
 	}
-	
+
 	private void resetNewInputPanel(){
 		comboBoxInputVarTypeModel.setSelectedItem(COMBOBOX_ZERO_INDEX_ELEMENT);
 		comboBoxInputVarNameModel.removeAllElements();
 		textFieldInputValue.setText("");
 	}
-	
+
 	private void resetNewOutputPanel(){
 		comboBoxOutputVarTypeModel.setSelectedItem(COMBOBOX_ZERO_INDEX_ELEMENT);
 		comboBoxOutputVarNameModel.removeAllElements();
 	}
-	
+
 	private void fillInputVarNamePanel(String varType){
 		if(varType.equalsIgnoreCase(COMBOBOX_ZERO_INDEX_ELEMENT))
 			return;
@@ -884,17 +884,17 @@ public class NewInputOutput extends JPanel {
 		}
 		comboBoxOutputVarNameModel.addElement("other");
 	}
-	
+
 	private void setInputPanel(){
 		panelInnerInput.setVisible(true);
 		comboBoxInputVarType.setSelectedIndex(0);
 		comboBoxInputVarNameModel.removeAllElements();
 		textFieldInputValue.setText("");
 		textFieldRounds.setText("");
-		
+
 	}
 
-	
+
 	public void setTreeNodes(){
 		if(rootInputNode.getChildCount()!=0 && rootInputNode.getFirstChild().toString().equalsIgnoreCase("Simulation"))
 			return;
@@ -907,7 +907,7 @@ public class NewInputOutput extends JPanel {
 		treeModelInput.insertNodeInto(new DefaultMutableTreeNode("mode: "+(sproc.getSim().getLoop()?"SO":"PSE")), simNode, simNode.getChildCount());
 		treeInput.expandPath(new TreePath(simNode.getPath()));
 	}
-	
+
 
 	private static String COMBOBOX_ZERO_INDEX_ELEMENT = "-- Select a parameter type --";
 	private ArrayList<String> selectedInputVarName = new ArrayList<String>();

@@ -227,7 +227,7 @@ public class Controller {
 			}
 		}else if(parsedParams.length == 7){
 			try {
-
+                
 				ScudManager.checkParamMakeSimulationFolder(parsedParams);
 			} catch (ParameterException e1) {
 

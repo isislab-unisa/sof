@@ -481,10 +481,11 @@ public class NewSimulationPanel extends JPanel {
 		sim.setLoop(isLoop());
 		sim.setName(sim_name);
 		sproc.setDomainView();
+		simdirpath=textFieldModelFile.getText();
 		if(isLoop())
 		{
 			simcommand=textFieldSimCommand.getText();
-			simdirpath=textFieldModelFile.getText();
+			//simdirpath=textFieldModelFile.getText();
 			selcommand=textFieldSelectionCommand.getText();
 			selpath=textFieldSelectionFunctionFIle.getText();
 			evalcomma=textFieldEvaluateCommand.getText();
