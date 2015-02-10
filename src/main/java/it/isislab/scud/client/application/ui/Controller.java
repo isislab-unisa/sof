@@ -257,7 +257,6 @@ public class Controller {
 			System.out.print("Error "+(parsedParams.length<6?"few":"much more")+" parameters.:\n");
 			System.out.print("usage: MODEL[MASON-NETLOGO-GENERIC] SIM-NAME[String]INPUT.xml[String absolutely]"
 									+ " Output.xml[String absolutely path] DESCRIPTION-SIM[String] SIMULATION-EXECUTABLE-MODEL[String absolutely path]\n");
-
 		}
 	}
 
