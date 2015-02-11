@@ -8,7 +8,7 @@ SCUD is a framework to exploit simulation optimization on Hadoop cluster. SCUD i
 
 The SCUD system presents two main entities: the SCUD client and the remote host machine on which is installed Hadoop, also named the Hadoop master node. Respectively on the left and on the right of the above figure.
 
-![alt tag](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/architecture/ascud.png)
+![alt tag](https://raw.githubusercontent.com/isislab-unisa/scud/master/architecture/ascud.png)
 
 
 SCUD architecture is divided in three main software block: a user frontend that is the SCUD application for running and managing the simulation on the Hadoop infrastructure, used only on the client side; the Hadoop layer that encloses softwares and libraries provided from Hadoop infrastructure, used on the remote side; and the SCUD core that is the main software block composed of six functional blocks, that are used on the client and on the remote side.
@@ -19,7 +19,7 @@ SCUD was designed to execute simulation optimization and parameter space explora
 * the selection and evaluation functions written in any languages supported by the cluster machine (in this case the user must also define the interpreter program path for languages like Python, Groovy etc.);
 * the domain/input/output/evaluate format for the parameters of the simulation.
 
-![alt tag](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/architecture/ascudworkflow.png)
+![alt tag](https://raw.githubusercontent.com/isislab-unisa/scud/master/architecture/ascudworkflow.png)
 
 A SCUD process, shown in the figure, consists in many optimization loops in which  are executed simulations on a set of inputs (generated executing the selection function program) in order to generate the outputs set. The outputs set are evaluated using the evaluate function program. At end the selection program is used again to generate a new inputs set for the next optimization loop (obviously the process ends when the selection function program does not generate a new inputs set). By this computational schema is possible to realize many of the simulation optimization algorithms available literature.
 
