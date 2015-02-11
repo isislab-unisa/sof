@@ -86,13 +86,13 @@ In both SCUD clients are needed some system configuration parameters:
 
 Examples: 
 
-* **SCUD Simple Client** change the parameters setting in the Java class and run it (see  [Getting Started SCUD Client](https://github.com/isislab-unisa/scud/blob/master/README.md#getting-started-scud-client-an-example-of-simple-client) section).
+* **SCUD Simple Java Client** change the parameters setting in the Java class and run it (see  [Getting Started SCUD Java Client](https://github.com/isislab-unisa/scud/blob/master/README.md#getting-started-scud-client-an-example-of-simple-client) section).
 
-* **SCUD Shell Client** `$  java -jar SCUD-Client.jar -h 192.168.0.2  -bindir /usr/  -homedir /root/ -javabindir /usr/bin/ -scudhomedir /user/root/` (see  [Getting Started SCUD Client GUI](https://github.com/isislab-unisa/scud/blob/master/README.md#getting-started-scud-client-gui) section).
+* **SCUD Shell Client** `$  java -jar SCUD-Client.jar -h 192.168.0.2  -bindir /usr/  -homedir /root/ -javabindir /usr/bin/ -scudhomedir /user/root/` (see  [Getting Started SCUD GUI Client](https://github.com/isislab-unisa/scud/blob/master/README.md#getting-started-scud-client-gui) section).
      
 * **SCUD GUI Client** provides the parameters setting in the GUI (see  [Getting Started SCUD Schell Client](https://github.com/isislab-unisa/scud/blob/master/README.md#getting-started-scud-schell-client) section).
 
-## Define Parameters Domain-Input-Output-Evaluate: SCUD XML schemas
+## Define Model Parameters Domain-Input-Output-Evaluate: SCUD XML schemas
 
 SCUD support two executions modes, as mentioned above, PSE and SO.
 In PSE mode the input to the simulation and the output must be in XML, compliant with input/output schemas. In the SO mode the user must not provide the input files but must declare the parameters domain in XML using the domain schema.
@@ -100,29 +100,26 @@ In PSE mode the input to the simulation and the output must be in XML, compliant
 In the following there are shown the SCUD parameters XML schemas:
 
 * **XML Domain**
-To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/domain.xsd) link there is the domain XML schema.
+To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/domain.xsd) link there is the domain XML schema for the simulation model parameters.
 
 - - -
 
 * **XML Input**
-To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/input.xsd) link there is the input XML schema.
+To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/input.xsd) link there is the input XML schema  for the simulation model parameters.
 
 - - -
 
 * **XML Output**
-To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/output.xsd) link there is the output XML schema.
+To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/output.xsd) link there is the output XML schema for the simulation model parameters.
 
 - - -
 
-
-## Getting Started SCUD Client, an example of simple client
+## Getting Started SCUD Client
+#### Getting Started _**SCUD Simple Java Client**_
 
 Here is a minimum example of defining a client application using the SCUD core. The program create new simulation job in SO mode, submit the job to the system and wait until the process are finished.
 
-After build the project by Maven `mvn package`, you are able to run the example in the class `SCUDCoreSimpleApplication.java`. The final release is `target/SCUD-1.0-client-shell.jar`, exec the command in the target dir:
-
-
-	$ java -jar SCUD-1.0-client-shell.jar
+After build the project by Maven `mvn package`, you are able to run the example in the class `SCUDCoreSimpleApplication.java`.
 	
 This simple application shows some SCUD core features: 
 *	create new simulation optimization process;
@@ -249,14 +246,14 @@ public class SCUDCoreSimpleApplication {
 
 
 
-# Getting Started SCUD Client GUI
+#### Getting Started **_SCUD GUI Client_**
 
 SCUD framework provides a Java command line client available in the release (`SCUD-client-ui.jar, SCUDClientUI.java`):
 
     $  java -jar SCUD-client-ui.jar
 
 
-# Getting Started SCUD Schell Client
+#### Getting Started _**SCUD Schell Client**_
 SCUD framework provides a Java command line client available in the release (`SCUD-client-shell.jar, SCUDCoreSimpleApplication.java`):
 
     $  java -jar SCUD-client-shell.jar
