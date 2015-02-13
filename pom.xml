@@ -60,6 +60,26 @@
 
 					</execution>
 					<execution>
+						<id>GUI</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<classifier>client-GUI</classifier>
+							<archive>
+								<manifest>
+									<addClasspath>true</addClasspath>
+									<classpathPrefix>lib/</classpathPrefix>
+									<mainClass>it.isislab.scud.client.application.SCUDClientUI</mainClass>
+								</manifest>
+							</archive>
+							<includes>
+								<include>**/*</include>
+							</includes>
+						</configuration>
+					</execution>
+					<execution>
 						<id>simple-application</id>
 						<goals>
 							<goal>jar</goal>
