@@ -121,6 +121,11 @@ To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/sch
 
 - - -
 
+* **XML Ratings**
+To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/ratings.xsd) link there is the ratings XML schema for the simulation model parameters.
+
+- - -
+
 ## Getting Started SCUD Client
 #### Getting Started _**SCUD Simple Java Client**_
 
