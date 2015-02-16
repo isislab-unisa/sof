@@ -27,7 +27,6 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.transform.Result;
 import javax.xml.transform.stream.StreamResult;
 
-@XmlRootElement(namespace="it.isislab.sof")
 @XmlType(propOrder = { "ratings" })
 public class Ratings {
 	
@@ -44,7 +43,7 @@ public static void main(String[] args) throws Exception {
 			@Override
 			public Result createOutput(String namespaceUri, String suggestedFileName)
 					throws IOException {
-				FileOutputStream out=new FileOutputStream(new File("xsd/ratings.xsd"));
+				FileOutputStream out=new FileOutputStream(new File("xml/schema/ratings.xsd"));
 				StreamResult result = new StreamResult(out);
 				result.setSystemId(suggestedFileName);
 				return result;
