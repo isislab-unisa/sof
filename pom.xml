@@ -140,7 +140,7 @@
 							<finalName>SCUD</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
 							<attach>false</attach>
-							<outputDirectory>scud-resources</outputDirectory>
+							<outputDirectory>${project.build.directory}/scud-resources</outputDirectory>
 						</configuration>
 						<phase>package</phase>
 						<goals>
@@ -162,7 +162,7 @@
 							<finalName>SCUD-RUNNER</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
 							<attach>false</attach>
-							<outputDirectory>scud-resources</outputDirectory>
+							<outputDirectory>${project.build.directory}/scud-resources</outputDirectory>
 						</configuration>
 						<phase>package</phase>
 						<goals>
@@ -183,10 +183,10 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/scud-resources</outputDirectory>
+							<outputDirectory>${project.build.directory}/scud-resources/images</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${basedir}/scud-resources</directory>
+									<directory>${basedir}/scud-resources/images</directory>
 									<filtering>false</filtering>
 								</resource>
 							</resources>
