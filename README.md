@@ -99,7 +99,7 @@ Examples:
      
 * **SCUD GUI Client** provides the parameters setting in the GUI (see  [Getting Started SCUD Schell Client](https://github.com/isislab-unisa/scud/blob/master/README.md#getting-started-scud-schell-client) section).
 
-## Define Model Parameters Domain-Input-Output-Evaluate: SCUD XML schemas
+## Define Model Parameters Domain-Input-Output-Rating (Evaluate): SCUD XML schemas
 
 SCUD support two executions modes, as mentioned above, PSE and SO.
 In PSE mode the input to the simulation and the output must be in XML, compliant with input/output schemas. In the SO mode the user must not provide the input files but must declare the parameters domain in XML using the domain schema.
