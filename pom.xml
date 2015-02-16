@@ -201,10 +201,10 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/examples-sim-aids</outputDirectory>
+							<outputDirectory>${project.build.directory}/examples/</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${basedir}/examples-sim-aids</directory>
+									<directory>${basedir}/examples/*</directory>
 									<filtering>false</filtering>
 								</resource>
 							</resources>

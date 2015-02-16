@@ -1,6 +1,13 @@
 SCUD
 ==================
-SCUD is a Simulation exploration and optimization framework on the CloUD written in Java, designed in [ISISLab](http://www.isislab.it), that allows to run and collect results for two kinds of scenario parameter space exploration (PSE) and simulation optimization (SO) considering the computational resources as available for a not fixed time and subjects to failure. 
+
+Simulation models are becoming an increasingly popular tool for the analysis and optimization of complex real systems in different fields. Finding an optimal system design requires performing a large parameter sweep. Hence, the model tuning process is extremely demanding from a computational point of view, as it requires careful, time-consuming, complex orchestration of coordinated executions. In this paper, we present the design of SCUD (Simulation optimization and exploration on the CloUD), a framework which exploits the computing power of a cloud computational environment in order to realize effective and efficient simulation optimization strategies. 
+
+SCUD offers several attractive features: firstly, SCUD requires "**zero configuration**" as it does not require _any_ additional software installed on the remote node (only standard [Apache Hadoop](http://hadoop.apache.org/) and a SSH access are sufficient). Secondly, SCUD is transparent to the user, since the user is totally unaware that system operates on a distributed environment. Finally, SCUD is highly customizable and programmable, since it enables the running of different simulation toolkits and/or the ability to exploit diverse programming languages -- provided that the hosting platform support them -- under two different simulation optimization scenarios, as developed by the modeler.
+
+The framework core has been fully developed and is available under the Apache public licence. It has been tested and validated on several private platforms, such as a dedicated cluster of workstations, as well as on public platforms, including the Hortonworks Data Platform ([Hortonworks](http://hortonworks.com/)). 
+
+SCUD was designed in [ISISLab](http://www.isislab.it) and allows the simulation modeller to run and collect results in two kinds of scenario parameter space exploration (PSE) and simulation optimization (SO) considering the computational resources as available for a not fixed time and subjects to failure. 
 
 SCUD was designed to manage three kinds of simulation engine: [MASON](http://cs.gmu.edu/~eclab/projects/mason/), [NetLogo](https://ccl.northwestern.edu/netlogo/) and a generic simulator. SCUD provides some software facilities for the first simulators like the automatic simulation input setting and automatic output generating (that does not provide for the generic simulator, for obvious reasons). The generic simulator must be an executable compliant with the cluster machine used.
 
@@ -53,7 +60,7 @@ The output files will be in `target/`:
 		├── SCUD-client-ui.jar
 		├── archive-tmp
 		├── classes
-		├── examples-sim-aids
+		├── examples
 		├── generated-sources
 		├── lib
 		├── maven-archiver
@@ -126,7 +133,7 @@ This simple application shows some SCUD core features:
 *	submit the process; 
 *	wait until the simulation optimization process ends.
 	
-In the `examples-sim-aids` folder project is available all files of a simulation optimization example. This example use a NetLogo simulation named aids.logo, that is based on a simple propagation model of AIDS disease. The optimization process used is defined by the file selection and evaluation functions (respectively `examples-sim-aids/selection.jar` and `examples-sim-aids/evaluation.jar`), this toy optimization process experiment runs until all agents are sick.
+In the `examples/netlogo-aids` folder project is available all files of a simulation optimization example. This example use a NetLogo simulation named aids.logo, that is based on a simple propagation model of AIDS disease. The optimization process used is defined by the file selection and evaluation functions (respectively `examples/netlogo-aids/selection.jar` and `examples/netlogo-aids/evaluation.jar`), this toy optimization process experiment runs until all agents are sick.
 
 In the following there is code of the simple application ([link](https://github.com/spagnuolocarmine/scud/blob/master/src/main/java/it/isislab/scud/client/application/SCUDCoreSimpleApplication.java)).
 
