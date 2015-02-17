@@ -196,7 +196,7 @@
 					<execution>
 						<id>copy-resources-examples</id>
 						<!-- here the phase you need -->
-						<phase>validate</phase>
+						<phase>package</phase>
 						<goals>
 							<goal>copy-resources</goal>
 						</goals>
@@ -204,7 +204,7 @@
 							<outputDirectory>${project.build.directory}/examples/</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${basedir}/examples/*</directory>
+									<directory>${basedir}/examples/</directory>
 									<filtering>false</filtering>
 								</resource>
 							</resources>
