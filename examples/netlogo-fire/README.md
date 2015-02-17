@@ -53,8 +53,13 @@ lo        Link encap:Local Loopback
           
 ```
 
-###2. How to create the Domain, Input, Output and Ratings XML definitions
+###2. How to create new simulation optimization process
 
+1. Execute the SCUD GUI Client.
+```
+java -jar SCUD-1.0-client-GUI.jar
+```
+2. Connect to the Master of your Apache Hadoop cluster.
 
 ###3. How to create a simple selection and evaluate functions
 In this tutorial we are interested to explore the parameters space in order to study the simulated fire propagation.
