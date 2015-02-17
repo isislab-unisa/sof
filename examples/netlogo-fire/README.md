@@ -9,15 +9,17 @@ We will assume you have already downloaded SCUD and compiled using Apache Maven.
 ###We will cover:
 
 1. How to start a HDP 2.2 with Apache Hadoop pre-installed.
-* How to create a simple selection and evaluate functions.
-* How to create the Domain, Input/Output and Ratings XML definitions.
-* How to start the optimization process through SCUD GUI.
-* How to download the results of the optimization process.
+2. How to create the Domain, Input/Output and Ratings XML definitions.
+*  How to create a simple selection and evaluate functions.
+*  How to start the optimization process through SCUD GUI.
+*  How to download the results of the optimization process.
 
 ####Simulation Model Description
 The Fire NetLogo model available in NetLogo examples library (shown in the following figure), _simulates the spread of a fire through a forest_.
 It shows that the fire’s chance of reaching the right edge of the forest depends critically on the density of trees. This is an example of a common feature of
 complex systems, the presence of a non-linear threshold or critical parameter.
+
+![fire model image](https://github.com/isislab-unisa/scud/raw/master/examples/netlogo-fire/images/fire.png)
 
 In this tutorial we refer to an simulation optimization example described in _OpenMOLE_. We will tackle to the problem as described for the OpenMOLE framework but we adopt the evolutionary strategy that distinguish our framework.
 
@@ -50,7 +52,83 @@ lo        Link encap:Local Loopback
           RX bytes:29504 (28.8 Kb)  TX bytes:29504 (28.8 Kb)
           
 ```
-###2. How to create a simple selection and evaluate functions
-###3. How to create the Domain, Input, Output and Ratings XML definitions
+
+###2. How to create the Domain, Input, Output and Ratings XML definitions
+
+
+###3. How to create a simple selection and evaluate functions
+In this tutorial we are interested to explore the parameters space in order to study the simulated fire propagation.
+The parameter space is defined by
+
+* the **seed**, `random-seed`, an integer to initialize the pseudo-random number generator of the model: 
+* the **input value**,`density `, of the model representing the _densities of trees_, 
+* the **output value** of the model representing the number of burned trees.
+
+######Selection function
+
+------------------------------------------------
+
+The selection function generate each time _500_ new XML input with random seed and fixed density of _59_.
+
+```
+import random
+print "<inputs>"
+print "<simulation>"
+print "<name>fire</name>"
+print "<loop>true</loop>"
+print "<description>nota</description>"
+print "<toolkit>netlogo</toolkit>"
+print "</simulation>"
+for i in range(500):
+    print "<input id=\""+str(i)+"\""+ " rounds=\"1\"> <element variableName=\"step\"><long>5000</long></element>"
+    value=random.uniform(-2147483648,2147483647);
+    valueint=int(value)
+    print "<element variableName=\"random-seed\"><long>"+str(valueint)+"</long></element>"
+    print "<element variableName=\"density\"><double>59</double></element>"
+    print "</input>"  
+print "</inputs>"
+```
+
+######Evaluate function
+
+------------------------------------------------
+The evaluation function given the initial number of trees and the burned trees at the end of simulation returns the percentage of the burned trees.
+
+```
+public class Evaluation {
+
+	public static void main(String[] args) throws SAXException, ParserConfigurationException {
+
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		Document doc;
+		try {
+			doc = dBuilder.parse(new File(args[0]));
+			NodeList output = doc.getElementsByTagName("output");
+			int id = Integer.parseInt( output.item(0).getAttributes().item(0).getNodeValue());
+			NodeList c=doc.getElementsByTagName("param");
+			Element ccc1=(Element) c.item(0);
+			Element ccc2=(Element) c.item(1);
+			Element ccc3=(Element) c.item(2);
+			float iniz=Float.parseFloat(ccc1.getChildNodes().item(1).getTextContent());
+			float density=Float.parseFloat(ccc2.getChildNodes().item(1).getTextContent());
+			float burned=Float.parseFloat(ccc3.getChildNodes().item(1).getTextContent());
+			float percentage=(burned/iniz)*100;
+		/*
+			System.out.print("id:"+id+";");
+			System.out.print("Initial Tree:"+iniz+";");
+			System.out.print("Burned tree:"+burned+";" );
+			System.out.print("Burned percentage:"+percentage+";");
+		 */
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+
+	} 
+}
+```
+
+
 ###4. How to start the optimization process through SCUD GUI
 ###5. How to download the results of the optimization process

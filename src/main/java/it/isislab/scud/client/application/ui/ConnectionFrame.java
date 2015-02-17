@@ -15,22 +15,7 @@ import javax.swing.border.*;
  */
 public class ConnectionFrame extends JFrame {
 	private ConnectionFrame frame;
-	
-	
-	/*
-	//OXYGEN for testing
-	public  String host_address= "172.16.142.103";
-	public  String pstring="clgvittorio";
-	public  String port="22";
-	public  String bindir="/isis/hadoop-2.4.0";  
-	public  String homedir="/isis/"; 
-	public  String javabindir ="/usr/local/java/bin";
-	public  String user_name="isis";
-	public  String scudhomedir="/";
-	public  String scudjarpath="scud-resources/SCUD.jar";
-	public  String scudjarrunnerpath="scud-resources/SCUD-RUNNER.jar";
-	
-	*/
+
 	
 	/** real code*/
 	public  String host_address="";
@@ -55,9 +40,9 @@ public class ConnectionFrame extends JFrame {
 		boolean setDefaultText = true;
 		
 		if(setDefaultText){
-			textFielduserName.setText("isis");
+			textFielduserName.setText("");
 			textFieldIP.setText("172.16.142.103");
-			passwordFieldPassword.setText("clgvittorio");
+			passwordFieldPassword.setText("");
 			textFieldPort.setText("22");
 			textFieldHadoopHome.setText("/isis/hadoop-2.4.0");  
 			textFieldSCUDHome.setText("/isis/"); 

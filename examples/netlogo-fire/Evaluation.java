@@ -16,7 +16,6 @@ import org.xml.sax.SAXException;
 
 public class Evaluation {
 
-
 	public static void main(String[] args) throws SAXException, ParserConfigurationException {
 
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -45,11 +44,5 @@ public class Evaluation {
 		}
 		
 
-	}   
-
-
-
-
-
-
+	} 
 }
