@@ -222,8 +222,8 @@ public class SCUDRUNNER{
 		}
 
 		bash+=s.getLoop()+" "+ 
-				s.getAuthor()+" "+ 
-				s.getDescription();
+				s.getAuthor();//+" ";//+ 
+				//"\""+s.getDescription()+"\"";
 
 
 

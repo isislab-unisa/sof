@@ -57,7 +57,7 @@ public class SCUD {
 				    Runtime.getRuntime().exec("rm -r /home/michele/Scrivania/aids/output");
 		         } catch (IOException e) {e.printStackTrace();}*/
 
-		if(args.length <9 || args.length==12 || args.length==13 || args.length>15)
+		if(args.length <9 || args.length==11 || args.length==12 || args.length>=15 )
 		{
 
 			System.out.println("Usage:");
@@ -95,7 +95,7 @@ public class SCUD {
 		String SIM_DESCRIPTION_OUTPUT_XML_DOMAIN= null;/*path of domain file */
 		String SIM_EXECUTION_INPUT_XML=null;/*execution input path*/
 		boolean ISLOOP=false;/*false[one] | true[loop]*/
-		String DESCRIPTION=null;/*simulations' description*/
+		//String DESCRIPTION=null;/*simulations' description*/
 		String INTERPRETER_REMOTE_PATH_EVALUATION=null;/*remote program bin path for executing EvalFoo*/
 		String EXECUTABLE_RATING_FILE=null;/*path of rating file*/
 		String SIM_RATING_PATH=null;
@@ -109,7 +109,7 @@ public class SCUD {
 		
 		
 		
-		if(args.length==14){
+		if(args.length==13){
 			SIMULATION_NAME=args[0]; 
 			SIMULATION_HOME= args[1];
 			SIM_TYPE=args[2];
@@ -121,14 +121,17 @@ public class SCUD {
 			SIM_RATING_PATH=args[8];
 			ISLOOP=Boolean.parseBoolean(args[9]);
 			AUTHOR=args[10];
-			DESCRIPTION=args[11];
-			INTERPRETER_REMOTE_PATH_EVALUATION=args[12];
-			EXECUTABLE_RATING_FILE=args[13];
+			//DESCRIPTION=args[11];
+			INTERPRETER_REMOTE_PATH_EVALUATION=args[11];
+			EXECUTABLE_RATING_FILE=args[12];
+		//	System.out.println(DESCRIPTION);
+			//System.out.println(INTERPRETER_REMOTE_PATH_EVALUATION);
+
 			
 		}
 
 
-		else if(args.length==10){
+		else if(args.length==9){
 			SIMULATION_NAME=args[0];
 			SIMULATION_HOME=args[1];
 			SIM_TYPE=args[2];
@@ -138,12 +141,12 @@ public class SCUD {
 			SIM_DESCRIPTION_OUTPUT_XML_DOMAIN= args[6];
 			ISLOOP=Boolean.parseBoolean(args[7]);
 			AUTHOR=args[8];
-			DESCRIPTION=args[9];
+			//DESCRIPTION=args[9];
 		}
 
 
 		
-		else if(args.length==15){
+		else if(args.length==14){
 			SIMULATION_NAME=args[0]; 
 			SIMULATION_HOME= args[1];
 			SIM_TYPE=args[2];
@@ -156,15 +159,15 @@ public class SCUD {
 			SIM_RATING_PATH=args[9];
 			ISLOOP=Boolean.parseBoolean(args[10]);
 			AUTHOR=args[11];
-			DESCRIPTION=args[12];
-			INTERPRETER_REMOTE_PATH_EVALUATION=args[13];
-			EXECUTABLE_RATING_FILE=args[14];
+		//	DESCRIPTION=args[12];
+			INTERPRETER_REMOTE_PATH_EVALUATION=args[12];
+			EXECUTABLE_RATING_FILE=args[13];
 			
 			
 			
 		}
 		
-		else if(args.length==11){
+		else if(args.length==10){
 			SIMULATION_NAME=args[0];
 			SIMULATION_HOME=args[1];
 			SIM_TYPE=args[2];
@@ -175,7 +178,7 @@ public class SCUD {
 			SIM_DESCRIPTION_OUTPUT_XML_DOMAIN= args[7];
 			ISLOOP=Boolean.parseBoolean(args[8]);
 			AUTHOR=args[9];
-			DESCRIPTION=args[10];
+		//	DESCRIPTION=args[10];
 		}
 		
 		
@@ -214,7 +217,7 @@ public class SCUD {
 		job.setBoolean("simulation.executable.mode", ISLOOP);
 		//job.set("simulation.executable.mode", ISLOOP);
 		job.set("simulation.executable.author", AUTHOR);
-		job.set("simulation.executable.description", DESCRIPTION);
+		//job.set("simulation.executable.description", DESCRIPTION);
 		job.set("simulation.description.output.domain",SIM_DESCRIPTION_OUTPUT_XML_DOMAIN);
 		
 
@@ -242,7 +245,7 @@ public class SCUD {
 		FileInputFormat.addInputPath(job,new Path(SIM_EXECUTION_INPUT_DATA_MAPPER)/*DIRECTORY INPUT*/);
 		FileOutputFormat.setOutputPath(job, new Path(SIM_EXECUTION_OUTPUT_MAPPER));
 
-
+				
 		if(SIM_TYPE.equalsIgnoreCase("mason"))
 		{
 			job.setMapperClass(SCUDMapperMason.class);
@@ -251,6 +254,7 @@ public class SCUD {
 		}else
 			if(SIM_TYPE.equalsIgnoreCase("netlogo"))
 			{
+				
 				job.setMapperClass(SCUDMapperNetLogo.class);
 				job.setReducerClass(SCUDReducerNetLogo.class);
 			}else

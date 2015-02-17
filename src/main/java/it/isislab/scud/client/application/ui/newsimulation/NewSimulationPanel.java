@@ -33,7 +33,7 @@ public class NewSimulationPanel extends JPanel {
 		scrollPane1 = new JScrollPane();
 		textArea1 = new JTextArea();
 		panel3 = new JPanel();
-		label5 = new JLabel();
+		labelModelFile = new JLabel();
 		label6 = new JLabel();
 		label7 = new JLabel();
 		label8 = new JLabel();
@@ -138,7 +138,7 @@ public class NewSimulationPanel extends JPanel {
 			panel3.setBorder(new TitledBorder("Simulation Optimization details"));
 
 			//---- label5 ----
-			label5.setText("Simulation model:");
+			labelModelFile.setText("Simulation model:");
 
 			//---- label6 ----
 			label6.setText("Simulation toolkit command:");
@@ -166,7 +166,7 @@ public class NewSimulationPanel extends JPanel {
 							.addComponent(label8)
 							.addComponent(label10)
 							.addComponent(label7)
-							.addComponent(label5)
+							.addComponent(labelModelFile)
 							.addComponent(label9))
 						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 						.addGroup(panel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
@@ -183,7 +183,7 @@ public class NewSimulationPanel extends JPanel {
 					.addGroup(panel3Layout.createSequentialGroup()
 						.addGap(10, 10, 10)
 						.addGroup(panel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-							.addComponent(label5)
+							.addComponent(labelModelFile)
 							.addComponent(textFieldModelFile, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGap(18, 18, 18)
 						.addGroup(panel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
@@ -280,9 +280,9 @@ public class NewSimulationPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(((String)comboBoxToolkit.getSelectedItem()).equalsIgnoreCase("generic")){
-					textFieldModelFile.setEnabled(true);
+					textFieldSimCommand.setEnabled(true);
 				}else{
-					textFieldModelFile.setEnabled(false);
+					textFieldSimCommand.setEnabled(false);
 				}
 				
 			}
@@ -394,6 +394,7 @@ public class NewSimulationPanel extends JPanel {
 					textFieldSelectionFunctionFIle.setText(fc.getSelectedFile().getAbsolutePath());
 				else
 					JOptionPane.showMessageDialog(textFieldSelectionFunctionFIle, "Selection failed!\nPlease select your selection function executable");
+				
 			}
 		});
 		
@@ -438,20 +439,21 @@ public class NewSimulationPanel extends JPanel {
 					textFieldEvaluateFunctionFile.setText(fc.getSelectedFile().getAbsolutePath());
 				else
 					JOptionPane.showMessageDialog(textFieldEvaluateFunctionFile, "Selection failed!\nPlease select your evaluate function executable");
+				
 			}
 		});
 	}
 	private void switchSOPanel(boolean status)
 	{
 //		boolean status=!panel3.isEnabled();
-		panel3.setEnabled(status);
+		//panel3.setEnabled(status);
 		textFieldSimCommand.setEnabled(status);
 		textFieldSelectionCommand.setEnabled(status);
 		textFieldEvaluateCommand.setEnabled(status);
 		textFieldSelectionFunctionFIle.setEnabled(status);
-		textFieldModelFile.setEnabled(status);
+		//textFieldModelFile.setEnabled(status);
 		textFieldEvaluateFunctionFile.setEnabled(status);
-		label5.setEnabled(status);
+		//labelModelFile.setEnabled(status);
 		label6.setEnabled(status);
 		label7.setEnabled(status);
 		label8.setEnabled(status);
@@ -476,13 +478,14 @@ public class NewSimulationPanel extends JPanel {
 		sim.setAuthor(author);
 		sim.setToolkit(toolkit);
 		sim.setDescription(descr);
-		sim.setLoop(panel3.isEnabled());
+		sim.setLoop(isLoop());
 		sim.setName(sim_name);
 		sproc.setDomainView();
-		if(panel3.isEnabled())
+		simdirpath=textFieldModelFile.getText();
+		if(isLoop())
 		{
 			simcommand=textFieldSimCommand.getText();
-			simdirpath=textFieldModelFile.getText();
+			//simdirpath=textFieldModelFile.getText();
 			selcommand=textFieldSelectionCommand.getText();
 			selpath=textFieldSelectionFunctionFIle.getText();
 			evalcomma=textFieldEvaluateCommand.getText();
@@ -496,6 +499,10 @@ public class NewSimulationPanel extends JPanel {
 			}
 		}
 		
+	}
+	
+	private boolean isLoop(){
+		return (((String)comboBoxMode.getSelectedItem()).contains("SO"))?true:false;
 	}
 	
 	public Simulation getSim(){
@@ -525,7 +532,7 @@ public class NewSimulationPanel extends JPanel {
 	private JScrollPane scrollPane1;
 	private JTextArea textArea1;
 	private JPanel panel3;
-	private JLabel label5;
+	private JLabel labelModelFile;
 	private JLabel label6;
 	private JLabel label7;
 	private JLabel label8;

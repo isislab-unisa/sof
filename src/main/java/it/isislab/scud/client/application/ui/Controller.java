@@ -15,6 +15,7 @@ import it.isislab.scud.core.model.parameters.xsd.elements.ParameterString;
 import it.isislab.scud.core.model.parameters.xsd.input.Input;
 import it.isislab.scud.core.model.parameters.xsd.message.Message;
 import it.isislab.scud.core.model.parameters.xsd.output.Output;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,10 +25,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 import com.jcraft.jsch.JSchException;
 
@@ -199,7 +203,7 @@ public class Controller {
 				ScudManager.checkParamMakeSimulationFolder(parsedParams);
 			} catch (ParameterException e1) {
 
-				//					c.printf(e1.getMessage());
+				System.out.print(e1.getMessage());
 
 			}
 			try {
@@ -218,16 +222,16 @@ public class Controller {
 
 			} catch (Exception e) {
 
-				//					c.printf("Error in making execution environment!\n");
+				System.out.print("Error in making execution environment!\n");
 
 			}
 		}else if(parsedParams.length == 7){
 			try {
-
+                
 				ScudManager.checkParamMakeSimulationFolder(parsedParams);
 			} catch (ParameterException e1) {
 
-				//c.printf(e1.getMessage());
+				System.out.print(e1.getMessage());
 
 			}
 			try {
@@ -245,15 +249,14 @@ public class Controller {
 
 			} catch (Exception e) {
 
-				//c.printf("Error in making execution environment!\n");
+				System.out.print("Error in making execution environment!\n");
 
 			}
 		}
 		else{
-			//				c.printf("Error "+(parsedParams.length<6?"few":"much more")+" parameters.:\n");
-			//				c.printf("usage: MODEL[MASON-NETLOGO-GENERIC] SIM-NAME[String]INPUT.xml[String absolutely]"
-			//						+ " Output.xml[String absolutely path] DESCRIPTION-SIM[String] SIMULATION-EXECUTABLE-MODEL[String absolutely path]\n");
-
+			System.out.print("Error "+(parsedParams.length<6?"few":"much more")+" parameters.:\n");
+			System.out.print("usage: MODEL[MASON-NETLOGO-GENERIC] SIM-NAME[String]INPUT.xml[String absolutely]"
+									+ " Output.xml[String absolutely path] DESCRIPTION-SIM[String] SIMULATION-EXECUTABLE-MODEL[String absolutely path]\n");
 		}
 	}
 
@@ -268,14 +271,14 @@ public class Controller {
 				ScudManager.checkParamMakeSimulationFolder(parsedParams);
 			} catch (ParameterException e1) {
 
-				//					c.printf(e1.getMessage());
+				System.out.print(e1.getMessage());
 
 			}
 			try {
 
 
 				ScudManager.makeSimulationFolderForLoop(
-						SCUDShellClient.session,
+						session,
 						parsedParams[0]/*MODEL TYPE MASON - NETLOGO -GENERIC*/,
 						parsedParams[1],/*SIM NAME*/
 						parsedParams[2],/*domain_pathname*/ 
@@ -289,8 +292,9 @@ public class Controller {
 
 			} catch (Exception e) {
 
-				//e.printStackTrace();
-				//					c.printf("Error in making execution environment!\n");
+				System.out.print("Error in making execution environment!\n");
+				System.out.print(e.getMessage());
+				e.printStackTrace();
 
 			}
 		}else if(parsedParams.length == 11){
@@ -299,7 +303,8 @@ public class Controller {
 				ScudManager.checkParamMakeSimulationFolder(parsedParams);
 			} catch (ParameterException e1) {
 
-				//		c.printf(e1.getMessage());
+				System.out.print(e1.getMessage());
+				e1.printStackTrace();
 
 			}
 			try {
@@ -307,7 +312,7 @@ public class Controller {
 
 
 				ScudManager.makeSimulationFolderForLoop(
-						SCUDShellClient.session,
+						session,
 						parsedParams[0]/*MODEL TYPE MASON - NETLOGO -GENERIC*/,
 						parsedParams[1],/*SIM NAME*/
 						parsedParams[2],/*domain_pathname*/ 
@@ -324,18 +329,19 @@ public class Controller {
 			} catch (Exception e) {
 
 
-				//c.printf("Error in making execution environment!\n");
+				System.out.print("Error in making execution environment!\n");
+				e.printStackTrace();
 
 			}
 
 
 
 		}else{
-			//				c.printf("Error "+(parsedParams.length<9?"few":"much more")+" parameters.:\n");
-			//				c.printf("usage: MODEL[MASON-NETLOGO-GENERIC] SIM-NAME[String] "+
-			//						"DOMAIN.xml[String absolutely]"+"bash command[for function selection example /usr/bin/sh]"
-			//						+ " Output.xml[String absolutely path] "+"function selection absolutly path"+
-			//						"rating selection absolutly path"+"DESCRIPTION-SIM[String] SIMULATION-EXECUTABLE-MODEL[String absolutely path]\n");
+			System.out.print("Error "+(parsedParams.length<9?"few":"much more")+" parameters.:\n");
+			System.out.print("usage: MODEL[MASON-NETLOGO-GENERIC] SIM-NAME[String] "+
+									"DOMAIN.xml[String absolutely]"+"bash command[for function selection example /usr/bin/sh]"
+									+ " Output.xml[String absolutely path] "+"function selection absolutly path"+
+									"rating selection absolutly path"+"DESCRIPTION-SIM[String] SIMULATION-EXECUTABLE-MODEL[String absolutely path]\n");
 
 		}
 	}
@@ -450,9 +456,9 @@ public class Controller {
 			String path = (params.length < 2)? System.getProperty("user.dir"):params[1];
 			path+=File.separator+"SIM-"+sim.getId()+".xls";
 
-			HSSFWorkbook workbook = new HSSFWorkbook();
-			HSSFSheet sheet = workbook.createSheet("Simulation ID "+sim.getId());
-
+			SXSSFWorkbook workbook = new SXSSFWorkbook();
+			Sheet sheet = workbook.createSheet("Simulation ID "+sim.getId());
+   
 
 			int row_num=0;
 			if(sim.getLoop())
@@ -528,8 +534,9 @@ public class Controller {
 							int cell_input=1,cell_output=1;
 							for(Parameter p : mapio.get(pt).getI().param_element)
 							{
-								Cell c_input_name=row_input_names.createCell(++cell_input);
-								Cell c_input_value=row_input_values.createCell(++cell_input);
+								Cell c_input_name=row_input_names.createCell(cell_input);
+								Cell c_input_value=row_input_values.createCell(cell_input);
+								cell_input++;
 								c_input_name.setCellValue(p.getvariable_name());
 								if(p.getparam() instanceof ParameterDouble) 
 									c_input_value.setCellValue(((ParameterDouble)p.getparam()).getvalue());
@@ -542,8 +549,9 @@ public class Controller {
 							if(mapio.get(pt).getO()!=null)
 								for(Parameter p : mapio.get(pt).getO().output_params)
 								{
-									Cell c_output_name=row_output_names.createCell(++cell_output);
-									Cell c_output_value=row_output_values.createCell(++cell_output);
+									Cell c_output_name=row_output_names.createCell(cell_output);
+									Cell c_output_value=row_output_values.createCell(cell_output);
+									cell_output++;
 									c_output_name.setCellValue(p.getvariable_name());
 									if(p.getparam() instanceof ParameterDouble) 
 										c_output_value.setCellValue(((ParameterDouble)p.getparam()).getvalue());
@@ -630,6 +638,7 @@ public class Controller {
 
 		}
 	}
+	
 	private  boolean login()
 	{
 		EnvironmentSession session=null;

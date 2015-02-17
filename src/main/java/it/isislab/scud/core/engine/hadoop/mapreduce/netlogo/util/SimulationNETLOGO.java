@@ -75,6 +75,7 @@ public class SimulationNETLOGO {
 
 		HeadlessWorkspace workspace =
 				HeadlessWorkspace.newInstance() ;
+		
 		workspace.open(program_path);
 
 
@@ -127,6 +128,11 @@ public class SimulationNETLOGO {
 				String value=inputSimulation.get(field);
 				if(field.equalsIgnoreCase("step"))
 				{numer_step=Long.parseLong(value);}
+				else if(field.equalsIgnoreCase("random-seed")){
+					workspace.command("random-seed "+Long.parseLong(value));
+					
+				}
+					
 				else{workspace.command("set "+field+" "+value);}
 
 

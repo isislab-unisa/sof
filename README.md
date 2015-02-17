@@ -1,5 +1,13 @@
-# SCUD
-SCUD is a Simulation exploration and optimization framework on the CloUD written in Java, designed in [ISISLab](http://www.isislab.it), that allows to run and collect results for two kinds of scenario parameter space exploration (PSE) and simulation optimization (SO) considering the computational resources as available for a not fixed time and subjects to failure. 
+SCUD
+==================
+
+Simulation models are becoming an increasingly popular tool for the analysis and optimization of complex real systems in different fields. Finding an optimal system design requires performing a large parameter sweep. Hence, the model tuning process is extremely demanding from a computational point of view, as it requires careful, time-consuming, complex orchestration of coordinated executions. In this paper, we present the design of SCUD (Simulation optimization and exploration on the CloUD), a framework which exploits the computing power of a cloud computational environment in order to realize effective and efficient simulation optimization strategies. 
+
+SCUD offers several attractive features: firstly, SCUD requires "**zero configuration**" as it does not require _any_ additional software installed on the remote node (only standard [Apache Hadoop](http://hadoop.apache.org/) and a SSH access are sufficient). Secondly, SCUD is transparent to the user, since the user is totally unaware that system operates on a distributed environment. Finally, SCUD is highly customizable and programmable, since it enables the running of different simulation toolkits and/or the ability to exploit diverse programming languages -- provided that the hosting platform support them -- under two different simulation optimization scenarios, as developed by the modeler.
+
+The framework core has been fully developed and is available under the Apache public licence. It has been tested and validated on several private platforms, such as a dedicated cluster of workstations, as well as on public platforms, including the Hortonworks Data Platform ([Hortonworks](http://hortonworks.com/)). 
+
+SCUD was designed in [ISISLab](http://www.isislab.it) and allows the simulation modeller to run and collect results in two kinds of scenario parameter space exploration (PSE) and simulation optimization (SO) considering the computational resources as available for a not fixed time and subjects to failure. 
 
 SCUD was designed to manage three kinds of simulation engine: [MASON](http://cs.gmu.edu/~eclab/projects/mason/), [NetLogo](https://ccl.northwestern.edu/netlogo/) and a generic simulator. SCUD provides some software facilities for the first simulators like the automatic simulation input setting and automatic output generating (that does not provide for the generic simulator, for obvious reasons). The generic simulator must be an executable compliant with the cluster machine used.
 
@@ -7,7 +15,7 @@ SCUD is a framework to exploit simulation optimization on Hadoop cluster. SCUD i
 
 The SCUD system presents two main entities: the SCUD client and the remote host machine on which is installed Hadoop, also named the Hadoop master node. Respectively on the left and on the right of the above figure.
 
-![alt tag](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/architecture/ascud.png)
+![alt tag](https://raw.githubusercontent.com/isislab-unisa/scud/master/architecture/ascud.png)
 
 
 SCUD architecture is divided in three main software block: a user frontend that is the SCUD application for running and managing the simulation on the Hadoop infrastructure, used only on the client side; the Hadoop layer that encloses softwares and libraries provided from Hadoop infrastructure, used on the remote side; and the SCUD core that is the main software block composed of six functional blocks, that are used on the client and on the remote side.
@@ -18,7 +26,7 @@ SCUD was designed to execute simulation optimization and parameter space explora
 * the selection and evaluation functions written in any languages supported by the cluster machine (in this case the user must also define the interpreter program path for languages like Python, Groovy etc.);
 * the domain/input/output/evaluate format for the parameters of the simulation.
 
-![alt tag](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/architecture/ascudworkflow.png)
+![alt tag](https://raw.githubusercontent.com/isislab-unisa/scud/master/architecture/ascudworkflow.png)
 
 A SCUD process, shown in the figure, consists in many optimization loops in which  are executed simulations on a set of inputs (generated executing the selection function program) in order to generate the outputs set. The outputs set are evaluated using the evaluate function program. At end the selection program is used again to generate a new inputs set for the next optimization loop (obviously the process ends when the selection function program does not generate a new inputs set). By this computational schema is possible to realize many of the simulation optimization algorithms available literature.
 
@@ -52,7 +60,7 @@ The output files will be in `target/`:
 		├── SCUD-client-ui.jar
 		├── archive-tmp
 		├── classes
-		├── examples-sim-aids
+		├── examples
 		├── generated-sources
 		├── lib
 		├── maven-archiver
@@ -85,13 +93,13 @@ In both SCUD clients are needed some system configuration parameters:
 
 Examples: 
 
-* **SCUD Simple Client** change the parameters setting in the Java class and run it (see  [Getting Started SCUD Client](https://github.com/isislab-unisa/scud/blob/master/README.md#getting-started-scud-client-an-example-of-simple-client) section).
+* **SCUD Simple Java Client** change the parameters setting in the Java class and run it (see  [Getting Started SCUD Java Client](https://github.com/isislab-unisa/scud/blob/master/README.md#getting-started-scud-client-an-example-of-simple-client) section).
 
-* **SCUD Shell Client** `$  java -jar SCUD-Client.jar -h 192.168.0.2  -bindir /usr/  -homedir /root/ -javabindir /usr/bin/ -scudhomedir /user/root/` (see  [Getting Started SCUD Client GUI](https://github.com/isislab-unisa/scud/blob/master/README.md#getting-started-scud-client-gui) section).
+* **SCUD Shell Client** `$  java -jar SCUD-Client.jar -h 192.168.0.2  -bindir /usr/  -homedir /root/ -javabindir /usr/bin/ -scudhomedir /user/root/` (see  [Getting Started SCUD GUI Client](https://github.com/isislab-unisa/scud/blob/master/README.md#getting-started-scud-client-gui) section).
      
 * **SCUD GUI Client** provides the parameters setting in the GUI (see  [Getting Started SCUD Schell Client](https://github.com/isislab-unisa/scud/blob/master/README.md#getting-started-scud-schell-client) section).
 
-## Define Parameters Domain-Input-Output-Evaluate: SCUD XML schemas
+## Define Model Parameters Domain-Input-Output-Rating (Evaluate): SCUD XML schemas
 
 SCUD support two executions modes, as mentioned above, PSE and SO.
 In PSE mode the input to the simulation and the output must be in XML, compliant with input/output schemas. In the SO mode the user must not provide the input files but must declare the parameters domain in XML using the domain schema.
@@ -99,36 +107,38 @@ In PSE mode the input to the simulation and the output must be in XML, compliant
 In the following there are shown the SCUD parameters XML schemas:
 
 * **XML Domain**
-To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/domain.xsd) link there is the domain XML schema.
+To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/domain.xsd) link there is the domain XML schema for the simulation model parameters.
 
 - - -
 
 * **XML Input**
-To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/input.xsd) link there is the input XML schema.
+To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/input.xsd) link there is the input XML schema  for the simulation model parameters.
 
 - - -
 
 * **XML Output**
-To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/output.xsd) link there is the output XML schema.
+To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/output.xsd) link there is the output XML schema for the simulation model parameters.
 
 - - -
 
+* **XML Ratings**
+To [this](https://raw.githubusercontent.com/spagnuolocarmine/scud/master/xml/schema/ratings.xsd) link there is the ratings XML schema for the simulation model parameters.
 
-## Getting Started SCUD Client, an example of simple client
+- - -
+
+## Getting Started SCUD Client
+#### Getting Started _**SCUD Simple Java Client**_
 
 Here is a minimum example of defining a client application using the SCUD core. The program create new simulation job in SO mode, submit the job to the system and wait until the process are finished.
 
-After build the project by Maven `mvn package`, you are able to run the example in the class `SCUDCoreSimpleApplication.java`. The final release is `target/SCUD-1.0-client-shell.jar`, exec the command in the target dir:
-
-
-	$ java -jar SCUD-1.0-client-shell.jar
+After build the project by Maven `mvn package`, you are able to run the example in the class `SCUDCoreSimpleApplication.java`.
 	
 This simple application shows some SCUD core features: 
 *	create new simulation optimization process;
 *	submit the process; 
 *	wait until the simulation optimization process ends.
 	
-In the `examples-sim-aids` folder project is available all files of a simulation optimization example. This example use a NetLogo simulation named aids.logo, that is based on a simple propagation model of AIDS disease. The optimization process used is defined by the file selection and evaluation functions (respectively `examples-sim-aids/selection.jar` and `examples-sim-aids/evaluation.jar`), this toy optimization process experiment runs until all agents are sick.
+In the `examples/netlogo-aids` folder project is available all files of a simulation optimization example. This example use a NetLogo simulation named aids.logo, that is based on a simple propagation model of AIDS disease. The optimization process used is defined by the file selection and evaluation functions (respectively `examples/netlogo-aids/selection.jar` and `examples/netlogo-aids/evaluation.jar`), this toy optimization process experiment runs until all agents are sick.
 
 In the following there is code of the simple application ([link](https://github.com/spagnuolocarmine/scud/blob/master/src/main/java/it/isislab/scud/client/application/SCUDCoreSimpleApplication.java)).
 
@@ -248,14 +258,14 @@ public class SCUDCoreSimpleApplication {
 
 
 
-# Getting Started SCUD Client GUI
+#### Getting Started **_SCUD GUI Client_**
 
 SCUD framework provides a Java command line client available in the release (`SCUD-client-ui.jar, SCUDClientUI.java`):
 
     $  java -jar SCUD-client-ui.jar
 
 
-# Getting Started SCUD Schell Client
+#### Getting Started _**SCUD Schell Client**_
 SCUD framework provides a Java command line client available in the release (`SCUD-client-shell.jar, SCUDCoreSimpleApplication.java`):
 
     $  java -jar SCUD-client-shell.jar

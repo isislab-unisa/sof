@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<output>
+    <param variableName="step">
+        <long>0</long>
+    </param>
+    <param variableName="density">
+        <double>0.0</double>
+    </param>
+    <param variableName="burned-trees">
+        <double>0.0</double>
+    </param>
+    <param variableName="initial-trees">
+        <double>0.0</double>
+    </param>
+</output>

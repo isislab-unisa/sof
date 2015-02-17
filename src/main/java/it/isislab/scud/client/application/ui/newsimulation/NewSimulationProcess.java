@@ -1,5 +1,6 @@
 package it.isislab.scud.client.application.ui.newsimulation;
 
+import it.isislab.scud.client.application.ui.MainFrame;
 import it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import it.isislab.scud.core.model.parameters.xsd.domain.Domain;
 
@@ -10,12 +11,12 @@ import javax.swing.JPanel;
 
 public class NewSimulationProcess extends JPanel{
 	
-	private NewSimulationPanel newsimpan;
+	protected NewSimulationPanel newsimpan;
 	private NewDomain newdomain;
 	private NewInputOutput newio;
-	protected JFrame mainFrame;
+	protected MainFrame mainFrame;
 	
-	public NewSimulationProcess(String sim_name, JFrame main_frame)
+	public NewSimulationProcess(String sim_name, MainFrame main_frame)
 	{
 		newsimpan=new NewSimulationPanel(sim_name,this);
 		newdomain=new NewDomain(this);

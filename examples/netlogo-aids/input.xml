@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<inputs>
+  <simulation author="pippo">
+    <name>aids</name>
+    <loop>true</loop>
+    <note>test nota</note>
+    <toolkit>netlogo</toolkit>
+    </simulation>
+    <input id="1" rounds="10">
+    <element variableName="step">
+      <long>315</long>
+      </element>
+      <element variableName="initial-people">
+      <long>325</long></element>
+    <element variableName="average-coupling-tendency">
+      <double>5</double>
+      </element>
+    <element variableName="average-commitment">
+      <double>50</double>
+      </element>
+    <element variableName="average-condom-use">
+      <double>0</double>
+      </element>
+    <element variableName="average-test-frequency">
+      <double>0</double>
+      </element>
+</input>
+<input id="2" rounds="10">
+    <element variableName="step">
+      <long>315</long>
+      </element>
+      <element variableName="initial-people">
+      <long>325</long></element>
+    <element variableName="average-coupling-tendency">
+      <double>5</double>
+      </element>
+    <element variableName="average-commitment">
+      <double>50</double>
+      </element>
+    <element variableName="average-condom-use">
+      <double>1</double>
+      </element>
+    <element variableName="average-test-frequency">
+      <double>2</double>
+      </element>
+</input>
+<input id="3" rounds="10">
+    <element variableName="step">
+      <long>315</long>
+      </element>
+      <element variableName="initial-people">
+      <long>325</long></element>
+    <element variableName="average-coupling-tendency">
+      <double>5</double>
+      </element>
+    <element variableName="average-commitment">
+      <double>50</double>
+      </element>
+    <element variableName="average-condom-use">
+      <double>3</double>
+      </element>
+    <element variableName="average-test-frequency">
+      <double>2</double>
+      </element>
+</input>
+</inputs>
+    

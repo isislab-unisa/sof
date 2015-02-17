@@ -60,6 +60,26 @@
 
 					</execution>
 					<execution>
+						<id>GUI</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<classifier>client-GUI</classifier>
+							<archive>
+								<manifest>
+									<addClasspath>true</addClasspath>
+									<classpathPrefix>lib/</classpathPrefix>
+									<mainClass>it.isislab.scud.client.application.SCUDClientUI</mainClass>
+								</manifest>
+							</archive>
+							<includes>
+								<include>**/*</include>
+							</includes>
+						</configuration>
+					</execution>
+					<execution>
 						<id>simple-application</id>
 						<goals>
 							<goal>jar</goal>
@@ -120,7 +140,7 @@
 							<finalName>SCUD</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
 							<attach>false</attach>
-							<outputDirectory>scud-resources</outputDirectory>
+							<outputDirectory>${project.build.directory}/scud-resources</outputDirectory>
 						</configuration>
 						<phase>package</phase>
 						<goals>
@@ -142,7 +162,7 @@
 							<finalName>SCUD-RUNNER</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
 							<attach>false</attach>
-							<outputDirectory>scud-resources</outputDirectory>
+							<outputDirectory>${project.build.directory}/scud-resources</outputDirectory>
 						</configuration>
 						<phase>package</phase>
 						<goals>
@@ -163,10 +183,10 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/scud-resources</outputDirectory>
+							<outputDirectory>${project.build.directory}/scud-resources/images</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${basedir}/scud-resources</directory>
+									<directory>${basedir}/scud-resources/images</directory>
 									<filtering>false</filtering>
 								</resource>
 							</resources>
@@ -176,15 +196,15 @@
 					<execution>
 						<id>copy-resources-examples</id>
 						<!-- here the phase you need -->
-						<phase>validate</phase>
+						<phase>package</phase>
 						<goals>
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/examples-sim-aids</outputDirectory>
+							<outputDirectory>${project.build.directory}/examples/</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${basedir}/examples-sim-aids</directory>
+									<directory>${basedir}/examples/</directory>
 									<filtering>false</filtering>
 								</resource>
 							</resources>
@@ -722,6 +742,11 @@
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
 			<version>3.11</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openl.rules</groupId>
+			<artifactId>org.openl.lib.poi.dev</artifactId>
+			<version>5.9.3.1</version>
 		</dependency>
 
 	</dependencies>
