@@ -41,7 +41,7 @@ public class ConnectionFrame extends JFrame {
 		
 		if(setDefaultText){
 			textFielduserName.setText("");
-			textFieldIP.setText("172.16.142.103");
+			textFieldIP.setText("127.0.0.1");
 			passwordFieldPassword.setText("");
 			textFieldPort.setText("22");
 			textFieldHadoopHome.setText("/isis/hadoop-2.4.0");  
