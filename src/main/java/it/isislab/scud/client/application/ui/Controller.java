@@ -647,7 +647,7 @@ public class Controller {
 		while (!accessGranted && attempts < 5)
 		{
 			try {
-				//-h 172.16.142.103 -bindir /isis/hadoop-2.4.0 -homedir /isis/ -javabindir /usr/local/java/bin/
+				//-h 127.0.0.1 -bindir /isis/hadoop-2.4.0 -homedir /isis/ -javabindir /usr/local/java/bin/
 				if(bindir.endsWith("/"))
 					bindir = bindir.substring(0, bindir.indexOf("/")-1);
 				if(!homedir.endsWith("/")){
