@@ -78,15 +78,15 @@ public class MainFrame extends JFrame {
 		CenterBottomlist = new JList();
 
 		//======== this ========
-		setTitle("SCUD Client");
+		setTitle("SOF Client");
 		Container contentPane = getContentPane();
 
 		//======== menuBar1 ========
 		{
 
-			//======== menuSCUDCLIENT ========
+			//======== menuSOFCLIENT ========
 			{
-				menuPrincipal.setText("SCUD Client");
+				menuPrincipal.setText("SOF Client");
 				
 				//---- menuItemAbout ----
 				menuItemAbout.setText("About         ");
@@ -497,7 +497,7 @@ public class MainFrame extends JFrame {
 
 		}
 		else {
-			JOptionPane.showMessageDialog(this,"Selection error!\n You must select selection node from SCUD filesystem");
+			JOptionPane.showMessageDialog(this,"Selection error!\n You must select selection node from SOF filesystem");
 		}
 
 	}
@@ -556,7 +556,7 @@ public class MainFrame extends JFrame {
 
 		}
 		else {
-			JOptionPane.showMessageDialog(this,"Selection error!\n You must select selection node from SCUD filesystem");
+			JOptionPane.showMessageDialog(this,"Selection error!\n You must select selection node from SOF filesystem");
 		}
 
 	}
@@ -664,7 +664,7 @@ public class MainFrame extends JFrame {
 			}
 			else {
 				
-				JOptionPane.showMessageDialog(this,"Selection error!\n You must select selection node from SCUD filesystem.");
+				JOptionPane.showMessageDialog(this,"Selection error!\n You must select selection node from SOF filesystem.");
 			}
 		
 
@@ -686,7 +686,7 @@ public class MainFrame extends JFrame {
 
 	protected void buttonReloadActionPerformed(ActionEvent e) {
 		final ProgressbarDialog pd=new ProgressbarDialog(this);
-		pd.setTitleMessage("Loading simulations on SCUD file system.");
+		pd.setTitleMessage("Loading simulations on SOF file system.");
 		pd.setNoteMessage("Please wait.");
 		final JProgressBar bar=pd.getProgressBar1();
 
@@ -712,7 +712,7 @@ public class MainFrame extends JFrame {
 	private void initFileSystem()
 	{
 
-		fs_root = new DefaultMutableTreeNode("SCUD FileSystem");
+		fs_root = new DefaultMutableTreeNode("SOF FileSystem");
 		tree1 = new JTree(fs_root);
 
 	}
@@ -740,7 +740,7 @@ public class MainFrame extends JFrame {
 	{
 		System.out.println("Loading simulations");
 		Simulations sims=controller.getsimulations();
-		fs_root = new DefaultMutableTreeNode("SCUD FileSystem");
+		fs_root = new DefaultMutableTreeNode("SOF FileSystem");
 		scrollPane1.remove(tree1);
 		tree1 = new JTree(fs_root);
 		scrollPane1.setViewportView(tree1);
