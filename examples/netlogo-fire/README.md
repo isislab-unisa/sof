@@ -3,15 +3,15 @@ Tutorial: Optimization of NetLogo Fire simulation
 
 Let’s learn by example.
 
-Throughout this tutorial, we will walk you through the creation of a basic set-up of simulation optimization through SCUD Client GUI.
-We will assume you have already downloaded SCUD and compiled using Apache Maven. 
+Throughout this tutorial, we will walk you through the creation of a basic set-up of simulation optimization through SOF Client GUI.
+We will assume you have already downloaded SOF and compiled using Apache Maven. 
 
 ###We will cover:
 
 1. How to start a HDP 2.2 with Apache Hadoop pre-installed.
 2. How to create the Domain, Input/Output and Ratings XML definitions.
 *  How to create a simple selection and evaluate functions.
-*  How to start the optimization process through SCUD GUI.
+*  How to start the optimization process through SOF GUI.
 *  How to download the results of the optimization process.
 
 ####Simulation Model Description
@@ -19,7 +19,7 @@ The Fire NetLogo model available in NetLogo examples library (shown in the follo
 It shows that the fire’s chance of reaching the right edge of the forest depends critically on the density of trees. This is an example of a common feature of
 complex systems, the presence of a non-linear threshold or critical parameter.
 
-![fire model image](https://github.com/isislab-unisa/scud/raw/master/examples/netlogo-fire/images/fire.png)
+![fire model image](https://github.com/isislab-unisa/SOF/raw/master/examples/netlogo-fire/images/fire.png)
 
 In this tutorial we refer to an simulation optimization example described in _OpenMOLE_. We will tackle to the problem as described for the OpenMOLE framework but we adopt the evolutionary strategy that distinguish our framework.
 
@@ -55,9 +55,9 @@ lo        Link encap:Local Loopback
 
 ###2. How to create new simulation optimization process
 
-1. Execute the SCUD GUI Client.
+1. Execute the SOF GUI Client.
 ```
-java -jar SCUD-1.0-client-GUI.jar
+java -jar SOF-1.0-client-GUI.jar
 ```
 2. Connect to the Master of your Apache Hadoop cluster.
 
@@ -135,5 +135,5 @@ public class Evaluation {
 ```
 
 
-###4. How to start the optimization process through SCUD GUI
+###4. How to start the optimization process through SOF GUI
 ###5. How to download the results of the optimization process
