@@ -14,7 +14,7 @@
  */
 package it.isislab.sof.client.application.console;
 
-import it.isislab.sof.client.application.SCUDShellClient;
+import it.isislab.sof.client.application.SOFShellClient;
 import it.isislab.sof.core.model.parameters.xsd.domain.ParameterDomain;
 import it.isislab.sof.core.model.parameters.xsd.domain.ParameterDomainContinuous;
 import it.isislab.sof.core.model.parameters.xsd.domain.ParameterDomainDiscrete;
@@ -198,14 +198,14 @@ public enum PromptDomainParamCommand implements Prompt{
 			@Override
 			public void exception(Exception e)
 			{
-				console.printf(SCUDShellClient.COMMAND_ERROR, helpmsg, e.getMessage());
+				console.printf(SOFShellClient.COMMAND_ERROR, helpmsg, e.getMessage());
 			}
 		});
 		
 		
 		while (true)
 		{
-			commandLine = console.readLine(stringPrompt+" "+SCUDShellClient.TIME_FORMAT+" >>>", new Date());
+			commandLine = console.readLine(stringPrompt+" "+SOFShellClient.TIME_FORMAT+" >>>", new Date());
 			scanner = new Scanner(commandLine);
 
 			if (scanner.hasNext())
@@ -227,13 +227,13 @@ public enum PromptDomainParamCommand implements Prompt{
 						@Override
 						public void exception(Exception e)
 						{
-							console.printf(SCUDShellClient.COMMAND_ERROR, cmd, e.getMessage());
+							console.printf(SOFShellClient.COMMAND_ERROR, cmd, e.getMessage());
 						}
 					});
 				}
 				catch (IllegalArgumentException e)
 				{
-					console.printf(SCUDShellClient.UNKNOWN_COMMAND, commandName);
+					console.printf(SOFShellClient.UNKNOWN_COMMAND, commandName);
 				}
 			}
 

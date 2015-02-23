@@ -1,6 +1,6 @@
 package it.isislab.sof.client.application.ui;
 
-import it.isislab.sof.client.application.SCUDShellClient;
+import it.isislab.sof.client.application.SOFShellClient;
 import it.isislab.sof.core.engine.hadoop.sshclient.connection.HadoopFileSystemManager;
 import it.isislab.sof.core.engine.hadoop.sshclient.connection.ScudManager;
 import it.isislab.sof.core.engine.hadoop.sshclient.utils.environment.EnvironmentSession;
@@ -238,7 +238,7 @@ public class Controller {
 
 
 				ScudManager.makeSimulationFolder(
-						SCUDShellClient.session,
+						SOFShellClient.session,
 						parsedParams[0],//MODEL TYPE MASON - NETLOGO -GENERIC
 						parsedParams[1],//SIM NAME
 						parsedParams[2],//INPUT.XML PATH 

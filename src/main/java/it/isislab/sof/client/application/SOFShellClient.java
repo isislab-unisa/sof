@@ -30,7 +30,7 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.ExampleMode;
 import org.kohsuke.args4j.Option;
 
-public class SCUDShellClient
+public class SOFShellClient
 {
 	public static final String NO_CONSOLE = "Error: Console unavailable";
 	public static final String GREETINGS = "Welcome in Simulation On the CLoud on Hadoop. Please login via SSH to your garanted hadoop server.%n";
@@ -74,7 +74,7 @@ public class SCUDShellClient
 	{
 		try {
 			
-			(new SCUDShellClient()).doMain(args);
+			(new SOFShellClient()).doMain(args);
 		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

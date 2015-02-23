@@ -24,7 +24,7 @@ import java.io.FileInputStream;
 
 import com.jcraft.jsch.SftpException;
 
-public class SCUDCoreSimpleApplication {
+public class SOFCoreSimpleApplication {
 
 	public static int PORT=22;
 	public static String host= "127.0.0.1";

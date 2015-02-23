@@ -15,7 +15,7 @@
 package it.isislab.sof.client.application.console;
 
 
-import it.isislab.sof.client.application.SCUDShellClient;
+import it.isislab.sof.client.application.SOFShellClient;
 import it.isislab.sof.core.engine.hadoop.sshclient.connection.HadoopFileSystemManager;
 import it.isislab.sof.core.engine.hadoop.sshclient.connection.ScudManager;
 import it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.Simulation;
@@ -36,8 +36,8 @@ public enum Command implements Prompt
 		@Override
 		public Object exec(Console c, String[] params,String stringPrompt)
 		{
-			c.printf("Disconnect from "+SCUDShellClient.host+".\n");
-			ScudManager.disconnect(SCUDShellClient.session);
+			c.printf("Disconnect from "+SOFShellClient.host+".\n");
+			ScudManager.disconnect(SOFShellClient.session);
 			System.exit(0);
 			return null;
 		}
@@ -89,14 +89,14 @@ public enum Command implements Prompt
 				return null;
 			}else{
 				int simID = Integer.parseInt(params[0])-1;
-				Simulations sims = ScudManager.getSimulationsData(SCUDShellClient.session);
+				Simulations sims = ScudManager.getSimulationsData(SOFShellClient.session);
 				if(sims == null){
 					c.printf("No such simulation");
 					return null;
 				}
 				Simulation sim = sims.getSimulations().get(simID);
 				//sim = ScudManager.getSimulationDatabyId(SCUDShellClient.session,  SCUDShellClient.session.getUsername(), simID);
-				ScudManager.runAsynchronousSimulation(SCUDShellClient.session,sim);
+				ScudManager.runAsynchronousSimulation(SOFShellClient.session,sim);
 				//ScudManager.runSimulation(SCUDShellClient.session, SCUDShellClient.session.getUsername(), simID, s.getLoop());	
 				return null;
 			}
@@ -127,7 +127,7 @@ public enum Command implements Prompt
 
 					ScudManager.makeSimulationFolder(
 							
-							SCUDShellClient.session,
+							SOFShellClient.session,
 							parsedParams[0],//MODEL TYPE MASON - NETLOGO -GENERIC
 							parsedParams[1],//SIM NAME
 							parsedParams[2],//INPUT.XML PATH 
@@ -155,7 +155,7 @@ public enum Command implements Prompt
 
 
 					ScudManager.makeSimulationFolder(
-							SCUDShellClient.session,
+							SOFShellClient.session,
 							parsedParams[0],//MODEL TYPE MASON - NETLOGO -GENERIC
 							parsedParams[1],//SIM NAME
 							parsedParams[2],//INPUT.XML PATH 
@@ -201,7 +201,7 @@ public enum Command implements Prompt
 					
 					
 					ScudManager.makeSimulationFolderForLoop(
-							SCUDShellClient.session,
+							SOFShellClient.session,
 							parsedParams[0]/*MODEL TYPE MASON - NETLOGO -GENERIC*/,
 							parsedParams[1],/*SIM NAME*/
 							parsedParams[2],/*domain_pathname*/ 
@@ -235,7 +235,7 @@ public enum Command implements Prompt
 					
 					
 					ScudManager.makeSimulationFolderForLoop(
-							SCUDShellClient.session,
+							SOFShellClient.session,
 							parsedParams[0]/*MODEL TYPE MASON - NETLOGO -GENERIC*/,
 							parsedParams[1],/*SIM NAME*/
 							parsedParams[2],/*domain_pathname*/ 
@@ -282,7 +282,7 @@ public enum Command implements Prompt
 		{	
 			try {
 
-				Simulations listSim  = ScudManager.getSimulationsData(SCUDShellClient.session);
+				Simulations listSim  = ScudManager.getSimulationsData(SOFShellClient.session);
 				if(listSim == null){
 					c.printf("No such simulation");
 					return null;
@@ -309,14 +309,14 @@ public enum Command implements Prompt
 				return null;
 			}else{
 				int simID = Integer.parseInt(params[0])-1;
-				Simulations listSim  = ScudManager.getSimulationsData(SCUDShellClient.session);
+				Simulations listSim  = ScudManager.getSimulationsData(SOFShellClient.session);
 				if(listSim == null){
 					c.printf("No such simulation");
 					return null;
 				}
 				Simulation sim = listSim.getSimulations().get(simID);
 				try {
-					if(!HadoopFileSystemManager.ifExists(SCUDShellClient.session,ScudManager.fs.getHdfsUserPathSimulationByID(sim.getId())))
+					if(!HadoopFileSystemManager.ifExists(SOFShellClient.session,ScudManager.fs.getHdfsUserPathSimulationByID(sim.getId())))
 						c.printf("Simulation SIM"+simID+" not exists\n");
 
 					//sim = ScudManager.getSimulationDatabyId(SCUDShellClient.session,SCUDShellClient.session.getUsername(),simID);
@@ -350,7 +350,7 @@ public enum Command implements Prompt
 				c.printf("Error few parameters!\n Usage: getresult simID [destinationDirPath]");
 				return null;
 			}else{
-				Simulations sims = ScudManager.getSimulationsData(SCUDShellClient.session);
+				Simulations sims = ScudManager.getSimulationsData(SOFShellClient.session);
 				if(sims == null){
 					c.printf("No such simulation");
 					return null;
@@ -366,7 +366,7 @@ public enum Command implements Prompt
 				//if no path is specified, saves in current directory
 				String path = (params.length < 2)? System.getProperty("user.dir"):params[1];
 				c.printf("Simulation will download in: "+path);
-				ScudManager.downloadSimulation(SCUDShellClient.session,sim.getId(),path);
+				ScudManager.downloadSimulation(SOFShellClient.session,sim.getId(),path);
 				return null;
 			}
 		}
@@ -376,7 +376,7 @@ public enum Command implements Prompt
 		@Override
 		public Object exec(Console c, String[] params,String stringPrompt)
 		{
-			Simulations sims = ScudManager.getSimulationsData(SCUDShellClient.session);
+			Simulations sims = ScudManager.getSimulationsData(SOFShellClient.session);
 			if(sims == null){
 				c.printf("No such simulation");
 				return null;
@@ -403,7 +403,7 @@ public enum Command implements Prompt
 			}else{
 				int simID = Integer.parseInt(params[0])-1;
 
-				Simulations listSim  = ScudManager.getSimulationsData(SCUDShellClient.session);
+				Simulations listSim  = ScudManager.getSimulationsData(SOFShellClient.session);
 				if(listSim == null){
 					c.printf("No such simulation");
 					return null;
@@ -419,7 +419,7 @@ public enum Command implements Prompt
 				String bash = "if "+cmd+" ; then echo 0; else echo -1; fi";
 
 				try {
-					HadoopFileSystemManager.exec(SCUDShellClient.session,bash);
+					HadoopFileSystemManager.exec(SOFShellClient.session,bash);
 				} catch (Exception e ) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -427,7 +427,7 @@ public enum Command implements Prompt
 				}
 				
 				c.printf("Process killed");
-				ScudManager.setSimulationStatus(SCUDShellClient.session,sim,Simulation.KILLED);
+				ScudManager.setSimulationStatus(SOFShellClient.session,sim,Simulation.KILLED);
 				return null;
 			}
 		}
@@ -444,7 +444,7 @@ public enum Command implements Prompt
 			}else{
 				int simID = Integer.parseInt(params[0])-1;
 
-				Simulations listSim  = ScudManager.getSimulationsData(SCUDShellClient.session);
+				Simulations listSim  = ScudManager.getSimulationsData(SOFShellClient.session);
 				if(listSim == null){
 					c.printf("No such simulation");
 					return null;
@@ -464,7 +464,7 @@ public enum Command implements Prompt
 				   Message stop = new Message();
 				   stop.setId(ScudManager.getMexID());
 				   stop.setMessage(Message.STOP_MESSAGE);
-				   ScudManager.sendMessage(SCUDShellClient.session, sim, stop);
+				   ScudManager.sendMessage(SOFShellClient.session, sim, stop);
 				   return null;
 				}
 				return null;
@@ -526,14 +526,14 @@ public enum Command implements Prompt
 			@Override
 			public void exception(Exception e)
 			{
-				console.printf(SCUDShellClient.COMMAND_ERROR, helpmsg, e.getMessage());
+				console.printf(SOFShellClient.COMMAND_ERROR, helpmsg, e.getMessage());
 			}
 		});
 
 
 		while (true)
 		{
-			commandLine = console.readLine(stringPrompt+" "+SCUDShellClient.TIME_FORMAT+" >>>", new Date());
+			commandLine = console.readLine(stringPrompt+" "+SOFShellClient.TIME_FORMAT+" >>>", new Date());
 			scanner = new Scanner(commandLine);
 
 			if (scanner.hasNext())
@@ -555,13 +555,13 @@ public enum Command implements Prompt
 						@Override
 						public void exception(Exception e)
 						{
-							console.printf(SCUDShellClient.COMMAND_ERROR, cmd, e.getMessage());
+							console.printf(SOFShellClient.COMMAND_ERROR, cmd, e.getMessage());
 						}
 					});
 				}
 				catch (IllegalArgumentException e)
 				{
-					console.printf(SCUDShellClient.UNKNOWN_COMMAND, commandName);
+					console.printf(SOFShellClient.UNKNOWN_COMMAND, commandName);
 				}
 			}
 
