@@ -149,8 +149,8 @@ public class SOFShellClient
 				if ((session=SofManager.connect(name, host, pstring, bindir,PORT,
 //						SCUDShellClient.class.getResourceAsStream("SCUD.jar"),
 //						SCUDShellClient.class.getResourceAsStream("SCUD-RUNNER.jar")
-				new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SOF.jar"),
-				new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SOF-RUNNER.jar")
+				new FileInputStream(System.getProperty("user.dir")+File.separator+"sof-resources"+File.separator+"SOF.jar"),
+				new FileInputStream(System.getProperty("user.dir")+File.separator+"sof-resources"+File.separator+"SOF-RUNNER.jar")
 						))!=null)
 				{
 					System.out.println("Connected. Type \"help\", \"usage <command>\" or \"license\" for more information.");
