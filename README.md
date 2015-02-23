@@ -1,4 +1,4 @@
-SOF
+Simulation Optimization and exploration framework on the cloud: SOF
 ==================
 
 Simulation models are becoming an increasingly popular tool for the analysis and optimization of complex real systems in different fields. Finding an optimal system design requires performing a large parameter sweep. Hence, the model tuning process is extremely demanding from a computational point of view, as it requires careful, time-consuming, complex orchestration of coordinated executions. In this paper, we present the design of SOF (Simulation Optimization and exploration framework on the cloud), a framework which exploits the computing power of a cloud computational environment in order to realize effective and efficient simulation optimization strategies. 
