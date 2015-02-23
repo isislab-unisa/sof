@@ -41,7 +41,7 @@ public class SOFShellClient
 	public static final String COMMAND_ERROR = "Command error [%1$s]: [%2$s]\n";
 
 	public static final String TIME_FORMAT = "%1$tH:%1$tM:%1$tS";
-	public static final String PROMPT = "scud$ "+TIME_FORMAT + " >>>";
+	public static final String PROMPT = "sof$ "+TIME_FORMAT + " >>>";
 	public static final String USER_PROMPT = TIME_FORMAT + " User: ";
 	public static final String PASS_PROMPT = TIME_FORMAT + " Password [%2$s]: ";
 
@@ -55,8 +55,8 @@ public class SOFShellClient
 	@Option(name="-bindir",usage="hadoop bin dir")
 	public static String bindir="/bin";
 	
-	@Option(name="-scudhomedir", usage="SCUD root directory")
-	public static String scudhomedir="/";
+	@Option(name="-sofhomedir", usage="SOF root directory")
+	public static String sofhomedir="/";
 
 	@Option(name="-homedir",usage="hadoop bin dir")
 	public static String homedir="/temp";
@@ -94,12 +94,12 @@ public class SOFShellClient
 		} catch( CmdLineException e ) {
 
 			System.err.println(e.getMessage());
-			System.err.println("SCUDShellClient [options...] arguments...");
+			System.err.println("SOFShellClient [options...] arguments...");
 			parser.printUsage(System.err);
 			System.err.println();
 
 			// print option sample. This is useful some time
-			System.err.println("\t Example: SCUDShellClient"+parser.printExample(ExampleMode.ALL));
+			System.err.println("\t Example: SOFShellClient"+parser.printExample(ExampleMode.ALL));
 
 			return;
 		}
@@ -142,13 +142,13 @@ public class SOFShellClient
 				}
 				if(!javabindir.endsWith("/"))
 					javabindir+="/";
-				if(!scudhomedir.endsWith("/"))
-					scudhomedir+="/";
+				if(!sofhomedir.endsWith("/"))
+					sofhomedir+="/";
 				
-				SofManager.setFileSystem(bindir,System.getProperty("user.dir"), scudhomedir, homedir, javabindir ,name);
+				SofManager.setFileSystem(bindir,System.getProperty("user.dir"), sofhomedir, homedir, javabindir ,name);
 				if ((session=SofManager.connect(name, host, pstring, bindir,PORT,
-//						SCUDShellClient.class.getResourceAsStream("SCUD.jar"),
-//						SCUDShellClient.class.getResourceAsStream("SCUD-RUNNER.jar")
+//						SOFShellClient.class.getResourceAsStream("SOF.jar"),
+//						SOFShellClient.class.getResourceAsStream("SOF-RUNNER.jar")
 				new FileInputStream(System.getProperty("user.dir")+File.separator+"sof-resources"+File.separator+"SOF.jar"),
 				new FileInputStream(System.getProperty("user.dir")+File.separator+"sof-resources"+File.separator+"SOF-RUNNER.jar")
 						))!=null)
@@ -200,7 +200,7 @@ public class SOFShellClient
 					if(param !=null && param.charAt(0)== ' ')
 						param=param.substring(1,param.length());
 					String[] params = param!=null?param.split(" "):null;
-					String rootPrompt = "scud$";
+					String rootPrompt = "sof$";
 					cmd.exec(console,params,rootPrompt, new PromptListener()
 					{
 						@Override
