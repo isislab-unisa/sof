@@ -40,6 +40,7 @@ public class GenerateXMLDomain {
         s.setName("prova");
         s.setAuthor("pippo");
         s.setDescription("test nota");
+        s.setLoop(true);
         s.setToolkit("mason");
         d.simulation=s;
        
