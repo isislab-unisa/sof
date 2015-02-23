@@ -46,7 +46,7 @@ public class Controller {
 	public  String homedir="/home/hadoop/"; 
 	public  String javabindir ="/usr/bin/";
 	public  String user_name="hadoop";
-	public  String scudhomedir="/";*/
+	public  String sofhomedir="/";*/
 	/*public  String host_address= "";
 	public  String pstring="";
 	public  String port="";
@@ -54,9 +54,9 @@ public class Controller {
 	public  String homedir=""; 
 	public  String javabindir ="";
 	public  String user_name="";
-	public  String scudhomedir="";
-	public  String scudjarpath="";
-	public  String scudjarrunnerpath="";
+	public  String sofhomedir="";
+	public  String sofjarpath="";
+	public  String sofjarrunnerpath="";
 
 	 */
 	public  String host_address= "127.0.0.1";
@@ -66,9 +66,9 @@ public class Controller {
 	public  String homedir="/isis/"; 
 	public  String javabindir ="/usr/local/java/bin";
 	public  String user_name="isis";
-	public  String scudhomedir="/";
-	public  String scudjarpath="scud-resources/SCUD.jar";
-	public  String scudjarrunnerpath="scud-resources/SCUD-RUNNER.jar";
+	public  String sofhomedir="/";
+	public  String sofjarpath="sof-resources/SOF.jar";
+	public  String sofjarrunnerpath="sof-resources/SOF-RUNNER.jar";
 
 
 	public static Controller getInstance(
@@ -79,9 +79,9 @@ public class Controller {
 			String bindir,
 			String homedir,
 			String javabindir,
-			String scudhomedir,
-			String scudjarpath,
-			String scudrunnerjarpath) {
+			String sofhomedir,
+			String sofjarpath,
+			String sofrunnerjarpath) {
 		if(instance == null) {
 			instance = new Controller();
 
@@ -92,8 +92,8 @@ public class Controller {
 			instance.homedir=homedir;
 			instance.javabindir=javabindir;
 			instance.user_name=user_name;
-			instance.scudjarpath=scudjarpath;
-			instance.scudjarrunnerpath=scudrunnerjarpath;
+			instance.sofjarpath=sofjarpath;
+			instance.sofjarrunnerpath=sofrunnerjarpath;
 
 			return instance.login()?instance:null;
 		}
@@ -106,7 +106,7 @@ public class Controller {
 	public  void exit()
 	{
 
-		//			c.printf("Disconnect from "+SCUDShellClient.host+".\n");
+		//			c.printf("Disconnect from "+SOFShellClient.host+".\n");
 		SofManager.disconnect(session);
 		System.exit(0);
 
@@ -115,7 +115,7 @@ public class Controller {
 	public  void license()
 	{
 
-		//			c.printf("SCUD is a tool utility powerd by ISISLab, 2014.\n");
+		//			c.printf("SOF is a tool utility powerd by ISISLab, 2014.\n");
 
 	}
 	public  void help()
@@ -162,10 +162,10 @@ public class Controller {
 					sim =s;
 					break;
 				}
-			//sim = ScudManager.getSimulationDatabyId(session,  session.getUsername(), simID);
+			//sim = sofManager.getSimulationDatabyId(session,  session.getUsername(), simID);
 
 			SofManager.runAsynchronousSimulation(session,sim);
-			//ScudManager.runSimulation(session, session.getUsername(), simID, s.getLoop());	
+			//sofManager.runSimulation(session, session.getUsername(), simID, s.getLoop());	
 
 		}
 	}
@@ -656,13 +656,13 @@ public class Controller {
 				if(!javabindir.endsWith("/"))
 					javabindir+="/";
 
-				if(!scudhomedir.endsWith("/"))
-					scudhomedir+="/";
+				if(!sofhomedir.endsWith("/"))
+					sofhomedir+="/";
 
-				SofManager.setFileSystem(bindir,System.getProperty("user.dir"), scudhomedir, homedir, javabindir ,user_name);
+				SofManager.setFileSystem(bindir,System.getProperty("user.dir"), sofhomedir, homedir, javabindir ,user_name);
 				if ((session=SofManager.connect(user_name, host_address, pstring, bindir,Integer.parseInt(port),
-						new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD.jar"),
-						new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD-RUNNER.jar")
+						new FileInputStream(System.getProperty("user.dir")+File.separator+"sof-resources"+File.separator+"SOF.jar"),
+						new FileInputStream(System.getProperty("user.dir")+File.separator+"sof-resources"+File.separator+"SOF-RUNNER.jar")
 						))!=null)
 				{
 					//					System.out.println("Connected. Type \"help\", \"usage <command>\" or \"license\" for more information.");

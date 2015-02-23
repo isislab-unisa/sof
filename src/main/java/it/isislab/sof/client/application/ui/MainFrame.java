@@ -111,34 +111,34 @@ public class MainFrame extends JFrame {
 				ButtonPanel.setBorder(null);
 
 				try {
-//				buttonReload.setIcon(new ImageIcon("scud-resources/images/ic_action_refresh.png"));
+//				buttonReload.setIcon(new ImageIcon("sof-resources/images/ic_action_refresh.png"));
 			
 					buttonReload.setIcon(new ImageIcon(
-					new URL("https://raw.githubusercontent.com/isislab-unisa/scud/master/scud-resources/images/ic_action_refresh.png")));
+					new URL("https://raw.githubusercontent.com/isislab-unisa/sof/master/sof-resources/images/ic_action_refresh.png")));
 			
 				buttonReload.setToolTipText("Reload. Reloads the simulations from HDFS.");
 
-//				buttonAdd.setIcon(new ImageIcon("scud-resources/images/ic_action_new.png"));
+//				buttonAdd.setIcon(new ImageIcon("sof-resources/images/ic_action_new.png"));
 				buttonAdd.setIcon(new ImageIcon(
-				new URL("https://raw.githubusercontent.com/isislab-unisa/scud/master/scud-resources/images/ic_action_new.png")));
+				new URL("https://raw.githubusercontent.com/isislab-unisa/sof/master/sof-resources/images/ic_action_new.png")));
 				buttonAdd.setToolTipText("Add. Creates a new child node.");
 
-//				buttonSubmit.setIcon(new ImageIcon("scud-resources/images/ic_action_play.png"));
+//				buttonSubmit.setIcon(new ImageIcon("sof-resources/images/ic_action_play.png"));
 				buttonSubmit.setIcon(new ImageIcon(
-				new URL("https://raw.githubusercontent.com/isislab-unisa/scud/master/scud-resources/images/ic_action_play.png")));
+				new URL("https://raw.githubusercontent.com/isislab-unisa/sof/master/sof-resources/images/ic_action_play.png")));
 				buttonSubmit.setToolTipText("Submit. Submits the selected simulation to the system.");
 
 				buttonStop.setIcon(new ImageIcon(
-				new URL("https://raw.githubusercontent.com/isislab-unisa/scud/master/scud-resources/images/ic_action_stop.png")));
+				new URL("https://raw.githubusercontent.com/isislab-unisa/sof/master/sof-resources/images/ic_action_stop.png")));
 				buttonStop.setToolTipText("Stop. Interrupts the selected simulation.");
 
-//				buttonExport.setIcon(new ImageIcon("scud-resources/images/ic_action_download.png"));
+//				buttonExport.setIcon(new ImageIcon("sof-resources/images/ic_action_download.png"));
 				buttonExport.setIcon(new ImageIcon(
-				new URL("https://raw.githubusercontent.com/isislab-unisa/scud/master/scud-resources/images/ic_action_download.png")));
+				new URL("https://raw.githubusercontent.com/isislab-unisa/sof/master/sof-resources/images/ic_action_download.png")));
 				buttonExport.setToolTipText("Download. Downloads the simulation package from HDFS.");
 
 				buttonShow.setIcon(new ImageIcon(
-				new URL("https://raw.githubusercontent.com/isislab-unisa/scud/master/scud-resources/images/ic_action_about.png")));
+				new URL("https://raw.githubusercontent.com/isislab-unisa/sof/master/sof-resources/images/ic_action_about.png")));
 				buttonShow.setToolTipText("Show. Shows details about the selected simulations.");
 				
 				} catch (MalformedURLException e1) {

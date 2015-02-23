@@ -25,11 +25,11 @@ public class ConnectionFrame extends JFrame {
 	public  String homedir=""; 
 	public  String javabindir ="";
 	public  String user_name="";
-	public  String scudhomedir="";
-	public  String scudjarpath="scud-resources/SCUD.jar";
-	public  String scudjarrunnerpath="scud-resources/SCUD-RUNNER.jar";
+	public  String sofhomedir="";
+	public  String sofjarpath="sof-resources/SOF.jar";
+	public  String sofjarrunnerpath="sof-resources/SOF-RUNNER.jar";
 	
-	public ConnectionFrame(String scudjarpath, String scudjarrunnerpath) {
+	public ConnectionFrame(String sofjarpath, String sofjarrunnerpath) {
 
 		initComponents();
 		this.setVisible(true);
@@ -45,13 +45,13 @@ public class ConnectionFrame extends JFrame {
 			passwordFieldPassword.setText("");
 			textFieldPort.setText("22");
 			textFieldHadoopHome.setText("/usr/hadoop-2.4.0");  
-			textFieldSCUDHome.setText("/usr/"); 
+			textFieldSOFHome.setText("/usr/"); 
 			textFieldJavaHome.setText("/usr/local/java/bin");
-			textFieldSCUDHDFSHome.setText("/");
+			textFieldSOFHDFSHome.setText("/");
 		}
 	
-		this.scudjarpath=scudjarpath;
-		this.scudjarrunnerpath=scudjarrunnerpath;
+		this.sofjarpath=sofjarpath;
+		this.sofjarrunnerpath=sofjarrunnerpath;
 	}
 
 	private void buttonConnectActionPerformed(ActionEvent e) {
@@ -66,8 +66,8 @@ public class ConnectionFrame extends JFrame {
 		textFieldPort.setEnabled(false);
 		textFieldHadoopHome.setEnabled(false);
 		textFieldJavaHome.setEnabled(false);
-		textFieldSCUDHome.setEnabled(false);
-		textFieldSCUDHDFSHome.setEnabled(false);
+		textFieldSOFHome.setEnabled(false);
+		textFieldSOFHDFSHome.setEnabled(false);
 		
 		class MyTaskConnect extends Thread {
 
@@ -80,9 +80,9 @@ public class ConnectionFrame extends JFrame {
 	        	  pstring=passwordFieldPassword.getText();
 	        	  port=textFieldPort.getText();
 	        	  bindir=textFieldHadoopHome.getText();
-	        	  homedir=textFieldSCUDHome.getText();
+	        	  homedir=textFieldSOFHome.getText();
 	        	  javabindir=textFieldJavaHome.getText();
-	        	  scudhomedir=textFieldSCUDHDFSHome.getText();
+	        	  sofhomedir=textFieldSOFHDFSHome.getText();
 	        	  
 	        	  Controller c=Controller.getInstance(
 	        				host_address,
@@ -92,9 +92,9 @@ public class ConnectionFrame extends JFrame {
 	        				bindir,
 	        				homedir,
 	        				javabindir,
-	        				scudhomedir,
-	        				scudjarpath,
-	        				scudjarrunnerpath);
+	        				sofhomedir,
+	        				sofjarpath,
+	        				sofjarrunnerpath);
 					if(c!=null)
 					{
 						MainFrame main =new MainFrame(c);
@@ -130,7 +130,7 @@ private void initComponents() {
 	label14 = new JLabel();
 	label15 = new URLLabel("Version Pre-alpha 1.0, Powerd by ISISLab, 2015.","http://www.isislab.it");
 	label16 = new JLabel();
-	label17 = new URLLabel("View source code on GitHub.","https://github.com/isislab-unisa/scud");
+	label17 = new URLLabel("View source code on GitHub.","https://github.com/isislab-unisa/sof");
 	panel2 = new JPanel();
 	panel3 = new JPanel();
 	label4 = new JLabel();
@@ -147,9 +147,9 @@ private void initComponents() {
 	label9 = new JLabel();
 	textFieldJavaHome = new JTextField();
 	label10 = new JLabel();
-	textFieldSCUDHome = new JTextField();
+	textFieldSOFHome = new JTextField();
 	label11 = new JLabel();
-	textFieldSCUDHDFSHome = new JTextField();
+	textFieldSOFHDFSHome = new JTextField();
 	buttonConnect = new JButton();
 	progressBar1 = new JProgressBar(JProgressBar.HORIZONTAL,
 			0, Integer.MAX_VALUE );
@@ -163,10 +163,10 @@ private void initComponents() {
 	{
 
 
-//		label12.setIcon(new ImageIcon("scud-resources/images/isislab.png"));
+//		label12.setIcon(new ImageIcon("sof-resources/images/isislab.png"));
 		try {
 			label12.setIcon(new ImageIcon(
-					new URL("https://raw.githubusercontent.com/isislab-unisa/scud/master/scud-resources/images/isislab.png")));
+					new URL("https://raw.githubusercontent.com/isislab-unisa/sof/master/sof-resources/images/isislab.png")));
 		} catch (MalformedURLException e1) {
 			// TODO Auto-generated catch block
 			System.err.println("Problems in loading image.");
@@ -304,10 +304,10 @@ private void initComponents() {
 					.addGroup(panel4Layout.createSequentialGroup()
 							.addGap(10, 10, 10)
 							.addGroup(panel4Layout.createParallelGroup()
-									.addComponent(textFieldSCUDHDFSHome, GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
+									.addComponent(textFieldSOFHDFSHome, GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
 									.addComponent(textFieldHadoopHome, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
 									.addComponent(textFieldJavaHome, GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
-									.addComponent(textFieldSCUDHome, GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
+									.addComponent(textFieldSOFHome, GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
 									.addGroup(panel4Layout.createSequentialGroup()
 											.addGroup(panel4Layout.createParallelGroup()
 													.addComponent(label11)
@@ -331,11 +331,11 @@ private void initComponents() {
 							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 							.addComponent(label10)
 							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							.addComponent(textFieldSCUDHome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(textFieldSOFHome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 							.addComponent(label11)
 							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							.addComponent(textFieldSCUDHDFSHome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(textFieldSOFHDFSHome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					);
 		}
@@ -446,9 +446,9 @@ private JTextField textFieldHadoopHome;
 private JLabel label9;
 private JTextField textFieldJavaHome;
 private JLabel label10;
-private JTextField textFieldSCUDHome;
+private JTextField textFieldSOFHome;
 private JLabel label11;
-private JTextField textFieldSCUDHDFSHome;
+private JTextField textFieldSOFHDFSHome;
 private JButton buttonConnect;
 private JProgressBar progressBar1;
 private JButton buttonDemo;
