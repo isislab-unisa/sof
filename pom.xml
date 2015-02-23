@@ -2,9 +2,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>it.isislab</groupId>
-	<artifactId>SCUD</artifactId>
+	<artifactId>SOF</artifactId>
 	<version>1.0</version>
-	<name>SCUD</name>
+	<name>SOF</name>
 	<description>Simulation framework for optimization and exploration on the CloUD</description>
 
 	<licenses>
@@ -50,7 +50,7 @@
 								<manifest>
 									<addClasspath>true</addClasspath>
 									<classpathPrefix>lib/</classpathPrefix>
-									<mainClass>it.isislab.scud.client.application.SCUDShellClient</mainClass>
+									<mainClass>it.isislab.sof.client.application.SOFShellClient</mainClass>
 								</manifest>
 							</archive>
 							<includes>
@@ -71,7 +71,7 @@
 								<manifest>
 									<addClasspath>true</addClasspath>
 									<classpathPrefix>lib/</classpathPrefix>
-									<mainClass>it.isislab.scud.client.application.SCUDClientUI</mainClass>
+									<mainClass>it.isislab.sof.client.application.SOFClientUI</mainClass>
 								</manifest>
 							</archive>
 							<includes>
@@ -91,7 +91,7 @@
 								<manifest>
 									<addClasspath>true</addClasspath>
 									<classpathPrefix>lib/</classpathPrefix>
-									<mainClass>it.isislab.scud.client.application.SCUDCoreSimpleApplication</mainClass>
+									<mainClass>it.isislab.sof.client.application.SOFCoreSimpleApplication</mainClass>
 								</manifest>
 							</archive>
 							<includes>
@@ -126,21 +126,21 @@
 				<version>2.4</version>
 				<executions>
 					<execution>
-						<id>SCUD</id>
+						<id>SOF</id>
 						<configuration>
 							<appendAssemblyId>true</appendAssemblyId>
 							<archive>
 								<manifest>
-									<mainClass>it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.executor.SCUD</mainClass>
+									<mainClass>it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.executor.SOF</mainClass>
 								</manifest>
 							</archive>
 							<descriptorRefs>
 								<descriptorRef>jar-with-dependencies</descriptorRef>
 							</descriptorRefs>
-							<finalName>SCUD</finalName>
+							<finalName>SOF</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
 							<attach>false</attach>
-							<outputDirectory>${project.build.directory}/scud-resources</outputDirectory>
+							<outputDirectory>${project.build.directory}/sof-resources</outputDirectory>
 						</configuration>
 						<phase>package</phase>
 						<goals>
@@ -148,21 +148,21 @@
 						</goals>
 					</execution>
 					<execution>
-						<id>SCUD-RUNNER</id>
+						<id>SOF-RUNNER</id>
 						<configuration>
 							<appendAssemblyId>true</appendAssemblyId>
 							<archive>
 								<manifest>
-									<mainClass>it.isislab.scud.core.engine.hadoop.sshclient.utils.simulation.executor.SCUDRUNNER</mainClass>
+									<mainClass>it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.executor.SOFRUNNER</mainClass>
 								</manifest>
 							</archive>
 							<descriptorRefs>
 								<descriptorRef>jar-with-dependencies</descriptorRef>
 							</descriptorRefs>
-							<finalName>SCUD-RUNNER</finalName>
+							<finalName>SOF-RUNNER</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
 							<attach>false</attach>
-							<outputDirectory>${project.build.directory}/scud-resources</outputDirectory>
+							<outputDirectory>${project.build.directory}/sof-resources</outputDirectory>
 						</configuration>
 						<phase>package</phase>
 						<goals>
@@ -176,17 +176,17 @@
 				<version>2.7</version>
 				<executions>
 					<execution>
-						<id>copy-resources-scud-resources</id>
+						<id>copy-resources-sof-resources</id>
 						<!-- here the phase you need -->
 						<phase>validate</phase>
 						<goals>
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/scud-resources/images</outputDirectory>
+							<outputDirectory>${project.build.directory}/sof-resources/images</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${basedir}/scud-resources/images</directory>
+									<directory>${basedir}/sof-resources/images</directory>
 									<filtering>false</filtering>
 								</resource>
 							</resources>
@@ -699,32 +699,32 @@
 			<systemPath>${java.home}/../lib/tools.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>it.isislab.scud</groupId>
+			<groupId>it.isislab.sof</groupId>
 			<artifactId>gluegen-rt-1.1.1</artifactId>
 			<version>1.1.1</version>
 		</dependency>
 		<dependency>
-			<groupId>it.isislab.scud</groupId>
+			<groupId>it.isislab.sof</groupId>
 			<artifactId>jhotdraw-6.0b1</artifactId>
 			<version>6.0b1</version>
 		</dependency>
 		<dependency>
-			<groupId>it.isislab.scud</groupId>
+			<groupId>it.isislab.sof</groupId>
 			<artifactId>mason.17</artifactId>
 			<version>17</version>
 		</dependency>
 		<dependency>
-			<groupId>it.isislab.scud</groupId>
+			<groupId>it.isislab.sof</groupId>
 			<artifactId>mrjadapter-1.2</artifactId>
 			<version>1.2</version>
 		</dependency>
 		<dependency>
-			<groupId>it.isislab.scud</groupId>
+			<groupId>it.isislab.sof</groupId>
 			<artifactId>netlogo</artifactId>
 			<version>5</version>
 		</dependency>
 		<dependency>
-			<groupId>it.isislab.scud</groupId>
+			<groupId>it.isislab.sof</groupId>
 			<artifactId>swing-layout-7.3.4</artifactId>
 			<version>7.3.4</version>
 		</dependency>
@@ -752,8 +752,8 @@
 	</dependencies>
 	<repositories>
 		<repository>
-			<id>it.isislab.scud</id>
-			<url>https://github.com/isislab-unisa/scud/raw/master/libraries/repository</url>
+			<id>it.isislab.sof</id>
+			<url>https://github.com/isislab-unisa/sof/raw/master/libraries/repository</url>
 		</repository>
 	</repositories>
 </project>
