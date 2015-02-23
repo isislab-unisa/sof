@@ -112,7 +112,7 @@ public class SelectionFunction {
 
 		/*String makeExecutableFilecmd="chmod +x "+selection_function_fileName;
 		if(Integer.parseInt(HadoopFileSystemManager.exec(session,makeExecutableFilecmd))<0?false:true)
-			SCUDRUNNER.log.info("Make executable "+selection_function_fileName);*/
+			SOFRUNNER.log.info("Make executable "+selection_function_fileName);*/
 		if(SofRunnerUtils.chmodX(selection_function_fileName))
 			SOFRUNNER.log.info("Make executable "+selection_function_fileName);
 
