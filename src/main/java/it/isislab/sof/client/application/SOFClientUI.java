@@ -23,7 +23,7 @@ public class SOFClientUI {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		SOFClientUI ui = new SOFClientUI("scud-resources/SCUD.jar","scud-resources/SCUD-RUNNER.jar");
+		SOFClientUI ui = new SOFClientUI("sof-resources/SCUD.jar","sof-resources/SCUD-RUNNER.jar");
 
 	}
 }
