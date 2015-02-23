@@ -22,6 +22,6 @@ public class ParameterException extends Exception{
 
 	public ParameterException(String message) {
 	
-		super("SCUD ERROR MESSAGE:\n"+message);
+		super("SOF ERROR MESSAGE:\n"+message);
 	}
 }

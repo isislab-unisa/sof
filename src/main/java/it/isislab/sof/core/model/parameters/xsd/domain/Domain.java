@@ -76,7 +76,7 @@ public class Domain {
 		
 		JAXBContext domain = JAXBContext.newInstance(Domain.class);
 		File f = new File("domain.xml");
-        JAXBContext context= JAXBContext.newInstance(it.isislab.scud.core.model.parameters.xsd.domain.Domain.class);
+        JAXBContext context= JAXBContext.newInstance(it.isislab.sof.core.model.parameters.xsd.domain.Domain.class);
         Marshaller jaxbMarshaller = context.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
