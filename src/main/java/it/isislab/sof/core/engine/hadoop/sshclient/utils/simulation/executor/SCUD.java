@@ -15,12 +15,12 @@
 package it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.executor;
 
 
-import it.isislab.sof.core.engine.hadoop.mapreduce.generic.SCUDMapperGeneric;
-import it.isislab.sof.core.engine.hadoop.mapreduce.generic.SCUDReducerGeneric;
-import it.isislab.sof.core.engine.hadoop.mapreduce.mason.SCUDMapperMason;
-import it.isislab.sof.core.engine.hadoop.mapreduce.mason.SCUDReducerMason;
-import it.isislab.sof.core.engine.hadoop.mapreduce.netlogo.SCUDMapperNetLogo;
-import it.isislab.sof.core.engine.hadoop.mapreduce.netlogo.SCUDReducerNetLogo;
+import it.isislab.sof.core.engine.hadoop.mapreduce.generic.SOFMapperGeneric;
+import it.isislab.sof.core.engine.hadoop.mapreduce.generic.SOFReducerGeneric;
+import it.isislab.sof.core.engine.hadoop.mapreduce.mason.SOFMapperMason;
+import it.isislab.sof.core.engine.hadoop.mapreduce.mason.SOFReducerMason;
+import it.isislab.sof.core.engine.hadoop.mapreduce.netlogo.SOFMapperNetLogo;
+import it.isislab.sof.core.engine.hadoop.mapreduce.netlogo.SOFReducerNetLogo;
 
 import java.io.IOException;
 
@@ -250,20 +250,20 @@ public class SCUD {
 				
 		if(SIM_TYPE.equalsIgnoreCase("mason"))
 		{
-			job.setMapperClass(SCUDMapperMason.class);
-			job.setReducerClass(SCUDReducerMason.class);
+			job.setMapperClass(SOFMapperMason.class);
+			job.setReducerClass(SOFReducerMason.class);
 
 		}else
 			if(SIM_TYPE.equalsIgnoreCase("netlogo"))
 			{
 				
-				job.setMapperClass(SCUDMapperNetLogo.class);
-				job.setReducerClass(SCUDReducerNetLogo.class);
+				job.setMapperClass(SOFMapperNetLogo.class);
+				job.setReducerClass(SOFReducerNetLogo.class);
 			}else
 				if(SIM_TYPE.equalsIgnoreCase("generic"))
 				{
-					job.setMapperClass(SCUDMapperGeneric.class);
-					job.setReducerClass(SCUDReducerGeneric.class);
+					job.setMapperClass(SOFMapperGeneric.class);
+					job.setReducerClass(SOFReducerGeneric.class);
 				}
 
 		job.setOutputKeyClass(org.apache.hadoop.io.Text.class);  
