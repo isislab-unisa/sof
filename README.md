@@ -46,7 +46,7 @@ If you would like to add features to the library, you will have to change the co
         $ mvn compile
         $ mvn package
 
-After that yoy have updated `SOF.jar` and `SOF-RUNNER.jar` in the folder `SOF-resources`. Those files are runnable jar file: the former with `SOF.java` for the main class in the `MANIFEST` and the last with `SOF-RUNNER.java`. Both the classes are located in the package `it.isislab.SOF.core.engine.hadoop.sshclient.utils.simulation.executor`.
+After that yoy have updated `SOF.jar` and `SOF-RUNNER.jar` in the folder `SOF-resources`. Those files are runnable jar file: the former with `SOF.java` for the main class in the `MANIFEST` and the last with `SOF-RUNNER.java`. Both the classes are located in the package `it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.executor`.
 
 To release the final build you must run the command:
     
@@ -143,12 +143,12 @@ In the `examples/netlogo-aids` folder project is available all files of a simula
 In the following there is code of the simple application ([link](https://github.com/spagnuolocarmine/SOF/blob/master/src/main/java/it/isislab/SOF/client/application/SOFCoreSimpleApplication.java)).
 
 ```java
-package it.isislab.SOF.client.application;
+package it.isislab.sof.client.application;
 
-import it.isislab.SOF.core.engine.hadoop.sshclient.connection.SOFManager;
-import it.isislab.SOF.core.engine.hadoop.sshclient.utils.environment.EnvironmentSession;
-import it.isislab.SOF.core.engine.hadoop.sshclient.utils.simulation.Simulation;
-import it.isislab.SOF.core.engine.hadoop.sshclient.utils.simulation.Simulations;
+import it.isislab.sof.core.engine.hadoop.sshclient.connection.SOFManager;
+import it.isislab.sof.core.engine.hadoop.sshclient.utils.environment.EnvironmentSession;
+import it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.Simulation;
+import it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.Simulations;
 import java.io.File;
 import java.io.FileInputStream;
 import com.jcraft.jsch.SftpException;
