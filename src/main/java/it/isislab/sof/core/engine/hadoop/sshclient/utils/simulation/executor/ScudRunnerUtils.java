@@ -90,9 +90,9 @@ public class ScudRunnerUtils {
 
 
 		if(copyFileFromHdfs(fs,hdfsFile, localFile))
-			SCUDRUNNER.log.info("Copied "+hdfsFile+" to "+localFile);
+			SOFRUNNER.log.info("Copied "+hdfsFile+" to "+localFile);
 		else{
-			SCUDRUNNER.log.info("Unable to copy "+hdfsFile+" to "+localFile);
+			SOFRUNNER.log.info("Unable to copy "+hdfsFile+" to "+localFile);
 			return null;
 		}
 
@@ -167,11 +167,11 @@ public class ScudRunnerUtils {
 			process.waitFor();
 			return (process.exitValue()==0);
 		} catch (IOException e) {
-			SCUDRUNNER.log.severe("SCUD-RUNNER: errore while execute the follow command:\n"+command+"\n");
+			SOFRUNNER.log.severe("SCUD-RUNNER: errore while execute the follow command:\n"+command+"\n");
 			e.printStackTrace();
 			return false;
 		} catch (InterruptedException e) {
-			SCUDRUNNER.log.severe("SCUD-RUNNER: errore while execute the follow command:\n"+command+"\n");
+			SOFRUNNER.log.severe("SCUD-RUNNER: errore while execute the follow command:\n"+command+"\n");
 			e.printStackTrace();
 			return false;
 		}
@@ -244,7 +244,7 @@ public class ScudRunnerUtils {
 
 
 			if(copyFileInHdfs(fs,newTmpFilename, hdfs_to))
-				SCUDRUNNER.log.info("Converted "+hdfs_from+" to "+hdfs_to);
+				SOFRUNNER.log.info("Converted "+hdfs_from+" to "+hdfs_to);
 
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block

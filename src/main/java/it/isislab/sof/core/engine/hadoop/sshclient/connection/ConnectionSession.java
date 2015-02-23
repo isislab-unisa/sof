@@ -41,9 +41,9 @@ public class ConnectionSession {
 
 		//Check if the user is in the system.
 		try{
-			s = ScudManager.connect(username,password,hadoopdir,IP,PORT,
-					ScudManager.class.getResourceAsStream("//SCUD.jar"),
-					ScudManager.class.getResourceAsStream("//SCUD-RUNNER.jar"));
+			s = SofManager.connect(username,password,hadoopdir,IP,PORT,
+					SofManager.class.getResourceAsStream("//SCUD.jar"),
+					SofManager.class.getResourceAsStream("//SCUD-RUNNER.jar"));
 
 			return s!=null;
 

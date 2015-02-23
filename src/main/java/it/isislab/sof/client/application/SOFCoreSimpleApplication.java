@@ -14,7 +14,7 @@
  */
 package it.isislab.sof.client.application;
 
-import it.isislab.sof.core.engine.hadoop.sshclient.connection.ScudManager;
+import it.isislab.sof.core.engine.hadoop.sshclient.connection.SofManager;
 import it.isislab.sof.core.engine.hadoop.sshclient.utils.environment.EnvironmentSession;
 import it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.Simulations;
@@ -58,8 +58,8 @@ public class SOFCoreSimpleApplication {
 		Simulations sims=null;
 		try {
 
-			ScudManager.setFileSystem(bindir,System.getProperty("user.dir"), scudhomedir, homedir, javabindir ,name);
-			if ((session=ScudManager.connect(name, host, pstring, bindir,PORT,
+			SofManager.setFileSystem(bindir,System.getProperty("user.dir"), scudhomedir, homedir, javabindir ,name);
+			if ((session=SofManager.connect(name, host, pstring, bindir,PORT,
 					new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD.jar"),
 					new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD-RUNNER.jar")
 					))!=null)
@@ -76,7 +76,7 @@ public class SOFCoreSimpleApplication {
 		}
 		//CREATE SIMULATION FROM EXAMPLE IN SO MODE
 		try {
-			ScudManager.makeSimulationFolderForLoop(session, toolkit, simulation_name, domain_pathname, bashCommandForRunnableFunctionSelection,bashCommandForRunnableFunctionEvaluate, 
+			SofManager.makeSimulationFolderForLoop(session, toolkit, simulation_name, domain_pathname, bashCommandForRunnableFunctionSelection,bashCommandForRunnableFunctionEvaluate, 
 					output_description_filename, executable_selection_function_filename, executable_rating_function_filename, description_simulation, executable_simulation_filename,""/*param exacutable param for generic mode, not required for netlogo and mason*/);
 
 		} catch (Exception e) {
@@ -85,7 +85,7 @@ public class SOFCoreSimpleApplication {
 		}
 
 		System.out.println("SIMULATION AVAILABLE LIST: ");
-		sims = ScudManager.getSimulationsData(session);
+		sims = SofManager.getSimulationsData(session);
 		if(sims == null){
 			System.err.println("No such simulations.");
 		}
@@ -100,7 +100,7 @@ public class SOFCoreSimpleApplication {
 		System.out.println("******************************************************");
 
 		System.out.println("Start the simulation with sim-id "+(sims.getSimulations().size()));
-		sims = ScudManager.getSimulationsData(session);
+		sims = SofManager.getSimulationsData(session);
 
 
 		Simulation s = sims.getSimulations().get(sims.getSimulations().size()-1);
@@ -109,14 +109,14 @@ public class SOFCoreSimpleApplication {
 			System.exit(-1);
 		}
 
-		ScudManager.runAsynchronousSimulation(session,s);
+		SofManager.runAsynchronousSimulation(session,s);
 
 		System.out.println("Waiting for simulation ends.");
 		Simulation sim=null;
 
 
 		do{
-			sims = ScudManager.getSimulationsData(session);
+			sims = SofManager.getSimulationsData(session);
 			sim = sims.getSimulations().get(sims.getSimulations().size()-1);
 
 

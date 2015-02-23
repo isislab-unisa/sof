@@ -18,7 +18,7 @@ package it.isislab.sof.client.application;
 import it.isislab.sof.client.application.console.Command;
 import it.isislab.sof.client.application.console.Console;
 import it.isislab.sof.client.application.console.PromptListener;
-import it.isislab.sof.core.engine.hadoop.sshclient.connection.ScudManager;
+import it.isislab.sof.core.engine.hadoop.sshclient.connection.SofManager;
 import it.isislab.sof.core.engine.hadoop.sshclient.utils.environment.EnvironmentSession;
 
 import java.io.*;
@@ -145,8 +145,8 @@ public class SOFShellClient
 				if(!scudhomedir.endsWith("/"))
 					scudhomedir+="/";
 				
-				ScudManager.setFileSystem(bindir,System.getProperty("user.dir"), scudhomedir, homedir, javabindir ,name);
-				if ((session=ScudManager.connect(name, host, pstring, bindir,PORT,
+				SofManager.setFileSystem(bindir,System.getProperty("user.dir"), scudhomedir, homedir, javabindir ,name);
+				if ((session=SofManager.connect(name, host, pstring, bindir,PORT,
 //						SCUDShellClient.class.getResourceAsStream("SCUD.jar"),
 //						SCUDShellClient.class.getResourceAsStream("SCUD-RUNNER.jar")
 				new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD.jar"),

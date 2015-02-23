@@ -2,7 +2,7 @@ package it.isislab.sof.client.application.ui;
 
 import it.isislab.sof.client.application.SOFShellClient;
 import it.isislab.sof.core.engine.hadoop.sshclient.connection.HadoopFileSystemManager;
-import it.isislab.sof.core.engine.hadoop.sshclient.connection.ScudManager;
+import it.isislab.sof.core.engine.hadoop.sshclient.connection.SofManager;
 import it.isislab.sof.core.engine.hadoop.sshclient.utils.environment.EnvironmentSession;
 import it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.Loop;
 import it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.Simulation;
@@ -107,7 +107,7 @@ public class Controller {
 	{
 
 		//			c.printf("Disconnect from "+SCUDShellClient.host+".\n");
-		ScudManager.disconnect(session);
+		SofManager.disconnect(session);
 		System.exit(0);
 
 	}
@@ -149,7 +149,7 @@ public class Controller {
 		}else{
 			//int simID = Integer.parseInt(params[0])-1;
 
-			Simulations sims = ScudManager.getSimulationsData(session);
+			Simulations sims = SofManager.getSimulationsData(session);
 
 			if(sims == null){
 				//					c.printf("No such simulation");
@@ -164,14 +164,14 @@ public class Controller {
 				}
 			//sim = ScudManager.getSimulationDatabyId(session,  session.getUsername(), simID);
 
-			ScudManager.runAsynchronousSimulation(session,sim);
+			SofManager.runAsynchronousSimulation(session,sim);
 			//ScudManager.runSimulation(session, session.getUsername(), simID, s.getLoop());	
 
 		}
 	}
 	public void stop(String ...params){
 
-		Simulations listSim  = ScudManager.getSimulationsData(session);
+		Simulations listSim  = SofManager.getSimulationsData(session);
 		if(listSim == null){
 
 		}
@@ -185,9 +185,9 @@ public class Controller {
 
 		if(sim.getState().equals(Simulation.RUNNING)){
 			Message stop = new Message();
-			stop.setId(ScudManager.getMexID());
+			stop.setId(SofManager.getMexID());
 			stop.setMessage(Message.STOP_MESSAGE);
-			ScudManager.sendMessage(session, sim, stop);
+			SofManager.sendMessage(session, sim, stop);
 			return;
 		}
 	}
@@ -195,12 +195,12 @@ public class Controller {
 	public  void createsimulation(String ... params)
 	{
 
-		String parsedParams[] = ScudManager.parseParamenters(params,4);
+		String parsedParams[] = SofManager.parseParamenters(params,4);
 
 		if(parsedParams.length == 6)
 		{
 			try {
-				ScudManager.checkParamMakeSimulationFolder(parsedParams);
+				SofManager.checkParamMakeSimulationFolder(parsedParams);
 			} catch (ParameterException e1) {
 
 				System.out.print(e1.getMessage());
@@ -209,7 +209,7 @@ public class Controller {
 			try {
 
 
-				ScudManager.makeSimulationFolder(
+				SofManager.makeSimulationFolder(
 						session,
 						parsedParams[0],//MODEL TYPE MASON - NETLOGO -GENERIC
 						parsedParams[1],//SIM NAME
@@ -228,7 +228,7 @@ public class Controller {
 		}else if(parsedParams.length == 7){
 			try {
                 
-				ScudManager.checkParamMakeSimulationFolder(parsedParams);
+				SofManager.checkParamMakeSimulationFolder(parsedParams);
 			} catch (ParameterException e1) {
 
 				System.out.print(e1.getMessage());
@@ -237,7 +237,7 @@ public class Controller {
 			try {
 
 
-				ScudManager.makeSimulationFolder(
+				SofManager.makeSimulationFolder(
 						SOFShellClient.session,
 						parsedParams[0],//MODEL TYPE MASON - NETLOGO -GENERIC
 						parsedParams[1],//SIM NAME
@@ -263,12 +263,12 @@ public class Controller {
 	public  void createsimulationloop(String ... params)
 	{
 
-		String parsedParams[] = ScudManager.parseParamenters(params,8);
+		String parsedParams[] = SofManager.parseParamenters(params,8);
 
 		if(parsedParams.length == 10)
 		{
 			try {
-				ScudManager.checkParamMakeSimulationFolder(parsedParams);
+				SofManager.checkParamMakeSimulationFolder(parsedParams);
 			} catch (ParameterException e1) {
 
 				System.out.print(e1.getMessage());
@@ -277,7 +277,7 @@ public class Controller {
 			try {
 
 
-				ScudManager.makeSimulationFolderForLoop(
+				SofManager.makeSimulationFolderForLoop(
 						session,
 						parsedParams[0]/*MODEL TYPE MASON - NETLOGO -GENERIC*/,
 						parsedParams[1],/*SIM NAME*/
@@ -300,7 +300,7 @@ public class Controller {
 		}else if(parsedParams.length == 11){
 
 			try {
-				ScudManager.checkParamMakeSimulationFolder(parsedParams);
+				SofManager.checkParamMakeSimulationFolder(parsedParams);
 			} catch (ParameterException e1) {
 
 				System.out.print(e1.getMessage());
@@ -311,7 +311,7 @@ public class Controller {
 
 
 
-				ScudManager.makeSimulationFolderForLoop(
+				SofManager.makeSimulationFolderForLoop(
 						session,
 						parsedParams[0]/*MODEL TYPE MASON - NETLOGO -GENERIC*/,
 						parsedParams[1],/*SIM NAME*/
@@ -351,7 +351,7 @@ public class Controller {
 	public  Simulations getsimulations(String ... params)
 	{
 
-		return ScudManager.getSimulationsData(session);
+		return SofManager.getSimulationsData(session);
 	}
 
 	public  void getsimulation(String ... params)
@@ -363,7 +363,7 @@ public class Controller {
 
 		}else{
 			int simID = Integer.parseInt(params[0])-1;
-			Simulations listSim  = ScudManager.getSimulationsData(session);
+			Simulations listSim  = SofManager.getSimulationsData(session);
 			if(listSim == null){
 				//					c.printf("No such simulation");
 
@@ -371,7 +371,7 @@ public class Controller {
 			Simulation sim = listSim.getSimulations().get(simID);
 			try {
 				if(!HadoopFileSystemManager.
-						ifExists(session,ScudManager.fs.getHdfsUserPathSimulationByID(sim.getId())
+						ifExists(session,SofManager.fs.getHdfsUserPathSimulationByID(sim.getId())
 								))
 				{}
 
@@ -405,7 +405,7 @@ public class Controller {
 			//				c.printf("Error few parameters!\n Usage: getresult simID [destinationDirPath]");
 
 		}else{
-			Simulations sims = ScudManager.getSimulationsData(session);
+			Simulations sims = SofManager.getSimulationsData(session);
 			if(sims == null){
 				//					c.printf("No such simulation");
 
@@ -424,7 +424,7 @@ public class Controller {
 			//if no path is specified, saves in current directory
 			String path = (params.length < 2)? System.getProperty("user.dir"):params[1];
 			//				c.printf("Simulation will download in: "+path);
-			ScudManager.downloadSimulation(session,sim.getId(),path);
+			SofManager.downloadSimulation(session,sim.getId(),path);
 
 		}
 	}
@@ -436,7 +436,7 @@ public class Controller {
 			//				c.printf("Error few parameters!\n Usage: getresult simID [destinationDirPath]");
 
 		}else{
-			Simulations sims = ScudManager.getSimulationsData(session);
+			Simulations sims = SofManager.getSimulationsData(session);
 			if(sims == null){
 				//					c.printf("No such simulation");
 
@@ -587,7 +587,7 @@ public class Controller {
 	public  void list(String ... params)
 	{
 
-		Simulations sims = ScudManager.getSimulationsData(session);
+		Simulations sims = SofManager.getSimulationsData(session);
 		if(sims == null){
 			//				c.printf("No such simulation");
 
@@ -611,7 +611,7 @@ public class Controller {
 		}else{
 			//				int simID = Integer.parseInt(params[0])-1;
 
-			Simulations listSim  = ScudManager.getSimulationsData(session);
+			Simulations listSim  = SofManager.getSimulationsData(session);
 			if(listSim == null){
 				//					c.printf("No such simulation");
 
@@ -659,8 +659,8 @@ public class Controller {
 				if(!scudhomedir.endsWith("/"))
 					scudhomedir+="/";
 
-				ScudManager.setFileSystem(bindir,System.getProperty("user.dir"), scudhomedir, homedir, javabindir ,user_name);
-				if ((session=ScudManager.connect(user_name, host_address, pstring, bindir,Integer.parseInt(port),
+				SofManager.setFileSystem(bindir,System.getProperty("user.dir"), scudhomedir, homedir, javabindir ,user_name);
+				if ((session=SofManager.connect(user_name, host_address, pstring, bindir,Integer.parseInt(port),
 						new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD.jar"),
 						new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD-RUNNER.jar")
 						))!=null)

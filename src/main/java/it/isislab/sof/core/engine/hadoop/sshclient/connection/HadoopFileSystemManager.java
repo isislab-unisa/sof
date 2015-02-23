@@ -378,7 +378,7 @@ public class HadoopFileSystemManager {
 	private static String makeRemoteTempFolder(EnvironmentSession session) throws JSchException, IOException{
 		//String tempFolderName = TempHostFolderName+System.currentTimeMillis();
 		//String tempFolderName = TEMPORARY_STATIC_FOLDER+File.separator+TEMPORARY_FOLDER+System.currentTimeMillis();
-		String tempFolderName = ScudManager.fs.getRemotePathForTmpFolderForUser();
+		String tempFolderName = SofManager.fs.getRemotePathForTmpFolderForUser();
 		exec(session, "if mkdir "+tempFolderName+" ; then echo 0; else echo -1; fi");
 		return tempFolderName;
 	}
@@ -465,7 +465,7 @@ public class HadoopFileSystemManager {
 			e.printStackTrace();
 			return false;
 		} catch (SftpException e) {
-			ScudManager.log.severe(e.getMessage());
+			SofManager.log.severe(e.getMessage());
 			//e.printStackTrace();
 			return false;
 		}
@@ -497,7 +497,7 @@ public class HadoopFileSystemManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SftpException e) {
-			ScudManager.log.severe(e.getMessage()+"\n");
+			SofManager.log.severe(e.getMessage()+"\n");
 			e.printStackTrace();
 		}
 	}
@@ -526,11 +526,11 @@ public class HadoopFileSystemManager {
 			channel.disconnect();
 			return true;
 		} catch (JSchException e) {
-			ScudManager.log.severe(e.getMessage()+"\n");
+			SofManager.log.severe(e.getMessage()+"\n");
 			e.printStackTrace();
 			return false;
 		} catch (SftpException e) {
-			ScudManager.log.severe(e.getMessage()+"\n");
+			SofManager.log.severe(e.getMessage()+"\n");
 			e.printStackTrace();
 			return false;
 		}
@@ -575,7 +575,7 @@ public class HadoopFileSystemManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SftpException e) {
-			ScudManager.log.severe(e.getMessage());
+			SofManager.log.severe(e.getMessage());
 			//e.printStackTrace();
 		}
 
