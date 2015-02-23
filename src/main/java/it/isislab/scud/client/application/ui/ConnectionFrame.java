@@ -44,8 +44,8 @@ public class ConnectionFrame extends JFrame {
 			textFieldIP.setText("127.0.0.1");
 			passwordFieldPassword.setText("");
 			textFieldPort.setText("22");
-			textFieldHadoopHome.setText("/isis/hadoop-2.4.0");  
-			textFieldSCUDHome.setText("/isis/"); 
+			textFieldHadoopHome.setText("/usr/hadoop-2.4.0");  
+			textFieldSCUDHome.setText("/usr/"); 
 			textFieldJavaHome.setText("/usr/local/java/bin");
 			textFieldSCUDHDFSHome.setText("/");
 		}
@@ -173,7 +173,7 @@ private void initComponents() {
 			e1.printStackTrace();
 		}
 		//---- label13 ----
-		label13.setText("SCUD");
+		label13.setText("SOF");
 		label13.setFont(new Font("Lucida Grande", Font.BOLD, 36));
 
 		//---- label14 ----
@@ -292,10 +292,10 @@ private void initComponents() {
 			label9.setText("Java home directory");
 
 			//---- label10 ----
-			label10.setText("SCUD User home directory");
+			label10.setText("SOF User home directory");
 
 			//---- label11 ----
-			label11.setText("SCUD HDFS home directory");
+			label11.setText("SOF HDFS home directory");
 
 			GroupLayout panel4Layout = new GroupLayout(panel4);
 			panel4.setLayout(panel4Layout);
