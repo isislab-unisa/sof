@@ -42,8 +42,8 @@ public class ConnectionSession {
 		//Check if the user is in the system.
 		try{
 			s = SofManager.connect(username,password,hadoopdir,IP,PORT,
-					SofManager.class.getResourceAsStream("//SCUD.jar"),
-					SofManager.class.getResourceAsStream("//SCUD-RUNNER.jar"));
+					SofManager.class.getResourceAsStream("//SOF.jar"),
+					SofManager.class.getResourceAsStream("//SOF-RUNNER.jar"));
 
 			return s!=null;
 

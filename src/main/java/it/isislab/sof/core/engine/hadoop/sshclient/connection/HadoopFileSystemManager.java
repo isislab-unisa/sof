@@ -43,8 +43,8 @@ public class HadoopFileSystemManager {
 	public static String HDFS="/bin/hdfs";//"bin/hdfs";
 	//public static String TempHostFolderName = "temp";
 
-	//public static final String TEMPORARY_FOLDER="SCUD-";
-	//public static final String STATIC_FOLDER="SCUD";
+	//public static final String TEMPORARY_FOLDER="SOF-";
+	//public static final String STATIC_FOLDER="SOF";
 	//public static final String TEMPORARY_STATIC_FOLDER=STATIC_FOLDER+"/"+"temp";
 	/**
 	 * Check if a directory or a file exist

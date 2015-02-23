@@ -201,7 +201,7 @@ public class SOFRUNNER{
 
 
 
-		String bash=hadoopbindir+"/bin/hadoop jar "+fs.getRemoteSCUDHome()+"/SCUD.jar "+
+		String bash=hadoopbindir+"/bin/hadoop jar "+fs.getRemoteSOFHome()+"/SCUD.jar "+
 				s.getName()+" "+
 				fs.getHdfsUserPathSimulationByID(s.getId())+" "+
 				s.getToolkit()+" ";

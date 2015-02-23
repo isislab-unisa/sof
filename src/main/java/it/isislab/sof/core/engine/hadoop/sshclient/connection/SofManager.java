@@ -86,28 +86,28 @@ public class SofManager {
 	 * @throws IOException 
 	 * @throws NumberFormatException 
 	 */
-	public static EnvironmentSession connect(String username, String host, String password, String HADOOP_HOME,Integer PORT,InputStream SCUD_STREAM,InputStream SCUD_RUNNER_STREAM) throws JSchException, NumberFormatException, IOException {
+	public static EnvironmentSession connect(String username, String host, String password, String HADOOP_HOME,Integer PORT,InputStream SOF_STREAM,InputStream SOF_RUNNER_STREAM) throws JSchException, NumberFormatException, IOException {
 
 		EnvironmentSession s=new EnvironmentSession(username, host, password,HADOOP_HOME,PORT);
 		//if(s==null) return null;
-		log.info("Verify the SCUD Environment...");
-		InputStream srcSCUD=null;
-		InputStream srcSCUDR=null;
+		log.info("Verify the SOF Environment...");
+		InputStream srcSOF=null;
+		InputStream srcSOFR=null;
 		try{
 
-			srcSCUD=SCUD_STREAM;
-			srcSCUDR=SCUD_RUNNER_STREAM;
+			srcSOF=SOF_STREAM;
+			srcSOFR=SOF_RUNNER_STREAM;
 
 		}catch(Exception e)
 		{
-			System.err.println("PATH"+srcSCUD);
+			System.err.println("PATH"+srcSOF);
 			e.printStackTrace();
 		}
 
 
-		if(srcSCUD==null || srcSCUDR==null) 
+		if(srcSOF==null || srcSOFR==null) 
 		{
-			log.info("Problems in loading SCUD.jar and SCUD-RUNNER.jar");
+			log.info("Problems in loading SOF.jar and SOF-RUNNER.jar");
 			return null;
 		}
 
@@ -131,52 +131,52 @@ public class SofManager {
 					log.info("Created user on hadoop and on Remote for name"+username);
 
 
-					HadoopFileSystemManager.makeRemoteTempFolder(s, fs.getRemoteSCUDtmpForUser());
+					HadoopFileSystemManager.makeRemoteTempFolder(s, fs.getRemoteSOFtmpForUser());
 
 				}
 				else{
-					log.severe("Unable to create new user and "+fs.getRemoteSCUDtmpForUser());
+					log.severe("Unable to create new user and "+fs.getRemoteSOFtmpForUser());
 					return null;
 				}
 
-			if(!SofManager.existOnHost(s, fs.getRemoteSCUDHome()))
+			if(!SofManager.existOnHost(s, fs.getRemoteSOFHome()))
 			{
-				HadoopFileSystemManager.makeRemoteTempFolder(s, fs.getRemoteSCUDtmpForUser());
-				log.info("Created Remote SCUD and user "+username);
+				HadoopFileSystemManager.makeRemoteTempFolder(s, fs.getRemoteSOFtmpForUser());
+				log.info("Created Remote SOF and user "+username);
 			}
 
-			if(!SofManager.existOnHost(s, fs.getRemotePathForFile("SCUD.jar"))
+			if(!SofManager.existOnHost(s, fs.getRemotePathForFile("SOF.jar"))
 					||
-					!SofManager.existOnHost(s, fs.getRemotePathForFile("SCUD-RUNNER.jar")))
+					!SofManager.existOnHost(s, fs.getRemotePathForFile("SOF-RUNNER.jar")))
 			{
-				log.info("Copying SCUD-RUNNER.jar");
-				log.info("Copying SCUD.jar");
+				log.info("Copying SOF-RUNNER.jar");
+				log.info("Copying SOF.jar");
 
 
 
-				HadoopFileSystemManager.sftpFromClientToRemote(s,srcSCUD, fs.getRemotePathForFile("SCUD.jar"));
-				HadoopFileSystemManager.sftpFromClientToRemote(s,srcSCUDR, fs.getRemotePathForFile("SCUD-RUNNER.jar"));
+				HadoopFileSystemManager.sftpFromClientToRemote(s,srcSOF, fs.getRemotePathForFile("SOF.jar"));
+				HadoopFileSystemManager.sftpFromClientToRemote(s,srcSOFR, fs.getRemotePathForFile("SOF-RUNNER.jar"));
 
 
 			} 
 
 
-			if(!SofManager.existOnHost(s, fs.getRemoteSCUDtmpForUser()))
+			if(!SofManager.existOnHost(s, fs.getRemoteSOFtmpForUser()))
 			{	
-				HadoopFileSystemManager.makeRemoteTempFolder(s, fs.getRemoteSCUDtmpForUser());
-				log.info("Created root temp directory "+fs.getRemoteSCUDtmpForUser());
+				HadoopFileSystemManager.makeRemoteTempFolder(s, fs.getRemoteSOFtmpForUser());
+				log.info("Created root temp directory "+fs.getRemoteSOFtmpForUser());
 
 			}
 
-			if(!(new File(fs.getClientSCUDtmp()).exists()))
-				makeLocalTemporaryFolder(fs.getClientSCUDtmp());
+			if(!(new File(fs.getClientSOFtmp()).exists()))
+				makeLocalTemporaryFolder(fs.getClientSOFtmp());
 			return s;
 		}
 		return null;
 	}
 
 	public static void disconnect(EnvironmentSession session){
-		removeLocalTemporaryFolder(fs.getClientSCUDHome());
+		removeLocalTemporaryFolder(fs.getClientSOFHome());
 		session.getSession().disconnect();
 	}
 
@@ -688,7 +688,7 @@ public class SofManager {
 		remoteJavaBin=remoteJavaBin.trim();
 
 		try{
-			cmd=remoteJavaBin+"java -jar "+fs.getRemoteSCUDHome()+"/SCUD-RUNNER.jar -u "+author+" "
+			cmd=remoteJavaBin+"java -jar "+fs.getRemoteSOFHome()+"/SOF-RUNNER.jar -u "+author+" "
 					+"-simid "+simID+" "
 					//+"-loopid "+idLoop+" "
 					+"-hadoopbin "+hadoop_home_path+" "
@@ -1150,7 +1150,7 @@ public class SofManager {
 			e.printStackTrace();
 			return;
 		}
-		removeLocalTemporaryFolder(fs.getClientSCUDHome());
+		removeLocalTemporaryFolder(fs.getClientSOFHome());
 	}
 
 

@@ -17,9 +17,9 @@ package it.isislab.sof.core.engine.hadoop.sshclient.connection;
 import java.io.File;
 import org.apache.commons.codec.digest.DigestUtils;
 /**
- * File system description for SCUD framework.
+ * File system description for SOF framework.
  * 
- * SCUD-HDFS (SCUD)
+ * SOF-HDFS (SOF)
     ├── userLOOP (home hdfs)
     │   ├── SIM1
     │   │   ├── description
@@ -86,16 +86,16 @@ import org.apache.commons.codec.digest.DigestUtils;
  *
  *
  *
- *SCUD-CLIENT/
+ *SOF-CLIENT/
 	└── tmp
 		├── somefile
 		└── somefile
  *
  *
  *
- *SCUD-REMOTE/
-		├── SCUD-RUNNER.jar
-		├── SCUD.jar
+ *SOF-REMOTE/
+		├── SOF-RUNNER.jar
+		├── SOF.jar
 		└── userLOOP
 		    ├── tmp
 		    	├── somefile
@@ -130,8 +130,8 @@ public class FileSystemSupport {
 	private final String INPUT_DATA_FILENAME="input.data";
 	private final String OUTPUT_XML_FILENAME="output.xml";
 	private final String DOMAIN_XML_FILENAME="domain.xml";
-	private final String TEMP_PREFIX="SCUD-TMP-DATA";
-	private final String TEMP_LOG_PREFIX="SCUD-TMP-LOG";
+	private final String TEMP_PREFIX="SOF-TMP-DATA";
+	private final String TEMP_LOG_PREFIX="SOF-TMP-LOG";
 	private final String SIMULATION_FOLDER_PREFIX="SIM-";
 	private final String LOOP_FOLDER_PREFIX="LOOP";
 
@@ -139,12 +139,12 @@ public class FileSystemSupport {
 	//private final String SELECTION_EXE_PREFIX="SELCTION_EXE";
 	//private final String RATING_EXE_PREFIX="RATING_EXE";
 	private String JAVA_REMOTE_BIN_FOLDER;
-	private String SCUD_HDFS_HOME;
-	private String SCUD_REMOTE_HOME;
+	private String SOF_HDFS_HOME;
+	private String SOF_REMOTE_HOME;
 	private String REMOTE_ROOT_PATH;
-	private String SCUD_LOCAL_CLIENT_INSTALL_HOME;
-	private String SCUD_REMOTE_TMP="temporaryfiles";
-	private String SCUD_LOCAL_CLIENT_TMP;
+	private String SOF_LOCAL_CLIENT_INSTALL_HOME;
+	private String SOF_REMOTE_TMP="temporaryfiles";
+	private String SOF_LOCAL_CLIENT_TMP;
 	private String HDFS_ROOT_PATH;
 	private String HADOOP_ROOT_INSTALL_PATH;
 	private String SEPARATOR=File.separator;
@@ -181,15 +181,15 @@ public class FileSystemSupport {
 		if(hdfs_home_path.endsWith("/"))
 			hdfs_home_path=hdfs_home_path.substring(0, hdfs_home_path.lastIndexOf("/"));
 
-		SCUD_HDFS_HOME=hdfs_home_path+"/SCUD";
-		SCUD_REMOTE_HOME=remote_home_path+"/SCUD";
-		SCUD_LOCAL_CLIENT_INSTALL_HOME=client_home_path+SEPARATOR+"SCUD";
-		SCUD_LOCAL_CLIENT_TMP=SCUD_LOCAL_CLIENT_INSTALL_HOME+SEPARATOR+SCUD_REMOTE_TMP;
+		SOF_HDFS_HOME=hdfs_home_path+"/SOF";
+		SOF_REMOTE_HOME=remote_home_path+"/SOF";
+		SOF_LOCAL_CLIENT_INSTALL_HOME=client_home_path+SEPARATOR+"SOF";
+		SOF_LOCAL_CLIENT_TMP=SOF_LOCAL_CLIENT_INSTALL_HOME+SEPARATOR+SOF_REMOTE_TMP;
 		JAVA_REMOTE_BIN_FOLDER=javabinremotepath;
 
 	}
 	/**
-	 * SCUD-REMOTE FS
+	 * SOF-REMOTE FS
 	 */
 
 	public String getRemoteJavaBinPath(){
@@ -206,26 +206,26 @@ public class FileSystemSupport {
 
 	public String getRemoteRootPath(){return REMOTE_ROOT_PATH;}
 
-	public String getRemoteSCUDHome()
+	public String getRemoteSOFHome()
 	{
-		return SCUD_REMOTE_HOME;
+		return SOF_REMOTE_HOME;
 	}
-	public String getRemoteSCUDHomeForUser()
+	public String getRemoteSOFHomeForUser()
 	{
-		return SCUD_REMOTE_HOME+"/"+username;
+		return SOF_REMOTE_HOME+"/"+username;
 	}
-	public String getRemoteSCUDtmpForUser()
+	public String getRemoteSOFtmpForUser()
 	{
-		return this.getRemoteSCUDHomeForUser()+"/"+SCUD_REMOTE_TMP;
+		return this.getRemoteSOFHomeForUser()+"/"+SOF_REMOTE_TMP;
 	}
 
 	public String getRemotePathForFile(String file_name)
 	{
-		return this.getRemoteSCUDHome()+"/"+file_name;
+		return this.getRemoteSOFHome()+"/"+file_name;
 	}
 	public String getRemotePathForFolder(String folder_name)
 	{
-		return this.getRemoteSCUDHome()+"/"+folder_name;
+		return this.getRemoteSOFHome()+"/"+folder_name;
 	}
 	/**
 	 * before use this method you must create the getRemotePathForTmpFolderForUser
@@ -234,58 +234,58 @@ public class FileSystemSupport {
 	 */
 	public String getRemotePathForTmpFileForUser(String folderName)
 	{
-		return this.getRemoteSCUDtmpForUser()+"/"+folderName+"/"+DigestUtils.md5Hex(System.currentTimeMillis()+"");
+		return this.getRemoteSOFtmpForUser()+"/"+folderName+"/"+DigestUtils.md5Hex(System.currentTimeMillis()+"");
 	}
 
 	public String getRemotePathForTmpLogFileForUser()
 	{
-		return this.getRemoteSCUDtmpForUser()+"/"+TEMP_LOG_PREFIX+"-"+DigestUtils.md5Hex(System.currentTimeMillis()+"");
+		return this.getRemoteSOFtmpForUser()+"/"+TEMP_LOG_PREFIX+"-"+DigestUtils.md5Hex(System.currentTimeMillis()+"");
 	}
 
 	public String getRemotePathForTmpFolderForUser()
 	{
-		return this.getRemoteSCUDtmpForUser()+"/"+TEMP_PREFIX+"-"+DigestUtils.md5Hex(System.currentTimeMillis()+"");
+		return this.getRemoteSOFtmpForUser()+"/"+TEMP_PREFIX+"-"+DigestUtils.md5Hex(System.currentTimeMillis()+"");
 	}
 	/**
-	 * END SCUD-REMOTE FS
+	 * END SOF-REMOTE FS
 	 */
 
 
 	/**
-	 * SCUD-CLIENT FS
+	 * SOF-CLIENT FS
 	 */
-	public String getClientSCUDHome()
+	public String getClientSOFHome()
 	{
-		return SCUD_LOCAL_CLIENT_INSTALL_HOME;
+		return SOF_LOCAL_CLIENT_INSTALL_HOME;
 	}
 
 	//user.dir/temporaryfile
-	public String getClientSCUDtmp()
+	public String getClientSOFtmp()
 	{
-		return SCUD_LOCAL_CLIENT_TMP;
+		return SOF_LOCAL_CLIENT_TMP;
 	}
 	public String getClientPathForFile(String file_name)
 	{
-		return this.getClientSCUDHome()+SEPARATOR+file_name;
+		return this.getClientSOFHome()+SEPARATOR+file_name;
 	}
 	public String getClientPathForFolder(String folder_name)
 	{
-		return this.getClientSCUDHome()+SEPARATOR+folder_name;
+		return this.getClientSOFHome()+SEPARATOR+folder_name;
 	}
 	public String getClientPathForTmpFile()
 	{
-		return this.getClientSCUDtmp()+SEPARATOR+DigestUtils.md5Hex(System.currentTimeMillis()+"");
+		return this.getClientSOFtmp()+SEPARATOR+DigestUtils.md5Hex(System.currentTimeMillis()+"");
 	}
 	public String getClientPathForTmpFolder()
 	{
-		return this.getClientSCUDtmp()+SEPARATOR+TEMP_PREFIX+"-"+DigestUtils.md5Hex(System.currentTimeMillis()+"");
+		return this.getClientSOFtmp()+SEPARATOR+TEMP_PREFIX+"-"+DigestUtils.md5Hex(System.currentTimeMillis()+"");
 	}
 	/**
-	 * END SCUD-CLIENT FS
+	 * END SOF-CLIENT FS
 	 */
 
 	/**
-	 * SCUD-HDFS FS
+	 * SOF-HDFS FS
 	 */
 
 	public String getHdfsRootPath(){
@@ -293,7 +293,7 @@ public class FileSystemSupport {
 
 	public String getHdfsPathHomeDir()
 	{
-		return SCUD_HDFS_HOME;
+		return SOF_HDFS_HOME;
 	}
 
 
@@ -314,7 +314,7 @@ public class FileSystemSupport {
 
 	public String getHdfsUserPathHomeDir()
 	{
-		return SCUD_HDFS_HOME+"/"+username;
+		return SOF_HDFS_HOME+"/"+username;
 	}
 	public String getHdfsUserPathSimulationByID(String simid)
 	{
@@ -412,7 +412,7 @@ public class FileSystemSupport {
 
 
 	/**
-	 * END SCUD-HDFS FS
+	 * END SOF-HDFS FS
 	 */
 	public static void main(String[] args)
 	{
@@ -422,45 +422,45 @@ public class FileSystemSupport {
 		/*FileSystemSupport fs=new FileSystemSupport("",System.getProperty("user.dir"), "/myapplication/","/home/michele/il/bello/", "/usr/giuann/java/bin","umberto");
 
 		System.out.println("******************CLIENT APPLICATION**********************************");
-		System.out.println("Client scud home:[getClientSCUDHome()]"+fs.getClientSCUDHome());
-		System.out.println("Client scud tmp:[getClientSCUDtmp()]"+fs.getClientSCUDtmp());
-		System.out.println("Client scud tmp folder:[getClientSCUDtmp()]"+fs.getClientPathForTmpFolder());
-		System.out.println("Client scud tmp file:"+fs.getClientPathForTmpFile());
-		System.out.println("Client scud home folder:"+fs.getClientPathForFolder("testfolder"));
-		System.out.println("Client scud home file:"+fs.getClientPathForFile("tmpfile"));
+		System.out.println("Client sof home:[getClientSOFHome()]"+fs.getClientSOFHome());
+		System.out.println("Client sof tmp:[getClientSOFtmp()]"+fs.getClientSOFtmp());
+		System.out.println("Client sof tmp folder:[getClientSOFtmp()]"+fs.getClientPathForTmpFolder());
+		System.out.println("Client sof tmp file:"+fs.getClientPathForTmpFile());
+		System.out.println("Client sof home folder:"+fs.getClientPathForFolder("testfolder"));
+		System.out.println("Client sof home file:"+fs.getClientPathForFile("tmpfile"));
 		System.out.println("**********************************************************************");
 		System.out.println("**********************************************************************");
 		System.out.println("******************REMOTE HADOOP MACHINE*******************************");
-		System.out.println("Remote scud home:"+fs.getRemoteSCUDHome());
-		System.out.println("Remote scud home user:"+fs.getRemoteSCUDHomeForUser());
-		System.out.println("Remote scud tmp user :"+fs.getRemoteSCUDtmpForUser());
-		System.out.println("Remote scud tmp user folder:"+fs.getRemotePathForTmpFolderForUser());
-		//System.out.println("Remote scud tmp user file:"+fs.getRemotePathForTmpFileForUser());
-		System.out.println("Remote scud home user folder:"+fs.getRemotePathForFolder("testfolder"));
-		System.out.println("Remote scud home user file:"+fs.getRemotePathForFile("tmpfile"));
+		System.out.println("Remote sof home:"+fs.getRemoteSOFHome());
+		System.out.println("Remote sof home user:"+fs.getRemoteSOFHomeForUser());
+		System.out.println("Remote sof tmp user :"+fs.getRemoteSOFtmpForUser());
+		System.out.println("Remote sof tmp user folder:"+fs.getRemotePathForTmpFolderForUser());
+		//System.out.println("Remote sof tmp user file:"+fs.getRemotePathForTmpFileForUser());
+		System.out.println("Remote sof home user folder:"+fs.getRemotePathForFolder("testfolder"));
+		System.out.println("Remote sof home user file:"+fs.getRemotePathForFile("tmpfile"));
 		System.out.println("**********************************************************************");
 		System.out.println("**********************************************************************");
 		System.out.println("******************HDFS HADOOP MACHINE*******************************");
-		System.out.println("HDFS scud user home:"+fs.getHdfsUserPathHomeDir());
-		System.out.println("HDFS scud simulation by id:"+fs.getHdfsUserPathSimulationByID(1+""));
-		System.out.println("HDFS scud simulation loop by id:"+fs.getHdfsUserPathSimulationLoopByIDs(1+"", 1));
-		System.out.println("HDFS scud simulation description:"+fs.getHdfsUserPathDescriptionDirForSimId(1+""));
-		System.out.println("HDFS scud simulation execution:"+fs.getHdfsUserPathExecutionDirForSimId(1+""));
-		System.out.println("HDFS scud simulation messages:"+fs.getHdfsUserPathSimulationMessagesByID("1"));
-		System.out.println("HDFS scud simulation inbox messages:"+fs.getHdfsUserPathSimulationInboxMessages("1"));
-		//System.out.println("HDFS scud simulation.xml:"+fs.getHdfsUserPathSimulationsXml());
-		System.out.println("HDFS scud domain.xml for SIM1:"+fs.getHdfsUserPathDomainXML(1+""));
-		System.out.println("HDFS scud runx.xml for SIM1:"+fs.getHdfsUserPathRunsXml(1+""));
-		System.out.println("HDFS scud input.xml for SIM1:"+fs.getHdfsUserPathInputXML(1+""));
-		System.out.println("HDFS scud output.xml for SIM1:"+fs.getHdfsUserPathDescriptionOutputXML(1+""));
-		System.out.println("HDFS scud output folder loop 1 for SIM1:"+fs.getHdfsUserPathOutputLoopDIR(1+"",1));
-		System.out.println("HDFS scud input folder loop 1 for SIM1:"+fs.getHdfsUserPathInputLoopDIR(1+"",1));
-		System.out.println("HDFS scud input.data for loop 1 for SIM1:"+fs.getHdfsUserPathSimulationLoopByIDsInputDATA(1+"",1));
-		System.out.println("HDFS scud model executable for loop 1 for SIM1:"+fs.getHdfsUserPathSimulationExeForId(1+"","testmodel"));
-		System.out.println("HDFS scud selection executable for loop 1 for SIM1:"+fs.getHdfsUserPathSelectionExeForId(1+"","testselection"));
-		System.out.println("HDFS scud rating executable for loop 1 for SIM1:"+fs.getHdfsUserPathRatingExeForId(1+"","testrating"));
-		System.out.println("HDFS scud rating folder for loop 1 for SIM1:"+fs.getHdfsUserPathRatingFolderForSimLoop(1+"",1));
-		System.out.println("HDFS scud selection folder for loop 1 for SIM1:"+fs.getHdfsUserPathSelectionFolder(1+"",1));
+		System.out.println("HDFS sof user home:"+fs.getHdfsUserPathHomeDir());
+		System.out.println("HDFS sof simulation by id:"+fs.getHdfsUserPathSimulationByID(1+""));
+		System.out.println("HDFS sof simulation loop by id:"+fs.getHdfsUserPathSimulationLoopByIDs(1+"", 1));
+		System.out.println("HDFS sof simulation description:"+fs.getHdfsUserPathDescriptionDirForSimId(1+""));
+		System.out.println("HDFS sof simulation execution:"+fs.getHdfsUserPathExecutionDirForSimId(1+""));
+		System.out.println("HDFS sof simulation messages:"+fs.getHdfsUserPathSimulationMessagesByID("1"));
+		System.out.println("HDFS sof simulation inbox messages:"+fs.getHdfsUserPathSimulationInboxMessages("1"));
+		//System.out.println("HDFS sof simulation.xml:"+fs.getHdfsUserPathSimulationsXml());
+		System.out.println("HDFS sof domain.xml for SIM1:"+fs.getHdfsUserPathDomainXML(1+""));
+		System.out.println("HDFS sof runx.xml for SIM1:"+fs.getHdfsUserPathRunsXml(1+""));
+		System.out.println("HDFS sof input.xml for SIM1:"+fs.getHdfsUserPathInputXML(1+""));
+		System.out.println("HDFS sof output.xml for SIM1:"+fs.getHdfsUserPathDescriptionOutputXML(1+""));
+		System.out.println("HDFS sof output folder loop 1 for SIM1:"+fs.getHdfsUserPathOutputLoopDIR(1+"",1));
+		System.out.println("HDFS sof input folder loop 1 for SIM1:"+fs.getHdfsUserPathInputLoopDIR(1+"",1));
+		System.out.println("HDFS sof input.data for loop 1 for SIM1:"+fs.getHdfsUserPathSimulationLoopByIDsInputDATA(1+"",1));
+		System.out.println("HDFS sof model executable for loop 1 for SIM1:"+fs.getHdfsUserPathSimulationExeForId(1+"","testmodel"));
+		System.out.println("HDFS sof selection executable for loop 1 for SIM1:"+fs.getHdfsUserPathSelectionExeForId(1+"","testselection"));
+		System.out.println("HDFS sof rating executable for loop 1 for SIM1:"+fs.getHdfsUserPathRatingExeForId(1+"","testrating"));
+		System.out.println("HDFS sof rating folder for loop 1 for SIM1:"+fs.getHdfsUserPathRatingFolderForSimLoop(1+"",1));
+		System.out.println("HDFS sof selection folder for loop 1 for SIM1:"+fs.getHdfsUserPathSelectionFolder(1+"",1));
 		System.out.println("HDFS File description inputtempdata"+fs.getHdfsUserPathDescriptionInputDirInputData(1+""));
 
 		System.out.println("**********************************************************************");
