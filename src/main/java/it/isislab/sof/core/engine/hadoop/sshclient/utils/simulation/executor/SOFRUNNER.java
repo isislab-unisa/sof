@@ -120,7 +120,7 @@ public class SOFRUNNER{
 	 * @param bashCommandForRunnableFile
 	 * @param runnable_evaluation_programm
 	 *//*
-	public SCUDRUNNER(String author,
+	public SOFRUNNER(String author,
 			String simulationName, String simulationHOME,
 			String simulationTYPE, String simulationPROGRAM,
 			String mapperExecutionLoopInputDataPath , String mapperExecutionLoopOutputPath,
@@ -163,7 +163,7 @@ public class SOFRUNNER{
 	  * @param oneloop
 	  * @param description
 	  *//*
-	public SCUDRUNNER(String author,
+	public SOFRUNNER(String author,
 			String simulationName, String simulationHOME,
 			String simulationTYPE, String simulationPROGRAM,
 			String mapperExecutionLoopInputDataPath, String mapperOutputPathExecution,
@@ -201,7 +201,7 @@ public class SOFRUNNER{
 
 
 
-		String bash=hadoopbindir+"/bin/hadoop jar "+fs.getRemoteSOFHome()+"/SCUD.jar "+
+		String bash=hadoopbindir+"/bin/hadoop jar "+fs.getRemoteSOFHome()+"/SOF.jar "+
 				s.getName()+" "+
 				fs.getHdfsUserPathSimulationByID(s.getId())+" "+
 				s.getToolkit()+" ";
@@ -586,7 +586,7 @@ public class SOFRUNNER{
 		String localFile = fs.getRemotePathForTmpFileForUser(tmpFolderName);
 
 		/*if(ScudRunnerUtils.copyFileFromHdfs(fs,hdfsXmlSim, localFile))
-			SCUDRUNNER.log.info("Copied "+hdfsXmlSim+" to "+localFile);*/
+			SOFRUNNER.log.info("Copied "+hdfsXmlSim+" to "+localFile);*/
 
 		//Simulation sim = SimulationParser.convertXMLToSimulation(localFile);
 
