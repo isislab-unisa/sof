@@ -45,7 +45,7 @@ import com.jcraft.jsch.SftpException;
  * Utils for runner
  *
  */
-public class ScudRunnerUtils {
+public class SofRunnerUtils {
 
 	public static boolean mkdir(String dirname){
 		File f = new File(dirname);

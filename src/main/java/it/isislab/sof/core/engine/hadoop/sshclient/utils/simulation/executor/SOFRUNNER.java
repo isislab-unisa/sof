@@ -267,7 +267,7 @@ public class SOFRUNNER{
 		String simID = sim.getId();
 		setSimulationStatus(fs,sim, Simulation.RUNNING);
 		String tmpFolderPath = fs.getRemotePathForTmpFolderForUser();
-		ScudRunnerUtils.mkdir(tmpFolderPath);
+		SofRunnerUtils.mkdir(tmpFolderPath);
 		String tmpFolderName = tmpFolderPath.substring(tmpFolderPath.lastIndexOf("/")+1, tmpFolderPath.length());
 		//String hdfs_USER_HOME=fs.getHdfsUserPathHomeDir();
 
@@ -323,7 +323,7 @@ public class SOFRUNNER{
 				ScudRunnerUtils.copyFileInHdfs(fs,tmpInputXmlFile, hdfs_input_xml);*/
 				String initial_xml_input_FileName = fs.getHdfsUserPathInputXML(simID);
 				String hdfs_input_xml = fs.getHdfsUserPathSimulationLoopByIDsInputXML(simID, idLoop);
-				ScudRunnerUtils.moveFromHdfsToHdfs(fs,initial_xml_input_FileName,hdfs_input_xml);
+				SofRunnerUtils.moveFromHdfsToHdfs(fs,initial_xml_input_FileName,hdfs_input_xml);
 			}
 
 			log.info("Starting loop "+idLoop+" for Simulation "+simID);
@@ -331,13 +331,13 @@ public class SOFRUNNER{
 			if (doLoop){
 				String hdfs_input_xml = fs.getHdfsUserPathSimulationLoopByIDsInputXML(simID, idLoop);
 				String hdfs_input_data = fs.getHdfsUserPathSimulationLoopByIDsInputDATA(simID, idLoop);
-				ScudRunnerUtils.convertXmlToData(fs,hdfs_input_xml,hdfs_input_data);
+				SofRunnerUtils.convertXmlToData(fs,hdfs_input_xml,hdfs_input_data);
 
 			}
 			else{	
 				String hdfs_input_xml = fs.getHdfsUserPathSimulationLoopByIDsInputXML(simID, idLoop);
 				String hdfs_input_data = fs.getHdfsUserPathSimulationLoopByIDsInputDATA(simID, idLoop);
-				ScudRunnerUtils.convertXmlToData(fs,hdfs_input_xml,hdfs_input_data);
+				SofRunnerUtils.convertXmlToData(fs,hdfs_input_xml,hdfs_input_data);
 			}
 
 			Runs r = setLoopProperty(fs,simID,idLoop,Loop.RUNNING);
@@ -368,7 +368,7 @@ public class SOFRUNNER{
 
 		setSimulationStatus(fs,sim, STOPPED?Simulation.STOPPED:Simulation.FINISHED);
 
-		ScudRunnerUtils.rmr(tmpFolderPath);
+		SofRunnerUtils.rmr(tmpFolderPath);
 
 		log.info("Simulation "+simID+ (STOPPED?" stopped":" terminated"));
 	}
@@ -382,23 +382,23 @@ public class SOFRUNNER{
 	 */
 	private static Message checkMessages(FileSystemSupport fs, Simulation sim) {
 		String tmpFolderPath = fs.getRemotePathForTmpFolderForUser();
-		ScudRunnerUtils.mkdir(tmpFolderPath);
+		SofRunnerUtils.mkdir(tmpFolderPath);
 		String hdfs_mexs_path= fs.getHdfsUserPathSimulationInboxMessages(sim.getId());
 		String tmp_inbox_FolderName = hdfs_mexs_path.substring(hdfs_mexs_path.lastIndexOf("/")+1, hdfs_mexs_path.length());
-		ScudRunnerUtils.copyFilesFromHdfs(fs, hdfs_mexs_path, tmpFolderPath);
-		Messages mss = ScudRunnerUtils.convertXmlListToMessages(fs,tmpFolderPath+"/"+tmp_inbox_FolderName);
+		SofRunnerUtils.copyFilesFromHdfs(fs, hdfs_mexs_path, tmpFolderPath);
+		Messages mss = SofRunnerUtils.convertXmlListToMessages(fs,tmpFolderPath+"/"+tmp_inbox_FolderName);
 		if(mss == null)
 			return null;
 		PriorityQueue<Message> listMessages = new PriorityQueue<Message>(mss.getMessages());
 		Message toResolve = listMessages.poll();
 
 		//if(ScudRunnerUtils.rmrFromHdfs(fs, fs.getHdfsUserPathSimulationInboxMessagesFileByID(sim.getId(), toResolve.getId())))
-		if(ScudRunnerUtils.rmrFromHdfs(fs, fs.getHdfsUserPathSimulationInboxMessages(sim.getId())+File.separator+"*"))	
+		if(SofRunnerUtils.rmrFromHdfs(fs, fs.getHdfsUserPathSimulationInboxMessages(sim.getId())+File.separator+"*"))	
 			log.info("Scheduled a new message");
 		else{
 			log.severe("Some problems when scheduling message");
 		}
-		ScudRunnerUtils.rmr(tmpFolderPath);
+		SofRunnerUtils.rmr(tmpFolderPath);
 		return toResolve;
 	}
 
@@ -413,7 +413,7 @@ public class SOFRUNNER{
 
 
 		String tmpFolderPath = fs.getRemotePathForTmpFolderForUser();
-		ScudRunnerUtils.mkdir(tmpFolderPath);
+		SofRunnerUtils.mkdir(tmpFolderPath);
 		String tmpFolderName = tmpFolderPath.substring(tmpFolderPath.lastIndexOf("/")+1, tmpFolderPath.length());
 
 
@@ -425,7 +425,7 @@ public class SOFRUNNER{
 		Runs runs = new Runs();
 		int loopNumber=0;
 
-		ScudRunnerUtils.copyFileFromHdfs(fs,hdfsXMLPath, runsXmlFile);
+		SofRunnerUtils.copyFileFromHdfs(fs,hdfsXMLPath, runsXmlFile);
 
 		runs = RunsParser.convertXMLToRuns(runsXmlFile);
 		loopNumber = runs.getLoops().size()+1;
@@ -434,22 +434,22 @@ public class SOFRUNNER{
 
 		runs.addLoop(l);
 		RunsParser.convertRunsToXML(runs, runsXmlFile);
-		ScudRunnerUtils.rmrFromHdfs(fs,hdfsXMLPath);
-		ScudRunnerUtils.copyFileInHdfs(fs,runsXmlFile, hdfsXMLPath);
+		SofRunnerUtils.rmrFromHdfs(fs,hdfsXMLPath);
+		SofRunnerUtils.copyFileInHdfs(fs,runsXmlFile, hdfsXMLPath);
 
 		String loopPath=fs.getHdfsUserPathSimulationLoopByIDs(simID2, loopNumber);
 
 
-		if(ScudRunnerUtils.hdfs_mkdirp(fs,loopPath))
+		if(SofRunnerUtils.hdfs_mkdirp(fs,loopPath))
 			log.info("Created "+loopPath);
 
 
 
 		String hdfs_loop_input_dir = fs.getHdfsUserPathInputLoopDIR(simID2, loopNumber);
-		if(ScudRunnerUtils.hdfs_mkdirp(fs,hdfs_loop_input_dir))
+		if(SofRunnerUtils.hdfs_mkdirp(fs,hdfs_loop_input_dir))
 			log.info("Created successfully"+ hdfs_loop_input_dir);
 
-		ScudRunnerUtils.rmr(tmpFolderPath);
+		SofRunnerUtils.rmr(tmpFolderPath);
 
 		return loopNumber;
 	}
@@ -459,7 +459,7 @@ public class SOFRUNNER{
 
 		String tmpFolderPath = fs.getRemotePathForTmpFolderForUser();
 
-		ScudRunnerUtils.mkdir(tmpFolderPath);
+		SofRunnerUtils.mkdir(tmpFolderPath);
 		String tmpFolderName = tmpFolderPath.substring(tmpFolderPath.lastIndexOf("/")+1, tmpFolderPath.length());
 
 
@@ -471,7 +471,7 @@ public class SOFRUNNER{
 
 		Runs runs = new Runs();
 
-		ScudRunnerUtils.copyFileFromHdfs(fs,hdfsXMLPath, localXMLPath);
+		SofRunnerUtils.copyFileFromHdfs(fs,hdfsXMLPath, localXMLPath);
 
 		runs = RunsParser.convertXMLToRuns(localXMLPath);
 		Loop toRemove=null;
@@ -484,13 +484,13 @@ public class SOFRUNNER{
 		runs.getLoops().remove(toRemove);
 
 		RunsParser.convertRunsToXML(runs, localXMLPath);
-		ScudRunnerUtils.rmrFromHdfs(fs,hdfsXMLPath);
+		SofRunnerUtils.rmrFromHdfs(fs,hdfsXMLPath);
 
-		ScudRunnerUtils.copyFileInHdfs(fs,localXMLPath, hdfsXMLPath);
+		SofRunnerUtils.copyFileInHdfs(fs,localXMLPath, hdfsXMLPath);
 
-		boolean result=ScudRunnerUtils.rmrFromHdfs(fs,hdfs_loopFolder);
+		boolean result=SofRunnerUtils.rmrFromHdfs(fs,hdfs_loopFolder);
 
-		ScudRunnerUtils.rmr(tmpFolderPath);
+		SofRunnerUtils.rmr(tmpFolderPath);
 
 		return result;
 	}
@@ -499,7 +499,7 @@ public class SOFRUNNER{
 			String status) throws NumberFormatException, JSchException, IOException, SftpException {
 
 		String tmpFolderPath = fs.getRemotePathForTmpFolderForUser();
-		ScudRunnerUtils.mkdir(tmpFolderPath);
+		SofRunnerUtils.mkdir(tmpFolderPath);
 		String tmpFolderName = tmpFolderPath.substring(tmpFolderPath.lastIndexOf("/")+1, tmpFolderPath.length());
 
 		String hdfs_runs_xml=fs.getHdfsUserPathRunsXml(simID);
@@ -509,7 +509,7 @@ public class SOFRUNNER{
 		String hdfs_input_xml_file = fs.getHdfsUserPathSimulationLoopByIDsInputXML(simID, idLoop);
 
 
-		if(ScudRunnerUtils.copyFileFromHdfs(fs,hdfs_runs_xml, tmpRunsFile))
+		if(SofRunnerUtils.copyFileFromHdfs(fs,hdfs_runs_xml, tmpRunsFile))
 			SofManager.log.info("Copied successfully "+hdfs_runs_xml+" to "+tmpRunsFile);
 
 		Runs r = RunsParser.convertXMLToRuns(tmpRunsFile);
@@ -521,7 +521,7 @@ public class SOFRUNNER{
 
 					String tmpInputXmlFile = fs.getRemotePathForTmpFileForUser(tmpFolderName);
 
-					if(ScudRunnerUtils.copyFileFromHdfs(fs,hdfs_input_xml_file, tmpInputXmlFile))
+					if(SofRunnerUtils.copyFileFromHdfs(fs,hdfs_input_xml_file, tmpInputXmlFile))
 						SofManager.log.info("Copied successfully "+hdfs_runs_xml+" to "+tmpInputXmlFile);
 
 					Inputs i = l.convertXMLInputToInput(tmpInputXmlFile);
@@ -534,8 +534,8 @@ public class SOFRUNNER{
 						String tmpDir = fs.getRemotePathForTmpFolderForUser();
 						String hdfs_loop_output = fs.getHdfsUserPathOutputLoopDIR(simID, idLoop);
 						String hdfs_outputFolderName = hdfs_loop_output.substring(hdfs_loop_output.lastIndexOf("/")+1);
-						ScudRunnerUtils.mkdir(tmpDir);
-						if(ScudRunnerUtils.copyFilesFromHdfs(fs,hdfs_loop_output, tmpDir))	
+						SofRunnerUtils.mkdir(tmpDir);
+						if(SofRunnerUtils.copyFilesFromHdfs(fs,hdfs_loop_output, tmpDir))	
 							log.info("Copied "+hdfs_loop_output+" to "+tmpDir);
 
 						Outputs out = new Outputs();
@@ -558,18 +558,18 @@ public class SOFRUNNER{
 						}
 						out.setOutput_list(out_list);
 						l.setOutputs(out);
-						ScudRunnerUtils.rmr(tmpDir);
+						SofRunnerUtils.rmr(tmpDir);
 					}
 				}
 			}
 		RunsParser.convertRunsToXML(r, tmpRunsFile);
-		ScudRunnerUtils.rmrFromHdfs(fs,hdfs_runs_xml);
+		SofRunnerUtils.rmrFromHdfs(fs,hdfs_runs_xml);
 
-		if(ScudRunnerUtils.copyFileInHdfs(fs,tmpRunsFile, hdfs_runs_xml))
+		if(SofRunnerUtils.copyFileInHdfs(fs,tmpRunsFile, hdfs_runs_xml))
 			SofManager.log.info("Copied "+tmpRunsFile+" to "+hdfs_runs_xml);
 
 
-		ScudRunnerUtils.rmr(tmpFolderPath);
+		SofRunnerUtils.rmr(tmpFolderPath);
 
 		return r;
 	}
@@ -577,7 +577,7 @@ public class SOFRUNNER{
 	private static void addLoopToSimulation(FileSystemSupport fs, Simulation sim, Runs runs) throws NumberFormatException, JSchException, IOException, SftpException {
 
 		String tmpFolderPath =fs.getRemotePathForTmpFolderForUser();
-		ScudRunnerUtils.mkdir(tmpFolderPath);
+		SofRunnerUtils.mkdir(tmpFolderPath);
 
 		String tmpFolderName = tmpFolderPath.substring(tmpFolderPath.lastIndexOf("/")+1, tmpFolderPath.length());
 
@@ -593,13 +593,13 @@ public class SOFRUNNER{
 		sim.setRuns(runs);
 
 		SimulationParser.convertSimulationToXML(sim, localFile);
-		if(ScudRunnerUtils.ifExists(fs, hdfsXmlSim)){
-			if(ScudRunnerUtils.rmrFromHdfs(fs,hdfsXmlSim))
+		if(SofRunnerUtils.ifExists(fs, hdfsXmlSim)){
+			if(SofRunnerUtils.rmrFromHdfs(fs,hdfsXmlSim))
 				SOFRUNNER.log.info("Removed successfully "+hdfsXmlSim);
 		}
-		ScudRunnerUtils.copyFileInHdfs(fs,localFile, hdfsXmlSim);
+		SofRunnerUtils.copyFileInHdfs(fs,localFile, hdfsXmlSim);
 
-		ScudRunnerUtils.rmr(tmpFolderPath);
+		SofRunnerUtils.rmr(tmpFolderPath);
 
 	}
 
@@ -607,7 +607,7 @@ public class SOFRUNNER{
 			Simulation sim, String status){
 
 		String tmpFolderPath =fs.getRemotePathForTmpFolderForUser();
-		ScudRunnerUtils.mkdir(tmpFolderPath);
+		SofRunnerUtils.mkdir(tmpFolderPath);
 
 		String tmpFolderName = tmpFolderPath.substring(tmpFolderPath.lastIndexOf("/")+1, tmpFolderPath.length());
 
@@ -633,15 +633,15 @@ public class SOFRUNNER{
 
 		/** LOCK ***/
 
-		if(ScudRunnerUtils.ifExists(fs, hdfsXmlSim)){
-			if(ScudRunnerUtils.rmrFromHdfs(fs,hdfsXmlSim))
+		if(SofRunnerUtils.ifExists(fs, hdfsXmlSim)){
+			if(SofRunnerUtils.rmrFromHdfs(fs,hdfsXmlSim))
 				log.info("Removed "+hdfsXmlSim+" successfully");
 		}
 
-		if(ScudRunnerUtils.copyFileInHdfs(fs,localSimXml, hdfsXmlSim))
+		if(SofRunnerUtils.copyFileInHdfs(fs,localSimXml, hdfsXmlSim))
 			log.info("Copied "+localSimXml+" to "+hdfsXmlSim);
 
-		ScudRunnerUtils.rmr(tmpFolderPath);
+		SofRunnerUtils.rmr(tmpFolderPath);
 
 	}
 
@@ -661,7 +661,7 @@ public class SOFRUNNER{
 		sr.setFileSystem();
 		try {
 			sr.setLogFile();
-			Simulation s = ScudRunnerUtils.getSimulationById(sr.fs, sr.simID);
+			Simulation s = SofRunnerUtils.getSimulationById(sr.fs, sr.simID);
 			sr.launchSimulation(fs, s);
 
 		} catch (NumberFormatException e) {

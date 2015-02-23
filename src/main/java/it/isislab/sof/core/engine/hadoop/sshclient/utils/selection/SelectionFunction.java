@@ -22,7 +22,7 @@ import com.jcraft.jsch.JSchException;
 
 import it.isislab.sof.core.engine.hadoop.sshclient.connection.FileSystemSupport;
 import it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.executor.SOFRUNNER;
-import it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.executor.ScudRunnerUtils;
+import it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.executor.SofRunnerUtils;
 
 /**
  * Class for selection function    
@@ -77,43 +77,43 @@ public class SelectionFunction {
 		//String tmpFold = HadoopFileSystemManager.makeRemoteTempFolder(session);
 		String tmpFold = fs.getRemotePathForTmpFolderForUser();
 		
-		if(ScudRunnerUtils.mkdir(tmpFold))
+		if(SofRunnerUtils.mkdir(tmpFold))
 			SOFRUNNER.log.info("Created "+tmpFold+" folder");
 
 		String tmpFolderName = tmpFold.substring(tmpFold.lastIndexOf("/")+1, tmpFold.length());
 		
 		String xml_domain_fileName = fs.getRemotePathForTmpFileForUser(tmpFolderName);
 
-		if(ScudRunnerUtils.copyFileFromHdfs(fs,hdfs_domain_xml_file, xml_domain_fileName))
+		if(SofRunnerUtils.copyFileFromHdfs(fs,hdfs_domain_xml_file, xml_domain_fileName))
 			SOFRUNNER.log.info("Copied "+hdfs_domain_xml_file+" to "+xml_domain_fileName);
 
 		String xml_input_fileName = fs.getRemotePathForTmpFileForUser(tmpFolderName);
 
-		if(ScudRunnerUtils.copyFileFromHdfs(fs,  hdfs_input_fileName, xml_input_fileName))
+		if(SofRunnerUtils.copyFileFromHdfs(fs,  hdfs_input_fileName, xml_input_fileName))
 			SOFRUNNER.log.info("Copied "+hdfs_input_fileName+" to "+xml_input_fileName);
 
 		String rating_folder_name = fs.getRemotePathForTmpFolderForUser();
 
 		
-		if(ScudRunnerUtils.copyFilesFromHdfs(fs, hdfs_simulation_rating_folder, rating_folder_name))
+		if(SofRunnerUtils.copyFilesFromHdfs(fs, hdfs_simulation_rating_folder, rating_folder_name))
 			SOFRUNNER.log.info("Copied "+hdfs_simulation_rating_folder+" to "+rating_folder_name);
 
 		String selection_function_fileName = fs.getRemotePathForTmpFileForUser(tmpFolderName);
 		
 		
-		if(ScudRunnerUtils.copyFileFromHdfs(fs, hdfs_selection_function_fileName, selection_function_fileName))
+		if(SofRunnerUtils.copyFileFromHdfs(fs, hdfs_selection_function_fileName, selection_function_fileName))
 			SOFRUNNER.log.info("Copied "+hdfs_selection_function_fileName+" to "+selection_function_fileName);
 
 		String tmpSelection_Input_folder = fs.getRemotePathForTmpFolderForUser();
 		
-		if(ScudRunnerUtils.mkdir(tmpSelection_Input_folder))
+		if(SofRunnerUtils.mkdir(tmpSelection_Input_folder))
 			SOFRUNNER.log.info("Created folder "+tmpSelection_Input_folder);
 
 
 		/*String makeExecutableFilecmd="chmod +x "+selection_function_fileName;
 		if(Integer.parseInt(HadoopFileSystemManager.exec(session,makeExecutableFilecmd))<0?false:true)
 			SCUDRUNNER.log.info("Make executable "+selection_function_fileName);*/
-		if(ScudRunnerUtils.chmodX(selection_function_fileName))
+		if(SofRunnerUtils.chmodX(selection_function_fileName))
 			SOFRUNNER.log.info("Make executable "+selection_function_fileName);
 
 
@@ -130,9 +130,9 @@ public class SelectionFunction {
 		
 		SOFRUNNER.log.info("Launch selection function. \n"+cmd);
 		
-		if(ScudRunnerUtils.execGenericCommand(cmd.split(" "),tmpRedirectInputXmlFile)){
+		if(SofRunnerUtils.execGenericCommand(cmd.split(" "),tmpRedirectInputXmlFile)){
 			if(f.length()>0){
-				if(ScudRunnerUtils.copyFileInHdfs(fs, tmpRedirectInputXmlFile, currentExecutionInputLoopPath)){
+				if(SofRunnerUtils.copyFileInHdfs(fs, tmpRedirectInputXmlFile, currentExecutionInputLoopPath)){
 					SOFRUNNER.log.info("Generated successfully a new input");
 					result=true;
 				}
@@ -142,9 +142,9 @@ public class SelectionFunction {
 		}else{
 			SOFRUNNER.log.severe("Unexpected selection function terminated.");
 		}
-		ScudRunnerUtils.rmr(rating_folder_name);
-		ScudRunnerUtils.rmr(tmpSelection_Input_folder);
-		ScudRunnerUtils.rmr(tmpFold);
+		SofRunnerUtils.rmr(rating_folder_name);
+		SofRunnerUtils.rmr(tmpSelection_Input_folder);
+		SofRunnerUtils.rmr(tmpFold);
 		return result;
 	}
 	
