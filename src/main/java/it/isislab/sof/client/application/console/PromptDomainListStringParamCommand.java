@@ -56,7 +56,7 @@ public enum PromptDomainListStringParamCommand implements Prompt{
 			c.printf("    add                  |add a new string value.\n");
 			c.printf("    remove               |remove the value corresponding to the given string value.\n");	
 			c.printf("    list                 |show the values list.\n");	
-			c.printf("    exit                 |go back at previusly SCUD session.");
+			c.printf("    exit                 |go back at previusly SOF session.");
 			return list;
 		}
 

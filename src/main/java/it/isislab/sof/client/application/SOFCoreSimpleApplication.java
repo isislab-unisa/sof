@@ -33,7 +33,7 @@ public class SOFCoreSimpleApplication {
 	public static String homedir="/isis/"; 
 	public static String javabindir ="/usr/local/java/bin/";
 	public static String name="isis";
-	public static String scudhomedir="/";
+	public static String sofhomedir="/";
 
 	public static  String toolkit="netlogo";
 	public static String simulation_name="aids";
@@ -58,10 +58,10 @@ public class SOFCoreSimpleApplication {
 		Simulations sims=null;
 		try {
 
-			SofManager.setFileSystem(bindir,System.getProperty("user.dir"), scudhomedir, homedir, javabindir ,name);
+			SofManager.setFileSystem(bindir,System.getProperty("user.dir"), sofhomedir, homedir, javabindir ,name);
 			if ((session=SofManager.connect(name, host, pstring, bindir,PORT,
-					new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD.jar"),
-					new FileInputStream(System.getProperty("user.dir")+File.separator+"scud-resources"+File.separator+"SCUD-RUNNER.jar")
+					new FileInputStream(System.getProperty("user.dir")+File.separator+"sof-resources"+File.separator+"SOF.jar"),
+					new FileInputStream(System.getProperty("user.dir")+File.separator+"sof-resources"+File.separator+"SOF-RUNNER.jar")
 					))!=null)
 			{
 				System.out.println("Connected. Type \"help\", \"usage <command>\" or \"license\" for more information.");

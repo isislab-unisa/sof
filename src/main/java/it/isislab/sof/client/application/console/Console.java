@@ -30,7 +30,7 @@ public class Console {
 		 {
 			 System.err.println("****************************************************************************************");
 			 System.err.println("****************************************************************************************");
-			 System.err.println("*************SCUD client started in not safe mode, some problems may arise!*************");
+			 System.err.println("*************SOF client started in not safe mode, some problems may arise!*************");
 			 System.err.println("****************************************************************************************");
 			 System.err.println("****************************************************************************************");
 		 }

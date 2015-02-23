@@ -100,7 +100,7 @@ public enum PromptInputParamCommand implements Prompt{
 			c.printf("    add                  |add a new parameter.\n");
 			c.printf("    remove               |remove the parameter corresponding to the given name.\n");	
 			c.printf("    list                 |show the parameter list.\n");	
-			c.printf("    exit                 |go back at previusly SCUD session.");
+			c.printf("    exit                 |go back at previusly SOF session.");
 			return list;
 		}
 

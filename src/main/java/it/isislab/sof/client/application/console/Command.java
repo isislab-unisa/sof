@@ -47,7 +47,7 @@ public enum Command implements Prompt
 		@Override
 		public Object exec(Console c, String[] params,String stringPrompt)
 		{
-			c.printf("SCUD is a tool utility powerd by ISISLab, 2014.\n");
+			c.printf("SOF is a tool utility powerd by ISISLab, 2014.\n");
 			return null;
 
 		}

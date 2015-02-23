@@ -59,7 +59,7 @@ public enum PromptDomainListDoubleParamCommand implements Prompt{
 			c.printf("    add                  |add a new double value.\n");
 			c.printf("    remove               |remove the value corresponding to the given double value.\n");	
 			c.printf("    list                 |show the values list.\n");	
-			c.printf("    exit                 |go back at previusly SCUD session.");
+			c.printf("    exit                 |go back at previusly SOF session.");
 			return list;
 		}
 

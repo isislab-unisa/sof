@@ -322,7 +322,7 @@ public enum PromptCommands implements Prompt{
 			c.printf("    new                  |generate a new [input,output,domain].\n");
 			c.printf("    remove               |remove the element corresponding to the given element.\n");
 			c.printf("    generatexml          |generate the xml file of the corresponding xml kind in the given directory.\n");		
-			c.printf("    exit                 |go back at previusly SCUD session.\n");
+			c.printf("    exit                 |go back at previusly SOF session.\n");
 			return null;
 		}
 		
