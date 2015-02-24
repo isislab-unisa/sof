@@ -280,7 +280,7 @@ This client application use SSH to connect to the Hadoop cluster. The applicatio
 
 Usage:
 
-     $  java -jar SOF-Client.jar -h 192.168.0.1 -port 1022 -bindir /home/hadoop/bin -homedir /home/user -javbindir /home/java/bin -sofhomedir /home/user/app/SOFtmp
+     $  java -jar SOF-Client.jar -h 192.168.0.1 -port 1022 -bindir /home/hadoop/bin -homedir /home/user -javabindir /home/java/bin -sofhomedir /home/user/app/SOFtmp
      
      
 After login this is the command shell:
