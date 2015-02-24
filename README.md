@@ -89,13 +89,13 @@ In both SOF clients are needed some system configuration parameters:
 * *Hadoop home directory* [`-bindir`]: the folder that contains the bin directory of Hadoop infrastructure, where you can find  all the Hadoop commands, in this case `/usr/`;   
 * *Home directory* [`-homedir`]: folder where you create SOF temporary directory on the remote machine (Hadoop Master node), in this case the virtual machine home like `/root`;  
 * *Java bin directory* [`-javabindir`]: folder that cointains `/bin` directory of Java installation, in this case `/usr/bin/`;
-* *SOF home directory* [`-SOFhomedir`]: SOF installation folder on the HDFS, in this case `/user/root/`. 
+* *SOF home directory* [`-sofhomedir`]: SOF installation folder on the HDFS, in this case `/user/root/`. 
 
 Examples: 
 
 * **SOF Simple Java Client** change the parameters setting in the Java class and run it (see  [Getting Started SOF Java Client](https://github.com/isislab-unisa/SOF/blob/master/README.md#getting-started-SOF-client-an-example-of-simple-client) section).
 
-* **SOF Shell Client** `$  java -jar SOF-Client.jar -h 192.168.0.2  -bindir /usr/  -homedir /root/ -javabindir /usr/bin/ -SOFhomedir /user/root/` (see  [Getting Started SOF GUI Client](https://github.com/isislab-unisa/SOF/blob/master/README.md#getting-started-SOF-client-gui) section).
+* **SOF Shell Client** `$  java -jar SOF-Client.jar -h 192.168.0.2  -bindir /usr/  -homedir /root/ -javabindir /usr/bin/ -sofhomedir /user/root/` (see  [Getting Started SOF GUI Client](https://github.com/isislab-unisa/SOF/blob/master/README.md#getting-started-SOF-client-gui) section).
      
 * **SOF GUI Client** provides the parameters setting in the GUI (see  [Getting Started SOF Schell Client](https://github.com/isislab-unisa/SOF/blob/master/README.md#getting-started-SOF-schell-client) section).
 
@@ -162,7 +162,7 @@ public class SOFCoreSimpleApplication {
 	public static String homedir="/isis/"; 
 	public static String javabindir ="/usr/local/java/bin/";
 	public static String name="isis";
-	public static String SOFhomedir="/";
+	public static String sofhomedir="/";
 
 	public static  String toolkit="netlogo";
 	public static String simulation_name="aids";
@@ -187,7 +187,7 @@ public class SOFCoreSimpleApplication {
 		Simulations sims=null;
 		try {
 
-			SOFManager.setFileSystem(bindir,System.getProperty("user.dir"), SOFhomedir, homedir, javabindir ,name);
+			SOFManager.setFileSystem(bindir,System.getProperty("user.dir"), sofhomedir, homedir, javabindir ,name);
 			if ((session=SOFManager.connect(name, host, pstring, bindir,PORT,
 					new FileInputStream(System.getProperty("user.dir")+File.separator+"SOF-resources"+File.separator+"SOF.jar"),
 					new FileInputStream(System.getProperty("user.dir")+File.separator+"SOF-resources"+File.separator+"SOF-RUNNER.jar")
