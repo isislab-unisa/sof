@@ -276,16 +276,16 @@ This client application use SSH to connect to the Hadoop cluster. The applicatio
 * `-bindir PATH BIN DIRECTORY` the bin installation path (absolute) of Hadoop. The default value is `/bin`;
 * `-homedir PATH DIRECTORY` the home directory of the user on the master node. The default value  is `~/temp`;
 * `-javabindir PATH JAVA BIN DIRECTORY` the bin installation path of the Java Virtual Machine. The default value is `/usr/bin`;
-* `-SOFhomedir USER SOF HOME DIRECTORY` the Hadoop distributed File system directory which will be the root directory for the SOF application. The default value is `/`.
+* `-sofhomedir USER SOF HOME DIRECTORY` the Hadoop distributed File system directory which will be the root directory for the SOF application. The default value is `/`.
 
 Usage:
 
-     $  java -jar SOF-Client.jar -h 192.168.0.1 -port 1022 -bindir /home/hadoop/bin -homedir /home/user -javbindir /home/java/bin -SOFhomedir /home/user/app/SOFtmp
+     $  java -jar SOF-Client.jar -h 192.168.0.1 -port 1022 -bindir /home/hadoop/bin -homedir /home/user -javbindir /home/java/bin -sofhomedir /home/user/app/SOFtmp
      
      
 After login this is the command shell:
     
-    SOF$ 18:00:01 >>>
+    sof$ 18:00:01 >>>
     
 
 ---
