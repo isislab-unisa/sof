@@ -71,7 +71,7 @@ The output files will be in `target/`:
 
 To easily test the SOF environment you can set up a virtual machine with Apache Hadoop infrastructure on your local machine. A popular example of that is a **Hortonworks Data Platform (HDP)**, an open source Apache Hadoop data platform, architected for the enterprise, developed from [Hortonworks](http://hortonworks.com/). The HDP 2.2 Sandbox is provided as a self-contained virtual machine with Hadoop 2.6.0. No data center, no cloud service and no internet connection needed in order to the SOF framework.
 
-Download the virtual machine at Hortonworks [download page](http://hortonworks.com/products/hortonworks-sandbox/), and install your prefered available virtual machine in order to set up the environment.
+Download the virtual machine at Hortonworks [download page](http://hortonworks.com/products/releases/hdp-2-2/#install), and install your prefered available virtual machine in order to set up the environment.
 
 ### How to execute SOF using VirtualBox HDP 2.2 Sandbox
 
