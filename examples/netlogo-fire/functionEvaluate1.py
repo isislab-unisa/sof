@@ -1,3 +1,3 @@
-print "AlberiIniziali:"
-print "AlberiBruciati:"
-print "Percentuale:"
+print "InitialTrees:"
+print "BurnedTrees:"
+print "BurnedPercentage:"
