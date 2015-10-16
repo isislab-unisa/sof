@@ -107,22 +107,22 @@ In PSE mode the input to the simulation and the output must be in XML, compliant
 In the following there are shown the SOF parameters XML schemas:
 
 * **XML Domain**
-To [this](https://raw.githubusercontent.com/spagnuolocarmine/SOF/master/xml/schema/domain.xsd) link there is the domain XML schema for the simulation model parameters.
+To [this](https://github.com/isislab-unisa/sof/blob/master/xml/schema/domain.xsd) link there is the domain XML schema for the simulation model parameters.
 
 - - -
 
 * **XML Input**
-To [this](https://raw.githubusercontent.com/spagnuolocarmine/SOF/master/xml/schema/input.xsd) link there is the input XML schema  for the simulation model parameters.
+To [this](https://github.com/isislab-unisa/sof/blob/master/xml/schema/input.xsd) link there is the input XML schema  for the simulation model parameters.
 
 - - -
 
 * **XML Output**
-To [this](https://raw.githubusercontent.com/spagnuolocarmine/SOF/master/xml/schema/output.xsd) link there is the output XML schema for the simulation model parameters.
+To [this](https://github.com/isislab-unisa/sof/blob/master/xml/schema/output.xsd) link there is the output XML schema for the simulation model parameters.
 
 - - -
 
 * **XML Ratings**
-To [this](https://raw.githubusercontent.com/spagnuolocarmine/SOF/master/xml/schema/ratings.xsd) link there is the ratings XML schema for the simulation model parameters.
+To [this](https://github.com/isislab-unisa/sof/blob/master/xml/schema/ratings.xsd) link there is the ratings XML schema for the simulation model parameters.
 
 - - -
 
