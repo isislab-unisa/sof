@@ -140,7 +140,7 @@ This simple application shows some SOF core features:
 	
 In the `examples/netlogo-aids` folder project is available all files of a simulation optimization example. This example use a NetLogo simulation named aids.logo, that is based on a simple propagation model of AIDS disease. The optimization process used is defined by the file selection and evaluation functions (respectively `examples/netlogo-aids/selection.jar` and `examples/netlogo-aids/evaluation.jar`), this toy optimization process experiment runs until all agents are sick.
 
-In the following there is code of the simple application ([link](https://github.com/isislab-unisa/sof/blob/master/src/main/java/it/isislab/sof/client/application/SOFCoreSimpleApplication.java)).
+Below we show a code example of a toy sof application  ([link](https://github.com/isislab-unisa/sof/blob/master/src/main/java/it/isislab/sof/client/application/SOFCoreSimpleApplication.java)).
 
 ```java
 package it.isislab.sof.client.application;
