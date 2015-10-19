@@ -95,7 +95,7 @@ Examples:
 
 * **SOF Simple Java Client** change the parameters setting in the Java class and run it (see  [Getting Started SOF Java Client](https://github.com/isislab-unisa/sof/blob/master/README.md#getting-started-sof-simple-java-client) section).
 
-* **SOF Shell Client** `$  java -jar SOF-Client.jar -h 192.168.0.2  -bindir /usr/  -homedir /root/ -javabindir /usr/bin/ -sofhomedir /user/root/` (see  [Getting Started SOF GUI Client](https://github.com/isislab-unisa/SOF/sof/master/README.md#getting-started-SOF-client-gui) section).
+* **SOF Shell Client** `$  java -jar SOF-Client.jar -h 192.168.0.2  -bindir /usr/  -homedir /root/ -javabindir /usr/bin/ -sofhomedir /user/root/` (see  [Getting Started SOF GUI Client](https://github.com/isislab-unisa/sof/blob/master/README.md#getting-started-sof-schell-client) section).
      
 * **SOF GUI Client** provides the parameters setting in the GUI (see  [Getting Started SOF Schell Client](https://github.com/isislab-unisa/sof/blob/master/README.md#getting-started-sof-gui-client) section).
 
