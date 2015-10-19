@@ -11,7 +11,7 @@ SOF was designed in [ISISLab](http://www.isislab.it) and allows the simulation m
 
 SOF was designed to manage three kinds of simulation engine: [MASON](http://cs.gmu.edu/~eclab/projects/mason/), [NetLogo](https://ccl.northwestern.edu/netlogo/) and a generic simulator. SOF provides some software facilities for the first simulators like the automatic simulation input setting and automatic output generating (that does not provide for the generic simulator, for obvious reasons). The generic simulator must be an executable compliant with the cluster machine used.
 
-SOF is a framework to exploit simulation optimization on Hadoop cluster. SOF is divided in two main functional blocks the core and the client. The core component provides all functionality to write out Java based client application. The client is a command line Java application that shown the features of the core component and allows to execute PSE and SO process on a [Apache Hadoop](http://hadoop.apache.org/) cluster.
+SOF is a framework to exploit simulation optimization on Hadoop cluster. SOF is divided in two main functional blocks: core and client. The core component provides all functionality to write out Java based client application. The client is a command line Java application that shown the features of the core component and allows to execute PSE and SO process on a [Apache Hadoop](http://hadoop.apache.org/) cluster.
 
 The SOF system presents two main entities: the SOF client and the remote host machine on which is installed Hadoop, also named the Hadoop master node. Respectively on the left and on the right of the above figure.
 
@@ -28,7 +28,7 @@ SOF was designed to execute simulation optimization and parameter space explorat
 
 ![alt tag](https://raw.githubusercontent.com/isislab-unisa/sof/master/architecture/workflowarchitecture.png)
 
-A SOF process, shown in the figure, consists in many optimization loops in which  are executed simulations on a set of inputs (generated executing the selection function program) in order to generate the outputs set. The outputs set are evaluated using the evaluate function program. At end the selection program is used again to generate a new inputs set for the next optimization loop (obviously the process ends when the selection function program does not generate a new inputs set). By this computational schema is possible to realize many of the simulation optimization algorithms available literature.
+A SOF process, shown in the figure, consists in many optimization loops in which are executed simulations on a set of inputs (generated executing the selection function program) in order to generate the outputs set. The outputs set are evaluated using the evaluate function program. At end the selection program is used again to generate a new inputs set for the next optimization loop (obviously the process ends when the selection function program does not generate a new inputs set). By this computational schema is possible to realize many of the simulation optimization algorithms available literature.
 
 
 ##System Requirements
