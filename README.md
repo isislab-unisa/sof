@@ -93,7 +93,7 @@ In both SOF clients are needed some system configuration parameters:
 
 Examples: 
 
-* **SOF Simple Java Client** change the parameters setting in the Java class and run it (see  [Getting Started SOF Java Client](https://github.com/isislab-unisa/SOF/blob/master/README.md#getting-started-SOF-client-an-example-of-simple-client) section).
+* **SOF Simple Java Client** change the parameters setting in the Java class and run it (see  [Getting Started SOF Java Client](## Getting Started SOF Client) section).
 
 * **SOF Shell Client** `$  java -jar SOF-Client.jar -h 192.168.0.2  -bindir /usr/  -homedir /root/ -javabindir /usr/bin/ -sofhomedir /user/root/` (see  [Getting Started SOF GUI Client](https://github.com/isislab-unisa/SOF/blob/master/README.md#getting-started-SOF-client-gui) section).
      
