@@ -335,7 +335,7 @@ Returns for each simulation the following information:
 - ``loop status list``:
     * ``created``, the simulation has been created but not running yet.
     * ``running``, the simulation are running.
-    * ``finished``, the simulation has been finished correctly.
+    * ``finished``, the simulation has been finished correctly.
     * ``aborted``, the simulation has been finished not correctly: the process was aborted from the system or the user.
 
 - - -
