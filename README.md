@@ -169,7 +169,7 @@ public class SOFCoreSimpleApplication {
 	public static String domain_pathname="examples-sim-aids/domain.xml";
 	public static String bashCommandForRunnableFunctionSelection="/usr/local/java/bin/java";
 	public static String bashCommandForRunnableFunctionEvaluate="/usr/local/java/bin/java";
-	public static String output_description_filename="examples-sim-aids//output.xml";
+	public static String output_description_filename="examples-sim-aids/output.xml";
 	public static String executable_selection_function_filename="examples-sim-aids/selection.jar";
 	public static String executable_rating_function_filename="examples-sim-aids/evaluate.jar";
 	public static String description_simulation="this a simple simulation optimization process for AIDS NetLogo simulation example";
