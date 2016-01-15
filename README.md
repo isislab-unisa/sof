@@ -125,7 +125,123 @@ To [this](https://github.com/isislab-unisa/sof/blob/master/xml/schema/output.xsd
 To [this](https://github.com/isislab-unisa/sof/blob/master/xml/schema/ratings.xsd) link there is the ratings XML schema for the simulation model parameters.
 
 - - -
+## Define Evaluation Function
 
+You must write your evaluation function program in order to define a SO process for a simulation. You can write this program in any languages how you have read in previous sections.
+In the following example we shows how to write an evaluation function in Java language. 
+
+Below we show how to print the all output parameters defined in the output.xml file and how to create and to print new output parameters. We define a HashTable(a container) of item. Any item has a key (the name of variable defined in the output.xml file) and a value(the outputs' value returned by simulation step). We print all these parameters. In the last section of code we show how to create a new parameter and how to print it.
+
+```java
+package it.isislab.sof.example.function.evaluation;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Hashtable;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+/**
+ * An example class to generate evaluation file for SOF with Java language
+ * At the end of a step of simulations, the evaluator extracts and prints 
+ * all parameters contained into output.xml file with associated value 
+ * from simulation 
+ * 
+ * @author Michele Carillo
+ * @author Flavio Serrapica
+ * @author Carmine Spagnuolo
+ */
+public class EvaluationFunctionExample{
+
+
+	public static void main(String[] args) throws SAXException, ParserConfigurationException {
+
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		Document doc;
+
+		/******************************************************************************************************************
+		 ** 
+		 *  This code inserts in a HashTable<VariableName,VariableValue> all output parameters of simulation
+		 *
+		/******************************************************************************************************************/		
+		try {
+			doc = dBuilder.parse(new File(args[0]));
+
+			NodeList params=doc.getElementsByTagName("param");
+			Hashtable<String/*variableName*/, String/*variableValue*/> simulationOutputValues=new Hashtable<String, String>();
+			int paramSize=params.getLength();
+			
+			for(int j=0; j<paramSize; j++){
+
+				Node d= params.item(j);
+				NamedNodeMap attrbsj=d.getAttributes();
+
+				int attrbsSize= attrbsj.getLength();
+				for(int k=0; k<attrbsSize; k++){
+					Node f=attrbsj.item(k);
+					//System.out.println(f.getNodeValue());
+					NodeList list=d.getChildNodes();
+					simulationOutputValues.put(f.getNodeValue(), list.item(1).getTextContent()); 
+
+				}
+			}
+			/*********************************************************************************************************************/
+			/*********************************************************************************************************************/			
+			
+			
+			/**
+			 * PRINT  OUTPUTS OF SIMULATION
+			 * FORMAT  variableName:variableValue;
+			 */
+			for(String key : simulationOutputValues.keySet()){
+				System.out.println(key+":"+simulationOutputValues.get(key)+";");
+			}
+
+
+/*****************************************************************************************************************************/
+
+			/**
+			 * 
+			 * You can define new output parameters by using value of simulation contained in   
+			 * HashTable<nameVariable,valueVariable>
+			 * calling simulationValue.get("nameVariable"); where nameVariable is the name of variabl
+			 * You can find nameVariabile and its type into output.xml that you created
+			 *
+			 * 
+			 * Example
+			 * At the end of simulation (Fire of NetLogo) i want to calculate percentage of burned trees. 
+			 * You must:  
+			 *   -Define Name of new parameter. For Example BurnedPercentage 
+			 * 	 -Calculate new parameter  
+			 *   -Print new parameter into file in a correct SOF Evaluator File Format "ParameterName:ParameterValue;" 
+			 */  
+
+			/*For example, i want to calculate burned trees percentage at the end of a step of simulation, 
+			 * i called this parameter burnedPercentage */
+			
+			/*Calculate new parameter burnedPercentage*/
+			double percentage= (Double.parseDouble(simulationOutputValues.get("burned-trees"))*100)/Double.parseDouble(simulationOutputValues.get("initial-trees"));
+			
+			/*Print 'burnedPercentage:percentage;' in a correct format where percentage is the value */
+			System.out.printf("burnedPercentage:%.2f;",percentage);	
+
+		} catch (IOException e) {
+			System.err.println("Error occurred "+e.getMessage());
+		}
+
+	}   
+/*****************************************************************************************************************************/
+
+}
+
+   ```
 ## Getting Started SOF Client
 #### Getting Started _**SOF Simple Java Client**_
 
