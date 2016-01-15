@@ -135,18 +135,6 @@ Below we show how to print the all output parameters defined in the output.xml f
 ```java
 package it.isislab.sof.example.function.evaluation;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Hashtable;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
 /**
  * An example class to generate evaluation file for SOF with Java language
  * At the end of a step of simulations, the evaluator extracts and prints 
