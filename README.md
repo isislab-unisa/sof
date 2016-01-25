@@ -127,24 +127,20 @@ To [this](https://github.com/isislab-unisa/sof/blob/master/xml/schema/ratings.xs
 - - -
 ## Define Evaluation Function
 
-You must write your evaluation function program in order to define a SO process for a simulation. You can write this program in any languages how you have read in previous sections.
+You have to write your evaluation function in order to define a SO process for a simulation. You can write this program in any languages how you have read in previous sections.
 In the following example we show how to write an evaluation function in Java language. 
 
-Below we show how to print all output parameters defined in the output.xml file and how to create and to print new output parameters. We define a HashTable(a container) of items. Any item has a key (the name of variable defined in the output.xml file) and a value(the outputs' value returned by simulation step). We print all these parameters. At the end in the last section of code we show how to create a new parameter and how to print it in a sof legal format.
+Below we show how to print all output parameters defined in the output.xml file of NetLogo Fire example and how to create and to print new output parameters. We define a HashTable(a container) of items. Any item has a key (the name of variable defined in the output.xml file) and a value(the outputs' value returned by simulation step). We print all these parameters. At the end in the last section of code we show how to create a new parameter for our NetLogo Fire example and how to print it in a sof legal format.
 
 ```java
 package it.isislab.sof.example.function.evaluation;
 
 /**
- * An example class to generate evaluation file for SOF with Java language
- * At the end of a step of simulations, the evaluator extracts and prints 
- * all parameters contained into output.xml file with associated value 
- * from simulation 
- * 
- * @author Michele Carillo
- * @author Flavio Serrapica
- * @author Carmine Spagnuolo
+ * An example of evaluation function for our NetLogo Fire example with Java language 
+ * At the end of a step of simulations, the evaluatuation program extracts and prints 
+ * all parameters contained into output.xml file with associated value  from simulation 
  */
+ 
 public class EvaluationFunctionExample{
 
 
