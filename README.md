@@ -191,8 +191,7 @@ public class EvaluationFunctionExample{
 
 /*****************************************************************************************************************************/
 
-			/**
-			 * 
+          /**
 			 * You can define new output parameters by using value of simulation contained in   
 			 * HashTable<nameVariable,valueVariable>
 			 * calling simulationValue.get("nameVariable"); where nameVariable is the name of variabl
@@ -200,10 +199,10 @@ public class EvaluationFunctionExample{
 			 *
 			 * 
 			 * Example
-			 * At the end of simulation (Fire of NetLogo) i want to calculate percentage of burned trees. 
+			 * At the end of a simulation step of NetLogo Fire example i want to calculate percentage of burned trees. 
 			 * You must:  
-			 *   -Define Name of new parameter. For Example BurnedPercentage 
-			 * 	 -Calculate new parameter  
+			 *   -Define the name of new parameter. For Example burnedPercentage 
+			 * 	 -Calculate new parameter in Java code(you must parse in a right Java type) 
 			 *   -Print new parameter into file in a correct SOF Evaluator File Format "ParameterName:ParameterValue;" 
 			 */  
 

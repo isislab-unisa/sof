@@ -13,10 +13,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- * An example class to generate evaluation file for SOF with Java language
- * At the end of a step of simulations, the evaluator extracts and prints 
- * all parameters contained into output.xml file with associated value 
- * from simulation 
+ * An example of evaluation function for our NetLogo Fire example with Java language 
+ * At the end of a step of simulations, the evaluatuation program extracts and prints 
+ * all parameters contained into output.xml file with associated value  from simulation 
  * 
  * @author Michele Carillo
  * @author Flavio Serrapica
@@ -42,7 +41,7 @@ public class EvaluationFunctionExample{
 			NodeList params=doc.getElementsByTagName("param");
 			Hashtable<String/*variableName*/, String/*variableValue*/> simulationOutputValues=new Hashtable<String, String>();
 			int paramSize=params.getLength();
-			
+
 			for(int j=0; j<paramSize; j++){
 
 				Node d= params.item(j);
@@ -59,8 +58,8 @@ public class EvaluationFunctionExample{
 			}
 			/*********************************************************************************************************************/
 			/*********************************************************************************************************************/			
-			
-			
+
+
 			/**
 			 * PRINT  OUTPUTS OF SIMULATION
 			 * FORMAT  variableName:variableValue;
@@ -70,7 +69,7 @@ public class EvaluationFunctionExample{
 			}
 
 
-/*****************************************************************************************************************************/
+			/*****************************************************************************************************************************/
 
 			/**
 			 * You can define new output parameters by using value of simulation contained in   
@@ -80,19 +79,19 @@ public class EvaluationFunctionExample{
 			 *
 			 * 
 			 * Example
-			 * At the end of simulation (Fire of NetLogo) i want to calculate percentage of burned trees. 
+			 * At the end of a simulation step of NetLogo Fire example i want to calculate percentage of burned trees. 
 			 * You must:  
-			 *   -Define Name of new parameter. For Example BurnedPercentage 
-			 * 	 -Calculate new parameter  
+			 *   -Define the name of new parameter. For Example burnedPercentage 
+			 * 	 -Calculate new parameter in Java code(you must parse in a right Java type) 
 			 *   -Print new parameter into file in a correct SOF Evaluator File Format "ParameterName:ParameterValue;" 
 			 */  
 
 			/*For example, i want to calculate burned trees percentage at the end of a step of simulation, 
 			 * i called this parameter burnedPercentage */
-			
+
 			/*Calculate new parameter burnedPercentage*/
 			double percentage= (Double.parseDouble(simulationOutputValues.get("burned-trees"))*100)/Double.parseDouble(simulationOutputValues.get("initial-trees"));
-			
+
 			/*Print 'burnedPercentage:percentage;' in a correct format where percentage is the value */
 			System.out.printf("burnedPercentage:%.2f;",percentage);	
 
@@ -101,6 +100,6 @@ public class EvaluationFunctionExample{
 		}
 
 	}   
-/*****************************************************************************************************************************/
+	/*****************************************************************************************************************************/
 
 }
