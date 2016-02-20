@@ -127,10 +127,9 @@ To [this](https://github.com/isislab-unisa/sof/blob/master/xml/schema/ratings.xs
 - - -
 ## Define Evaluation Function
 
-You have to write your evaluation function in order to define a SO process for a simulation. You can write this program in any languages how you have read in previous sections.
-In the following example we show how to write an evaluation function in Java language. 
+You have to write your evaluation function in order to define a SO simulation process. You can write this program in all programming languages how you have read in previous sections. In the following example we show how to write an evaluation function in Java language. 
 
-Below we show how to print all output parameters defined in the output.xml file of NetLogo Fire example and how to create and to print new output parameters. We define a HashTable(a container) of items. Any item has a key (the name of variable defined in the output.xml file) and a value(the outputs' value returned by simulation step). We print all these parameters. At the end in the last section of code we show how to create a new parameter for our NetLogo Fire example and how to print it in a sof legal format.
+Below we show how to print all output parameters defined in the output.xml file of NetLogo Fire example and how to create and to print new output parameters. We define a HashTable(a container) of items. Any item has a key (the name of variable defined in the output.xml file) and a value(the outputs' value returned by simulation step). We print all these parameters and at the end in the last section of code we show how to create a new parameter for our NetLogo Fire example and how to print it in a SOF legal format.
 
 ```java
 package it.isislab.sof.example.function.evaluation;
