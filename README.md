@@ -363,7 +363,7 @@ SOF framework provides a Java command line client available in the release (`SOF
     $  java -jar SOF-client-ui.jar
 
 
-#### Getting Started _**SOF Schell Client**_
+#### Getting Started _**SOF Shell Client**_
 SOF framework provides a Java command line client available in the release (`SOF-client-shell.jar, SOFCoreSimpleApplication.java`):
 
     $  java -jar SOF-client-shell.jar
