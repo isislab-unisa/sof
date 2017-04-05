@@ -63,7 +63,7 @@ public enum Command implements Prompt
 		c.printf("*    start                 |exec the simulation corresponding to the given id                     *\n*");
 		c.printf("*    stop                  |stop the simulation corresponding to the given id                     *\n*");
 		c.printf("*    createsimulation      |create new simulation execution in exploitation mode                  *\n*");
-		c.printf("*    createsimulationloop  |create new simulation execution in space exploitation mode            *\n*");
+		c.printf("*    createsimulationloop  |create new simulation execution in simulation optimization            *\n*");
 		c.printf("*    getsimulations        |print all simulations created by the user                             *\n*");
 		c.printf("*    getsimulation         |print status of the simulation corresponding to the given id          *\n*");
 		c.printf("*    getresult             |download the results of the simulation corresponding to the given id  *\n*");
