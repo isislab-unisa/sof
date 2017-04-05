@@ -57,19 +57,20 @@ public enum Command implements Prompt
 		@Override
 		public Object exec(Console c, String[] params,String stringPrompt)
 		{   
-		c.printf("**************************************ISISLab******************************************************\n*");
+		c.printf("**************************************ISISLab**UNISA***********************************************\n*");
 		c.printf("***************************************************************************************************\n*");
-		c.printf("*    help                 |print commands list.                                                   *\n*");
-		c.printf("*    start                |exec the simulation corresponding to the given id.                     *\n*");
-		c.printf("*    stop                 |stop the simulation corresponding to the given id.                     *\n*");
-		c.printf("*    createsimulation     |create new simulation execution.                                       *\n*");
-		c.printf("*    getsimulations       |print all simulations created by the user.                             *\n*");
-		c.printf("*    getsimulation        |print status of the simulation corresponding to the given id.          *\n*");
-		c.printf("*    getresult            |download the results of the simulation corresponding to the given id.  *\n*");
-		c.printf("*    list                 |show the simulation list.                                              *\n*");
-		c.printf("*    kill                 |kill the simulation corresponding to the given id.                     *\n*");
-		c.printf("*    makexml              |generate the xml file corresponding to the given input.                *\n*");
-		c.printf("*    exit                 |disconnect user .                                                      *\n*");
+		c.printf("*    help                  |print commands list                                                   *\n*");
+		c.printf("*    start                 |exec the simulation corresponding to the given id                     *\n*");
+		c.printf("*    stop                  |stop the simulation corresponding to the given id                     *\n*");
+		c.printf("*    createsimulation      |create new simulation execution in exploitation mode                  *\n*");
+		c.printf("*    createsimulationloop  |create new simulation execution in space exploitation mode            *\n*");
+		c.printf("*    getsimulations        |print all simulations created by the user                             *\n*");
+		c.printf("*    getsimulation         |print status of the simulation corresponding to the given id          *\n*");
+		c.printf("*    getresult             |download the results of the simulation corresponding to the given id  *\n*");
+		c.printf("*    list                  |show the simulation list                                              *\n*");
+		c.printf("*    kill                  |kill the simulation corresponding to the given id                     *\n*");
+		c.printf("*    makexml               |generate the xml file corresponding to the given input                *\n*");
+		c.printf("*    exit                  |disconnect user                                                       *\n*");
 		c.printf("***************************************************************************************************\n");
 		return null;
 		}
