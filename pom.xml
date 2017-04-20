@@ -721,7 +721,7 @@
 		<dependency>
 			<groupId>it.isislab.sof</groupId>
 			<artifactId>netlogo</artifactId>
-			<version>5</version>
+			<version>6.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>it.isislab.sof</groupId>
