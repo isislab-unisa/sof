@@ -242,14 +242,14 @@
 			<version>2.0.29</version>
 		</dependency>
 		<dependency>
-			<groupId>org.ow2.asm</groupId>
+			<groupId>asm</groupId>
 			<artifactId>asm</artifactId>
-			<version>5.0.4</version>
+			<version>3.2</version>
 		</dependency>
 		<dependency>
-			<groupId>org.ow2.asm</groupId>
+			<groupId>asm</groupId>
 			<artifactId>asm-all</artifactId>
-			<version>5.0.4</version>
+			<version>3.3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.avro</groupId>
@@ -274,7 +274,7 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.10</version>
+			<version>1.6</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-collections</groupId>
@@ -567,9 +567,9 @@
 			<version>2.1.1e</version>
 		</dependency>
 		<dependency>
-			<groupId>org.jogamp.jogl</groupId>
-			<artifactId>jogl-all</artifactId>
-			<version>2.3.2</version>
+			<groupId>com.projectdarkstar.ext.net.java.dev.jogl</groupId>
+			<artifactId>jogl</artifactId>
+			<version>1.1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jcraft</groupId>
@@ -619,17 +619,17 @@
 		<dependency>
 			<groupId>org.parboiled</groupId>
 			<artifactId>parboiled-core</artifactId>
-			<version>1.1.7</version>
+			<version>1.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.parboiled</groupId>
 			<artifactId>parboiled-java</artifactId>
-			<version>1.1.7</version>
+			<version>1.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.pegdown</groupId>
 			<artifactId>pegdown</artifactId>
-			<version>1.6.0</version>
+			<version>1.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.picocontainer</groupId>
@@ -649,7 +649,7 @@
 		<dependency>
 			<groupId>org.scala-lang</groupId>
 			<artifactId>scala-library</artifactId>
-			<version>2.12.1</version>
+			<version>2.9.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.daisy.libs</groupId>
@@ -698,14 +698,11 @@
 			<scope>system</scope>
 			<systemPath>${java.home}/../lib/tools.jar</systemPath>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.jogamp.gluegen/gluegen-rt -->
 		<dependency>
-			<groupId>org.jogamp.gluegen</groupId>
-			<artifactId>gluegen-rt</artifactId>
-			<version>2.3.2</version>
+			<groupId>it.isislab.sof</groupId>
+			<artifactId>gluegen-rt-1.1.1</artifactId>
+			<version>1.1.1</version>
 		</dependency>
-		<!-- >dependency> <groupId>it.isislab.sof</groupId> <artifactId>gluegen-rt-1.1.1</artifactId> 
-			<version>1.1.1</version> </dependency -->
 		<dependency>
 			<groupId>it.isislab.sof</groupId>
 			<artifactId>jhotdraw-6.0b1</artifactId>
@@ -724,7 +721,7 @@
 		<dependency>
 			<groupId>it.isislab.sof</groupId>
 			<artifactId>netlogo</artifactId>
-			<version>6.0.1</version>
+			<version>5</version>
 		</dependency>
 		<dependency>
 			<groupId>it.isislab.sof</groupId>
@@ -734,7 +731,7 @@
 		<dependency>
 			<groupId>jfree</groupId>
 			<artifactId>jfreechart</artifactId>
-			<version>1.0.13</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.sciss</groupId>

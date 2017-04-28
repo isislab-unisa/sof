@@ -6,9 +6,9 @@
         <note>fuoco</note>
     </simulation>
     <param variableName="random-seed">
-        <long min="-2147483648" max="2147483647" increment="0.1"/>
+        <discrete min="-2147483648" max="2147483647" increment="0.1"/>
     </param>
     <param variableName="density">
-        <double min="0.0" max="100.0" increment="0.1"/>
+        <discrete min="0.0" max="100.0" increment="0.1"/>
     </param>
 </domain>
