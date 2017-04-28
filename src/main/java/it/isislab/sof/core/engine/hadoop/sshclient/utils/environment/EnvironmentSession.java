@@ -50,6 +50,7 @@ public class EnvironmentSession{
 
 	private String HADOOP_HOME_PATH="";
 
+	
 	/**
 	 * Constructor that make the session by username, host and password parameters.
 	 * Using JSch library via getSession method it's possible to make a new session.
