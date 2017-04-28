@@ -13,6 +13,7 @@
  *
  */
 package it.isislab.sof.core.model.parameters.xsd.elements;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;
 
 /**
@@ -24,6 +25,7 @@ public class ParameterString implements ParameterType{
 
 	@XmlValue
 	public String getvalue() {return value;}
+	
 
 	public void setvalue(String value) {this.value = value;}
 	

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<domain>
+    <simulation author="MICCAR">
+        <name>wealth</name>
+        <loop>true</loop>
+        <note>prova</note>
+    </simulation>
+<param variableName="num-people">
+        <discrete min="1000" max="1000" increment="1"/>
+</param>
+<param variableName="max-vision">
+        <discrete min="15" max="15" increment="1"/>
+</param>
+<param variableName="metabolism-max">
+        <discrete min="25" max="25" increment="1"/>
+</param>
+<param variableName="life-expectancy-min">
+        <discrete min="100" max="100" increment="1"/>
+</param>
+<param variableName="life-expectancy-max">
+        <discrete min="1" max="100" increment="1"/>
+</param>
+<param variableName="percent-best-land">
+        <discrete min="5" max="25" increment="1"/>
+</param>
+<param variableName="grain-growth-interval">
+        <discrete min="10" max="10" increment="1"/>
+</param>
+<param variableName="num-grain-grown">
+        <discrete min="1" max="10" increment="1"/>
+</param>
+</domain>

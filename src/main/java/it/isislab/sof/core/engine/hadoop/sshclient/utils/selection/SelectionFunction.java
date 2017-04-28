@@ -142,9 +142,9 @@ public class SelectionFunction {
 		}else{
 			SOFRUNNER.log.severe("Unexpected selection function terminated.");
 		}
-		SofRunnerUtils.rmr(rating_folder_name);
+		/*SofRunnerUtils.rmr(rating_folder_name);
 		SofRunnerUtils.rmr(tmpSelection_Input_folder);
-		SofRunnerUtils.rmr(tmpFold);
+		SofRunnerUtils.rmr(tmpFold);*/
 		return result;
 	}
 	

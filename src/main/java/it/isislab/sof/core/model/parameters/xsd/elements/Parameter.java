@@ -13,6 +13,9 @@
  *
  */
 package it.isislab.sof.core.model.parameters.xsd.elements;
+
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
@@ -21,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 
 @XmlRootElement
-public class Parameter {
+public class Parameter implements Serializable{
 	
 	
 	private String type_ParameterDouble = "ParameterDouble";
@@ -30,6 +33,7 @@ public class Parameter {
 	
 	private Object param;
 	private String variable_name;
+	
 	
 	@XmlElements(value = { 
             @XmlElement(required = true, nillable = false,name="string", 
@@ -44,7 +48,9 @@ public class Parameter {
 	
 	@XmlAttribute(required = true)
 	public String getvariable_name() {return variable_name;}
+	
 	public void setvariable_name(String variable_name) {this.variable_name = variable_name;}
+	
 	
 	@XmlTransient
 	public String gettype_ParameterDouble() {return type_ParameterDouble;}

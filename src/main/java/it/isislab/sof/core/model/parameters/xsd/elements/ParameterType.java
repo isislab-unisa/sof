@@ -14,7 +14,9 @@
  */
 package it.isislab.sof.core.model.parameters.xsd.elements;
 
-public interface ParameterType {
+import java.io.Serializable;
+
+public interface ParameterType extends Serializable {
 	public String getType();
 	
 }

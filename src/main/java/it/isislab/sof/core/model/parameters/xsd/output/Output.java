@@ -71,7 +71,7 @@ public class Output {
 			@Override
 			public Result createOutput(String namespaceUri, String suggestedFileName)
 					throws IOException {
-				FileOutputStream out=new FileOutputStream(new File("xsd/output.xsd"));
+				FileOutputStream out=new FileOutputStream(new File("output.xsd"));
 				StreamResult result = new StreamResult(out);
 				result.setSystemId(suggestedFileName);
 				return result;

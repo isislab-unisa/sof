@@ -19,6 +19,7 @@ import it.isislab.sof.core.model.parameters.xsd.elements.Parameter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -30,7 +31,7 @@ import javax.xml.transform.Result;
 import javax.xml.transform.stream.StreamResult;
 
 @XmlRootElement
-public class Input {
+public class Input implements Serializable{
 	
 	@XmlElement(required=true, name="element")
 	public List<Parameter> param_element;

@@ -1,0 +1,10 @@
+print "<inputs>"
+for i in range(4):
+	print "<input id=\""+str(i)+"\""+ " rounds=\"10\"> <element variableName=\"step\"><long>1000</long></element>"
+	print "<element variableName=\"initial-people\"><double>500</double></element>"
+	print "<element variableName=\"average-coupling-tendency\"><double>1.45</double></element>"
+	print "<element variableName=\"average-commitment\"><double>1.06</double></element>"
+	print "<element variableName=\"average-condom-use\"><double>9.04</double></element>"
+	print "<element variableName=\"average-test-frequency\"><double>1.18</double></element>"
+	print "</input>"
+print "</inputs>"

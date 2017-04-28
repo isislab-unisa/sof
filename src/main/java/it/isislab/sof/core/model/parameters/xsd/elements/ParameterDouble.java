@@ -13,6 +13,7 @@
  *
  */
 package it.isislab.sof.core.model.parameters.xsd.elements;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;
 
 public class ParameterDouble implements ParameterType{

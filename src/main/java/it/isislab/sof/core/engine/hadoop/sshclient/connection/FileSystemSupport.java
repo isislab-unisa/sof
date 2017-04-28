@@ -110,51 +110,51 @@ import org.apache.commons.codec.digest.DigestUtils;
  */
 public class FileSystemSupport {
 
-	private String username;
+	private static String username;
 
-	private final String SIMULATION_LIST_FOLDER="simulations";
-	private final String DESCRIPTION_FOLDER="description";
-	private final String EXECUTION_FOLDER="execution";
+	private static final String SIMULATION_LIST_FOLDER="simulations";
+	private static final String DESCRIPTION_FOLDER="description";
+	private static final String EXECUTION_FOLDER="execution";
 
-	private final String SIMULATION_MESSAGES_FOLDER="messages";
-	private final String MESSAGES_INBOX_FOLDER="inbox";
-	private final String MESSAGES_INBOX_FOLDER_MESSAGE_PREFIX="MEX-";
-	private final String MESSAGES_INBOX_FOLDER_MESSAGE_EXTENSION=".xml";
+	private static final String SIMULATION_MESSAGES_FOLDER="messages";
+	private static final String MESSAGES_INBOX_FOLDER="inbox";
+	private static final String MESSAGES_INBOX_FOLDER_MESSAGE_PREFIX="MEX-";
+	private static final String MESSAGES_INBOX_FOLDER_MESSAGE_EXTENSION=".xml";
 
-	private final String RATINGS_FOLDER="ratings";
-	private final String SELECTIONS_FOLDER="selections";
-	private final String OUTPUT_FOLDER="outputs";
-	private final String INPUT_FOLDER="input";
-	private final String LOOP_LIST_FILENAME="runs.xml";
-	private final String INPUT_XML_FILENAME="input.xml";
-	private final String INPUT_DATA_FILENAME="input.data";
-	private final String OUTPUT_XML_FILENAME="output.xml";
-	private final String DOMAIN_XML_FILENAME="domain.xml";
-	private final String TEMP_PREFIX="SOF-TMP-DATA";
-	private final String TEMP_LOG_PREFIX="SOF-TMP-LOG";
-	private final String SIMULATION_FOLDER_PREFIX="SIM-";
-	private final String LOOP_FOLDER_PREFIX="LOOP";
+	private static final String RATINGS_FOLDER="ratings";
+	private static final String SELECTIONS_FOLDER="selections";
+	private static final String OUTPUT_FOLDER="outputs";
+	private static final String INPUT_FOLDER="input";
+	private static final String LOOP_LIST_FILENAME="runs.xml";
+	private static final String INPUT_XML_FILENAME="input.xml";
+	private static final String INPUT_DATA_FILENAME="input.data";
+	private static final String OUTPUT_XML_FILENAME="output.xml";
+	private static final String DOMAIN_XML_FILENAME="domain.xml";
+	private static final String TEMP_PREFIX="SOF-TMP-DATA";
+	private static final String TEMP_LOG_PREFIX="SOF-TMP-LOG";
+	private static final String SIMULATION_FOLDER_PREFIX="SIM-";
+	private static final String LOOP_FOLDER_PREFIX="LOOP";
 
 
-	//private final String SELECTION_EXE_PREFIX="SELCTION_EXE";
-	//private final String RATING_EXE_PREFIX="RATING_EXE";
-	private String JAVA_REMOTE_BIN_FOLDER;
-	private String SOF_HDFS_HOME;
-	private String SOF_REMOTE_HOME;
-	private String REMOTE_ROOT_PATH;
-	private String SOF_LOCAL_CLIENT_INSTALL_HOME;
-	private String SOF_REMOTE_TMP="temporaryfiles";
-	private String SOF_LOCAL_CLIENT_TMP;
-	private String HDFS_ROOT_PATH;
-	private String HADOOP_ROOT_INSTALL_PATH;
-	private String SEPARATOR=File.separator;
+	//private static final String SELECTION_EXE_PREFIX="SELCTION_EXE";
+	//private static final String RATING_EXE_PREFIX="RATING_EXE";
+	private static String JAVA_REMOTE_BIN_FOLDER;
+	private static String SOF_HDFS_HOME;
+	private static String SOF_REMOTE_HOME="";
+	private static String REMOTE_ROOT_PATH;
+	private static String SOF_LOCAL_CLIENT_INSTALL_HOME;
+	private static String SOF_REMOTE_TMP="temporaryfiles";
+	private static String SOF_LOCAL_CLIENT_TMP;
+	private static String HDFS_ROOT_PATH;
+	private static String HADOOP_ROOT_INSTALL_PATH;
+	private static String SEPARATOR=File.separator;
 
 	class FileSystemSupportException extends Exception
 	{
 		/**
 		 * 
 		 */
-		private static final long serialVersionUID = 1L;
+		private  static final long serialVersionUID = 1L;
 
 		public FileSystemSupportException(String message)
 		{
@@ -206,7 +206,7 @@ public class FileSystemSupport {
 
 	public String getRemoteRootPath(){return REMOTE_ROOT_PATH;}
 
-	public String getRemoteSOFHome()
+	public static String getRemoteSOFHome()
 	{
 		return SOF_REMOTE_HOME;
 	}

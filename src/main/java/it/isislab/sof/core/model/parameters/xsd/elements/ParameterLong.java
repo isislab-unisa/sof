@@ -13,6 +13,7 @@
  *
  */
 package it.isislab.sof.core.model.parameters.xsd.elements;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;
 
 
@@ -24,6 +25,7 @@ public class ParameterLong implements ParameterType{
 	public long getvalue() {return value;}
 
 	public void setvalue(long value) {this.value = value;}
+	
 	
 	public String toString()
 	{

@@ -6,8 +6,8 @@ print "<loop>true</loop>"
 print "<description>nota</description>"
 print "<toolkit>netlogo</toolkit>"
 print "</simulation>"
-for i in range(800):
-    print "<input id=\""+str(i)+"\""+ " rounds=\"1\"> <element variableName=\"step\"><long>1000</long></element>"
+for i in range(3):
+    print "<input id=\""+str(i)+"\""+ " rounds=\"10\"> <element variableName=\"step\"><long>1000</long></element>"
     value=random.uniform(-2147483648,2147483647);
     valueint=int(value)
     print "<element variableName=\"random-seed\"><long>"+str(valueint)+"</long></element>"

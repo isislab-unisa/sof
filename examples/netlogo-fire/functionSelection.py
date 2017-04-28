@@ -7,8 +7,8 @@ print "<description>nota</description>"
 print "<toolkit>netlogo</toolkit>"
 print "</simulation>"
 for i in range(500):
-    print "<input id=\""+str(i)+"\""+ " rounds=\"1\"> <element variableName=\"step\"><long>5000</long></element>"
-    value=random.uniform(-2147483648,2147483647);
+    print "<input id=\""+str(i)+"\""+ " rounds=\"10\"> <element variableName=\"step\"><long>5000</long></element>"
+    value=random.uniform(0,1000);
     valueint=int(value)
     print "<element variableName=\"random-seed\"><long>"+str(valueint)+"</long></element>"
     print "<element variableName=\"density\"><double>59</double></element>"

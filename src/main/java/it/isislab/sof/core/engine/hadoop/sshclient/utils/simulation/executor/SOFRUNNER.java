@@ -342,11 +342,39 @@ public class SOFRUNNER{
 
 			Runs r = setLoopProperty(fs,simID,idLoop,Loop.RUNNING);
 			addLoopToSimulation(fs,sim,r);
-
-
+			
 			invokeMapperProcess(sim, idLoop);
 
-
+			
+		/*	
+			//copy to hdfs under loop output dir
+			String resumeFilePath= fs.getHdfsUserPathOutputLoopDIR(simID, idLoop);
+			
+			//local temp
+			String tmpOutputFolderPath = fs.getRemotePathForTmpFolderForUser();
+			SofRunnerUtils.mkdir(tmpOutputFolderPath);
+			
+			SofRunnerUtils.copyFilesFromHdfs(fs, resumeFilePath, tmpOutputFolderPath);
+			log.info("outputs copied to local tmp");
+			
+			File l=new File(tmpOutputFolderPath);
+			File[] fileOutputs= l.listFiles(new FileFilter() {
+				
+				@Override
+				public boolean accept(File pathname) {
+					return pathname.getName().endsWith(".xml");
+				}
+			});
+			for(File output : fileOutputs){
+				JAXBContext context=JAXBContext.newInstance(Output.class);
+				Unmarshaller unmarshall=context.createUnmarshaller();
+				Output output= (Output) unmarshall.unmarshal());
+			}
+			
+			*/
+			
+			
+			
 			r = setLoopProperty(fs,simID,idLoop, Loop.FINISHED);
 			addLoopToSimulation(fs,sim,r);
 

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<output>
+    <param variableName="gini-index-reserve">
+        <double>0.0</double>
+    </param>
+</output>

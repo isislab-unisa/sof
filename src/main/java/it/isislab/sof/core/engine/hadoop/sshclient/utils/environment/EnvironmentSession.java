@@ -65,8 +65,9 @@ public class EnvironmentSession{
 			this.host = host;
 			this.port = DEFAULT_SSH_PORT;
 			this.HADOOP_HOME_PATH = hadoop_home_path;
+			jsch.addIdentity("sof-resources/aws/hadoop.pem");
 			session = jsch.getSession(username, host, DEFAULT_SSH_PORT);
-			session.setPassword(password);
+			//session.setPassword(password);
 			session.setPort(PORT);
 			session.setConfig("StrictHostKeyChecking", "no");
 			session.connect();
@@ -90,8 +91,9 @@ public class EnvironmentSession{
 			this.host = host;
 			this.port = port;
 			this.HADOOP_HOME_PATH = hadoop_home_path;
+			jsch.addIdentity("sof-resources/aws/hadoop.pem");
 			session = jsch.getSession(username, host, port);
-			session.setPassword(password);
+			//session.setPassword(password);
 			session.setPort(PORT);
 			session.setConfig("StrictHostKeyChecking", "no");
 			session.connect();
