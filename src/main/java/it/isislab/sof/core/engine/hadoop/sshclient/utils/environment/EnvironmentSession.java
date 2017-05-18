@@ -50,6 +50,9 @@ public class EnvironmentSession{
 
 	private String HADOOP_HOME_PATH="";
 
+	private static final String SSH_KEY_PATH="sof-resources/aws/hadoop.pem";
+
+	
 	
 	/**
 	 * Constructor that make the session by username, host and password parameters.
@@ -66,7 +69,7 @@ public class EnvironmentSession{
 			this.host = host;
 			this.port = DEFAULT_SSH_PORT;
 			this.HADOOP_HOME_PATH = hadoop_home_path;
-			jsch.addIdentity("sof-resources/aws/hadoop.pem");
+			jsch.addIdentity(SSH_KEY_PATH);
 			session = jsch.getSession(username, host, DEFAULT_SSH_PORT);
 			//session.setPassword(password);
 			session.setPort(PORT);
@@ -92,7 +95,7 @@ public class EnvironmentSession{
 			this.host = host;
 			this.port = port;
 			this.HADOOP_HOME_PATH = hadoop_home_path;
-			jsch.addIdentity("sof-resources/aws/hadoop.pem");
+			jsch.addIdentity(SSH_KEY_PATH);
 			session = jsch.getSession(username, host, port);
 			//session.setPassword(password);
 			session.setPort(PORT);
