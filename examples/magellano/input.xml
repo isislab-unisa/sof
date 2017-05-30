@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<inputs>
+	<simulation author="pippo">
+		<name>magellano</name>
+		<loop>false</loop>
+		<note>test</note>
+		<toolkit>generic</toolkit>
+	</simulation>
+	<input id="1" rounds="1">
+		<element variableName="val">
+			<string>solve</string>
+		</element>
+		<element variableName="ini">
+			<string>/root/Magellano-Sof/launcher_config/conf.ini</string>
+		</element>
+	</input>
+</inputs>
