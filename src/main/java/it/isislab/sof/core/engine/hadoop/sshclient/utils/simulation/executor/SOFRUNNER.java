@@ -222,10 +222,12 @@ public class SOFRUNNER{
 		}
 
 		bash+=s.getLoop()+" "+ 
-				s.getAuthor();//+" ";//+ 
+				s.getAuthor()+" ";//+" ";//+ 
 				//"\""+s.getDescription()+"\"";
 
-
+        if(s.getToolkit().equalsIgnoreCase("generic")){
+        	bash+=fs.getHdfsUserPathDescriptionDirForSimId(s.getId())+File.separator+"conf.ini";
+        }
 
 		if(s.getLoop())
 			bash += " "+s.getRunnableFile().getBashCommandForRunnableFunctionEvaluate()+

@@ -23,7 +23,9 @@ import it.isislab.sof.core.model.parameters.xsd.output.Output;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,11 +33,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
@@ -71,16 +71,10 @@ public class SimulationGeneric {
 		String SIM_OUTPUT_MAPPER=conf.get("simulation.executable.output");
 		String AUTHOR=conf.get("simulation.executable.author");
 		String DESCRIPTION=conf.get("simulation.executable.description");
+		String CONF_FILE = conf.get("simulation.mapper.conf.path");
 
 
-		/*HeadlessWorkspace workspace =
-				HeadlessWorkspace.newInstance() ;
-		workspace.open(program_path);*/
-
-
-		//HashMap<String,String> inputSimulation = new HashMap<String,String>();
-
-		String line = input;
+		String line = input; //id:1;rounds:1;val:solve;ini:/root/Magellano-Sof/launcher_config/conf.ini;
 
 
 		String[] aparam = line.split(";");
@@ -89,11 +83,20 @@ public class SimulationGeneric {
 		int idInputSimulation=Integer.parseInt(couple[1]);
 		couple=aparam[1].split(":");
 		int rounds = Integer.parseInt(couple[1]);
+		System.out.println(idInputSimulation);
+	      System.out.println(rounds);
+		
+		
+		
 		for(int i=0; i<inputSimulation.length;i++){
 			couple = aparam[i+2].split(":");
 			inputSimulation[i]=couple[1];
+			 System.out.println(inputSimulation[i]);
 		}
 
+       
+      
+		
 		
 		String output_template=conf.get("simulation.description.output.domain");
 		//converte il file output.xml con i soli campi in un'unica stringa da processare 
@@ -106,32 +109,162 @@ public class SimulationGeneric {
 			String[] couple2 = aparam1[i].split(":");
 			outputSimulation.add(couple2[0]);
 		}
-		
-		
+
+
 		File f = new File(program_path);
 		f.setExecutable(true);
 
-		Process process;
-         
-		String sim_interpreter_path=conf.get("simulation.interpreter.genericsim");
-		
-		String command=""+sim_interpreter_path+" ";
-		//command +=program_path.endsWith(".jar")?System.getProperty("java.home")+"/bin/java -jar "+program_path:program_path;
-		if(program_path.endsWith(".jar"))
-		command+="-jar ";
-		
-		command+=program_path;
-		
-		for(int i=0;i<inputSimulation.length;i++ )
-			command+=" "+inputSimulation[i];
 
+		String sim_interpreter_path=conf.get("simulation.interpreter.genericsim");
+
+		ArrayList<String> commands=new ArrayList<String>();
+		commands.add(sim_interpreter_path);
+		
+
+		
+	
+		if(program_path.endsWith(".jar"))
+			commands.add("-jar");
+
+		
+	
+		commands.add(program_path);
+		commands.add("solve");
+		if(!CONF_FILE.isEmpty())
+			commands.add(CONF_FILE);
+		
+	    System.out.println("execute "+commands);	
+	
+		/*ProcessBuilder pb1=new ProcessBuilder(commands);
+		pb1.redirectErrorStream(true);
+		final Process process1 = pb1.start();
+		InputStream stderr1 = process1.getInputStream();
+		InputStreamReader isr1 = new InputStreamReader(stderr1);
+		BufferedReader br1 = new BufferedReader(isr1);
+		String tmp1 = null;
+		while ((tmp1 = br1.readLine()) != null) {
+			System.out.println(tmp1);
+		
+			
+		}
+		process1.waitFor();
+		br1.close();
+		
+		
+		
+		System.exit(0);*/
+	  
+	/*  
+	 * 
+	 * 
+	 * FileSystem fs = FileSystem.get(conf);
+	    Path path = new Path("hdfs://"+conf.get("simulation.conf"));
+	    FSDataInputStream inputStream = fs.open(path);
+	    byte[] b = new byte[inputStream.available()];
+	    inputStream.readFully(b);
+	    inputStream.close();
+	    System.out.println("__________________ééééé******************");
+	    System.out.println(new String(b));
+	    System.out.println("__________________ééééé******************");
+	    fs.close();
+	     
+	    */
+		
+		
+		
+		
+		
+	  
+		
+		
+            
+		
 		HashMap<String, ArrayList<String>> output_collection = new HashMap<String, ArrayList<String>>();
 		HashMap<String,String> ovs = new HashMap<String,String>();
 		String[] outValues = null;
 		String s;
 		String tmp;
 		BufferedReader stdInput;
+
+		String prova="";
+		
+		
 		for(int r =0; r<rounds; r++){
+			
+				ProcessBuilder pb=new ProcessBuilder(commands);
+				pb.redirectErrorStream(true);
+				final Process process = pb.start();
+				InputStream stderr = process.getInputStream();
+				InputStreamReader isr = new InputStreamReader(stderr);
+				BufferedReader br = new BufferedReader(isr);
+				 tmp = null;
+				while ((tmp = br.readLine()) != null) {
+					if(tmp.trim().toLowerCase().contains(new String("EXITING").toLowerCase()) ){
+	                    
+						System.out.println(tmp);
+						
+						String [] linee =tmp.split(" ");
+						/*for (int i=0; i< linee.length; i++) {
+							System.out.println(linee[i]);
+						}*/
+						prova=linee[1];
+						//System.out.println(linee);
+					}
+					
+				}
+				process.waitFor();
+				br.close();
+			//	System.out.println("Waiting ...");
+			//	System.out.println("ReturnedValue:" + process.exitValue());
+
+			
+		}
+		
+		commands=new ArrayList<>();
+		commands.add("java");
+		commands.add("-jar");
+		commands.add(program_path);
+		commands.add("evaluate");
+		commands.add(CONF_FILE);
+		
+		for(int r =0; r<rounds; r++){
+			
+			ProcessBuilder pb=new ProcessBuilder(commands);
+			pb.redirectErrorStream(true);
+			final Process process = pb.start();
+			InputStream stderr = process.getInputStream();
+			InputStreamReader isr = new InputStreamReader(stderr);
+			BufferedReader br = new BufferedReader(isr);
+			 tmp = null;
+			while ((tmp = br.readLine()) != null) {
+				
+				System.out.println(tmp);
+				/*if(tmp.trim().toLowerCase().contains(new String("EXITING").toLowerCase()) ){
+                    
+					System.out.println(tmp);
+					
+					String [] linee =tmp.split(" ");
+					for (int i=0; i< linee.length; i++) {
+						System.out.println(linee[i]);
+					}
+					prova=linee[1];
+					//System.out.println(linee);
+				}*/
+				
+			}
+			process.waitFor();
+			br.close();
+		//	System.out.println("Waiting ...");
+		//	System.out.println("ReturnedValue:" + process.exitValue());
+
+		
+	}
+		
+		
+		
+		
+		
+		/*for(int r =0; r<rounds; r++){
 			process = Runtime.getRuntime().exec(command);
 			process.waitFor();
 
@@ -153,7 +286,7 @@ public class SimulationGeneric {
 				couple = outValues[i].split(":");
 				ovs.put(couple[0], couple[1]);
 			}
-			
+
 			//Collect OUTPUTs
 			for(String field : outputSimulation){
 				if(output_collection.containsKey(field))
@@ -165,22 +298,42 @@ public class SimulationGeneric {
 				}
 			}
 
-		}		
-		
+		}		*/
+
 		String inOutput="";
+		
 		/*for( int i=0; i<aparam1.length;i++){
 			String[] couple2 = aparam1[i].split(":");
 			inOutput+=couple2[0]+":"+outputSimulation.get(couple2[0])+";";
 		}*/
+
 		
-		for(String field : output_collection.keySet()){
-				inOutput+=field+":"+getAVG(output_collection.get(field),rounds)+";";
+		
+		/*for(String field : output_collection.keySet()){
+			inOutput+=field+":"+getAVG(output_collection.get(field),rounds)+";";
+		}
+        */
+		
+		
+		
+		//inOutput+="Exit:"+1;
+		//inOutput+=""+1;
+		File out_f =new File("launcher_output");
+		// richiedere all'eseguibile di stampare in output file:path_file_creato
+		for(File o : out_f.listFiles(new FileFilter() {
+			
+			@Override
+			public boolean accept(File pathname) {
+				return pathname.getName().endsWith(".xml");
+			}
+		})){
+			inOutput+="file:"+o.getAbsolutePath()+";";
 		}
 		
-
 		Path file_output=null;
 		int id = (new String(inOutput+""+System.currentTimeMillis())).hashCode();
 
+		
 		//generate an output file from input field of simulation, that contains input parameters  : format --> input(param:param.val;...;) and 
 		// output parameters of simulations:  format--> inOutput  (param:var.val;...;)
 		file_output=generateOutput(input, inOutput, SIM_OUTPUT_MAPPER, id, idInputSimulation, SIMULATION_NAME, AUTHOR, DESCRIPTION, SIMULATION_HOME);
@@ -194,7 +347,7 @@ public class SimulationGeneric {
 	}
 
 
-	private String getAVG(ArrayList<String> arrayList, int rounds) {
+/*	private String getAVG(ArrayList<String> arrayList, int rounds) {
 
 		try{
 			long a = Long.parseLong(arrayList.get(0));
@@ -217,7 +370,7 @@ public class SimulationGeneric {
 
 		}
 
-	}
+	}*/
 
 
 	public static String getMaxOccurenceString(List<String> myList){
@@ -277,6 +430,7 @@ public class SimulationGeneric {
 		sim.setnote(NOTE);
 		sim.settoolkit("NETLOGO");
 		 */
+		FileSystem fs=FileSystem.get(conf);
 
 		Output output=new Output();
 		output.setIdInput(idInputSimulation);
@@ -285,6 +439,8 @@ public class SimulationGeneric {
 
 		String valOutp=outputSimulation;
 
+		System.out.println("weeeeeeeeeeeeeeeeeeeeeeee "+valOutp);
+		
 		Object valobjOutp=null;
 		String[] parametri=valOutp.split(";");
 		for(String st:  parametri){
@@ -301,11 +457,18 @@ public class SimulationGeneric {
 
 				}catch(Exception e2){
 					ParameterString dvalOutString=new ParameterString();
-					dvalOutString.setvalue(couple[1]);
+					String theValue = couple[1];
+					if((new File(theValue)).exists()){
+						dvalOutString.setvalue((new File(theValue)).getName());
+						fs.copyFromLocalFile(new Path(couple[1]), new Path(SIM_OUTPUT_MAPPER));
+					}
+					else
+						dvalOutString.setvalue(couple[1]);
 					valobjOutp=dvalOutString;
 
 				}				
 			}
+			
 			Parameter paramOut=new Parameter();
 			paramOut.setparam(valobjOutp);
 			paramOut.setvariable_name(couple[0]);
@@ -317,7 +480,7 @@ public class SimulationGeneric {
 
 		output.output_params=paramsOutput;
 
-		FileSystem fs=FileSystem.get(conf);
+		//FileSystem fs=FileSystem.get(conf);
 		FSDataOutputStream out=fs.create(new Path(SIM_OUTPUT_MAPPER+"/OUTPUT"+id+".xml"));
 
 		JAXBContext context= JAXBContext.newInstance(Output.class);
@@ -347,5 +510,93 @@ public class SimulationGeneric {
 		return null;
 	}*/
 
+	public static void main(String[] args) {
+
+		/*String command="/usr/bin/java -jar ";
+		command+="/home/miccar/Desktop/Magellano-Sof/MagellanoLauncher-1.0.0-jar-with-dependencies.jar ";
+		command+="solve ";
+		command+="/home/miccar/Desktop/Magellano-Sof/launcher_config/conf.ini";*/
+		
+		//System.out.println(command);
+		try {
+			//ProcessBuilder pb = new ProcessBuilder("java", "-jar", "/home/miccar/Desktop/Magellano-Sof/MagellanoLauncher-1.0.0-jar-with-dependencies.jar","solve","/home/miccar/Desktop/Magellano-Sof/launcher_config/conf.ini");
+			ArrayList<String> commands=new ArrayList<String>();
+			commands.add("/usr/bin/java");
+			commands.add("-jar");
+			commands.add("/home/miccar/Desktop/Magellano-Sof/MagellanoLauncher-1.0.0-jar-with-dependencies.jar");
+			commands.add("solve");
+			commands.add("/home/miccar/Desktop/Magellano-Sof/launcher_config/conf.ini");
+			
+			
+			
+			
+			ProcessBuilder pb=new ProcessBuilder(commands);
+			
+			pb.redirectErrorStream(true);
+			final Process process = pb.start();
+			InputStream stderr = process.getInputStream();
+			InputStreamReader isr = new InputStreamReader(stderr);
+			BufferedReader br = new BufferedReader(isr);
+			String line = null;
+			while ((line = br.readLine()) != null) {
+				if(line.trim().toLowerCase().contains(new String("EXITING").toLowerCase()) ){
+				    System.out.println(line);
+					String [] linee =line.split(" ");
+					System.out.println(linee.length);
+					for (int i=0; i< linee.length; i++) {
+						System.out.println(linee[i]);
+					}
+					System.out.println(linee);
+				}
+				
+			}
+			process.waitFor();
+			br.close();
+			System.out.println("Waiting ...");
+			System.out.println("Returned Value :" + process.exitValue());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
+		
+		
+		
+		
+	/*	BufferedReader stdInput;
+		String command="/usr/bin/java -jar ";
+		command+="/home/miccar/Desktop/Magellano-Sof/MagellanoLauncher-1.0.0-jar-with-dependencies.jar ";
+		command+="solve ";
+		command+="/home/miccar/Desktop/Magellano-Sof/launcher_config/conf.ini";
+		System.out.println(command);
+		
+		Process process;
+		try {
+			process = Runtime.getRuntime().exec(command);
+			stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+			// read the output from the command
+			String s = "";
+			String tmp = null;
+			while ((tmp = stdInput.readLine()) != null) {
+               //System.out.println(tmp);
+				s+=tmp;
+			}
+			process.waitFor();
+			stdInput.close();
+	
+			System.out.println("Waiting ...");
+			System.out.println("Returned Value :" + process.exitValue());
+
+			
+	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		*/
+
+
+	}
 
 }

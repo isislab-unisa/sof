@@ -209,7 +209,7 @@ public class SofManager {
 			String output_description_filename,
 			String description_simulation,
 			String executable_simulation_filename,
-			String interpreter_simulation_generic) 
+			String interpreter_simulation_generic, String path_conf_file) 
 					throws ParserConfigurationException, SAXException, IOException, TransformerException, NumberFormatException, JSchException, SftpException{
 
 
@@ -248,9 +248,11 @@ public class SofManager {
 		RunnableFile f = new RunnableFile();
 		String execFileName = executable_simulation_filename.substring(executable_simulation_filename.lastIndexOf(File.separator)+1, executable_simulation_filename.length());
 
+		
 		f.setSimulation(fs.getHdfsUserPathSimulationExeForId(idSimXmlFile, execFileName));
+		
 		if(toolkit.equalsIgnoreCase("generic")){
-			f.setBashCommandForGenericSimulation(interpreter_simulation_generic);	
+			f.setBashCommandForGenericSimulation(interpreter_simulation_generic);
 		}
 
 
@@ -290,6 +292,18 @@ public class SofManager {
 			log.severe("Failed to copy " +executable_simulation_filename +" in "+hdfs_path_for_model_exec);
 
 
+		
+		/**
+		 * copy conf file in sim_dir
+		 */
+		
+		if(HadoopFileSystemManager.copyFromClientToHdfs(session, path_conf_file,hdfs_path_for_model_exec))
+			log.info("Copied "+path_conf_file+" in "+hdfs_path_for_model_exec);
+		else 
+			log.severe("Failed to copy " +path_conf_file +" in "+hdfs_path_for_model_exec);
+		
+		
+		
 
 		/**
 		 * create the input folder in simulation folder and copy from local the file <input_pathname>
@@ -887,7 +901,7 @@ public class SofManager {
 
 
 	public static boolean checkParamMakeSimulationFolder(String[] params) throws ParameterException{
-		int SIMULATION_PSE_THRESHOLD=7;
+		int SIMULATION_PSE_THRESHOLD=8;
 		//params[0]/*TOOLKIT TYPE MASON - NETLOGO -GENERIC*/,
 		//params[1],/*SIM NAME*/
 		//params[2],/*INPUT.XML PATH*/ 
@@ -1064,7 +1078,7 @@ public class SofManager {
 
 		int indexEndDescription = 0;
 
-		if(!params[indexBeginDescription].startsWith("\"") && (params.length==6 || params.length==7 || params.length==11 || params.length==10))
+		if(!params[indexBeginDescription].startsWith("\"") && (params.length==6 || params.length==8 || params.length==11 || params.length==10))
 			return params;
 
 		if(params[indexBeginDescription].startsWith("\"")){
