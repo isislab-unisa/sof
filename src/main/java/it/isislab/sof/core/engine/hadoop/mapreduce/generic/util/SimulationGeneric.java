@@ -198,6 +198,7 @@ public class SimulationGeneric {
 				InputStreamReader isr = new InputStreamReader(stderr);
 				BufferedReader br = new BufferedReader(isr);
 				 tmp = null;
+				// 
 				while ((tmp = br.readLine()) != null) {
 					if(tmp.trim().toLowerCase().contains(new String("EXITING").toLowerCase()) ){
 	                    
@@ -227,7 +228,7 @@ public class SimulationGeneric {
 		commands.add("evaluate");
 		commands.add(CONF_FILE);
 		
-		for(int r =0; r<rounds; r++){
+		for(int r =0; r<1; r++){
 			
 			ProcessBuilder pb=new ProcessBuilder(commands);
 			pb.redirectErrorStream(true);
@@ -239,17 +240,17 @@ public class SimulationGeneric {
 			while ((tmp = br.readLine()) != null) {
 				
 				System.out.println(tmp);
-				/*if(tmp.trim().toLowerCase().contains(new String("EXITING").toLowerCase()) ){
+				
+				
+				if(tmp.trim().toLowerCase().contains(new String("Evaluating fitness").toLowerCase()) ){
                     
 					System.out.println(tmp);
 					
 					String [] linee =tmp.split(" ");
-					for (int i=0; i< linee.length; i++) {
-						System.out.println(linee[i]);
-					}
-					prova=linee[1];
-					//System.out.println(linee);
-				}*/
+					
+					prova=linee[linee.length-1];
+					System.out.println("the best sol "+prova);
+				}
 				
 			}
 			process.waitFor();

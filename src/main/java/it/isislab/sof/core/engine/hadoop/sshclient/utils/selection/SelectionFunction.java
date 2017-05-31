@@ -133,8 +133,10 @@ public class SelectionFunction {
 		if(SofRunnerUtils.execGenericCommand(cmd.split(" "),tmpRedirectInputXmlFile)){
 			if(f.length()>0){
 				if(SofRunnerUtils.copyFileInHdfs(fs, tmpRedirectInputXmlFile, currentExecutionInputLoopPath)){
-					SOFRUNNER.log.info("Generated successfully a new input");
-					result=true;
+					if(SofRunnerUtils.copyFileInHdfs(fs, "launcher_input/s100.xml", currentExecutionInputLoopPath)){
+						SOFRUNNER.log.info("Generated successfully a new input");
+						result=true;
+					}
 				}
 					
 			}else

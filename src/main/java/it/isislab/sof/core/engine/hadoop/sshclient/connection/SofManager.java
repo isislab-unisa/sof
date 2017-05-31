@@ -423,7 +423,7 @@ public class SofManager {
 			String executable_rating_function_filename,
 			String description_simulation,
 			String executable_simulation_filename,
-			String interpreter_generic_path) throws Exception,ParserConfigurationException, SAXException, IOException, TransformerException, NumberFormatException, JSchException{
+			String interpreter_generic_path, String conf_file_path) throws Exception,ParserConfigurationException, SAXException, IOException, TransformerException, NumberFormatException, JSchException{
 
 
 
@@ -507,7 +507,18 @@ public class SofManager {
 			log.info("Copied successfully "+executable_simulation_filename +" in "+fs.getHdfsUserPathDescriptionDirForSimId(simulationID));
 		else 
 			log.severe("Failed to copy " +executable_simulation_filename +" in "+fs.getHdfsUserPathDescriptionDirForSimId(simulationID));
+		
+		
+		/**
+		 * copy conf file in sim_dir
+		 */
+		if(HadoopFileSystemManager.copyFromClientToHdfs(session,  conf_file_path, fs.getHdfsUserPathDescriptionDirForSimId(simulationID)))
+			log.info("Copied successfully "+conf_file_path +" in "+fs.getHdfsUserPathDescriptionDirForSimId(simulationID));
+		else 
+			log.severe("Failed to copy " +conf_file_path +" in "+fs.getHdfsUserPathDescriptionDirForSimId(simulationID));
 
+		
+		
 		/**
 		 * copy SELECTION file in sim_dir
 		 */
@@ -1078,7 +1089,7 @@ public class SofManager {
 
 		int indexEndDescription = 0;
 
-		if(!params[indexBeginDescription].startsWith("\"") && (params.length==6 || params.length==8 || params.length==11 || params.length==10))
+		if(!params[indexBeginDescription].startsWith("\"") && (params.length==6 || params.length==8 || params.length==12 || params.length==10))
 			return params;
 
 		if(params[indexBeginDescription].startsWith("\"")){

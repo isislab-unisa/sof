@@ -110,8 +110,14 @@ implements Reducer<Text,Text, Text, Text> {
 			String id=MD5(key.toString()+r.nextDouble());
 			String tmpEvalXml = "tmpEval"+id+".xml";
 			Path ptemp=new Path(tmpEvalXml);
+			
+			
 			Path file_output=new Path(key.toString());
+			
+			System.out.println("stampa in reducergeneric"+file_output);
+			
 			fs.copyToLocalFile(file_output, ptemp);
+			
 			String xmlOutput =key.toString().substring(key.toString().lastIndexOf("/")+1);
 			//generateEvaluation(tmpEvalXml,id,EVALUATION_PROGRAM_THREAD);
 			generateEvaluation(tmpEvalXml,xmlOutput,EVALUATION_PROGRAM_THREAD);
@@ -141,7 +147,9 @@ implements Reducer<Text,Text, Text, Text> {
 		String cmd=this.RATING_INTERPRETER;
 		if(RATING_INTERPRETER.contains("java"))
 			cmd+=" -jar";
-		cmd+=" "+System.getProperty("user.dir")+"/"+EVALUATION_PROGRAM+" "+System.getProperty("user.dir")+"/"+toevaluate;
+		cmd+=" "+System.getProperty("user.dir")+"/"+EVALUATION_PROGRAM;
+		cmd+=" evaluate";
+		cmd+=" "+System.getProperty("user.dir")+"/"+toevaluate;
 		Process process = Runtime.getRuntime().exec(cmd);
 		InputStream is = process.getInputStream();
 		InputStreamReader isr = new InputStreamReader(is);

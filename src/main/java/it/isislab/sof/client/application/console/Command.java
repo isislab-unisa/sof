@@ -212,7 +212,7 @@ public enum Command implements Prompt
 							parsedParams[6],/*executable_selection_function_filename*/ 
 							parsedParams[7],/*executable_rating_function_filename*/
 							parsedParams[8],/*description_simulation*/
-							parsedParams[9],"");/*executable_simulation_filename*/
+							parsedParams[9],"","");/*executable_simulation_filename,conf_file_path*/
 					
 					return null;
 				} catch (Exception e) {
@@ -222,7 +222,7 @@ public enum Command implements Prompt
 					return null;
 				}
 			}
-			else if(parsedParams.length == 11){
+			else if(parsedParams.length == 12){
 				
 				try {
 					SofManager.checkParamMakeSimulationFolder(parsedParams);
@@ -247,8 +247,8 @@ public enum Command implements Prompt
 							parsedParams[7],/*executable_rating_function_filename*/
 							parsedParams[8],/*description_simulation*/
 							parsedParams[9],/*executable_simulation_filename*/
-							parsedParams[10]);//interpreter generic
-					
+							parsedParams[10],//interpreter generic
+							parsedParams[11]);
 					return null;
 				} catch (Exception e) {
 

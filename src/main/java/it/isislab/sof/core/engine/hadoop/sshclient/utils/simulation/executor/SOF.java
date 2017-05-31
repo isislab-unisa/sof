@@ -71,7 +71,7 @@ public class SOF {
 				    Runtime.getRuntime().exec("rm -r /home/michele/Scrivania/aids/output");
 		         } catch (IOException e) {e.printStackTrace();}*/
 
-		if(args.length <9 || args.length==10 || args.length==12 || args.length>=15 )
+		if(args.length <9 || args.length==10 || args.length==12 || args.length>=16 )
 		{
 
 			System.out.println("Usage:");
@@ -161,7 +161,7 @@ public class SOF {
 
 
 		
-		else if(args.length==14){
+		else if(args.length==15){
 			SIMULATION_NAME=args[0]; 
 			SIMULATION_HOME= args[1];
 			SIM_TYPE=args[2];
@@ -177,6 +177,7 @@ public class SOF {
 		//	DESCRIPTION=args[12];
 			INTERPRETER_REMOTE_PATH_EVALUATION=args[12];
 			EXECUTABLE_RATING_FILE=args[13];
+			SIM_DESCRIPTION_CONFIG_FILE = args[14];
 			
 			
 			
@@ -189,6 +190,9 @@ public class SOF {
 			SIM_EXECUTABLE_SIMULATION_INTERPRETER_PATH=args[3];
 			SIM_EXECUTABLE_SIMULATION_PROGRAM=args[4];
 			SIM_EXECUTION_INPUT_DATA_MAPPER=args[5];
+			
+			
+			
 			SIM_EXECUTION_OUTPUT_MAPPER=args[6];
 			SIM_DESCRIPTION_OUTPUT_XML_DOMAIN= args[7];
 			ISLOOP=Boolean.parseBoolean(args[8]);
@@ -223,8 +227,13 @@ public class SOF {
 		if(SIM_TYPE.equalsIgnoreCase("generic")){
 		   job.set("simulation.interpreter.genericsim", SIM_EXECUTABLE_SIMULATION_INTERPRETER_PATH);	
 		 //  job.set("simulation.conf", "/home/miccar/Desktop/Magellano-Sof/launcher_config/conf.ini");
+		  String xm=SIM_EXECUTION_INPUT_DATA_MAPPER.substring(0, SIM_EXECUTION_INPUT_DATA_MAPPER.lastIndexOf("/"));
+		   job.set("simulation.input", xm);
+		   
 		   if(SIM_DESCRIPTION_CONFIG_FILE!=null)
 			   job.set("simulation.conf",SIM_DESCRIPTION_CONFIG_FILE);
+		      
+		   
 		}
 		
 		

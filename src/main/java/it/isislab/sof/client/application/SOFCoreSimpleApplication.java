@@ -77,7 +77,7 @@ public class SOFCoreSimpleApplication {
 		//CREATE SIMULATION FROM EXAMPLE IN SO MODE
 		try {
 			SofManager.makeSimulationFolderForLoop(session, toolkit, simulation_name, domain_pathname, bashCommandForRunnableFunctionSelection,bashCommandForRunnableFunctionEvaluate, 
-					output_description_filename, executable_selection_function_filename, executable_rating_function_filename, description_simulation, executable_simulation_filename,""/*param exacutable param for generic mode, not required for netlogo and mason*/);
+					output_description_filename, executable_selection_function_filename, executable_rating_function_filename, description_simulation, executable_simulation_filename,""/*param exacutable param for generic mode, not required for netlogo and mason*/,"");
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
