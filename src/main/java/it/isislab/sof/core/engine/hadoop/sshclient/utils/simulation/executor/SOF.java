@@ -15,8 +15,13 @@
 package it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.executor;
 
 
+import it.isislab.sof.core.engine.hadoop.mapreduce.generic.SOFMapperGeneric;
+import it.isislab.sof.core.engine.hadoop.mapreduce.generic.SOFReducerGeneric;
+import it.isislab.sof.core.engine.hadoop.mapreduce.mason.SOFMapperMason;
+import it.isislab.sof.core.engine.hadoop.mapreduce.mason.SOFReducerMason;
+import it.isislab.sof.core.engine.hadoop.mapreduce.netlogo.SOFMapperNetLogo;
+import it.isislab.sof.core.engine.hadoop.mapreduce.netlogo.SOFReducerNetLogo;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.apache.hadoop.conf.Configuration;
@@ -27,16 +32,6 @@ import org.apache.hadoop.mapred.JobClient;
 import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapred.JobStatus;
 import org.apache.hadoop.mapred.RunningJob;
-
-import it.isislab.sof.core.engine.hadoop.mapreduce.generic.SOFMapperGeneric;
-import it.isislab.sof.core.engine.hadoop.mapreduce.generic.SOFReducerGeneric;
-import it.isislab.sof.core.engine.hadoop.mapreduce.mason.SOFMapperMason;
-import it.isislab.sof.core.engine.hadoop.mapreduce.mason.SOFReducerMason;
-import it.isislab.sof.core.engine.hadoop.mapreduce.netlogo.SOFMapperNetLogo;
-import it.isislab.sof.core.engine.hadoop.mapreduce.netlogo.SOFReducerNetLogo;
-
-
-
 
 
 /**
@@ -58,20 +53,13 @@ public class SOF {
 		 * aids /home/michele/Scrivania/aids netlogo /home/michele/Scrivania/aids/aids.nlogo /home/michele/Scrivania/aids/input.tmp /home/michele/Scrivania/aids/output /home/michele/Scrivania/aids/output.xml false pepp ciao  
 		 *  
 		 */
-
-        
-        if(new File("/home/miccar/Desktop/magellano/output").exists() ){
-		try {//Runtime.getRuntime().exec("rm -r /home/miccar/Desktop/mason_test/output");
-		    Runtime.getRuntime().exec("rm -r /home/miccar/Desktop/magellano/output");
-        } catch (IOException e) {e.printStackTrace();}
-        }
 		
 
 	/*			try {//Runtime.getRuntime().exec("rm -r /home/lizard87/Desktop/mason_test/output");
 				    Runtime.getRuntime().exec("rm -r /home/michele/Scrivania/aids/output");
 		         } catch (IOException e) {e.printStackTrace();}*/
 
-		if(args.length <9 || args.length==10 || args.length==12 || args.length>=15 )
+		if(args.length <9 || args.length==11 || args.length==12 || args.length>=15 )
 		{
 
 			System.out.println("Usage:");
@@ -107,7 +95,6 @@ public class SOF {
 		String SIM_EXECUTION_INPUT_DATA_MAPPER=null;/*input.data path */
 		String SIM_EXECUTION_OUTPUT_MAPPER=null;/*output loop(i) path*/
 		String SIM_DESCRIPTION_OUTPUT_XML_DOMAIN= null;/*path of domain file */
-		String SIM_DESCRIPTION_CONFIG_FILE= null;/*path of optional configuration file */
 		String SIM_EXECUTION_INPUT_XML=null;/*execution input path*/
 		boolean ISLOOP=false;/*false[one] | true[loop]*/
 		//String DESCRIPTION=null;/*simulations' description*/
@@ -182,7 +169,7 @@ public class SOF {
 			
 		}
 		
-		else if(args.length==11){
+		else if(args.length==10){
 			SIMULATION_NAME=args[0];
 			SIMULATION_HOME=args[1];
 			SIM_TYPE=args[2];
@@ -193,7 +180,6 @@ public class SOF {
 			SIM_DESCRIPTION_OUTPUT_XML_DOMAIN= args[7];
 			ISLOOP=Boolean.parseBoolean(args[8]);
 			AUTHOR=args[9];
-			SIM_DESCRIPTION_CONFIG_FILE = args[10];
 		//	DESCRIPTION=args[10];
 		}
 		
@@ -222,10 +208,8 @@ public class SOF {
 		
 		if(SIM_TYPE.equalsIgnoreCase("generic")){
 		   job.set("simulation.interpreter.genericsim", SIM_EXECUTABLE_SIMULATION_INTERPRETER_PATH);	
-		 //  job.set("simulation.conf", "/home/miccar/Desktop/Magellano-Sof/launcher_config/conf.ini");
-		   if(SIM_DESCRIPTION_CONFIG_FILE!=null)
-			   job.set("simulation.conf",SIM_DESCRIPTION_CONFIG_FILE);
 		}
+		
 		
 		
 		
@@ -272,7 +256,7 @@ public class SOF {
 		}else
 			if(SIM_TYPE.equalsIgnoreCase("netlogo"))
 			{
-			
+				
 				job.setMapperClass(SOFMapperNetLogo.class);
 				job.setReducerClass(SOFReducerNetLogo.class);
 			}else
@@ -281,8 +265,6 @@ public class SOF {
 					job.setMapperClass(SOFMapperGeneric.class);
 					job.setReducerClass(SOFReducerGeneric.class);
 				}
-		
-		
 
 		job.setOutputKeyClass(org.apache.hadoop.io.Text.class);  
 		job.setOutputValueClass(org.apache.hadoop.io.Text.class);

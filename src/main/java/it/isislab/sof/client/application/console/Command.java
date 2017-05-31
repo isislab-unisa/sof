@@ -126,7 +126,8 @@ public enum Command implements Prompt
 				try {
 
 
-					SofManager.makeSimulationFolder(					
+					SofManager.makeSimulationFolder(
+							
 							SOFShellClient.session,
 							parsedParams[0],//MODEL TYPE MASON - NETLOGO -GENERIC
 							parsedParams[1],//SIM NAME
@@ -134,7 +135,7 @@ public enum Command implements Prompt
 							parsedParams[3],//OUTPUT.XML PATH 
 							parsedParams[4],//DESCRIPTION SIM
 							parsedParams[5],//SIMULATION EXEC PATH
-							"",""); //interpretergenericpath, conf file
+							""); //interpretergenericpath
 					return null;
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -142,7 +143,7 @@ public enum Command implements Prompt
 					return null;
 				}
 			}
-			else if(parsedParams.length == 8){
+			else if(parsedParams.length == 7){
 				try {
 					
 					SofManager.checkParamMakeSimulationFolder(parsedParams);
@@ -162,8 +163,7 @@ public enum Command implements Prompt
 							parsedParams[3],//OUTPUT.XML PATH 
 							parsedParams[4],//DESCRIPTION SIM
 							parsedParams[5],//SIMULATION EXEC PATH
-							parsedParams[6], //intepretergenericpath
-							parsedParams[7] );// conf file
+							parsedParams[6]); //intepretergenericpath
 					return null;
 				} catch (Exception e) {
 					e.printStackTrace();

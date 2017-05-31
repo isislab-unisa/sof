@@ -19,9 +19,7 @@ package it.isislab.sof.core.engine.hadoop.mapreduce.generic;
 
 import it.isislab.sof.core.engine.hadoop.mapreduce.generic.util.SimulationGeneric;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 
 import org.apache.hadoop.conf.Configuration;
@@ -43,69 +41,19 @@ public class SOFMapperGeneric extends MapReduceBase implements Mapper<LongWritab
 	private String SIM_PROGRAM="";
 	private String SIM_INPUT_MAPPER="";
 	private String SIM_OUTPUT_MAPPER="";
-	private String CONF="";
 	private String tmpName ="";
 
-	
-	
-	
-	
 	@Override
 	public void map(LongWritable key, Text value,
 			OutputCollector<Text, Text> output, Reporter reporter) throws IOException {
 		try{
 			(new File(tmpName)).mkdir();
-			final File apapp=new File("launcher_input");
-			apapp.mkdir();
-			
-			System.out.println(apapp.getAbsolutePath());
-			
-			final FileSystem fs = FileSystem.get(conf);
+			FileSystem fs = FileSystem.get(conf);
 			fs.copyToLocalFile(new Path(SIM_PROGRAM), new Path(tmpName));
-			fs.copyToLocalFile(new Path(CONF), new Path(tmpName));
-			
-			final String s100=this.SIMULATION_HOME+File.separator+"description"+File.separator+"s100.xml";
-			System.out.println(s100);
-			
-			
-			Thread cccc=new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
-					try {
-						fs.copyToLocalFile(new Path(s100), new Path(apapp.getAbsolutePath()));
-					} catch (IllegalArgumentException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
-				}
-			});
-			cccc.start();
-			cccc.join();
-			
-			
-			//while(!(new File(tmpName+File.separator+"launcher_input"+File.separator+"s100.xml").exists())){}
-			
-//			BufferedReader br = new BufferedReader(new FileReader(tmpName+File.separator+"launcher_input"+File.separator+"s100.xml"));
-//			String s="";
-//				while((s = br.readLine())!=null){
-//					System.out.println(s);
-//				}
-//			br.close();
-//			for(File f: (new File(tmpName).listFiles()))
-//				System.out.println(f.getAbsolutePath());
-			
 			SimulationGeneric genericsim=new SimulationGeneric();
-			
 			String SIM_PROGRAM_NAME = SIM_PROGRAM.substring(SIM_PROGRAM.lastIndexOf("/")+1, SIM_PROGRAM.length());
-			String CONFNAME=CONF.substring(CONF.lastIndexOf("/")+1, CONF.length());
-			conf.set("simulation.mapper.conf.path", tmpName+File.separator+CONFNAME);
 			genericsim.run(tmpName+"/"+SIM_PROGRAM_NAME,value.toString(),SIM_INPUT_MAPPER,SIM_OUTPUT_MAPPER,SIMULATION_HOME, output,conf);
-			//(new File(tmpName)).delete();
+			(new File(tmpName)).delete();
 
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -124,8 +72,6 @@ public class SOFMapperGeneric extends MapReduceBase implements Mapper<LongWritab
 		this.SIM_PROGRAM=conf.get("simulation.program.simulation");
 		this.SIM_INPUT_MAPPER=conf.get("simulation.executable.input");
 		this.SIM_OUTPUT_MAPPER=conf.get("simulation.executable.output");
-		this.CONF=conf.get("simulation.conf");
-		
 		this.tmpName = ""+Thread.currentThread().getId();
 
 

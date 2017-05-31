@@ -217,7 +217,7 @@ public class Controller {
 						parsedParams[3],//OUTPUT.XML PATH 
 						parsedParams[4],//DESCRIPTION SIM
 						parsedParams[5], //SIMULATION EXEC PATH
-						"","");//only generic
+						"");//only generic
 
 
 			} catch (Exception e) {
@@ -225,7 +225,7 @@ public class Controller {
 				System.out.print("Error in making execution environment!\n");
 
 			}
-		}else if(parsedParams.length == 8){
+		}else if(parsedParams.length == 7){
 			try {
                 
 				SofManager.checkParamMakeSimulationFolder(parsedParams);
@@ -245,9 +245,8 @@ public class Controller {
 						parsedParams[3],//OUTPUT.XML PATH 
 						parsedParams[4],//DESCRIPTION SIM
 						parsedParams[5],//SIMULATION EXEC PATH
-						parsedParams[6], //intepretergenericpath
-						parsedParams[7]);
-						
+						parsedParams[6]); //intepretergenericpath
+
 			} catch (Exception e) {
 
 				System.out.print("Error in making execution environment!\n");
