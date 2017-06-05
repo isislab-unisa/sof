@@ -16,10 +16,12 @@ package it.isislab.sof.core.engine.hadoop.mapreduce.generic;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -40,7 +42,8 @@ implements Reducer<Text,Text, Text, Text> {
 	boolean ISLOOP=false;//conf.get("simulation.executable.mode");
 	String RATING_PROGRAM="";//conf.get("simulation.program.evaluation");
 	String RATING_INTERPRETER="";
-	 String RATING_PATH="";
+	String RATING_PATH="";
+	String CONF="";
 
 	/*	public void reduce(Text key, Iterator<Text> values,
 			OutputCollector<Text, Text> output, Reporter reporter)
@@ -92,11 +95,13 @@ implements Reducer<Text,Text, Text, Text> {
 
 
 		String EVALUATION_PROGRAM_THREAD="evaluation"+Thread.currentThread().getId();
-		FileSystem fs=FileSystem.get(conf);
+		final FileSystem fs=FileSystem.get(conf);
 
 		if(ISLOOP)
 		{
 			Path eprogram=new Path(EVALUATION_PROGRAM_THREAD);
+			System.out.println("ratprog"+RATING_PROGRAM);
+			
 			fs.copyToLocalFile(new Path(RATING_PROGRAM),eprogram);
 			try{
 				fs.mkdirs(new Path(this.RATING_PATH));
@@ -110,14 +115,12 @@ implements Reducer<Text,Text, Text, Text> {
 			String id=MD5(key.toString()+r.nextDouble());
 			String tmpEvalXml = "tmpEval"+id+".xml";
 			Path ptemp=new Path(tmpEvalXml);
-			
-			
-			Path file_output=new Path(key.toString());
-			
-			System.out.println("stampa in reducergeneric"+file_output);
-			
+           Path file_output=new Path(key.toString());
+
 			fs.copyToLocalFile(file_output, ptemp);
 			
+			fs.copyFromLocalFile(new Path(CONF), new Path(System.getProperty("user.dir")));
+
 			String xmlOutput =key.toString().substring(key.toString().lastIndexOf("/")+1);
 			//generateEvaluation(tmpEvalXml,id,EVALUATION_PROGRAM_THREAD);
 			generateEvaluation(tmpEvalXml,xmlOutput,EVALUATION_PROGRAM_THREAD);
@@ -144,28 +147,97 @@ implements Reducer<Text,Text, Text, Text> {
 		FileSystem fs=FileSystem.get(conf);
 		File f=new File(EVALUATION_PROGRAM);
 		f.setExecutable(true);
+		ArrayList<String> commands=new ArrayList<String>();
+        commands.add(RATING_INTERPRETER);
+        commands.add("-jar");
+        commands.add(System.getProperty("user.dir")+"/"+EVALUATION_PROGRAM);
+        commands.add("evaluate");
+        commands.add(System.getProperty("user.dir")+"/conf.ini");
+        
+		ProcessBuilder pb=new ProcessBuilder(commands);
+		pb.redirectErrorStream(true);
+		final Process process = pb.start();
+		InputStream stderr = process.getInputStream();
+		InputStreamReader isr = new InputStreamReader(stderr);
+		BufferedReader br = new BufferedReader(isr);
+		String tmp = null;
+		String prova=null;
+		while ((tmp = br.readLine()) != null) {
+
+			//System.out.println(tmp);
+
+
+			if(tmp.trim().toLowerCase().contains(new String("Evaluating fitness").toLowerCase()) ){
+
+				System.out.println(tmp);
+
+				String [] linee =tmp.split(" ");
+
+				prova=linee[linee.length-1];
+				System.out.println("the best sol "+prova);
+			}
+
+		}
+		try {
+			process.waitFor();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		br.close();
+
+
+
+
+
+
+
+		/*	FileSystem fs=FileSystem.get(conf);
+		File f=new File(EVALUATION_PROGRAM);
+		f.setExecutable(true);
 		String cmd=this.RATING_INTERPRETER;
 		if(RATING_INTERPRETER.contains("java"))
 			cmd+=" -jar";
 		cmd+=" "+System.getProperty("user.dir")+"/"+EVALUATION_PROGRAM;
 		cmd+=" evaluate";
 		cmd+=" "+System.getProperty("user.dir")+"/"+toevaluate;
+
+
 		Process process = Runtime.getRuntime().exec(cmd);
 		InputStream is = process.getInputStream();
 		InputStreamReader isr = new InputStreamReader(is);
 		BufferedReader br = new BufferedReader(isr);
 		String line;
 		String evaluationFile="";
+
+
 		while ((line = br.readLine()) != null) {
 			evaluationFile+=line;
 		}
+		 */
 		FSDataOutputStream out=fs.create(new Path(this.RATING_PATH+"/EVALUATE"+id));
 		PrintWriter printer=new PrintWriter(out);
-		printer.write(evaluationFile);
+		printer.write(prova);
 		printer.close();
 		out.close();
+		
+		File final_solutions = new File(System.getProperty("user.dir")+File.separator+"final_solution");
+		
+		for(File fsols : final_solutions.listFiles(new FileFilter() {
+			
+			@Override
+			public boolean accept(File pathname) {
+				// TODO Auto-generated method stub
+				return pathname.getName().endsWith(".xml");
+			}
+		})){
+			fs.copyFromLocalFile(new Path(fsols.getAbsolutePath()), new Path(this.RATING_PATH));
+		}
+		
+		
+		
 
-		f=new File(System.getProperty("user.dir")+"/"+toevaluate);
+		//f=new File(System.getProperty("user.dir")+"/"+toevaluate);
 
 
 		return true; 
@@ -197,5 +269,6 @@ implements Reducer<Text,Text, Text, Text> {
 		this.RATING_PROGRAM=conf.get("simulation.program.rating");
 		this.RATING_INTERPRETER=conf.get("simulation.interpreter.rating");
 		this.RATING_PATH=conf.get("simulation.executable.loop.rating");
+		this.CONF=conf.get("simulation.conf");
 	}
 }

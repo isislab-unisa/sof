@@ -84,20 +84,20 @@ public class SimulationGeneric {
 		couple=aparam[1].split(":");
 		int rounds = Integer.parseInt(couple[1]);
 		System.out.println(idInputSimulation);
-	      System.out.println(rounds);
-		
-		
-		
+		System.out.println(rounds);
+
+
+
 		for(int i=0; i<inputSimulation.length;i++){
 			couple = aparam[i+2].split(":");
 			inputSimulation[i]=couple[1];
-			 System.out.println(inputSimulation[i]);
+			System.out.println(inputSimulation[i]);
 		}
 
-       
-      
-		
-		
+
+
+
+
 		String output_template=conf.get("simulation.description.output.domain");
 		//converte il file output.xml con i soli campi in un'unica stringa da processare 
 		String output_string_vars=XmlToText.convertOutputXmlIntoText(conf, output_template, idInputSimulation);
@@ -119,22 +119,22 @@ public class SimulationGeneric {
 
 		ArrayList<String> commands=new ArrayList<String>();
 		commands.add(sim_interpreter_path);
-		
 
-		
-	
+
+
+
 		if(program_path.endsWith(".jar"))
 			commands.add("-jar");
 
-		
-	
+
+
 		commands.add(program_path);
 		commands.add("solve");
 		if(!CONF_FILE.isEmpty())
 			commands.add(CONF_FILE);
-		
-	    System.out.println("execute "+commands);	
-	
+
+		System.out.println("execute "+commands);	
+
 		/*ProcessBuilder pb1=new ProcessBuilder(commands);
 		pb1.redirectErrorStream(true);
 		final Process process1 = pb1.start();
@@ -144,20 +144,20 @@ public class SimulationGeneric {
 		String tmp1 = null;
 		while ((tmp1 = br1.readLine()) != null) {
 			System.out.println(tmp1);
-		
-			
+
+
 		}
 		process1.waitFor();
 		br1.close();
-		
-		
-		
+
+
+
 		System.exit(0);*/
-	  
-	/*  
-	 * 
-	 * 
-	 * FileSystem fs = FileSystem.get(conf);
+
+		/*  
+		 * 
+		 * 
+		 * FileSystem fs = FileSystem.get(conf);
 	    Path path = new Path("hdfs://"+conf.get("simulation.conf"));
 	    FSDataInputStream inputStream = fs.open(path);
 	    byte[] b = new byte[inputStream.available()];
@@ -167,104 +167,104 @@ public class SimulationGeneric {
 	    System.out.println(new String(b));
 	    System.out.println("__________________ééééé******************");
 	    fs.close();
-	     
-	    */
-		
-		
-		
-		
-		
-	  
-		
-		
-            
-		
+
+		 */
+
+
+
+
+
+
+
+
+
+
 		HashMap<String, ArrayList<String>> output_collection = new HashMap<String, ArrayList<String>>();
 		HashMap<String,String> ovs = new HashMap<String,String>();
-		String[] outValues = null;
+		String[] outValues = null; 
 		String s;
 		String tmp;
 		BufferedReader stdInput;
 
 		String prova="";
-		
-		
-		for(int r =0; r<rounds; r++){
-			
-				ProcessBuilder pb=new ProcessBuilder(commands);
-				pb.redirectErrorStream(true);
-				final Process process = pb.start();
-				InputStream stderr = process.getInputStream();
-				InputStreamReader isr = new InputStreamReader(stderr);
-				BufferedReader br = new BufferedReader(isr);
-				 tmp = null;
-				// 
-				while ((tmp = br.readLine()) != null) {
-					if(tmp.trim().toLowerCase().contains(new String("EXITING").toLowerCase()) ){
-	                    
-						System.out.println(tmp);
-						
-						String [] linee =tmp.split(" ");
-						/*for (int i=0; i< linee.length; i++) {
-							System.out.println(linee[i]);
-						}*/
-						prova=linee[1];
-						//System.out.println(linee);
-					}
-					
-				}
-				process.waitFor();
-				br.close();
-			//	System.out.println("Waiting ...");
-			//	System.out.println("ReturnedValue:" + process.exitValue());
 
-			
-		}
-		
-		commands=new ArrayList<>();
-		commands.add("java");
-		commands.add("-jar");
-		commands.add(program_path);
-		commands.add("evaluate");
-		commands.add(CONF_FILE);
-		
-		for(int r =0; r<1; r++){
-			
+
+		for(int r =0; r<rounds; r++){
+
 			ProcessBuilder pb=new ProcessBuilder(commands);
 			pb.redirectErrorStream(true);
 			final Process process = pb.start();
 			InputStream stderr = process.getInputStream();
 			InputStreamReader isr = new InputStreamReader(stderr);
 			BufferedReader br = new BufferedReader(isr);
-			 tmp = null;
+			tmp = null;
+			// 
 			while ((tmp = br.readLine()) != null) {
-				
-				System.out.println(tmp);
-				
-				
-				if(tmp.trim().toLowerCase().contains(new String("Evaluating fitness").toLowerCase()) ){
-                    
+				if(tmp.trim().toLowerCase().contains(new String("EXITING").toLowerCase()) ){
+
 					System.out.println(tmp);
-					
+
 					String [] linee =tmp.split(" ");
-					
-					prova=linee[linee.length-1];
-					System.out.println("the best sol "+prova);
+					/*for (int i=0; i< linee.length; i++) {
+							System.out.println(linee[i]);
+						}*/
+					prova=linee[1];
+					//System.out.println(linee);
 				}
-				
+
 			}
 			process.waitFor();
 			br.close();
-		//	System.out.println("Waiting ...");
-		//	System.out.println("ReturnedValue:" + process.exitValue());
+			//	System.out.println("Waiting ...");
+			//	System.out.println("ReturnedValue:" + process.exitValue());
+
+
+		}
 
 		
-	}
-		
-		
-		
-		
-		
+
+
+		/// execute evaluate process 
+		/*	
+		*commands=new ArrayList<>();
+		commands.add("java");
+		commands.add("-jar");
+		commands.add(program_path);
+		commands.add("evaluate");
+		commands.add(CONF_FILE);
+		ProcessBuilder pb=new ProcessBuilder(commands);
+			pb.redirectErrorStream(true);
+			final Process process = pb.start();
+			InputStream stderr = process.getInputStream();
+			InputStreamReader isr = new InputStreamReader(stderr);
+			BufferedReader br = new BufferedReader(isr);
+			tmp = null;
+			while ((tmp = br.readLine()) != null) {
+
+				System.out.println(tmp);
+
+
+				if(tmp.trim().toLowerCase().contains(new String("Evaluating fitness").toLowerCase()) ){
+
+					System.out.println(tmp);
+
+					String [] linee =tmp.split(" ");
+
+					prova=linee[linee.length-1];
+					System.out.println("the best sol "+prova);
+				}
+
+			}
+			process.waitFor();
+			br.close();
+			
+
+*/
+
+
+
+
+
 		/*for(int r =0; r<rounds; r++){
 			process = Runtime.getRuntime().exec(command);
 			process.waitFor();
@@ -302,27 +302,30 @@ public class SimulationGeneric {
 		}		*/
 
 		String inOutput="";
-		
+
 		/*for( int i=0; i<aparam1.length;i++){
 			String[] couple2 = aparam1[i].split(":");
 			inOutput+=couple2[0]+":"+outputSimulation.get(couple2[0])+";";
 		}*/
 
-		
-		
+
+
 		/*for(String field : output_collection.keySet()){
 			inOutput+=field+":"+getAVG(output_collection.get(field),rounds)+";";
 		}
-        */
-		
-		
-		
+		 */
+
+
+
 		//inOutput+="Exit:"+1;
 		//inOutput+=""+1;
 		File out_f =new File("launcher_output");
+		
+		System.out.println("folder_output "+out_f.getAbsolutePath());
+		
 		// richiedere all'eseguibile di stampare in output file:path_file_creato
 		for(File o : out_f.listFiles(new FileFilter() {
-			
+
 			@Override
 			public boolean accept(File pathname) {
 				return pathname.getName().endsWith(".xml");
@@ -330,11 +333,11 @@ public class SimulationGeneric {
 		})){
 			inOutput+="file:"+o.getAbsolutePath()+";";
 		}
-		
+
 		Path file_output=null;
 		int id = (new String(inOutput+""+System.currentTimeMillis())).hashCode();
 
-		
+
 		//generate an output file from input field of simulation, that contains input parameters  : format --> input(param:param.val;...;) and 
 		// output parameters of simulations:  format--> inOutput  (param:var.val;...;)
 		file_output=generateOutput(input, inOutput, SIM_OUTPUT_MAPPER, id, idInputSimulation, SIMULATION_NAME, AUTHOR, DESCRIPTION, SIMULATION_HOME);
@@ -348,7 +351,7 @@ public class SimulationGeneric {
 	}
 
 
-/*	private String getAVG(ArrayList<String> arrayList, int rounds) {
+	/*	private String getAVG(ArrayList<String> arrayList, int rounds) {
 
 		try{
 			long a = Long.parseLong(arrayList.get(0));
@@ -440,8 +443,7 @@ public class SimulationGeneric {
 
 		String valOutp=outputSimulation;
 
-		System.out.println("weeeeeeeeeeeeeeeeeeeeeeee "+valOutp);
-		
+
 		Object valobjOutp=null;
 		String[] parametri=valOutp.split(";");
 		for(String st:  parametri){
@@ -469,7 +471,7 @@ public class SimulationGeneric {
 
 				}				
 			}
-			
+
 			Parameter paramOut=new Parameter();
 			paramOut.setparam(valobjOutp);
 			paramOut.setvariable_name(couple[0]);
@@ -517,7 +519,7 @@ public class SimulationGeneric {
 		command+="/home/miccar/Desktop/Magellano-Sof/MagellanoLauncher-1.0.0-jar-with-dependencies.jar ";
 		command+="solve ";
 		command+="/home/miccar/Desktop/Magellano-Sof/launcher_config/conf.ini";*/
-		
+
 		//System.out.println(command);
 		try {
 			//ProcessBuilder pb = new ProcessBuilder("java", "-jar", "/home/miccar/Desktop/Magellano-Sof/MagellanoLauncher-1.0.0-jar-with-dependencies.jar","solve","/home/miccar/Desktop/Magellano-Sof/launcher_config/conf.ini");
@@ -527,12 +529,12 @@ public class SimulationGeneric {
 			commands.add("/home/miccar/Desktop/Magellano-Sof/MagellanoLauncher-1.0.0-jar-with-dependencies.jar");
 			commands.add("solve");
 			commands.add("/home/miccar/Desktop/Magellano-Sof/launcher_config/conf.ini");
-			
-			
-			
-			
+
+
+
+
 			ProcessBuilder pb=new ProcessBuilder(commands);
-			
+
 			pb.redirectErrorStream(true);
 			final Process process = pb.start();
 			InputStream stderr = process.getInputStream();
@@ -541,7 +543,7 @@ public class SimulationGeneric {
 			String line = null;
 			while ((line = br.readLine()) != null) {
 				if(line.trim().toLowerCase().contains(new String("EXITING").toLowerCase()) ){
-				    System.out.println(line);
+					System.out.println(line);
 					String [] linee =line.split(" ");
 					System.out.println(linee.length);
 					for (int i=0; i< linee.length; i++) {
@@ -549,7 +551,7 @@ public class SimulationGeneric {
 					}
 					System.out.println(linee);
 				}
-				
+
 			}
 			process.waitFor();
 			br.close();
@@ -561,17 +563,17 @@ public class SimulationGeneric {
 		}
 
 
-		
-		
-		
-		
-	/*	BufferedReader stdInput;
+
+
+
+
+		/*	BufferedReader stdInput;
 		String command="/usr/bin/java -jar ";
 		command+="/home/miccar/Desktop/Magellano-Sof/MagellanoLauncher-1.0.0-jar-with-dependencies.jar ";
 		command+="solve ";
 		command+="/home/miccar/Desktop/Magellano-Sof/launcher_config/conf.ini";
 		System.out.println(command);
-		
+
 		Process process;
 		try {
 			process = Runtime.getRuntime().exec(command);
@@ -586,16 +588,16 @@ public class SimulationGeneric {
 			}
 			process.waitFor();
 			stdInput.close();
-	
+
 			System.out.println("Waiting ...");
 			System.out.println("Returned Value :" + process.exitValue());
 
-			
-	
+
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		*/
+		 */
 
 
 	}

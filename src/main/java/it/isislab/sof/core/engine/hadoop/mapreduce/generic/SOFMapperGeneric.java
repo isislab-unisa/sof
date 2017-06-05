@@ -19,12 +19,9 @@ package it.isislab.sof.core.engine.hadoop.mapreduce.generic;
 
 import it.isislab.sof.core.engine.hadoop.mapreduce.generic.util.SimulationGeneric;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -59,7 +56,6 @@ public class SOFMapperGeneric extends MapReduceBase implements Mapper<LongWritab
 			final File apapp=new File("launcher_input");
 			apapp.mkdir();
 			
-			System.out.println(apapp.getAbsolutePath());
 			
 			final FileSystem fs = FileSystem.get(conf);
 			fs.copyToLocalFile(new Path(SIM_PROGRAM), new Path(tmpName));
@@ -119,6 +115,9 @@ public class SOFMapperGeneric extends MapReduceBase implements Mapper<LongWritab
 			String CONFNAME=CONF.substring(CONF.lastIndexOf("/")+1, CONF.length());
 			conf.set("simulation.mapper.conf.path", tmpName+File.separator+CONFNAME);
 			genericsim.run(tmpName+"/"+SIM_PROGRAM_NAME,value.toString(),SIM_INPUT_MAPPER,SIM_OUTPUT_MAPPER,SIMULATION_HOME, output,conf);
+		
+			//da rimettere
+			System.out.println("exec "+tmpName);
 			//(new File(tmpName)).delete();
 
 		} catch (Throwable e) {
