@@ -225,15 +225,16 @@ public class SOFRUNNER{
 				s.getAuthor()+" ";//+" ";//+ 
 				//"\""+s.getDescription()+"\"";
 
-        if(s.getToolkit().equalsIgnoreCase("generic")){
+        if(s.getToolkit().equalsIgnoreCase("generic") && !(s.getLoop())){
         	bash+=fs.getHdfsUserPathDescriptionDirForSimId(s.getId())+File.separator+"conf.ini";
         }
 
 		if(s.getLoop())
-			bash += " "+s.getRunnableFile().getBashCommandForRunnableFunctionEvaluate()+
-			" "+s.getRunnableFile().getRating();
+			bash += " "+s.getRunnableFile().getBashCommandForRunnableFunctionEvaluate()+" "+s.getRunnableFile().getRating();
 
-
+		 if(s.getToolkit().equalsIgnoreCase("generic") && s.getLoop()){
+			 bash+=" "+ fs.getHdfsUserPathDescriptionDirForSimId(s.getId())+File.separator+"conf.ini";
+		 }
 
 
 		System.out.println(bash);
