@@ -61,6 +61,8 @@ public class SOFMapperGeneric extends MapReduceBase implements Mapper<LongWritab
 			fs.copyToLocalFile(new Path(SIM_PROGRAM), new Path(tmpName));
 			fs.copyToLocalFile(new Path(CONF), new Path(tmpName));
 			
+			
+			
 			//final String s100=this.SIMULATION_HOME+File.separator+"description"+File.separator+"s100.xml";
 			if(!SIM_INPUT_MAPPER_FOLDER.isEmpty()){
 				

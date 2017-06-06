@@ -83,15 +83,12 @@ public class SimulationGeneric {
 		int idInputSimulation=Integer.parseInt(couple[1]);
 		couple=aparam[1].split(":");
 		int rounds = Integer.parseInt(couple[1]);
-		System.out.println(idInputSimulation);
-		System.out.println(rounds);
 
 
 
 		for(int i=0; i<inputSimulation.length;i++){
 			couple = aparam[i+2].split(":");
 			inputSimulation[i]=couple[1];
-			System.out.println(inputSimulation[i]);
 		}
 
 
@@ -178,7 +175,7 @@ public class SimulationGeneric {
 
 
 
-
+        /*per piu input*/
 		HashMap<String, ArrayList<String>> output_collection = new HashMap<String, ArrayList<String>>();
 		HashMap<String,String> ovs = new HashMap<String,String>();
 		String[] outValues = null; 
@@ -188,6 +185,9 @@ public class SimulationGeneric {
 
 		String prova="";
 
+		
+		
+		
 
 		for(int r =0; r<rounds; r++){
 
@@ -201,22 +201,14 @@ public class SimulationGeneric {
 			// 
 			while ((tmp = br.readLine()) != null) {
 				if(tmp.trim().toLowerCase().contains(new String("EXITING").toLowerCase()) ){
-
 					System.out.println(tmp);
-
 					String [] linee =tmp.split(" ");
-					/*for (int i=0; i< linee.length; i++) {
-							System.out.println(linee[i]);
-						}*/
 					prova=linee[1];
-					//System.out.println(linee);
 				}
 
 			}
 			process.waitFor();
 			br.close();
-			//	System.out.println("Waiting ...");
-			//	System.out.println("ReturnedValue:" + process.exitValue());
 
 
 		}
@@ -322,6 +314,7 @@ public class SimulationGeneric {
 		File out_f =new File("launcher_output");
 		
 		System.out.println("folder_output "+out_f.getAbsolutePath());
+		String list_of_files="";
 		
 		// richiedere all'eseguibile di stampare in output file:path_file_creato
 		for(File o : out_f.listFiles(new FileFilter() {
@@ -332,6 +325,7 @@ public class SimulationGeneric {
 			}
 		})){
 			inOutput+="file:"+o.getAbsolutePath()+";";
+			list_of_files+="file:"+o.getName()+";";
 		}
 
 		Path file_output=null;
@@ -342,7 +336,10 @@ public class SimulationGeneric {
 		// output parameters of simulations:  format--> inOutput  (param:var.val;...;)
 		file_output=generateOutput(input, inOutput, SIM_OUTPUT_MAPPER, id, idInputSimulation, SIMULATION_NAME, AUTHOR, DESCRIPTION, SIMULATION_HOME);
 
-		output.collect(new Text(file_output.toString()), new Text(""));
+		
+		//inOutput file:stringanome;
+		output.collect(new Text(file_output.toString()), new Text(list_of_files.toString()));
+		//output.collect(new Text(file_output.toString()), new Text(""));
 		//output.collect(new Text(input), new Text(inOutput));
 
 
