@@ -2,7 +2,7 @@
 <inputs>
 	<simulation author="pippo">
 		<name>magellano</name>
-		<loop>false</loop>
+		<loop>true</loop>
 		<note>test</note>
 		<toolkit>generic</toolkit>
 	</simulation>
@@ -10,8 +10,8 @@
 		<element variableName="val">
 			<string>solve</string>
 		</element>
-		<element variableName="ini">
-			<string>/root/Magellano-Sof/launcher_config/conf.ini</string>
+		<element variableName="file">
+			<string>s100.xml</string>
 		</element>
 	</input>
 </inputs>
