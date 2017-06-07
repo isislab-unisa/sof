@@ -55,14 +55,15 @@ public class SimulationGeneric {
 	 * @param sim_input_path
 	 * @param sim_output_path
 	 * @param sim_home
+	 * @param tmpOutputs 
 	 * @param output
+	 * @param tmpInputs 
 	 * @param configuration
 	 * @throws Exception
 	 */
-	public void run(String program_path,String input,
+	public void run(String program_path,String tmpInputs, String tmpOutputs, String input, 
 			String sim_input_path, String sim_output_path, String sim_home,
-			OutputCollector<Text, Text> output,
-			Configuration configuration) throws Exception{
+			OutputCollector<Text, Text> output, Configuration configuration) throws Exception{
 
 
 		this.conf=configuration;
@@ -76,7 +77,7 @@ public class SimulationGeneric {
 
 		String line = input; //id:1;rounds:1;val:solve;ini:/root/Magellano-Sof/launcher_config/conf.ini;
 
-
+System.out.println(line);
 		String[] aparam = line.split(";");
 		String[] inputSimulation = new String[aparam.length-2];
 		String[] couple=aparam[0].split(":");
@@ -123,10 +124,9 @@ public class SimulationGeneric {
 		if(program_path.endsWith(".jar"))
 			commands.add("-jar");
 
-
-
 		commands.add(program_path);
-		commands.add("solve");
+		commands.add(tmpInputs);
+		commands.add(tmpOutputs);
 		if(!CONF_FILE.isEmpty())
 			commands.add(CONF_FILE);
 
@@ -311,8 +311,8 @@ public class SimulationGeneric {
 
 		//inOutput+="Exit:"+1;
 		//inOutput+=""+1;
-		File out_f =new File("launcher_output");
-		
+		//File out_f =new File("launcher_output");
+		File out_f =new File(tmpOutputs);
 		System.out.println("folder_output "+out_f.getAbsolutePath());
 		String list_of_files="";
 		
@@ -341,9 +341,6 @@ public class SimulationGeneric {
 		output.collect(new Text(file_output.toString()), new Text(list_of_files.toString()));
 		//output.collect(new Text(file_output.toString()), new Text(""));
 		//output.collect(new Text(input), new Text(inOutput));
-
-
-
 
 	}
 

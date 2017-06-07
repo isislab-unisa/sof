@@ -59,10 +59,10 @@ public class SOF {
 		 *  
 		 */
 
-        
-        if(new File("/home/miccar/Desktop/magellano/output").exists() ){
+      /*  
+        if(new File("/Users/flaser/Desktop/ACTOR/Magellano-Sof/hadoop_hdfs/output/").exists() ){
 		try {//Runtime.getRuntime().exec("rm -r /home/miccar/Desktop/mason_test/output");
-		    Runtime.getRuntime().exec("rm -r /home/miccar/Desktop/magellano/output");
+		    Runtime.getRuntime().exec("rm -r /Users/flaser/Desktop/ACTOR/Magellano-Sof/hadoop_hdfs/output/");
         } catch (IOException e) {e.printStackTrace();}
         }
 		
@@ -215,6 +215,7 @@ public class SOF {
 
         
 		conf=new Configuration();
+		conf.set("mapred.task.timeout", "0");
 		job = new JobConf(conf,SOF.class);
 		job.setJobName(SIMULATION_NAME/*SIMULATION NAME*/);
 		job.set("simulation.home", SIMULATION_HOME);

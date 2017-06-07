@@ -44,6 +44,7 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 	String RATING_INTERPRETER="";
 	String RATING_PATH="";
 	String CONF="";
+	String TMP_FOLDER="";
 
 	/*	public void reduce(Text key, Iterator<Text> values,
 			OutputCollector<Text, Text> output, Reporter reporter)
@@ -94,13 +95,16 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 
 
 
-
-		String EVALUATION_PROGRAM_THREAD="evaluation"+Thread.currentThread().getId();
+		File tmpFolder = new File(TMP_FOLDER);
+		if(!tmpFolder.exists()) tmpFolder.mkdirs();
+		
+		//String EVALUATION_PROGRAM_THREAD="evaluation"+Thread.currentThread().getId();
+		String EVALUATION_PROGRAM_THREAD=(new Path(RATING_PROGRAM)).getName();
 		final FileSystem fs=FileSystem.get(conf);
 
 		if(ISLOOP)
 		{
-			Path eprogram=new Path(EVALUATION_PROGRAM_THREAD);
+			Path eprogram=new Path(TMP_FOLDER+File.separator+EVALUATION_PROGRAM_THREAD);
 
 			fs.copyToLocalFile(new Path(RATING_PROGRAM),eprogram);
 			try{
@@ -113,15 +117,15 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 		{   
 			Random r=new Random(System.currentTimeMillis());
 			String id=MD5(key.toString()+r.nextDouble());
-			String tmpEvalXml = "tmpEval"+id+".xml";
+			String tmpEvalXml = TMP_FOLDER+File.separator+"tmpEval"+id+".xml";
 			Path ptemp=new Path(tmpEvalXml);
 			Path file_output=new Path(key.toString());
 
 			fs.copyToLocalFile(file_output, ptemp);
+			
+			fs.copyToLocalFile(new Path(CONF), new Path(TMP_FOLDER));
 
-			fs.copyToLocalFile(new Path(CONF), new Path(System.getProperty("user.dir")));
-
-			File lau_out = new File("launcher_output");
+			File lau_out = new File(TMP_FOLDER+File.separator+"SolveOutputs"+("SolveOutputs").hashCode());
 			if(!lau_out.exists()) lau_out.mkdir();
 
 			if(values.hasNext()){
@@ -146,12 +150,18 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 
 			}
 
+			String conf_file_name = (new Path(CONF).getName());
+			String solution_folder = TMP_FOLDER+File.separator+"finalSolution"+("finalSolution").hashCode();
+			File sol_folder = new File(solution_folder);
+			File con_file = new File(TMP_FOLDER+File.separator+conf_file_name);
+			File eval_exe_file = new File(TMP_FOLDER+File.separator+EVALUATION_PROGRAM_THREAD);
+			sol_folder.mkdirs();
 			String xmlOutput =key.toString().substring(key.toString().lastIndexOf("/")+1);
 			//generateEvaluation(tmpEvalXml,id,EVALUATION_PROGRAM_THREAD);
-			generateEvaluation(tmpEvalXml,xmlOutput,EVALUATION_PROGRAM_THREAD);
+			generateEvaluation(tmpEvalXml,xmlOutput,eval_exe_file.getAbsolutePath(),lau_out.getAbsolutePath(),sol_folder.getAbsolutePath(),con_file.getAbsolutePath());
 
-			File f=new File(System.getProperty("user.dir")+"/"+EVALUATION_PROGRAM_THREAD);
-			//f.delete();
+			File f=new File(TMP_FOLDER+"/"+EVALUATION_PROGRAM_THREAD);
+			f.delete();
 		}
 
 
@@ -167,23 +177,24 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 	 * @return
 	 * @throws IOException
 	 */
-	private boolean generateEvaluation(String toevaluate, String id,String EVALUATION_PROGRAM) throws IOException {
+	private boolean generateEvaluation(String toevaluate, String id,String EVALUATION_PROGRAM,String input_folder,String output_folder, String conf_file) throws IOException {
 
 		FileSystem fs=FileSystem.get(conf);
 		File f=new File(EVALUATION_PROGRAM);
 		f.setExecutable(true);
 		ArrayList<String> commands=new ArrayList<String>();
 		commands.add(RATING_INTERPRETER);
-		commands.add("-jar");
+		if(EVALUATION_PROGRAM.endsWith(".jar"))
+			commands.add("-jar");
+
 		commands.add(EVALUATION_PROGRAM);
-		commands.add("evaluate"); 
-		commands.add("conf.ini");
+		commands.add(input_folder);
+		
 
-		File final_solutions = new File("final_solution");
+		
 
-		if(!final_solutions.exists())
-			final_solutions.mkdir();
-
+		commands.add(output_folder);
+		commands.add(conf_file);
 
 		for (String string : commands) {
 			System.out.println(string);
@@ -259,8 +270,7 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 		//		if(!lau_out.exists()) lau_out.mkdir();
 
 
-
-
+		File final_solutions = new File(output_folder);
 
 		System.out.println("fs "+final_solutions.getAbsolutePath());
 		String files="";
@@ -315,5 +325,6 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 		this.RATING_INTERPRETER=conf.get("simulation.interpreter.rating");
 		this.RATING_PATH=conf.get("simulation.executable.loop.rating");
 		this.CONF=conf.get("simulation.conf");
+		this.TMP_FOLDER=""+Thread.currentThread().getId();
 	}
 }

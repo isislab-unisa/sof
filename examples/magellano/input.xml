@@ -7,9 +7,6 @@
 		<toolkit>generic</toolkit>
 	</simulation>
 	<input id="1" rounds="1">
-		<element variableName="val">
-			<string>solve</string>
-		</element>
 		<element variableName="file">
 			<string>s100.xml</string>
 		</element>
