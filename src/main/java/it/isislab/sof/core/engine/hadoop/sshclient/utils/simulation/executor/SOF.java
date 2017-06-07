@@ -59,12 +59,12 @@ public class SOF {
 		 *  
 		 */
 
-        
+      /*  
         if(new File("/home/miccar/Desktop/magellano/output").exists() ){
 		try {//Runtime.getRuntime().exec("rm -r /home/miccar/Desktop/mason_test/output");
 		    Runtime.getRuntime().exec("rm -r /home/miccar/Desktop/magellano/output");
         } catch (IOException e) {e.printStackTrace();}
-        }
+        }*/
 		
 
 	/*			try {//Runtime.getRuntime().exec("rm -r /home/lizard87/Desktop/mason_test/output");
