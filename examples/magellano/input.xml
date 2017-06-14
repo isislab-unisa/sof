@@ -11,4 +11,9 @@
 			<string>s100.xml</string>
 		</element>
 	</input>
+	<input id="2" rounds="1">
+		<element variableName="file">
+			<string>s101.xml</string>
+		</element>
+	</input>
 </inputs>

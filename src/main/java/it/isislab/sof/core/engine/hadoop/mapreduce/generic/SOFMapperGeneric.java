@@ -43,49 +43,62 @@ public class SOFMapperGeneric extends MapReduceBase implements Mapper<LongWritab
 	private String SIM_PROGRAM="";
 	private String SIM_INPUT_MAPPER="";
 	private String SIM_OUTPUT_MAPPER="";
-	private String CONF="";
-	private String tmpName ="";
 	private String SIM_INPUT_MAPPER_FOLDER="";
+	private String CONF="";
+	/*private String tmpName ="";
+	
 	private String TMP_INPUT_MAPPER="";
-	private String TMP_OUTPUT_MAPPER="";
-	
-	
-	
+	private String TMP_OUTPUT_MAPPER="";*/
+
+
+
 	@Override
 	public void map(LongWritable key, Text value,
 			OutputCollector<Text, Text> output, Reporter reporter) throws IOException {
 		try{
+			
+			String tmpName=Thread.currentThread().getName().hashCode()<0? ""+(Thread.currentThread().getName().hashCode()*-1):""+Thread.currentThread().getName().hashCode();
 			(new File(tmpName)).mkdir();
+			String inpouttemp= System.currentTimeMillis()+tmpName.hashCode()<0 ?""+(System.currentTimeMillis()+tmpName.hashCode()*-1):""+System.currentTimeMillis()+tmpName.hashCode();
+					
+			String TMP_INPUT_MAPPER=tmpName+File.separator+"input"+inpouttemp;
+					
+			String TMP_OUTPUT_MAPPER=tmpName+File.separator+"output"+inpouttemp;
+			
 			final File tmpInputs = new File(TMP_INPUT_MAPPER);
 			File tmpOutputs = new File(TMP_OUTPUT_MAPPER);
-			
-			tmpInputs.mkdirs();
-			tmpOutputs.mkdirs();
-			
-			
+
+			tmpInputs.mkdir();
+			tmpOutputs.mkdir();
+
+
 			final FileSystem fs = FileSystem.get(conf);
 			fs.copyToLocalFile(new Path(SIM_PROGRAM), new Path(tmpName));
 			fs.copyToLocalFile(new Path(CONF), new Path(tmpName));
-			
-			
-			
+
+
+
 			//final String s100=this.SIMULATION_HOME+File.separator+"description"+File.separator+"s100.xml";
 			if(!SIM_INPUT_MAPPER_FOLDER.isEmpty()){
-				
+
 				final ArrayList<String> theInputFile = new ArrayList<>();
 				String[] params = value.toString().split(";");
 				for(String arg: params){
-					
+                    System.out.println(arg);
 					String[] couple = arg.split(":");
 					if(couple[0].equalsIgnoreCase("file")){
 						theInputFile.add(couple[1]);
 					}
-					
+
 				}
+				
+				
+				for(String file : theInputFile)
+					fs.copyToLocalFile(new Path(SIM_INPUT_MAPPER_FOLDER+"/"+file), new Path(tmpInputs.getAbsolutePath()));
 				//System.out.println(s100);
 
 
-				Thread cccc=new Thread(new Runnable() {
+			/*	Thread cccc=new Thread(new Runnable() {
 
 					@Override
 					public void run() {
@@ -103,30 +116,30 @@ public class SOFMapperGeneric extends MapReduceBase implements Mapper<LongWritab
 					}
 				});
 				cccc.start();
-				cccc.join();
+				cccc.join();*/
 			}
-			
+
 			//while(!(new File(tmpName+File.separator+"launcher_input"+File.separator+"s100.xml").exists())){}
-			
-//			BufferedReader br = new BufferedReader(new FileReader(tmpName+File.separator+"launcher_input"+File.separator+"s100.xml"));
-//			String s="";
-//				while((s = br.readLine())!=null){
-//					System.out.println(s);
-//				}
-//			br.close();
-//			for(File f: (new File(tmpName).listFiles()))
-//				System.out.println(f.getAbsolutePath());
-			
+
+			//			BufferedReader br = new BufferedReader(new FileReader(tmpName+File.separator+"launcher_input"+File.separator+"s100.xml"));
+			//			String s="";
+			//				while((s = br.readLine())!=null){
+			//					System.out.println(s);
+			//				}
+			//			br.close();
+			//			for(File f: (new File(tmpName).listFiles()))
+			//				System.out.println(f.getAbsolutePath());
+
 			SimulationGeneric genericsim=new SimulationGeneric();
-			
+
 			String SIM_PROGRAM_NAME = SIM_PROGRAM.substring(SIM_PROGRAM.lastIndexOf("/")+1, SIM_PROGRAM.length());
 			String CONFNAME=CONF.substring(CONF.lastIndexOf("/")+1, CONF.length());
 			conf.set("simulation.mapper.conf.path", tmpName+File.separator+CONFNAME);
 			genericsim.run(tmpName+File.separator+SIM_PROGRAM_NAME,tmpInputs.getAbsolutePath(),tmpOutputs.getAbsolutePath(),value.toString(),SIM_INPUT_MAPPER,SIM_OUTPUT_MAPPER,SIMULATION_HOME, output,conf);
-		
+
 			//da rimettere
-			System.out.println("exec "+tmpName);
-			FileUtils.deleteDirectory(new File(tmpName));
+			//System.out.println("exec "+tmpName);
+			//FileUtils.deleteDirectory(new File(tmpName));
 			//(new File(tmpName)).delete();
 
 		} catch (Throwable e) {
@@ -148,9 +161,10 @@ public class SOFMapperGeneric extends MapReduceBase implements Mapper<LongWritab
 		this.SIM_OUTPUT_MAPPER=conf.get("simulation.executable.output");
 		this.CONF=conf.get("simulation.conf");
 		this.SIM_INPUT_MAPPER_FOLDER = conf.get("simulation.input");
-		this.tmpName = ""+Thread.currentThread().getId();
-		this.TMP_INPUT_MAPPER=tmpName+File.separator+"input"+("input").hashCode();
-        this.TMP_OUTPUT_MAPPER=tmpName+File.separator+"output"+("output").hashCode();
+		
+		/*this.tmpName = ""+Thread.currentThread().getId();
+		this.TMP_INPUT_MAPPER=tmpName+File.separator+"input"+("input");
+		this.TMP_OUTPUT_MAPPER=tmpName+File.separator+"output"+("output");*/
 	}
 
 }
