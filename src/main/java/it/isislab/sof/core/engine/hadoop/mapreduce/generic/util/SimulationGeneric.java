@@ -132,6 +132,14 @@ System.out.println(line);
 
 		System.out.println("execute "+commands);	
 
+		String stringone="";
+		
+		for (String string : commands) {
+			stringone+=string+" ";
+		}
+		
+		stringone=stringone.substring(0, stringone.length()-1);
+		
 		/*ProcessBuilder pb1=new ProcessBuilder(commands);
 		pb1.redirectErrorStream(true);
 		final Process process1 = pb1.start();
@@ -190,7 +198,31 @@ System.out.println(line);
 		
 
 		for(int r =0; r<rounds; r++){
+			
+			
+			Process cat = Runtime.getRuntime().exec(stringone);
+			InputStream stderr = cat.getInputStream();
+			InputStreamReader isr = new InputStreamReader(stderr);
+			
+			
+			BufferedReader br = new BufferedReader(isr);
+			tmp = null;
+			// 
+			while ((tmp = br.readLine()) != null) {
+				if(tmp.trim().toLowerCase().contains(new String("EXITING").toLowerCase()) ){
+					System.out.println(tmp);
+					String [] linee =tmp.split(" ");
+					prova=linee[1];
+				}
 
+			}
+			cat.waitFor();
+			br.close();
+
+			
+			
+			
+/*
 			ProcessBuilder pb=new ProcessBuilder(commands);
 			pb.redirectErrorStream(true);
 			final Process process = pb.start();
@@ -209,7 +241,7 @@ System.out.println(line);
 			}
 			process.waitFor();
 			br.close();
-
+*/
 
 		}
 
@@ -338,8 +370,10 @@ System.out.println(line);
 
 		
 		//inOutput file:stringanome;
-		output.collect(new Text(file_output.toString()), new Text(list_of_files.toString()));
-		//output.collect(new Text(file_output.toString()), new Text(""));
+		//output.collect(new Text(file_output.toString()), new Text(list_of_files.toString()));
+	//	output.collect(new Text(file_output.toString()), new Text(""));
+		
+		output.collect(new Text(SIM_OUTPUT_MAPPER), new Text(list_of_files.toString()));
 		//output.collect(new Text(input), new Text(inOutput));
 
 	}

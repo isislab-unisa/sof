@@ -97,14 +97,14 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 
 		File tmpFolder = new File(TMP_FOLDER);
 		if(!tmpFolder.exists()) tmpFolder.mkdirs();
-		
+
 		//String EVALUATION_PROGRAM_THREAD="evaluation"+Thread.currentThread().getId();
-		String EVALUATION_PROGRAM_THREAD=(new Path(RATING_PROGRAM)).getName();
+		String EVALUATION_PROGRAM=(new Path(RATING_PROGRAM)).getName();
 		final FileSystem fs=FileSystem.get(conf);
 
 		if(ISLOOP)
 		{
-			Path eprogram=new Path(TMP_FOLDER+File.separator+EVALUATION_PROGRAM_THREAD);
+			Path eprogram=new Path(TMP_FOLDER+File.separator+EVALUATION_PROGRAM);
 
 			fs.copyToLocalFile(new Path(RATING_PROGRAM),eprogram);
 			try{
@@ -117,19 +117,48 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 		{   
 			Random r=new Random(System.currentTimeMillis());
 			String id=MD5(key.toString()+r.nextDouble());
-			String tmpEvalXml = TMP_FOLDER+File.separator+"tmpEval"+id+".xml";
+			String tmpEvalXml = TMP_FOLDER+File.separator+"tmpEval"+id;
 			Path ptemp=new Path(tmpEvalXml);
-			Path file_output=new Path(key.toString());
 
-			fs.copyToLocalFile(file_output, ptemp);
-			
-			fs.copyToLocalFile(new Path(CONF), new Path(TMP_FOLDER));
+			Path file_output=new Path(key.toString());
+			System.out.println("copying "+file_output+" to "+ptemp);
+			fs.copyToLocalFile(file_output, ptemp);//output folder
+			fs.copyToLocalFile(new Path(CONF), new Path(TMP_FOLDER));//conf.ini
+
 
 			File lau_out = new File(TMP_FOLDER+File.separator+"SolveOutputs"+("SolveOutputs").hashCode());
-			if(!lau_out.exists()) lau_out.mkdir();
+			if(!lau_out.exists()) 
+				lau_out.mkdir();
 
-			if(values.hasNext()){
+			
+			while(values.hasNext()){
+				
 				String filesOutput = values.next().toString();
+				System.out.println(filesOutput.toString());
+
+				String[] fileCouple = null;
+				for(String f : filesOutput.split(";")){
+
+					fileCouple = f.split(":");
+					if(fileCouple[0].equalsIgnoreCase("file")){
+
+						String fileName=fileCouple[1];
+						System.out.println(fileName);
+
+						System.out.println("copying "+SIM_OUTPUT_MAPPER+"/"+fileName+" to "+" "+lau_out.getAbsolutePath() );
+
+
+						fs.copyToLocalFile(new Path(SIM_OUTPUT_MAPPER+"/"+fileName), new Path( lau_out.getAbsolutePath()));
+
+					}
+				}
+				
+			}
+			
+			/*if(values.hasNext()){
+
+				String filesOutput = values.next().toString();
+				System.out.println(filesOutput.toString());
 
 				String[] fileCouple = null;
 				for(String f : filesOutput.split(";")){
@@ -150,18 +179,21 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 
 			}
 
+			*/
+			
+			
 			String conf_file_name = (new Path(CONF).getName());
 			String solution_folder = TMP_FOLDER+File.separator+"finalSolution"+("finalSolution").hashCode();
 			File sol_folder = new File(solution_folder);
 			File con_file = new File(TMP_FOLDER+File.separator+conf_file_name);
-			File eval_exe_file = new File(TMP_FOLDER+File.separator+EVALUATION_PROGRAM_THREAD);
+			File eval_exe_file = new File(TMP_FOLDER+File.separator+EVALUATION_PROGRAM);
 			sol_folder.mkdirs();
 			String xmlOutput =key.toString().substring(key.toString().lastIndexOf("/")+1);
 			//generateEvaluation(tmpEvalXml,id,EVALUATION_PROGRAM_THREAD);
 			generateEvaluation(tmpEvalXml,xmlOutput,eval_exe_file.getAbsolutePath(),lau_out.getAbsolutePath(),sol_folder.getAbsolutePath(),con_file.getAbsolutePath());
 
-			File f=new File(TMP_FOLDER+"/"+EVALUATION_PROGRAM_THREAD);
-			f.delete();
+			//File f=new File(TMP_FOLDER+"/"+EVALUATION_PROGRAM);
+			//f.delete();
 		}
 
 
@@ -189,18 +221,58 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 
 		commands.add(EVALUATION_PROGRAM);
 		commands.add(input_folder);
-		
 
-		
+
+
 
 		commands.add(output_folder);
 		commands.add(conf_file);
 
-		for (String string : commands) {
+		/*for (String string : commands) {
 			System.out.println(string);
+		}*/
+		String stringone="";
+		for (String string : commands) {
+			stringone+=string+" ";
 		}
 
+		stringone=stringone.substring(0, stringone.length()-1);
 
+
+
+		Process cat = Runtime.getRuntime().exec(stringone);
+		InputStream stderr = cat.getInputStream();
+		InputStreamReader isr = new InputStreamReader(stderr);
+		String tmp = null;
+		String prova=null;
+
+		BufferedReader br = new BufferedReader(isr);
+		tmp = null;
+		// 
+		while ((tmp = br.readLine()) != null) {
+
+			if(tmp.trim().toLowerCase().contains(new String("Evaluating fitness").toLowerCase()) ){
+
+				System.out.println(tmp);
+
+				String [] linee =tmp.split(" ");
+
+				prova=linee[linee.length-1];
+			}
+
+		}
+		try {
+			cat.waitFor();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		br.close();
+
+
+
+
+		/*
 		ProcessBuilder pb=new ProcessBuilder(commands);
 		pb.redirectErrorStream(true);
 		final Process process = pb.start();
@@ -232,7 +304,7 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 			e.printStackTrace();
 		}
 		br.close();
-
+		 */
 
 
 
@@ -282,6 +354,7 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 				return pathname.getName().endsWith(".xml");
 			}
 		})){
+			System.out.println("The best sol is "+fsols.getName());
 			System.out.println("copying "+fsols.getAbsolutePath()+" to "+this.RATING_PATH );
 			fs.copyFromLocalFile(new Path(fsols.getAbsolutePath()), new Path(this.RATING_PATH));
 			files+="file:"+fsols.getName()+";";
