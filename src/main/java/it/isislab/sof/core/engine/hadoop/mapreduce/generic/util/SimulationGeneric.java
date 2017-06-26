@@ -42,6 +42,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.OutputCollector;
+import org.apache.hadoop.mapred.Reporter;
 
 public class SimulationGeneric {
 
@@ -370,10 +371,11 @@ System.out.println(line);
 
 		
 		//inOutput file:stringanome;
-		//output.collect(new Text(file_output.toString()), new Text(list_of_files.toString()));
+		output.collect(new Text(file_output.toString()), new Text(list_of_files.toString()));
+		
 	//	output.collect(new Text(file_output.toString()), new Text(""));
 		
-		output.collect(new Text(SIM_OUTPUT_MAPPER), new Text(list_of_files.toString()));
+		//output.collect(new Text(SIM_OUTPUT_MAPPER), new Text(list_of_files.toString()));
 		//output.collect(new Text(input), new Text(inOutput));
 
 	}

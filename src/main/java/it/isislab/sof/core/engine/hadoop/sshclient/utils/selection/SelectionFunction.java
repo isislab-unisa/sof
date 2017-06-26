@@ -15,14 +15,32 @@
 package it.isislab.sof.core.engine.hadoop.sshclient.utils.selection;
 
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
+import org.apache.commons.io.input.ReaderInputStream;
 
 import com.jcraft.jsch.JSchException;
 
 import it.isislab.sof.core.engine.hadoop.sshclient.connection.FileSystemSupport;
+import it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.executor.SOFRUNNER;
 import it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.executor.SofRunnerUtils;
+import it.isislab.sof.core.model.parameters.xsd.elements.Parameter;
+import it.isislab.sof.core.model.parameters.xsd.elements.ParameterLong;
+import it.isislab.sof.core.model.parameters.xsd.elements.ParameterString;
+import it.isislab.sof.core.model.parameters.xsd.input.Input;
+import it.isislab.sof.core.model.parameters.xsd.input.Inputs;
 
 /**
  * Class for selection function    
@@ -126,12 +144,16 @@ public class SelectionFunction {
 		String cmd =execBinPath+" "+selection_function_fileName+
 				" "+xml_domain_fileName+
 				" "+xml_input_fileName+
-				" "+rating_folder_name;
+				" "+rating_folder_name+
+				" "+tmpFolderName; //if the FS was created some files
 		
 		SOFRUNNER.log.info("Launch selection function. \n"+cmd);
-		
+		//if the FS made external input file(s), they have to be created in tmpFolderName and the absolute path has to be given in output
+		//as multiple line of couple "file:path/to/external/input/file"
+		//
 		if(SofRunnerUtils.execGenericCommand(cmd.split(" "),tmpRedirectInputXmlFile)){
 			if(f.length()>0){
+				verifyExternalInputFiles(fs, tmpFolderName,tmpRedirectInputXmlFile, currentExecutionInputLoopPath);
 				if(SofRunnerUtils.copyFileInHdfs(fs, tmpRedirectInputXmlFile, currentExecutionInputLoopPath)){
 					/*if(SofRunnerUtils.copyFileInHdfs(fs, "launcher_input/s100.xml", currentExecutionInputLoopPath)){
 						SOFRUNNER.log.info("Generated successfully a new input");
@@ -150,6 +172,84 @@ public class SelectionFunction {
 		SofRunnerUtils.rmr(tmpSelection_Input_folder);
 		SofRunnerUtils.rmr(tmpFold);
 		return result;
+	}
+
+/**
+ * If the tmpRedirectInputXmlFile is a correct Inputs xml object then nothing to do,
+ * otherwise we need to convert the external input file in a correct Input object
+ * @param tmpRedirectInputXmlFile
+ */
+	private void verifyExternalInputFiles(FileSystemSupport fs, String tmpFolderName, String tmpRedirectInputXmlFile, String hdfs_to) {
+		File tmpInput = new File(tmpRedirectInputXmlFile);
+		JAXBContext context;
+		Inputs i = new Inputs();
+		ArrayList<String> externalFiles = null;
+		try {
+			 context = JAXBContext.newInstance(Inputs.class);
+
+			Unmarshaller unmarshal = context.createUnmarshaller();
+			i = (Inputs) unmarshal.unmarshal(tmpInput);
+		} catch (JAXBException e) {
+			// So tmpInput is not a valid Input object. We need to parse it!
+			try {
+				BufferedReader br = new BufferedReader(new FileReader(tmpInput));
+				String line="";
+				String[] args=null;
+				Inputs is = new Inputs();
+				Input inp =null;
+				ArrayList<Input> input_list = new ArrayList<>();
+				ParameterString ext_file_name=null;
+				Parameter ext_file =null;
+				externalFiles = new ArrayList<>();
+				while((line=br.readLine())!=null){
+					args = line.split(";");
+					inp = new Input();
+					inp.id = Integer.parseInt(args[0].split(":")[1]);
+					inp.rounds = Integer.parseInt(args[1].split(":")[1]);
+					ext_file_name = new ParameterString();
+					ext_file_name.setvalue(args[2].split(":")[1]);
+					ext_file = new Parameter();
+					ext_file.setparam(ext_file_name);
+					externalFiles.add(ext_file_name.getvalue());
+					inp.param_element = new ArrayList<Parameter>();
+					inp.param_element.add(ext_file);
+					input_list.add(inp);
+				}
+				Simulation s=new Simulation();
+		        s.setId("fakeID-ForGeneralExecution");
+		        s.setName("thisIsTheSimulationName");
+		        s.setAuthor("thisIsTheAuthorOfSimulation");
+		        s.setDescription("thisIsTheDescription");
+		        s.setToolkit("generic");
+		        s.setState(s.CREATED);
+		        s.setCreationTime();
+		        is.setinput_list(input_list);
+		        is.setsimulation(s);
+		        context = JAXBContext.newInstance(it.isislab.sof.core.model.parameters.xsd.input.Inputs.class);
+		        Marshaller jaxbMarshaller = context.createMarshaller();
+		        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+		        jaxbMarshaller.marshal(is, tmpInput);
+			} catch (FileNotFoundException e1) {
+				SOFRUNNER.log.severe("Somethig was wrong with the Function Selection.");
+				SOFRUNNER.log.severe("The file "+tmpRedirectInputXmlFile+" does not exist.");
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				SOFRUNNER.log.severe("Somethig was wrong with the Function Selection.");
+				SOFRUNNER.log.severe("Unable to read "+tmpRedirectInputXmlFile);
+				e1.printStackTrace();
+			} catch (JAXBException e1) {
+				SOFRUNNER.log.severe("Somethig was wrong with the Function Selection.");
+				SOFRUNNER.log.severe("Unable to create "+tmpRedirectInputXmlFile+" xml");
+				e1.printStackTrace();
+			}
+			
+			if(externalFiles != null || !externalFiles.isEmpty()){
+				for(String extFile : externalFiles){
+					SofRunnerUtils.copyFileInHdfs(fs, tmpFolderName+File.separator+extFile, hdfs_to);
+				}
+			}
+		}
 	}
 	
 }
