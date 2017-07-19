@@ -16,9 +16,7 @@ package it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.executor;
 
 
 
-import java.io.File;
 import java.io.IOException;
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapred.FileInputFormat;
@@ -27,7 +25,6 @@ import org.apache.hadoop.mapred.JobClient;
 import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapred.JobStatus;
 import org.apache.hadoop.mapred.RunningJob;
-
 import it.isislab.sof.core.engine.hadoop.mapreduce.generic.SOFMapperGeneric;
 import it.isislab.sof.core.engine.hadoop.mapreduce.generic.SOFReducerGeneric;
 import it.isislab.sof.core.engine.hadoop.mapreduce.mason.SOFMapperMason;
@@ -136,12 +133,8 @@ public class SOF {
 			SIM_RATING_PATH=args[8];
 			ISLOOP=Boolean.parseBoolean(args[9]);
 			AUTHOR=args[10];
-			//DESCRIPTION=args[11];
 			INTERPRETER_REMOTE_PATH_EVALUATION=args[11];
 			EXECUTABLE_RATING_FILE=args[12];
-		//	System.out.println(DESCRIPTION);
-			//System.out.println(INTERPRETER_REMOTE_PATH_EVALUATION);
-
 			
 		}
 
@@ -156,7 +149,6 @@ public class SOF {
 			SIM_DESCRIPTION_OUTPUT_XML_DOMAIN= args[6];
 			ISLOOP=Boolean.parseBoolean(args[7]);
 			AUTHOR=args[8];
-			//DESCRIPTION=args[9];
 		}
 
 
@@ -174,10 +166,10 @@ public class SOF {
 			SIM_RATING_PATH=args[9];
 			ISLOOP=Boolean.parseBoolean(args[10]);
 			AUTHOR=args[11];
-		//	DESCRIPTION=args[12];
 			INTERPRETER_REMOTE_PATH_EVALUATION=args[12];
 			EXECUTABLE_RATING_FILE=args[13];
 			SIM_DESCRIPTION_CONFIG_FILE = args[14];
+			
 			
 			
 			
@@ -190,26 +182,18 @@ public class SOF {
 			SIM_EXECUTABLE_SIMULATION_INTERPRETER_PATH=args[3];
 			SIM_EXECUTABLE_SIMULATION_PROGRAM=args[4];
 			SIM_EXECUTION_INPUT_DATA_MAPPER=args[5];
-			
-			
-			
 			SIM_EXECUTION_OUTPUT_MAPPER=args[6];
 			SIM_DESCRIPTION_OUTPUT_XML_DOMAIN= args[7];
 			ISLOOP=Boolean.parseBoolean(args[8]);
 			AUTHOR=args[9];
 			SIM_DESCRIPTION_CONFIG_FILE = args[10];
-		//	DESCRIPTION=args[10];
 		}
 		
 		
 		
-		if(
-				!(SIM_TYPE.equalsIgnoreCase("mason")
-						||
-						SIM_TYPE.equalsIgnoreCase("netlogo")
-						||
-						SIM_TYPE.equalsIgnoreCase("generic")))
+		if(	!(SIM_TYPE.equalsIgnoreCase("mason") || SIM_TYPE.equalsIgnoreCase("netlogo") ||	SIM_TYPE.equalsIgnoreCase("generic")))
 		{
+			System.err.println("no sym_type");
 			System.exit(-2);
 		}
 
@@ -227,8 +211,7 @@ public class SOF {
 		
 		if(SIM_TYPE.equalsIgnoreCase("generic")){
 		   job.set("simulation.interpreter.genericsim", SIM_EXECUTABLE_SIMULATION_INTERPRETER_PATH);	
-		 //  job.set("simulation.conf", "/home/miccar/Desktop/Magellano-Sof/launcher_config/conf.ini");
-		  String xm=SIM_EXECUTION_INPUT_DATA_MAPPER.substring(0, SIM_EXECUTION_INPUT_DATA_MAPPER.lastIndexOf("/"));
+		   String xm=SIM_EXECUTION_INPUT_DATA_MAPPER.substring(0, SIM_EXECUTION_INPUT_DATA_MAPPER.lastIndexOf("/"));
 		   job.set("simulation.input", xm);
 		   
 		   if(SIM_DESCRIPTION_CONFIG_FILE!=null)
@@ -243,9 +226,7 @@ public class SOF {
 		job.set("simulation.executable.input", SIM_EXECUTION_INPUT_DATA_MAPPER);
 		job.set("simulation.executable.output", SIM_EXECUTION_OUTPUT_MAPPER);
 		job.setBoolean("simulation.executable.mode", ISLOOP);
-		//job.set("simulation.executable.mode", ISLOOP);
 		job.set("simulation.executable.author", AUTHOR);
-		//job.set("simulation.executable.description", DESCRIPTION);
 		job.set("simulation.description.output.domain",SIM_DESCRIPTION_OUTPUT_XML_DOMAIN);
 		
 
@@ -263,7 +244,6 @@ public class SOF {
 		if(ISLOOP){
 			job.set("simulation.description.input", SIM_EXECUTION_INPUT_XML);
 			job.set("simulation.program.rating", EXECUTABLE_RATING_FILE);
-			//job.set("simulation.interpreter.selection", INTERPRETER_REMOTE_PATH_SELECTION);
 			job.set("simulation.interpreter.rating", INTERPRETER_REMOTE_PATH_EVALUATION);
 			job.set("simulation.executable.loop.rating", SIM_RATING_PATH);
 		}

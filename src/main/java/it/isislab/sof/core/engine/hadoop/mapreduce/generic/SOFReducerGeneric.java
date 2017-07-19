@@ -94,7 +94,6 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 					throws IOException {
 
 
-
 		File tmpFolder = new File(TMP_FOLDER);
 		if(!tmpFolder.exists()) tmpFolder.mkdirs();
 
@@ -109,7 +108,9 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 			fs.copyToLocalFile(new Path(RATING_PROGRAM),eprogram);
 			try{
 				fs.mkdirs(new Path(this.RATING_PATH));
-			}catch(Exception e){}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 
 		}
 
@@ -145,10 +146,10 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 						String fileName=fileCouple[1];
 						System.out.println(fileName);
 
-						System.out.println("copying "+SIM_OUTPUT_MAPPER+"/"+fileName+" to "+" "+lau_out.getAbsolutePath() );
+						System.out.println("copying "+SIM_OUTPUT_MAPPER+fileName+" to "+" "+lau_out.getAbsolutePath() );
 
 
-						fs.copyToLocalFile(new Path(SIM_OUTPUT_MAPPER+"/"+fileName), new Path( lau_out.getAbsolutePath()));
+						fs.copyToLocalFile(new Path(SIM_OUTPUT_MAPPER+fileName), new Path( lau_out.getAbsolutePath()));
 
 					}
 				}

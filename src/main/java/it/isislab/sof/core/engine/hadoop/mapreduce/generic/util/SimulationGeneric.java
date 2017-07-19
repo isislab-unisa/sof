@@ -20,7 +20,6 @@ import it.isislab.sof.core.model.parameters.xsd.elements.ParameterDouble;
 import it.isislab.sof.core.model.parameters.xsd.elements.ParameterLong;
 import it.isislab.sof.core.model.parameters.xsd.elements.ParameterString;
 import it.isislab.sof.core.model.parameters.xsd.output.Output;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
@@ -42,7 +41,6 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.OutputCollector;
-import org.apache.hadoop.mapred.Reporter;
 
 public class SimulationGeneric {
 
@@ -78,14 +76,13 @@ public class SimulationGeneric {
 
 		String line = input; //id:1;rounds:1;val:solve;ini:/root/Magellano-Sof/launcher_config/conf.ini;
 
-System.out.println(line);
+		System.out.println(line);
 		String[] aparam = line.split(";");
 		String[] inputSimulation = new String[aparam.length-2];
 		String[] couple=aparam[0].split(":");
 		int idInputSimulation=Integer.parseInt(couple[1]);
 		couple=aparam[1].split(":");
 		int rounds = Integer.parseInt(couple[1]);
-
 
 
 		for(int i=0; i<inputSimulation.length;i++){
@@ -108,7 +105,6 @@ System.out.println(line);
 			String[] couple2 = aparam1[i].split(":");
 			outputSimulation.add(couple2[0]);
 		}
-
 
 		File f = new File(program_path);
 		f.setExecutable(true);
@@ -134,13 +130,13 @@ System.out.println(line);
 		System.out.println("execute "+commands);	
 
 		String stringone="";
-		
+
 		for (String string : commands) {
 			stringone+=string+" ";
 		}
-		
+
 		stringone=stringone.substring(0, stringone.length()-1);
-		
+
 		/*ProcessBuilder pb1=new ProcessBuilder(commands);
 		pb1.redirectErrorStream(true);
 		final Process process1 = pb1.start();
@@ -184,7 +180,7 @@ System.out.println(line);
 
 
 
-        /*per piu input*/
+		/*per piu input*/
 		HashMap<String, ArrayList<String>> output_collection = new HashMap<String, ArrayList<String>>();
 		HashMap<String,String> ovs = new HashMap<String,String>();
 		String[] outValues = null; 
@@ -194,36 +190,35 @@ System.out.println(line);
 
 		String prova="";
 
-		
-		
-		
+
+
+
 
 		for(int r =0; r<rounds; r++){
-			
-			
+
+
 			Process cat = Runtime.getRuntime().exec(stringone);
 			InputStream stderr = cat.getInputStream();
 			InputStreamReader isr = new InputStreamReader(stderr);
-			
-			
+
+
 			BufferedReader br = new BufferedReader(isr);
 			tmp = null;
-			// 
 			while ((tmp = br.readLine()) != null) {
 				if(tmp.trim().toLowerCase().contains(new String("EXITING").toLowerCase()) ){
 					System.out.println(tmp);
-					String [] linee =tmp.split(" ");
-					prova=linee[1];
+					//String [] linee =tmp.split(" ");
+					//prova=linee[1];
 				}
 
 			}
 			cat.waitFor();
 			br.close();
 
-			
-			
-			
-/*
+
+
+
+			/*
 			ProcessBuilder pb=new ProcessBuilder(commands);
 			pb.redirectErrorStream(true);
 			final Process process = pb.start();
@@ -242,16 +237,16 @@ System.out.println(line);
 			}
 			process.waitFor();
 			br.close();
-*/
+			 */
 
 		}
 
-		
+
 
 
 		/// execute evaluate process 
 		/*	
-		*commands=new ArrayList<>();
+		 *commands=new ArrayList<>();
 		commands.add("java");
 		commands.add("-jar");
 		commands.add(program_path);
@@ -282,9 +277,9 @@ System.out.println(line);
 			}
 			process.waitFor();
 			br.close();
-			
 
-*/
+
+		 */
 
 
 
@@ -348,7 +343,7 @@ System.out.println(line);
 		File out_f =new File(tmpOutputs);
 		System.out.println("folder_output "+out_f.getAbsolutePath());
 		String list_of_files="";
-		
+
 		// richiedere all'eseguibile di stampare in output file:path_file_creato
 		for(File o : out_f.listFiles(new FileFilter() {
 
@@ -369,13 +364,13 @@ System.out.println(line);
 		// output parameters of simulations:  format--> inOutput  (param:var.val;...;)
 		file_output=generateOutput(input, inOutput, SIM_OUTPUT_MAPPER, id, idInputSimulation, SIMULATION_NAME, AUTHOR, DESCRIPTION, SIMULATION_HOME);
 
-		
+
 		//inOutput file:stringanome;
-		output.collect(new Text(file_output.toString()), new Text(list_of_files.toString()));
-		
-	//	output.collect(new Text(file_output.toString()), new Text(""));
-		
-		//output.collect(new Text(SIM_OUTPUT_MAPPER), new Text(list_of_files.toString()));
+		//output.collect(new Text(file_output.toString()), new Text(list_of_files.toString()));
+
+		//	output.collect(new Text(file_output.toString()), new Text(""));
+
+		output.collect(new Text(SIM_OUTPUT_MAPPER), new Text(list_of_files.toString()));
 		//output.collect(new Text(input), new Text(inOutput));
 
 	}
@@ -543,12 +538,12 @@ System.out.println(line);
 		return null;
 	}*/
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 
-		/*String command="/usr/bin/java -jar ";
+		String command="/usr/bin/java -jar ";
 		command+="/home/miccar/Desktop/Magellano-Sof/MagellanoLauncher-1.0.0-jar-with-dependencies.jar ";
 		command+="solve ";
-		command+="/home/miccar/Desktop/Magellano-Sof/launcher_config/conf.ini";*/
+		command+="/home/miccar/Desktop/Magellano-Sof/launcher_config/conf.ini";
 
 		//System.out.println(command);
 		try {
@@ -597,7 +592,7 @@ System.out.println(line);
 
 
 
-		/*	BufferedReader stdInput;
+			BufferedReader stdInput;
 		String command="/usr/bin/java -jar ";
 		command+="/home/miccar/Desktop/Magellano-Sof/MagellanoLauncher-1.0.0-jar-with-dependencies.jar ";
 		command+="solve ";
@@ -627,9 +622,9 @@ System.out.println(line);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		 */
+		 
 
 
-	}
+	}*/
 
 }

@@ -22,8 +22,6 @@ import it.isislab.sof.core.engine.hadoop.mapreduce.generic.util.SimulationGeneri
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -45,10 +43,7 @@ public class SOFMapperGeneric extends MapReduceBase implements Mapper<LongWritab
 	private String SIM_OUTPUT_MAPPER="";
 	private String SIM_INPUT_MAPPER_FOLDER="";
 	private String CONF="";
-	/*private String tmpName ="";
-	
-	private String TMP_INPUT_MAPPER="";
-	private String TMP_OUTPUT_MAPPER="";*/
+
 
 
 
@@ -56,15 +51,15 @@ public class SOFMapperGeneric extends MapReduceBase implements Mapper<LongWritab
 	public void map(LongWritable key, Text value,
 			OutputCollector<Text, Text> output, Reporter reporter) throws IOException {
 		try{
-			
+
 			String tmpName=Thread.currentThread().getName().hashCode()<0? ""+(Thread.currentThread().getName().hashCode()*-1):""+Thread.currentThread().getName().hashCode();
 			(new File(tmpName)).mkdir();
 			String inpouttemp= System.currentTimeMillis()+tmpName.hashCode()<0 ?""+(System.currentTimeMillis()+tmpName.hashCode()*-1):""+System.currentTimeMillis()+tmpName.hashCode();
-					
+
 			String TMP_INPUT_MAPPER=tmpName+File.separator+"input"+inpouttemp;
-					
+
 			String TMP_OUTPUT_MAPPER=tmpName+File.separator+"output"+inpouttemp;
-			
+
 			final File tmpInputs = new File(TMP_INPUT_MAPPER);
 			File tmpOutputs = new File(TMP_OUTPUT_MAPPER);
 
@@ -78,57 +73,24 @@ public class SOFMapperGeneric extends MapReduceBase implements Mapper<LongWritab
 
 
 
-			//final String s100=this.SIMULATION_HOME+File.separator+"description"+File.separator+"s100.xml";
 			if(!SIM_INPUT_MAPPER_FOLDER.isEmpty()){
 
 				final ArrayList<String> theInputFile = new ArrayList<>();
 				String[] params = value.toString().split(";");
 				for(String arg: params){
-                    System.out.println(arg);
+					System.out.println(arg);
 					String[] couple = arg.split(":");
 					if(couple[0].equalsIgnoreCase("file")){
 						theInputFile.add(couple[1]);
 					}
 
 				}
-				
-				
+
+
 				for(String file : theInputFile)
 					fs.copyToLocalFile(new Path(SIM_INPUT_MAPPER_FOLDER+"/"+file), new Path(tmpInputs.getAbsolutePath()));
-				//System.out.println(s100);
 
-
-			/*	Thread cccc=new Thread(new Runnable() {
-
-					@Override
-					public void run() {
-						try {
-							for(String file : theInputFile)
-								fs.copyToLocalFile(new Path(SIM_INPUT_MAPPER_FOLDER+"/"+file), new Path(tmpInputs.getAbsolutePath()));
-						} catch (IllegalArgumentException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-
-					}
-				});
-				cccc.start();
-				cccc.join();*/
 			}
-
-			//while(!(new File(tmpName+File.separator+"launcher_input"+File.separator+"s100.xml").exists())){}
-
-			//			BufferedReader br = new BufferedReader(new FileReader(tmpName+File.separator+"launcher_input"+File.separator+"s100.xml"));
-			//			String s="";
-			//				while((s = br.readLine())!=null){
-			//					System.out.println(s);
-			//				}
-			//			br.close();
-			//			for(File f: (new File(tmpName).listFiles()))
-			//				System.out.println(f.getAbsolutePath());
 
 			SimulationGeneric genericsim=new SimulationGeneric();
 
@@ -137,8 +99,7 @@ public class SOFMapperGeneric extends MapReduceBase implements Mapper<LongWritab
 			conf.set("simulation.mapper.conf.path", tmpName+File.separator+CONFNAME);
 			genericsim.run(tmpName+File.separator+SIM_PROGRAM_NAME,tmpInputs.getAbsolutePath(),tmpOutputs.getAbsolutePath(),value.toString(),SIM_INPUT_MAPPER,SIM_OUTPUT_MAPPER,SIMULATION_HOME, output,conf);
 
-			//da rimettere
-			//System.out.println("exec "+tmpName);
+			//
 			//FileUtils.deleteDirectory(new File(tmpName));
 			//(new File(tmpName)).delete();
 
@@ -152,7 +113,6 @@ public class SOFMapperGeneric extends MapReduceBase implements Mapper<LongWritab
 
 	@Override
 	public void configure(JobConf job) {
-		// TODO Auto-generated method stub
 		super.configure(job);
 		conf=job;
 		this.SIMULATION_HOME=conf.get("simulation.home");
@@ -161,10 +121,8 @@ public class SOFMapperGeneric extends MapReduceBase implements Mapper<LongWritab
 		this.SIM_OUTPUT_MAPPER=conf.get("simulation.executable.output");
 		this.CONF=conf.get("simulation.conf");
 		this.SIM_INPUT_MAPPER_FOLDER = conf.get("simulation.input");
-		
-		/*this.tmpName = ""+Thread.currentThread().getId();
-		this.TMP_INPUT_MAPPER=tmpName+File.separator+"input"+("input");
-		this.TMP_OUTPUT_MAPPER=tmpName+File.separator+"output"+("output");*/
+
+
 	}
 
 }

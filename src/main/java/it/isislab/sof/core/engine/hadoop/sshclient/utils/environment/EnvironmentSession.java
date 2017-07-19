@@ -50,6 +50,10 @@ public class EnvironmentSession{
 
 	private String HADOOP_HOME_PATH="";
 
+	private static final String SSH_KEY_PATH="/home/miccar/Desktop/sof_cluster.pem"; //aws or azure
+
+	
+	
 	/**
 	 * Constructor that make the session by username, host and password parameters.
 	 * Using JSch library via getSession method it's possible to make a new session.
@@ -65,6 +69,7 @@ public class EnvironmentSession{
 			this.host = host;
 			this.port = DEFAULT_SSH_PORT;
 			this.HADOOP_HOME_PATH = hadoop_home_path;
+			//jsch.addIdentity(SSH_KEY_PATH);
 			session = jsch.getSession(username, host, DEFAULT_SSH_PORT);
 			session.setPassword(password);
 			session.setPort(PORT);
@@ -90,6 +95,7 @@ public class EnvironmentSession{
 			this.host = host;
 			this.port = port;
 			this.HADOOP_HOME_PATH = hadoop_home_path;
+			//jsch.addIdentity(SSH_KEY_PATH);
 			session = jsch.getSession(username, host, port);
 			session.setPassword(password);
 			session.setPort(PORT);
@@ -97,7 +103,6 @@ public class EnvironmentSession{
 			session.connect();
 
 		} catch (JSchException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 	}
