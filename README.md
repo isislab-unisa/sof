@@ -20,7 +20,7 @@ The SOF system presents two main entities: the SOF client and the remote host ma
 
 SOF architecture is divided in three main software block: a user frontend that is the SOF application for running and managing the simulation on the Hadoop infrastructure, used only on the client side; the Hadoop layer that encloses softwares and libraries provided from Hadoop infrastructure, used on the remote side; and the SOF core that is the main software block composed of six functional blocks, that are used on the client and on the remote side.
 
-####SOF System workflow
+#### SOF System workflow
 SOF was designed to execute simulation optimization and parameter space exploration process on Apache Hadoop. In order to execute a simulation optimization process the user must provide a well formatted input:
 * the simulation executable, MASON/NetLogo model or an executable file;
 * the selection and evaluation functions written in any languages supported by the cluster machine (in this case the user must also define the interpreter program path for languages like Python, Groovy etc.);
@@ -91,7 +91,7 @@ In both SOF clients are needed some system configuration parameters:
 * *Java bin directory* [`-javabindir`]: folder that cointains `/bin` directory of Java installation, in this case `/usr/bin/`;
 * *SOF home directory* [`-sofhomedir`]: SOF installation folder on the HDFS, in this case `/user/root/`. 
 
-Examples: 
+###### Examples: 
 
 * **SOF Simple Java Client** change the parameters setting in the Java class and run it (see  [Getting Started SOF Java Client](https://github.com/isislab-unisa/sof/blob/master/README.md#getting-started-sof-simple-java-client) section).
 
@@ -527,7 +527,7 @@ This command takes the following input parameters:
 
 
 ### License
-Copyright ISISLab, 2015 Università degli Studi di Salerno.
+Copyright ISISLab, 2017 Università degli Studi di Salerno.
 
 Licensed under the Apache License, Version 2.0 (the "License"); You may not use this file except in compliance with the License. You may obtain a copy of the License at
 
