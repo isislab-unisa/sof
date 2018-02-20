@@ -146,10 +146,10 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 						String fileName=fileCouple[1];
 						System.out.println(fileName);
 
-						System.out.println("copying "+SIM_OUTPUT_MAPPER+fileName+" to "+" "+lau_out.getAbsolutePath() );
+						System.out.println("copying "+SIM_OUTPUT_MAPPER+File.separator+fileName+" to "+" "+lau_out.getAbsolutePath() );
 
 
-						fs.copyToLocalFile(new Path(SIM_OUTPUT_MAPPER+fileName), new Path( lau_out.getAbsolutePath()));
+						fs.copyToLocalFile(new Path(SIM_OUTPUT_MAPPER+File.separator+fileName), new Path( lau_out.getAbsolutePath()));
 
 					}
 				}
