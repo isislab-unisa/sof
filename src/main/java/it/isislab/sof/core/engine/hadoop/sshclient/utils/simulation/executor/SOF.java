@@ -152,7 +152,7 @@ public class SOF {
 		}
 
 
-		
+		//magellano
 		else if(args.length==15){
 			SIMULATION_NAME=args[0]; 
 			SIMULATION_HOME= args[1];
