@@ -212,9 +212,26 @@ public class SimulationGeneric {
 				}
 
 			}
+			
+			//print standard error from process builder
+		/*	InputStream stderr1 = cat.getErrorStream();
+			InputStreamReader isr1 = new InputStreamReader(stderr1);
+			BufferedReader br1 = new BufferedReader(isr1);
+			String tmp1=null;
+
+			
+			while ((tmp1 = br1.readLine()) != null) {
+				//if(tmp.trim().toLowerCase().contains(new String("EXITING").toLowerCase()) ){
+					System.out.println(tmp1);
+					//String [] linee =tmp.split(" ");
+					//prova=linee[1];
+				//}
+
+			}*/
+
+					
 			cat.waitFor();
 			br.close();
-
 
 
 
