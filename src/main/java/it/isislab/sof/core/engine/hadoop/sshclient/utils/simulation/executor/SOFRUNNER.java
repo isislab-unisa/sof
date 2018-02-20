@@ -224,7 +224,7 @@ public class SOFRUNNER{
 		bash+=s.getLoop()+" "+ 
 				s.getAuthor()+" ";//+" ";//+ 
 				//"\""+s.getDescription()+"\"";
-
+        //eliminato parametro descrizione ed usato per passare conf.ini
         if(s.getToolkit().equalsIgnoreCase("generic") && !(s.getLoop())){
         	bash+=fs.getHdfsUserPathDescriptionDirForSimId(s.getId())+File.separator+"conf.ini";
         }
