@@ -43,7 +43,7 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 	String RATING_PROGRAM="";//conf.get("simulation.program.evaluation");
 	String RATING_INTERPRETER="";
 	String RATING_PATH="";
-	String CONF="";
+	//String CONF="";
 	String TMP_FOLDER="";
 
 	/*	public void reduce(Text key, Iterator<Text> values,
@@ -124,7 +124,7 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 			Path file_output=new Path(key.toString());
 			System.out.println("copying "+file_output+" to "+ptemp);
 			fs.copyToLocalFile(file_output, ptemp);//output folder
-			fs.copyToLocalFile(new Path(CONF), new Path(TMP_FOLDER));//conf.ini
+			//fs.copyToLocalFile(new Path(CONF), new Path(TMP_FOLDER));//conf.ini non serve
 
 
 			File lau_out = new File(TMP_FOLDER+File.separator+"SolveOutputs"+("SolveOutputs").hashCode());
@@ -183,15 +183,15 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 			*/
 			
 			
-			String conf_file_name = (new Path(CONF).getName());
+			//String conf_file_name = (new Path(CONF).getName());
 			String solution_folder = TMP_FOLDER+File.separator+"finalSolution"+("finalSolution").hashCode();
 			File sol_folder = new File(solution_folder);
-			File con_file = new File(TMP_FOLDER+File.separator+conf_file_name);
+			//File con_file = new File(TMP_FOLDER+File.separator+conf_file_name);// da rimuovere
 			File eval_exe_file = new File(TMP_FOLDER+File.separator+EVALUATION_PROGRAM);
 			sol_folder.mkdirs();
 			String xmlOutput =key.toString().substring(key.toString().lastIndexOf("/")+1);
 			//generateEvaluation(tmpEvalXml,id,EVALUATION_PROGRAM_THREAD);
-			generateEvaluation(tmpEvalXml,xmlOutput,eval_exe_file.getAbsolutePath(),lau_out.getAbsolutePath(),sol_folder.getAbsolutePath(),con_file.getAbsolutePath());
+			generateEvaluation(tmpEvalXml,xmlOutput,eval_exe_file.getAbsolutePath(),lau_out.getAbsolutePath(),sol_folder.getAbsolutePath()/*,con_file.getAbsolutePath()*/);
 
 			//File f=new File(TMP_FOLDER+"/"+EVALUATION_PROGRAM);
 			//f.delete();
@@ -210,7 +210,7 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 	 * @return
 	 * @throws IOException
 	 */
-	private boolean generateEvaluation(String toevaluate, String id,String EVALUATION_PROGRAM,String input_folder,String output_folder, String conf_file) throws IOException {
+	private boolean generateEvaluation(String toevaluate, String id,String EVALUATION_PROGRAM,String input_folder,String output_folder/*, String conf_file*/) throws IOException {
 
 		FileSystem fs=FileSystem.get(conf);
 		File f=new File(EVALUATION_PROGRAM);
@@ -227,7 +227,7 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 
 
 		commands.add(output_folder);
-		commands.add(conf_file);
+		//commands.add(conf_file); eliminato
 
 		/*for (String string : commands) {
 			System.out.println(string);
@@ -237,6 +237,8 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 			stringone+=string+" ";
 		}
 
+	
+		
 		stringone=stringone.substring(0, stringone.length()-1);
 
 
@@ -250,6 +252,7 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 		BufferedReader br = new BufferedReader(isr);
 		tmp = null;
 		// 
+		String outputEvalutationFile="";
 		while ((tmp = br.readLine()) != null) {
 
 			if(tmp.trim().toLowerCase().contains(new String("Evaluating fitness").toLowerCase()) ){
@@ -259,6 +262,10 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 				String [] linee =tmp.split(" ");
 
 				prova=linee[linee.length-1];
+				prova=prova.replace("fitness:","");
+				prova=prova+"\n";
+				System.out.println(prova);
+				outputEvalutationFile+=prova;
 			}
 
 		}
@@ -336,7 +343,7 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 		}
 		 */
 		FSDataOutputStream out=fs.create(new Path(this.RATING_PATH+"/EVALUATE"+id));
-		PrintWriter printer=new PrintWriter(out);
+		PrintWriter printer=new PrintWriter(out);  //sposta nel while per scrivere tutte le sol s100;value 
 
 		//		
 		//		File lau_out = new File("launcher_output");
@@ -346,7 +353,7 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 		File final_solutions = new File(output_folder);
 
 		System.out.println("fs "+final_solutions.getAbsolutePath());
-		String files="";
+		String files=outputEvalutationFile;
 		for(File fsols : final_solutions.listFiles(new FileFilter() {
 
 			@Override
@@ -358,7 +365,7 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 			System.out.println("The best sol is "+fsols.getName());
 			System.out.println("copying "+fsols.getAbsolutePath()+" to "+this.RATING_PATH );
 			fs.copyFromLocalFile(new Path(fsols.getAbsolutePath()), new Path(this.RATING_PATH));
-			files+="file:"+fsols.getName()+";";
+			files+=fsols.getName()+";";
 		}
 
 
@@ -398,7 +405,6 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 		this.RATING_PROGRAM=conf.get("simulation.program.rating");
 		this.RATING_INTERPRETER=conf.get("simulation.interpreter.rating");
 		this.RATING_PATH=conf.get("simulation.executable.loop.rating");
-		this.CONF=conf.get("simulation.conf");
 		this.TMP_FOLDER=""+Thread.currentThread().getId();
 	}
 }

@@ -71,25 +71,33 @@ public class SimulationGeneric {
 		String SIM_OUTPUT_MAPPER=conf.get("simulation.executable.output");
 		String AUTHOR=conf.get("simulation.executable.author");
 		String DESCRIPTION=conf.get("simulation.executable.description");
-		String CONF_FILE = conf.get("simulation.mapper.conf.path");
+		//String CONF_FILE = conf.get("simulation.mapper.conf.path");
 
 
 		String line = input; //id:1;rounds:1;val:solve;ini:/root/Magellano-Sof/launcher_config/conf.ini;
 
 		System.out.println(line);
 		String[] aparam = line.split(";");
-		String[] inputSimulation = new String[aparam.length-2];
+		
+		
+		//String[] inputSimulation = new String[aparam.length-2];//ho id, e round   (-2)
 		String[] couple=aparam[0].split(":");
 		int idInputSimulation=Integer.parseInt(couple[1]);
 		couple=aparam[1].split(":");
 		int rounds = Integer.parseInt(couple[1]);
 
-
+		couple=aparam[3].split(":");
+		String conffile = couple[1];
+		
+		
+		String tmpConfFile=tmpInputs+File.separator+conffile;
+        
+		/*
 		for(int i=0; i<inputSimulation.length;i++){
 			couple = aparam[i+2].split(":");
 			inputSimulation[i]=couple[1];
 		}
-
+*/
 
 
 
@@ -124,8 +132,9 @@ public class SimulationGeneric {
 		commands.add(program_path);
 		commands.add(tmpInputs);
 		commands.add(tmpOutputs);
-		if(!CONF_FILE.isEmpty())
-			commands.add(CONF_FILE);
+		commands.add(tmpConfFile);
+	/*	if(!CONF_FILE.isEmpty())
+			commands.add(CONF_FILE);*/
 
 		System.out.println("execute "+commands);	
 
@@ -135,8 +144,16 @@ public class SimulationGeneric {
 			stringone+=string+" ";
 		}
 
+		System.out.println(stringone);
+		
+		
+		
+		
 		stringone=stringone.substring(0, stringone.length()-1);
 
+		
+		
+		
 		/*ProcessBuilder pb1=new ProcessBuilder(commands);
 		pb1.redirectErrorStream(true);
 		final Process process1 = pb1.start();
@@ -387,6 +404,8 @@ public class SimulationGeneric {
 
 		//	output.collect(new Text(file_output.toString()), new Text(""));
 
+		System.out.println(SIM_OUTPUT_MAPPER);
+		System.out.println(list_of_files.toString());
 		output.collect(new Text(SIM_OUTPUT_MAPPER), new Text(list_of_files.toString()));
 		//output.collect(new Text(input), new Text(inOutput));
 
@@ -502,7 +521,7 @@ public class SimulationGeneric {
 
 				}catch(Exception e2){
 					ParameterString dvalOutString=new ParameterString();
-					String theValue = couple[1];
+					String theValue = couple[1];//String theValue=couple.length<2?"nosol":couple[1];     genera eccezione in caso di ALGO EXIT WITH ERROR if(couple.length <2 ? "error":couple[1] )
 					if((new File(theValue)).exists()){
 						dvalOutString.setvalue((new File(theValue)).getName());
 						fs.copyFromLocalFile(new Path(couple[1]), new Path(SIM_OUTPUT_MAPPER));

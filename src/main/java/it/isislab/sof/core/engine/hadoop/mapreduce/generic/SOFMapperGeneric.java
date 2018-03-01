@@ -42,7 +42,7 @@ public class SOFMapperGeneric extends MapReduceBase implements Mapper<LongWritab
 	private String SIM_INPUT_MAPPER="";
 	private String SIM_OUTPUT_MAPPER="";
 	private String SIM_INPUT_MAPPER_FOLDER="";
-	private String CONF="";
+	//private String CONF="";
 
 
 
@@ -69,7 +69,7 @@ public class SOFMapperGeneric extends MapReduceBase implements Mapper<LongWritab
 
 			final FileSystem fs = FileSystem.get(conf);
 			fs.copyToLocalFile(new Path(SIM_PROGRAM), new Path(tmpName));
-			fs.copyToLocalFile(new Path(CONF), new Path(tmpName));
+			//fs.copyToLocalFile(new Path(CONF), new Path(tmpName));
 
 
 
@@ -80,7 +80,7 @@ public class SOFMapperGeneric extends MapReduceBase implements Mapper<LongWritab
 				for(String arg: params){
 					System.out.println(arg);
 					String[] couple = arg.split(":");
-					if(couple[0].equalsIgnoreCase("file")){
+					if(couple[0].equalsIgnoreCase("file") || couple[0].equalsIgnoreCase("conf") ){
 						theInputFile.add(couple[1]);
 					}
 
@@ -95,8 +95,8 @@ public class SOFMapperGeneric extends MapReduceBase implements Mapper<LongWritab
 			SimulationGeneric genericsim=new SimulationGeneric();
 
 			String SIM_PROGRAM_NAME = SIM_PROGRAM.substring(SIM_PROGRAM.lastIndexOf("/")+1, SIM_PROGRAM.length());
-			String CONFNAME=CONF.substring(CONF.lastIndexOf("/")+1, CONF.length());
-			conf.set("simulation.mapper.conf.path", tmpName+File.separator+CONFNAME);
+			//String CONFNAME=CONF.substring(CONF.lastIndexOf("/")+1, CONF.length());
+			//conf.set("simulation.mapper.conf.path", tmpName+File.separator); //ci saranno tutti i file conf.ini sotto tmpname
 			genericsim.run(tmpName+File.separator+SIM_PROGRAM_NAME,tmpInputs.getAbsolutePath(),tmpOutputs.getAbsolutePath(),value.toString(),SIM_INPUT_MAPPER,SIM_OUTPUT_MAPPER,SIMULATION_HOME, output,conf);
 
 			//
@@ -119,7 +119,7 @@ public class SOFMapperGeneric extends MapReduceBase implements Mapper<LongWritab
 		this.SIM_PROGRAM=conf.get("simulation.program.simulation");
 		this.SIM_INPUT_MAPPER=conf.get("simulation.executable.input");
 		this.SIM_OUTPUT_MAPPER=conf.get("simulation.executable.output");
-		this.CONF=conf.get("simulation.conf");
+		//this.CONF=conf.get("simulation.conf");
 		this.SIM_INPUT_MAPPER_FOLDER = conf.get("simulation.input");
 
 
