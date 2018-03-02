@@ -342,7 +342,7 @@ public class SOFReducerGeneric extends MapReduceBase implements Reducer<Text,Tex
 			evaluationFile+=line;
 		}
 		 */
-		FSDataOutputStream out=fs.create(new Path(this.RATING_PATH+"/EVALUATE"+id));
+		FSDataOutputStream out=fs.create(new Path(this.RATING_PATH+"/EVALUATE.txt"));
 		PrintWriter printer=new PrintWriter(out);  //sposta nel while per scrivere tutte le sol s100;value 
 
 		//		
