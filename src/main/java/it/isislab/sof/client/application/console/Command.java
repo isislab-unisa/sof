@@ -248,7 +248,7 @@ public enum Command implements Prompt
 							parsedParams[8],/*description_simulation*/
 							parsedParams[9],/*executable_simulation_filename*/
 							parsedParams[10],//interpreter generic
-							parsedParams[11]);
+							parsedParams[11]);//conf.ini
 					return null;
 				} catch (Exception e) {
 
