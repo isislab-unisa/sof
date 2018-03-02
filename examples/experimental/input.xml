@@ -10,10 +10,17 @@
 		<element variableName="file">
 			<string>s100.xml</string>
 		</element>
+        <element variableName="conf">
+			<string>conf1.ini</string>
+		</element>
 	</input>
-	<input id="2" rounds="1">
+<input id="2" rounds="1">
 		<element variableName="file">
 			<string>s101.xml</string>
 		</element>
+<element variableName="conf">
+			<string>conf2.ini</string>
+		</element>
 	</input>
+
 </inputs>
