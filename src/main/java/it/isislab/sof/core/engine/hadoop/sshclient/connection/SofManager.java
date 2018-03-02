@@ -396,7 +396,7 @@ public class SofManager {
 	 * @param username
 	 * @param toolkit
 	 * @param simulation_name
-	 * @param domain_pathname
+	 * @param s100
 	 * @param bashCommandForRunnableFunction
 	 * @param output_description_filename
 	 * @param executable_selection_function_filename
@@ -415,7 +415,7 @@ public class SofManager {
 			EnvironmentSession session,
 			String toolkit,
 			String simulation_name,
-			String domain_pathname,
+			String s100,//era domain
 			String bashCommandForRunnableFunctionSelect,
 			String bashCommandForRunnableFunctionEvaluate,
 			String output_description_filename,
@@ -448,7 +448,7 @@ public class SofManager {
 		//String hdfs_input_folder = hdfs_sim_dir+File.separator+INPUT_FOLDER_HOME;
 		String hdfs_input_folder = fs.getHdfsUserPathDescriptionInputDir(simulationID);
 
-		String hdfs_domain_xml_file = fs.getHdfsUserPathDomainXML(simulationID);
+		String hdfs_s100_xml_file = fs.getHdfsUserPathDescriptionDirForSimId(simulationID);
 
 
 		Simulation s = new Simulation(simulationID);
@@ -538,8 +538,8 @@ public class SofManager {
 		/**
 		 * copy DOMAIN file in sim_dir
 		 */
-		if(HadoopFileSystemManager.copyFromClientToHdfs(session, domain_pathname, hdfs_domain_xml_file))
-			log.info("Copied "+domain_pathname +" to "+hdfs_domain_xml_file);
+		if(HadoopFileSystemManager.copyFromClientToHdfs(session, s100, hdfs_s100_xml_file))
+			log.info("Copied "+s100 +" to "+hdfs_s100_xml_file);
 
 		/**
 		 * create the input folder in simulation folder 
@@ -951,10 +951,10 @@ public class SofManager {
 			try {
 				context = JAXBContext.newInstance(Domain.class);
 
-				Unmarshaller unmarshal = context.createUnmarshaller();
-				dom = (Domain) unmarshal.unmarshal(new File(params[2]));
+				//Unmarshaller unmarshal = context.createUnmarshaller();
+				//dom = (Domain) unmarshal.unmarshal(new File(params[2]));
 			} catch (JAXBException e) {
-				throw new ParameterException("Invalid file DOMAIN.xml\n"+e.getMessage());
+				//throw new ParameterException("Invalid file DOMAIN.xml\n"+e.getMessage());
 
 			}
 		}else{
