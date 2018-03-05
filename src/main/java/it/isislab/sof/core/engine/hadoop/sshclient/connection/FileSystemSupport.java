@@ -149,6 +149,11 @@ public class FileSystemSupport {
 	private String HADOOP_ROOT_INSTALL_PATH;
 	private String SEPARATOR=File.separator;
 
+	//magellano
+	private final String HDFS_INPUT_S100_MAGELLANO="s100.xml";
+	private final String HDFS_INPUT_CONF_INI_MAGELLANO="conf.ini";
+	
+	
 	class FileSystemSupportException extends Exception
 	{
 		/**
@@ -410,6 +415,19 @@ public class FileSystemSupport {
 		return this.getHdfsUserPathSimulationLoopByIDs(simid,loopid)+"/"+SELECTIONS_FOLDER;
 	}
 
+	
+
+	
+	///per magellano hdfs path ai file che dovrebbero essere presi da jar
+	public String getHdfsUserPathDescriptionForS100(String simid)
+	{
+		return this.getHdfsUserPathDescriptionDirForSimId(simid)+File.separator+HDFS_INPUT_S100_MAGELLANO;
+	}
+	public String getHdfsUserPathDescriptionForConfIni(String simid)
+	{
+		return this.getHdfsUserPathDescriptionDirForSimId(simid)+File.separator+HDFS_INPUT_CONF_INI_MAGELLANO;
+	}
+	
 
 	/**
 	 * END SOF-HDFS FS
@@ -419,7 +437,7 @@ public class FileSystemSupport {
 
 
 		//TEST
-		/*FileSystemSupport fs=new FileSystemSupport("",System.getProperty("user.dir"), "/myapplication/","/home/michele/il/bello/", "/usr/giuann/java/bin","umberto");
+		/*FileSystemSupport fs=new FileSystemSupport("",System.getProperty("user.dir"), "/myapplication/","/home/user/path/dir/", "/usr/giuann/java/bin","umberto");
 
 		System.out.println("******************CLIENT APPLICATION**********************************");
 		System.out.println("Client sof home:[getClientSOFHome()]"+fs.getClientSOFHome());
