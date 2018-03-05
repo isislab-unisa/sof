@@ -55,6 +55,15 @@ public class SOF {
 		 * aids /home/michele/Scrivania/aids netlogo /home/michele/Scrivania/aids/aids.nlogo /home/michele/Scrivania/aids/input.tmp /home/michele/Scrivania/aids/output /home/michele/Scrivania/aids/output.xml false pepp ciao  
 		 *  
 		 */
+		
+	/*	if(new File("/home/miccar/Desktop/magellano/output").exists()) {
+			   try {
+				Runtime.getRuntime().exec("rm -r /home/miccar/Desktop/magellano/output");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}*/
 
       /*  
         if(new File("/Users/flaser/Desktop/ACTOR/Magellano-Sof/hadoop_hdfs/output/").exists() ){
@@ -168,7 +177,7 @@ public class SOF {
 			AUTHOR=args[11];
 			INTERPRETER_REMOTE_PATH_EVALUATION=args[12];
 			EXECUTABLE_RATING_FILE=args[13];
-			SIM_DESCRIPTION_CONFIG_FILE = args[14];
+			SIM_DESCRIPTION_CONFIG_FILE = args[14];//lo stesso di input.data rimuovi il file -> loop1/input
 			
 			
 			
