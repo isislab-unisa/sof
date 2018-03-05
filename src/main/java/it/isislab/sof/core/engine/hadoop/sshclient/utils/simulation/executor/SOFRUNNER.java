@@ -303,10 +303,11 @@ public class SOFRUNNER{
                
 				
 				String  previousLoopPath=fs.getHdfsUserPathSimulationLoopByIDs(simID, idLoop-1);//at loop i, i need of lopp i-i folder in order to create new input
+				String hdfs_conf_path=fs.getHdfsUserPathDescriptionForConfIni(simID); //conf.ini sotto description
+				String hdfs_s100_path=fs.getHdfsUserPathDescriptionForS100(simID);//s100 sotto description 
+			
 				
-				
-				System.out.println("PATH DA COPIARE "+previousLoopPath);
-				SelectionFunction f= new SelectionFunction(String.valueOf(idLoop-1),previousLoopPath,
+				SelectionFunction f= new SelectionFunction(String.valueOf(idLoop-1),hdfs_conf_path,hdfs_s100_path,previousLoopPath,
 						//hdfs_domain_xml_file,
 						/*hdfs_simulation_loop_input_xml,*/
 						sim.getRunnableFile().getSelection(), 
