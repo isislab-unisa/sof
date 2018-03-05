@@ -235,7 +235,7 @@ public class SOFRUNNER{
 
 		 if(s.getToolkit().equalsIgnoreCase("generic") && s.getLoop()){
 			// bash+=" "+ fs.getHdfsUserPathDescriptionDirForSimId(s.getId())+File.separator+"conf.ini";
-			 bash+=fs.getHdfsUserPathInputLoopDIR(s.getId(), loopID);
+			 bash+=" "+fs.getHdfsUserPathInputLoopDIR(s.getId(), loopID);
 		 }
 
 
