@@ -226,14 +226,16 @@ public class SOFRUNNER{
 				//"\""+s.getDescription()+"\"";
         //eliminato parametro descrizione ed usato per passare conf.ini
         if(s.getToolkit().equalsIgnoreCase("generic") && !(s.getLoop())){
-        	bash+=fs.getHdfsUserPathDescriptionDirForSimId(s.getId())+File.separator+"conf.ini";
+        	//bash+=fs.getHdfsUserPathDescriptionDirForSimId(s.getId())+File.separator+"conf.ini";
+        	bash+=fs.getHdfsUserPathInputLoopDIR(s.getId(), loopID);
         }
 
 		if(s.getLoop())
 			bash += " "+s.getRunnableFile().getBashCommandForRunnableFunctionEvaluate()+" "+s.getRunnableFile().getRating();
 
 		 if(s.getToolkit().equalsIgnoreCase("generic") && s.getLoop()){
-			 bash+=" "+ fs.getHdfsUserPathDescriptionDirForSimId(s.getId())+File.separator+"conf.ini";
+			// bash+=" "+ fs.getHdfsUserPathDescriptionDirForSimId(s.getId())+File.separator+"conf.ini";
+			 bash+=fs.getHdfsUserPathInputLoopDIR(s.getId(), loopID);
 		 }
 
 
@@ -271,14 +273,15 @@ public class SOFRUNNER{
 		setSimulationStatus(fs,sim, Simulation.RUNNING);
 		String tmpFolderPath = fs.getRemotePathForTmpFolderForUser();
 		SofRunnerUtils.mkdir(tmpFolderPath);
-		String tmpFolderName = tmpFolderPath.substring(tmpFolderPath.lastIndexOf("/")+1, tmpFolderPath.length());
+		//String tmpFolderName = tmpFolderPath.substring(tmpFolderPath.lastIndexOf("/")+1, tmpFolderPath.length());
 		//String hdfs_USER_HOME=fs.getHdfsUserPathHomeDir();
 
 
 		//String hdfs_SimPath = fs.getHdfsUserPathSimulationByID(simID);
 
-		String hdfs_domain_xml_file = fs.getHdfsUserPathDomainXML(simID);
+		//String hdfs_domain_xml_file = fs.getHdfsUserPathDomainXML(simID);
 		String currentLoopDirPathName;
+		
 		//String initial_inputPathname;
 		String currentExecutionInputLoopPath;
 		//String currentOutputPath;
@@ -295,19 +298,26 @@ public class SOFRUNNER{
 			//mapperInputLoopPath =fs.getHdfsUserPathSimulationLoopByIDsInputDATA(simID, idLoop);
 
 			if(doLoop /*& idLoop > 1*/){
-				String hdfs_simulation_rating_folder = fs.getHdfsUserPathRatingFolderForSimLoop(simID, idLoop-1);
-				String hdfs_simulation_loop_input_xml = fs.getHdfsUserPathSimulationLoopByIDsInputXML(simID, idLoop-1);
-
-				SelectionFunction f= new SelectionFunction(
-						hdfs_domain_xml_file,
-						hdfs_simulation_loop_input_xml,
+				//String hdfs_simulation_rating_folder = fs.getHdfsUserPathRatingFolderForSimLoop(simID, idLoop-1);
+				/*String hdfs_simulation_loop_input_xml = fs.getHdfsUserPathSimulationLoopByIDsInputXML(simID, idLoop-1);*/
+               
+				
+				String  previousLoopPath=fs.getHdfsUserPathSimulationLoopByIDs(simID, idLoop-1);//at loop i, i need of lopp i-i folder in order to create new input
+				
+				
+				System.out.println("PATH DA COPIARE "+previousLoopPath);
+				SelectionFunction f= new SelectionFunction(String.valueOf(idLoop-1),previousLoopPath,
+						//hdfs_domain_xml_file,
+						/*hdfs_simulation_loop_input_xml,*/
 						sim.getRunnableFile().getSelection(), 
-						hdfs_simulation_rating_folder, 
+					/*	hdfs_simulation_rating_folder, */
 						currentExecutionInputLoopPath,
 						sim.getRunnableFile().getBashCommandForRunnableFunctionSelect());
 
 				doLoop=f.generateNewInput(fs);
 
+				
+				
 				//	if(idLoop > 4) doLoop=false;
 
 				if(!doLoop){
