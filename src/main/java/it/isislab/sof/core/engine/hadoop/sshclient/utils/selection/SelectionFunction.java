@@ -20,24 +20,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.io.FilenameFilter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-
-import org.apache.commons.io.input.ReaderInputStream;
-
 import com.jcraft.jsch.JSchException;
-
 import it.isislab.sof.core.engine.hadoop.sshclient.connection.FileSystemSupport;
 import it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.Simulation;
 import it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.executor.SOFRUNNER;
 import it.isislab.sof.core.engine.hadoop.sshclient.utils.simulation.executor.SofRunnerUtils;
 import it.isislab.sof.core.model.parameters.xsd.elements.Parameter;
-import it.isislab.sof.core.model.parameters.xsd.elements.ParameterLong;
 import it.isislab.sof.core.model.parameters.xsd.elements.ParameterString;
 import it.isislab.sof.core.model.parameters.xsd.input.Input;
 import it.isislab.sof.core.model.parameters.xsd.input.Inputs;
@@ -101,6 +95,8 @@ public class SelectionFunction {
 		this.currentExecutionInputLoopPath = currentExecutionInputLoopPath;
  		this.execBinPath = bashCommandForRunnableFunctionSelect.endsWith("java")?bashCommandForRunnableFunctionSelect+" -jar":bashCommandForRunnableFunctionSelect;
  		
+ 		
+ 		
  		//magellano selection valutare anche in generale 
  		//this.isFirstLoop=String.valueOf(isFirstloop);	
  		this.previous_hdfs_loop_path=previous_hdfsloop_path;
@@ -152,9 +148,7 @@ public class SelectionFunction {
 			SOFRUNNER.log.info("Created folder "+tmpSelection_Input_folder);
 
 
-		/*String makeExecutableFilecmd="chmod +x "+selection_function_fileName;
-		if(Integer.parseInt(HadoopFileSystemManager.exec(session,makeExecutableFilecmd))<0?false:true)
-			SOFRUNNER.log.info("Make executable "+selection_function_fileName);*/
+	
 		if(SofRunnerUtils.chmodX(selection_function_fileName))
 			SOFRUNNER.log.info("Make executable "+selection_function_fileName);
 
@@ -182,17 +176,15 @@ public class SelectionFunction {
 		
 
 		boolean result= false;
-		/*String prefix = "if ";
-		String postFix = "; then echo 0; else echo -1; fi";*/
+	
 		String tmpRedirectInputXmlFile=fs.getRemotePathForTmpFileForUser(tmpFolderName);
 		File f = new File(tmpRedirectInputXmlFile);
 		f.createNewFile();
 		
 		
 		String cmd =execBinPath+" "+selection_function_fileName+
-				" "+tmpFileInputToFselection+     //isFirstLoop+// sarà il path tmp con i file s100.xml e conf.ini
+				" "+tmpFileInputToFselection+     // sarà il path tmp con i file s100.xml e conf.ini
 				" "+tmpPathforSelectionexec+
-		/*		" "+xml_input_fileName+*/
 				" "+folderTmmOutputOfSelection+
 				" "+tmpFolderName; //if the FS was created some files
 		
@@ -230,7 +222,7 @@ public class SelectionFunction {
 					String pathLoopCur=currentExecutionInputLoopPath.replace("/input.xml", ""); // Loopi/input
 					// tutti gli s1xx e confxx.ini sotto Loopi/input
 					for (File tmpfile : tocopy) {
-                        System.out.println( tmpfile.getAbsolutePath() +"  to "+pathLoopCur);
+                       // System.out.println( tmpfile.getAbsolutePath() +"  to "+pathLoopCur);
 						SofRunnerUtils.copyFileInHdfs(fs, tmpfile.getAbsolutePath(), pathLoopCur);
 					}
 					
@@ -248,7 +240,7 @@ public class SelectionFunction {
 		}
 		//SofRunnerUtils.rmr(rating_folder_name);
 		SofRunnerUtils.rmr(tmpSelection_Input_folder);
-	//	SofRunnerUtils.rmr(tmpFold);
+		SofRunnerUtils.rmr(tmpFold);///general folder
 		return result;
 	}
 
@@ -295,6 +287,7 @@ public class SelectionFunction {
 					inp.param_element.add(ext_file);
 					input_list.add(inp);
 				}
+				br.close();
 				Simulation s=new Simulation();
 		        s.setId("fakeID-ForGeneralExecution");
 		        s.setName("thisIsTheSimulationName");
