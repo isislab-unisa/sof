@@ -78,8 +78,8 @@ public class SimulationGeneric {
 
 		System.out.println(line);
 		String[] aparam = line.split(";");
-		
-		
+
+
 		//String[] inputSimulation = new String[aparam.length-2];//ho id, e round   (-2)
 		String[] couple=aparam[0].split(":");
 		int idInputSimulation=Integer.parseInt(couple[1]);
@@ -88,16 +88,16 @@ public class SimulationGeneric {
 
 		couple=aparam[3].split(":");
 		String conffile = couple[1];
-		
-		
+
+
 		String tmpConfFile=tmpInputs+File.separator+conffile;
-        
+
 		/*
 		for(int i=0; i<inputSimulation.length;i++){
 			couple = aparam[i+2].split(":");
 			inputSimulation[i]=couple[1];
 		}
-*/
+		 */
 
 
 
@@ -133,8 +133,7 @@ public class SimulationGeneric {
 		commands.add(tmpInputs);
 		commands.add(tmpOutputs);
 		commands.add(tmpConfFile);
-	/*	if(!CONF_FILE.isEmpty())
-			commands.add(CONF_FILE);*/
+		
 
 		System.out.println("execute "+commands);	
 
@@ -145,15 +144,15 @@ public class SimulationGeneric {
 		}
 
 		System.out.println(stringone);
-		
-		
-		
-		
+
+
+
+
 		stringone=stringone.substring(0, stringone.length()-1);
 
-		
-		
-		
+
+
+
 		/*ProcessBuilder pb1=new ProcessBuilder(commands);
 		pb1.redirectErrorStream(true);
 		final Process process1 = pb1.start();
@@ -229,14 +228,16 @@ public class SimulationGeneric {
 				}
 
 			}
-			
+
 			//print standard error from process builder
-		/*	InputStream stderr1 = cat.getErrorStream();
+			
+			
+			/*	InputStream stderr1 = cat.getErrorStream();
 			InputStreamReader isr1 = new InputStreamReader(stderr1);
 			BufferedReader br1 = new BufferedReader(isr1);
 			String tmp1=null;
 
-			
+
 			while ((tmp1 = br1.readLine()) != null) {
 				//if(tmp.trim().toLowerCase().contains(new String("EXITING").toLowerCase()) ){
 					System.out.println(tmp1);
@@ -246,7 +247,7 @@ public class SimulationGeneric {
 
 			}*/
 
-					
+
 			cat.waitFor();
 			br.close();
 
@@ -390,22 +391,24 @@ public class SimulationGeneric {
 			list_of_files+="file:"+o.getName()+";";
 		}
 
-		Path file_output=null;
+		//Path file_output=null;
 		int id = (new String(inOutput+""+System.currentTimeMillis())).hashCode();
 
 
 		//generate an output file from input field of simulation, that contains input parameters  : format --> input(param:param.val;...;) and 
 		// output parameters of simulations:  format--> inOutput  (param:var.val;...;)
-		file_output=generateOutput(input, inOutput, SIM_OUTPUT_MAPPER, id, idInputSimulation, SIMULATION_NAME, AUTHOR, DESCRIPTION, SIMULATION_HOME);
+		//file_output=generateOutput(input, inOutput, SIM_OUTPUT_MAPPER, id, idInputSimulation, SIMULATION_NAME, AUTHOR, DESCRIPTION, SIMULATION_HOME);
 
-
+		
+		
 		//inOutput file:stringanome;
 		//output.collect(new Text(file_output.toString()), new Text(list_of_files.toString()));
 
 		//	output.collect(new Text(file_output.toString()), new Text(""));
-
-		System.out.println(SIM_OUTPUT_MAPPER);
-		System.out.println(list_of_files.toString());
+		//non c è piu bisoglo di collezionare chiavi (i path dei file di output) la chiave è una sola perchè il reducer è fatto su una folder con tutti i file
+		generateOutput(input, inOutput, SIM_OUTPUT_MAPPER, id, idInputSimulation, SIMULATION_NAME, AUTHOR, DESCRIPTION, SIMULATION_HOME);
+		
+		System.out.println(SIM_OUTPUT_MAPPER+"|||"+list_of_files.toString());
 		output.collect(new Text(SIM_OUTPUT_MAPPER), new Text(list_of_files.toString()));
 		//output.collect(new Text(input), new Text(inOutput));
 
@@ -508,7 +511,9 @@ public class SimulationGeneric {
 		Object valobjOutp=null;
 		String[] parametri=valOutp.split(";");
 		for(String st:  parametri){
+
 			String[] couple=st.split(":");
+			if(couple.length<2) continue;
 			try{
 				ParameterLong dvalOutLong=new ParameterLong();
 				dvalOutLong.setvalue(Long.parseLong(couple[1]));
@@ -521,6 +526,7 @@ public class SimulationGeneric {
 
 				}catch(Exception e2){
 					ParameterString dvalOutString=new ParameterString();
+
 					String theValue = couple[1];//String theValue=couple.length<2?"nosol":couple[1];     genera eccezione in caso di ALGO EXIT WITH ERROR if(couple.length <2 ? "error":couple[1] )
 					if((new File(theValue)).exists()){
 						dvalOutString.setvalue((new File(theValue)).getName());
@@ -543,17 +549,16 @@ public class SimulationGeneric {
 
 
 		output.output_params=paramsOutput;
+		FSDataOutputStream out=null;
+		if(output.output_params.size()>0) {
+			out=fs.create(new Path(SIM_OUTPUT_MAPPER+"/OUTPUT"+id+".xml"));
+			JAXBContext context= JAXBContext.newInstance(Output.class);
+			Marshaller jaxbMarshaller = context.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-		//FileSystem fs=FileSystem.get(conf);
-		FSDataOutputStream out=fs.create(new Path(SIM_OUTPUT_MAPPER+"/OUTPUT"+id+".xml"));
-
-		JAXBContext context= JAXBContext.newInstance(Output.class);
-		Marshaller jaxbMarshaller = context.createMarshaller();
-		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-		jaxbMarshaller.marshal(output, out);
-		out.close();
-
+			jaxbMarshaller.marshal(output, out);
+			out.close();
+		}  
 		return new Path(SIM_OUTPUT_MAPPER+"/OUTPUT"+id+".xml");	}
 
 	/**
@@ -658,7 +663,7 @@ public class SimulationGeneric {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		 
+
 
 
 	}*/
