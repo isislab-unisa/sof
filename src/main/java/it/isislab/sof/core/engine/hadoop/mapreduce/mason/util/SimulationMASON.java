@@ -81,6 +81,9 @@ public class SimulationMASON {
 					InputStream in = jar.getInputStream(entry);
 					try {
 						File file = new File(toDir, entry.getName());
+						if(!file.toPath().normalize().startsWith(toDir.toPath().normalize())) {
+							throw new IOException("Bad zip entry");
+						}
 						ensureDirectory(file.getParentFile());
 						OutputStream out = new FileOutputStream(file);
 						try {
